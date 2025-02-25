@@ -37,7 +37,7 @@ public class Graphe
         return Noeuds.Values.FirstOrDefault();
     }
 
-    public void BFS(Noeud depart)
+    public void largeur(Noeud depart)
     {
         HashSet<int> visites = new HashSet<int>();
         Queue<Noeud> file = new Queue<Noeud>();
@@ -62,7 +62,7 @@ public class Graphe
         Console.WriteLine();
     }
 
-    public void DFS(Noeud actuel, HashSet<int> visites)
+    public void Profondeur(Noeud actuel, HashSet<int> visites)
     {
         if (actuel == null || visites.Contains(actuel.Id))
             return;
@@ -72,7 +72,7 @@ public class Graphe
 
         foreach (var voisin in actuel.Voisins)
         {
-            DFS(voisin, visites);
+            Profondeur(voisin, visites);
         }
     }
 
@@ -82,7 +82,7 @@ public class Graphe
             return false;
 
         HashSet<int> visites = new HashSet<int>();
-        DFS(ObtenirPremierNoeud(), visites);
+        Profondeur(ObtenirPremierNoeud(), visites);
 
         return visites.Count == Noeuds.Count;
     }

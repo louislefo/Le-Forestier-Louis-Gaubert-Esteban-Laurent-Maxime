@@ -62,14 +62,14 @@ namespace PSI_livrable1
                 //return;
             }
 
-            // 🔹 Test du parcours en largeur (BFS)
-            Console.WriteLine("\n Parcours BFS :");
-            monGraphe.BFS(premierNoeud);
+            // 🔹 Test du parcours en largeur (largeur)
+            Console.WriteLine("\n Parcours largeur :");
+            monGraphe.largeur(premierNoeud);
 
-            // 🔹 Test du parcours en profondeur (DFS)
-            Console.WriteLine("\n Parcours DFS :");
+            // 🔹 Test du parcours en profondeur (Profondeur)
+            Console.WriteLine("\n Parcours Profondeur :");
             HashSet<int> visiteDFS = new HashSet<int>();
-            monGraphe.DFS(premierNoeud, visiteDFS);
+            monGraphe.Profondeur(premierNoeud, visiteDFS);
             Console.WriteLine();
 
             // 🔹 Vérification de la connexité
