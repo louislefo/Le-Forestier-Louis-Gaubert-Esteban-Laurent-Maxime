@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 
-
-
 namespace PSI_livrable1
 {
+    /// <summary>
+    /// Classe principale du programme qui gère la lecture d'un fichier de graphe et effectue différentes opérations sur celui-ci.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Point d'entrée principal du programme.
+        /// Lit un fichier de graphe au format MTX, construit le graphe correspondant et effectue diverses analyses.
+        /// </summary>
         static void Main()
         {
             string cheminFichier = @".\.\soc-karate.mtx";
