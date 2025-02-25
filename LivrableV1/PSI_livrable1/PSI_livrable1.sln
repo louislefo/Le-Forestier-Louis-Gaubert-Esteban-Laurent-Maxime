@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSI_livrable1", "PSI_livrable1\PSI_livrable1.csproj", "{386CA21A-8EBF-4DCF-BCE4-B5BEE0FC0634}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSI_livrable1.Tests", "PSI_livrable1.Tests\PSI_livrable1.Tests.csproj", "{6BE2CBF8-E636-4027-AF69-B39B3631C229}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{386CA21A-8EBF-4DCF-BCE4-B5BEE0FC0634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{386CA21A-8EBF-4DCF-BCE4-B5BEE0FC0634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{386CA21A-8EBF-4DCF-BCE4-B5BEE0FC0634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BE2CBF8-E636-4027-AF69-B39B3631C229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BE2CBF8-E636-4027-AF69-B39B3631C229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BE2CBF8-E636-4027-AF69-B39B3631C229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BE2CBF8-E636-4027-AF69-B39B3631C229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

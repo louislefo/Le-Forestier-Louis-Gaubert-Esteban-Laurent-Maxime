@@ -19,7 +19,7 @@ namespace PSI_livrable1
 
             Graphe monGraphe = new Graphe();
 
-            // 🔹 Lecture du fichier et ajout des liens au graphe
+            /// Lecture du fichier et ajout des liens au graphe
             try
             {
                 using (StreamReader sr = new StreamReader(cheminFichier))
@@ -28,11 +28,11 @@ namespace PSI_livrable1
                     {
                         string ligne = sr.ReadLine();
 
-                        // Ignorer les commentaires et lignes vides
+                        /// Ignorer les commentaires et lignes vides
                         if (string.IsNullOrWhiteSpace(ligne) || ligne.StartsWith("%"))
                             continue;
 
-                        // Lecture des liens entre les nœuds
+                        /// Lecture des liens entre les nœuds
                         string[] elements = ligne.Split(' ');
                         if (elements.Length >= 2 && int.TryParse(elements[0], out int id1) && int.TryParse(elements[1], out int id2))
                         {
@@ -47,7 +47,7 @@ namespace PSI_livrable1
                 return;
             }
 
-            // 🔹 Vérification du chargement du graphe
+            /// Vérification du chargement du graphe
             Console.WriteLine("Nombre de nœuds : " + monGraphe.Noeuds.Count);
             Console.WriteLine("Nombre de liens : " + monGraphe.Liens.Count);
 
@@ -59,7 +59,7 @@ namespace PSI_livrable1
                 Console.WriteLine();
             }
 
-            // 🔹 Vérification du premier nœud
+            /// Vérification du premier nœud
             Noeud premierNoeud = monGraphe.ObtenirPremierNoeud();
             if (premierNoeud == null)
             {
@@ -67,20 +67,20 @@ namespace PSI_livrable1
                 //return;
             }
 
-            // 🔹 Test du parcours en largeur (largeur)
+            /// Test du parcours en largeur (largeur)
             Console.WriteLine("\n Parcours largeur :");
             monGraphe.largeur(premierNoeud);
 
-            // 🔹 Test du parcours en profondeur (Profondeur)
+            /// Test du parcours en profondeur (Profondeur)
             Console.WriteLine("\n Parcours Profondeur :");
             HashSet<int> visiteDFS = new HashSet<int>();
             monGraphe.Profondeur(premierNoeud, visiteDFS);
             Console.WriteLine();
 
-            // 🔹 Vérification de la connexité
+            /// Vérification de la connexité
             Console.WriteLine("\n Le graphe est connexe ? " + monGraphe.EstConnexe());
 
-            // 🔹 Vérification des cycles
+            /// Vérification des cycles
             Console.WriteLine(" Le graphe contient un cycle ? " + monGraphe.ContientCycle());
         }
     }

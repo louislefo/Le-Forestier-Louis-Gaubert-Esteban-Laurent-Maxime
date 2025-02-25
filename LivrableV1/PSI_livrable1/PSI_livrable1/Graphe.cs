@@ -152,7 +152,7 @@ public class Graphe
             }
             else if (voisin != parent)
             {
-                return true; // Cycle détecté
+                return true; 
             }
         }
         return false;

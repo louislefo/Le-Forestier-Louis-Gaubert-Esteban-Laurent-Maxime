@@ -42,7 +42,7 @@ namespace PSI_livrable1
             if (!Voisins.Contains(voisin))
             {
                 Voisins.Add(voisin);
-                voisin.Voisins.Add(this);  // Relation bidirectionnelle
+                voisin.Voisins.Add(this);  
             }
         }
     }
