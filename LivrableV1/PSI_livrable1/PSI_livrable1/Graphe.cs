@@ -126,7 +126,7 @@ public class Graphe
     public bool ContientCycle()
     {
         HashSet<int> visites = new HashSet<int>();
-        return ContientCycle(ObtenirPremierNoeud(), null, visites);
+        return ContientCycleDFS(ObtenirPremierNoeud(), null, visites);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class Graphe
     /// <param name="parent">Le noeud parent du noeud actuel</param>
     /// <param name="visites">L'ensemble des noeuds déjà visités</param>
     /// <returns>true si un cycle est détecté, false sinon</returns>
-    private bool ContientCycle(Noeud actuel, Noeud parent, HashSet<int> visites)
+    private bool ContientCycleDFS(Noeud actuel, Noeud parent, HashSet<int> visites)
     {
         if (actuel == null)
             return false;
@@ -147,7 +147,7 @@ public class Graphe
         {
             if (!visites.Contains(voisin.Id))
             {
-                if (ContientCycle(voisin, actuel, visites))
+                if (ContientCycleDFS(voisin, actuel, visites))
                     return true;
             }
             else if (voisin != parent)
