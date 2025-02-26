@@ -73,6 +73,7 @@ namespace PSI_livrable1
                 }
 
                 bitmap.Save(filename, ImageFormat.Png);
+                //ZIZI
             }
 
             Console.WriteLine("Graph saved as " + filename);
