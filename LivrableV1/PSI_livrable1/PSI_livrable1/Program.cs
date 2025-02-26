@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PSI_livrable1
 {
@@ -15,7 +16,7 @@ namespace PSI_livrable1
         /// </summary>
         static void Main()
         {
-            string cheminFichier = @".\.\soc-karate.mtx";
+            /*string cheminFichier = @".\.\soc-karate.mtx";
 
             Graphe monGraphe = new Graphe();
 
@@ -82,6 +83,43 @@ namespace PSI_livrable1
 
             /// Vérification des cycles
             Console.WriteLine(" Le graphe contient un cycle ? " + monGraphe.ContientCycle());
+        */
+
+            /// MAIN TEMPORAIRE POUR TESTER VISUALISATION.CS
+            string filePath = @".\.\soc-karate.txt";
+            List<(int, int)> edges = new List<(int, int)>();
+
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                Regex regex = new Regex(@"\((\d+),\s*(\d+)\)"); // Capture les paires (x, y)
+
+                foreach (string line in lines)
+                {
+                    Match match = regex.Match(line);
+                    if (match.Success)
+                    {
+                        int node1 = int.Parse(match.Groups[1].Value);
+                        int node2 = int.Parse(match.Groups[2].Value);
+                        edges.Add((node1, node2));
+                    }
+                }
+
+                if (edges.Count > 0)
+                {
+                    Visualisation graph = new Visualisation(edges);
+                    graph.DrawGraph("graph.png");
+                }
+                else
+                {
+                    Console.WriteLine("Aucune arête valide trouvée dans le fichier.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur lors de la lecture du fichier : " + ex.Message);
+            }
         }
     }
 }
+
