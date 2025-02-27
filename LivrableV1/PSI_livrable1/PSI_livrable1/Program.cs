@@ -84,6 +84,11 @@ namespace PSI_livrable1
             /// Vérification des cycles
             Console.WriteLine(" Le graphe contient un cycle ? " + monGraphe.ContientCycle());
 
+
+            // PARTIE VISUALISATION (PAS TOUCHE MOUCHE)
+            Visualisation vis = new Visualisation(monGraphe); 
+            vis.SauvegarderGraphique("graphe.png");
+
         }    
     }
 }

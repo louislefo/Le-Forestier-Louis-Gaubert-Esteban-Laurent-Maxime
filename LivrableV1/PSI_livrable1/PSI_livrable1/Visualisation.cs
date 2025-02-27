@@ -1,112 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Text.RegularExpressions;
 
-class Visualisation
+namespace PSI_livrable1
 {
-    private List<(int, int)> edges;
-    private Dictionary<int, PointF> positions;
-    private int imageSize = 600;
 
-    public Visualisation(List<(int, int)> edges)
+    /// <summary> 
+    /// Classe de visualisation du graphe. 
+    /// Permet de dessiner le graphe en utilisant System.Drawing. 
+    /// </summary> 
+    public class Visualisation
     {
-        this.edges = edges;
-        this.positions = new Dictionary<int, PointF>();
-    }
+        private Graphe graphe;
+        private int largeur;
+        private int hauteur;
+        private int rayonNoeud = 20; // rayon du cercle représentant un nœud
 
-    private void ComputePositions()
-    {
-        Random rand = new Random();
-        HashSet<int> nodes = new HashSet<int>();
-
-        foreach (var edge in edges)
+        /// <summary>
+        /// Constructeur de la classe Visualisation.
+        /// </summary>
+        /// <param name="graphe">Le graphe à visualiser</param>
+        /// <param name="largeur">Largeur de l’image (par défaut 800)</param>
+        /// <param name="hauteur">Hauteur de l’image (par défaut 600)</param>
+        public Visualisation(Graphe graphe, int largeur = 800, int hauteur = 600)
         {
-            nodes.Add(edge.Item1);
-            nodes.Add(edge.Item2);
+            this.graphe = graphe;
+            this.largeur = largeur;
+            this.hauteur = hauteur;
         }
 
-        int count = nodes.Count;
-        int i = 0;
-        foreach (int node in nodes)
+        /// <summary>
+        /// Dessine le graphe et retourne une image Bitmap.
+        /// Les nœuds sont placés sur un cercle et les liens sont tracés entre eux.
+        /// </summary>
+        /// <returns>Bitmap contenant le dessin du graphe</returns>
+        public Bitmap DessinerGraphe()
         {
-            float angle = (float)(2 * Math.PI * i / count);
-            float x = imageSize / 2 + (float)(Math.Cos(angle) * imageSize / 3);
-            float y = imageSize / 2 + (float)(Math.Sin(angle) * imageSize / 3);
-            positions[node] = new PointF(x, y);
-            i++;
-        }
-    }
-
-    public void DrawGraph(string filename)
-    {
-        ComputePositions();
-
-        using (Bitmap bitmap = new Bitmap(imageSize, imageSize))
-        using (Graphics g = Graphics.FromImage(bitmap))
-        {
+            Bitmap bmp = new Bitmap(largeur, hauteur);
+            Graphics g = Graphics.FromImage(bmp);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(Color.White);
-            Pen edgePen = new Pen(Color.Black, 2);
-            Brush nodeBrush = new SolidBrush(Color.SkyBlue);
-            Font font = new Font("Arial", 12);
-            Brush textBrush = new SolidBrush(Color.Black);
-            int nodeRadius = 20;
 
-            foreach (var edge in edges)
+            // Disposition circulaire des nœuds
+            int nbNodes = graphe.Noeuds.Count;
+            if (nbNodes == 0)
+                return bmp;
+
+            int centreX = largeur / 2;
+            int centreY = hauteur / 2;
+            int rayonDisposition = Math.Min(largeur, hauteur) / 2 - rayonNoeud - 0;
+
+            // Dictionnaire pour stocker la position (coordonnées) de chaque nœud
+            Dictionary<int, Point> positions = new Dictionary<int, Point>();
+            int index = 0;
+            foreach (var noeud in graphe.Noeuds.Values)
             {
-                PointF p1 = positions[edge.Item1];
-                PointF p2 = positions[edge.Item2];
-                g.DrawLine(edgePen, p1, p2);
+                double angle = 2 * Math.PI * index / nbNodes;
+                int x = centreX + (int)(rayonDisposition * Math.Cos(angle));
+                int y = centreY + (int)(rayonDisposition * Math.Sin(angle));
+                positions[noeud.Id] = new Point(x, y);
+                index++;
             }
 
-            foreach (var node in positions)
+            // Dessiner les liens (les arêtes)
+            Pen penLien = new Pen(Color.Black, 2);
+            foreach (Lien lien in graphe.Liens)
             {
-                PointF p = node.Value;
-                g.FillEllipse(nodeBrush, p.X - nodeRadius, p.Y - nodeRadius, nodeRadius * 2, nodeRadius * 2);
-                g.DrawString(node.Key.ToString(), font, textBrush, p.X - 8, p.Y - 8);
+                Point p1 = positions[lien.Noeud1.Id];
+                Point p2 = positions[lien.Noeud2.Id];
+                g.DrawLine(penLien, p1, p2);
             }
 
-            bitmap.Save(filename, ImageFormat.Png);
+            // Dessiner les nœuds
+            Brush brushNoeud = Brushes.Blue;
+            Pen penNoeud = new Pen(Color.Black, 2);
+            Font font = new Font("Arial", 10);
+            foreach (var noeud in graphe.Noeuds.Values)
+            {
+                Point pos = positions[noeud.Id];
+                Rectangle rect = new Rectangle(pos.X - rayonNoeud, pos.Y - rayonNoeud, rayonNoeud * 2, rayonNoeud * 2);
+                g.FillEllipse(brushNoeud, rect);
+                g.DrawEllipse(penNoeud, rect);
+
+                // Afficher l’identifiant du nœud centré dans le cercle
+                string idStr = noeud.Id.ToString();
+                SizeF tailleTexte = g.MeasureString(idStr, font);
+                g.DrawString(idStr, font, Brushes.White, pos.X - tailleTexte.Width / 2, pos.Y - tailleTexte.Height / 2);
+            }
+
+            g.Dispose();
+            return bmp;
         }
 
-        Console.WriteLine("Graph saved as " + filename);
-    }
-
-           /// MAIN TEMPORAIRE POUR TESTER VISUALISATION.CS
-            
-          /*string filePath = @".\.\soc-karate.txt";
-            List<(int, int)> edges = new List<(int, int)>();
-
-            try
+        /// <summary>
+        /// Sauvegarde l’image du graphe dans un fichier.
+        /// </summary>
+        /// <param name="cheminFichier">Chemin et nom du fichier (par ex. "graphe.png")</param>
+        public void SauvegarderGraphique(string cheminFichier)
+        {
+            using (Bitmap bmp = DessinerGraphe())
             {
-                string[] lines = File.ReadAllLines(filePath);
-                Regex regex = new Regex(@"\((\d+),\s*(\d+)\)"); // Capture les paires (x, y)
-
-                foreach (string line in lines)
-                {
-                    Match match = regex.Match(line);
-                    if (match.Success)
-                    {
-                        int node1 = int.Parse(match.Groups[1].Value);
-                        int node2 = int.Parse(match.Groups[2].Value);
-                        edges.Add((node1, node2));
-                    }
-                }
-
-                if (edges.Count > 0)
-                {
-                    Visualisation graph = new Visualisation(edges);
-                    graph.DrawGraph("graph.png");
-                }
-                else
-                {
-                    Console.WriteLine("Aucune arête valide trouvée dans le fichier.");
-                }
+                bmp.Save(cheminFichier, System.Drawing.Imaging.ImageFormat.Png);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Erreur lors de la lecture du fichier : " + ex.Message);
-            }*/
+        }
+    }
 }
