@@ -12,15 +12,27 @@ namespace PSI_livrable1
     /// </summary>
     public class Noeud
     {
+        // Champs privés pour stocker les données
+        private int id;
+        private List<Noeud> voisins;
+
         /// <summary>
         /// Obtient ou définit l'identifiant unique du nœud.
         /// </summary>
-        public int Id { get; set; }
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         /// <summary>
         /// Obtient ou définit la liste des nœuds voisins connectés à ce nœud.
         /// </summary>
-        public List<Noeud> Voisins { get; set; }
+        public List<Noeud> Voisins
+        {
+            get { return voisins; }
+            set { voisins = value; }
+        }
 
         /// <summary>
         /// Initialise une nouvelle instance de la classe Noeud avec un identifiant spécifié.
@@ -28,7 +40,7 @@ namespace PSI_livrable1
         /// <param name="id">L'identifiant unique du nœud.</param>
         public Noeud(int id)
         {
-            Id = id;
+            this.id = id;
             Voisins = new List<Noeud>();
         }
 

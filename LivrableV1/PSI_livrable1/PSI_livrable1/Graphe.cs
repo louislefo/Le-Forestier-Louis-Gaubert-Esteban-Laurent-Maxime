@@ -8,8 +8,27 @@ using System.Linq;
 /// </summary>
 public class Graphe
 {
-    public Dictionary<int, Noeud> Noeuds { get; set; }
-    public List<Lien> Liens { get; set; }
+    // Champs privés pour stocker les données
+    private Dictionary<int, Noeud> noeuds;
+    private List<Lien> liens;
+
+    /// <summary>
+    /// Obtient ou définit le dictionnaire des noeuds du graphe.
+    /// </summary>
+    public Dictionary<int, Noeud> Noeuds
+    {
+        get { return noeuds; }
+        set { noeuds = value; }
+    }
+
+    /// <summary>
+    /// Obtient ou définit la liste des liens du graphe.
+    /// </summary>
+    public List<Lien> Liens
+    {
+        get { return liens; }
+        set { liens = value; }
+    }
 
     /// <summary>
     /// Initialise une nouvelle instance de la classe Graphe.
@@ -159,7 +178,7 @@ public class Graphe
     public bool ContientCycle()
     {
         List<int> visites = new List<int>();
-        return ContientCycleDFS(ObtenirPremierNoeud(), null, visites);
+        return ContientCycle(ObtenirPremierNoeud(), null, visites);
     }
 
     /// <summary>
@@ -169,7 +188,7 @@ public class Graphe
     /// <param name="parent">Le noeud parent du noeud actuel</param>
     /// <param name="visites">L'ensemble des noeuds déjà visités</param>
     /// <returns>true si un cycle est détecté, false sinon</returns>
-    private bool ContientCycleDFS(Noeud actuel, Noeud parent, List<int> visites)
+    private bool ContientCycle(Noeud actuel, Noeud parent, List<int> visites)
     {
         if (actuel == null)
             return false;
@@ -192,7 +211,7 @@ public class Graphe
 
             if (!estDejaVisite)
             {
-                bool cycleDetecte = ContientCycleDFS(voisin, actuel, visites);
+                bool cycleDetecte = ContientCycle(voisin, actuel, visites);
                 if (cycleDetecte)
                 {
                     return true;
