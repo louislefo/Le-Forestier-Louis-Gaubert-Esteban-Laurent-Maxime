@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -89,6 +90,16 @@ namespace PSI_livrable1
             Visualisation vis = new Visualisation(monGraphe); 
             vis.SauvegarderGraphique("graphe.png");
             Console.WriteLine("\nGraphique sauvegardé sous le nom de graphe.png");
+
+            // ouvrir le fichier graphe.png
+            try
+            {
+                Process.Start(new ProcessStartInfo("graphe.png") { UseShellExecute = true });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur lors de l'ouverture du fichier : " + e.Message);
+            }
         }    
     }
 }
