@@ -18,10 +18,8 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void Constructeur_InitialiseCorrectement()
         {
-            // Arrangement & Action
             var graphe = new Graphe();
 
-            // Assert
             Assert.NotNull(graphe.Noeuds);
             Assert.NotNull(graphe.Liens);
             Assert.Empty(graphe.Noeuds);
@@ -34,13 +32,10 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void AjouterLien_CreeLienCorrectement()
         {
-            // Arrangement
             var graphe = new Graphe();
 
-            // Action
             graphe.AjouterLien(1, 2);
 
-            // Assert
             Assert.Equal(2, graphe.Noeuds.Count);
             Assert.Single(graphe.Liens);
             Assert.Contains(1, graphe.Noeuds.Keys);
@@ -55,14 +50,11 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void AjouterLien_EviteDoublons()
         {
-            // Arrangement
             var graphe = new Graphe();
 
-            // Action
             graphe.AjouterLien(1, 2);
-            graphe.AjouterLien(1, 2); // Tentative d'ajout en double
+            graphe.AjouterLien(1, 2);
 
-            // Assert
             Assert.Equal(2, graphe.Noeuds.Count);
             Assert.Single(graphe.Liens);
         }
@@ -73,13 +65,10 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void ObtenirPremierNoeud_GrapheVide_RetourneNull()
         {
-            // Arrangement
             var graphe = new Graphe();
 
-            // Action
             var resultat = graphe.ObtenirPremierNoeud();
 
-            // Assert
             Assert.Null(resultat);
         }
 
@@ -89,14 +78,11 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void ObtenirPremierNoeud_GrapheNonVide_RetournePremierNoeud()
         {
-            // Arrangement
             var graphe = new Graphe();
             graphe.AjouterLien(1, 2);
 
-            // Action
             var resultat = graphe.ObtenirPremierNoeud();
 
-            // Assert
             Assert.NotNull(resultat);
             Assert.Equal(1, resultat.Id);
         }
@@ -107,7 +93,6 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void Largeur_ParcourCorrectement()
         {
-            // Arrangement
             var graphe = new Graphe();
             graphe.AjouterLien(1, 2);
             graphe.AjouterLien(1, 3);
@@ -115,10 +100,8 @@ namespace PSI_livrable1.Tests
             var sortie = new StringWriter();
             Console.SetOut(sortie);
 
-            // Action
             graphe.largeur(graphe.Noeuds[1]);
 
-            // Assert
             var resultat = sortie.ToString().Trim();
             Assert.Contains("1", resultat);
             Assert.Contains("2", resultat);
@@ -132,19 +115,16 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void Profondeur_ParcourCorrectement()
         {
-            // Arrangement
             var graphe = new Graphe();
             graphe.AjouterLien(1, 2);
             graphe.AjouterLien(1, 3);
             graphe.AjouterLien(2, 4);
             var sortie = new StringWriter();
             Console.SetOut(sortie);
-            var visites = new HashSet<int>();
+            var visites = new List<int>();
 
-            // Action
             graphe.Profondeur(graphe.Noeuds[1], visites);
 
-            // Assert
             var resultat = sortie.ToString().Trim();
             Assert.Contains("1", resultat);
             Assert.Contains("2", resultat);

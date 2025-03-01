@@ -50,7 +50,11 @@ public class Graphe
     /// <returns>Le premier noeud du graphe ou null si le graphe est vide</returns>
     public Noeud ObtenirPremierNoeud()
     {
-        return Noeuds.Values.FirstOrDefault();
+        foreach (var noeud in Noeuds.Values)
+        {
+            return noeud;
+        }
+        return null;
     }
 
     /// <summary>
@@ -60,23 +64,36 @@ public class Graphe
     /// <param name="depart">Le noeud de départ pour le parcours</param>
     public void largeur(Noeud depart)
     {
-        HashSet<int> visites = new HashSet<int>();
+        List<int> visites = new List<int>();
         Queue<Noeud> file = new Queue<Noeud>();
 
         file.Enqueue(depart);
         visites.Add(depart.Id);
+        Console.Write(depart.Id + " ");
 
         while (file.Count > 0)
         {
             Noeud actuel = file.Dequeue();
-            Console.Write(actuel.Id + " ");
 
-            foreach (var voisin in actuel.Voisins)
+            for (int i = 0; i < actuel.Voisins.Count; i++)
             {
-                if (!visites.Contains(voisin.Id))
+                Noeud voisin = actuel.Voisins[i];
+                bool estDejaVisite = false;
+
+                for (int j = 0; j < visites.Count; j++)
+                {
+                    if (visites[j] == voisin.Id)
+                    {
+                        estDejaVisite = true;
+                        break;
+                    }
+                }
+
+                if (!estDejaVisite)
                 {
                     visites.Add(voisin.Id);
                     file.Enqueue(voisin);
+                    Console.Write(voisin.Id + " ");
                 }
             }
         }
@@ -89,17 +106,30 @@ public class Graphe
     /// </summary>
     /// <param name="actuel">Le noeud actuel dans le parcours</param>
     /// <param name="visites">L'ensemble des noeuds déjà visités</param>
-    public void Profondeur(Noeud actuel, HashSet<int> visites)
+    public void Profondeur(Noeud actuel, List<int> visites)
     {
-        if (actuel == null || visites.Contains(actuel.Id))
+        if (actuel == null)
+            return;
+
+        bool estDejaVisite = false;
+        for (int i = 0; i < visites.Count; i++)
+        {
+            if (visites[i] == actuel.Id)
+            {
+                estDejaVisite = true;
+                break;
+            }
+        }
+
+        if (estDejaVisite)
             return;
 
         Console.Write(actuel.Id + " ");
         visites.Add(actuel.Id);
 
-        foreach (var voisin in actuel.Voisins)
+        for (int i = 0; i < actuel.Voisins.Count; i++)
         {
-            Profondeur(voisin, visites);
+            Profondeur(actuel.Voisins[i], visites);
         }
     }
 
@@ -113,10 +143,13 @@ public class Graphe
         if (Noeuds.Count == 0)
             return false;
 
-        HashSet<int> visites = new HashSet<int>();
+        List<int> visites = new List<int>();
         Profondeur(ObtenirPremierNoeud(), visites);
 
-        return visites.Count == Noeuds.Count;
+        int nombreNoeudsVisites = visites.Count;
+        int nombreTotalNoeuds = Noeuds.Count;
+
+        return nombreNoeudsVisites == nombreTotalNoeuds;
     }
 
     /// <summary>
@@ -125,7 +158,7 @@ public class Graphe
     /// <returns>true si le graphe contient un cycle, false sinon</returns>
     public bool ContientCycle()
     {
-        HashSet<int> visites = new HashSet<int>();
+        List<int> visites = new List<int>();
         return ContientCycleDFS(ObtenirPremierNoeud(), null, visites);
     }
 
@@ -136,23 +169,38 @@ public class Graphe
     /// <param name="parent">Le noeud parent du noeud actuel</param>
     /// <param name="visites">L'ensemble des noeuds déjà visités</param>
     /// <returns>true si un cycle est détecté, false sinon</returns>
-    private bool ContientCycleDFS(Noeud actuel, Noeud parent, HashSet<int> visites)
+    private bool ContientCycleDFS(Noeud actuel, Noeud parent, List<int> visites)
     {
         if (actuel == null)
             return false;
 
         visites.Add(actuel.Id);
 
-        foreach (var voisin in actuel.Voisins)
+        for (int i = 0; i < actuel.Voisins.Count; i++)
         {
-            if (!visites.Contains(voisin.Id))
+            Noeud voisin = actuel.Voisins[i];
+            bool estDejaVisite = false;
+
+            for (int j = 0; j < visites.Count; j++)
             {
-                if (ContientCycleDFS(voisin, actuel, visites))
+                if (visites[j] == voisin.Id)
+                {
+                    estDejaVisite = true;
+                    break;
+                }
+            }
+
+            if (!estDejaVisite)
+            {
+                bool cycleDetecte = ContientCycleDFS(voisin, actuel, visites);
+                if (cycleDetecte)
+                {
                     return true;
+                }
             }
             else if (voisin != parent)
             {
-                return true; 
+                return true;
             }
         }
         return false;

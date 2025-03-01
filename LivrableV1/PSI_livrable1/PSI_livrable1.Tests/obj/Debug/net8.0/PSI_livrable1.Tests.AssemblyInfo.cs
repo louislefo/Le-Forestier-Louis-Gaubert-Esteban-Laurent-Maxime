@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PSI_livrable1.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a3b3ad21eda26aa8bd205b79cf05241af237230")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+438d177ca1af45bb2e9cd97d57592558a79f20c1")]
 [assembly: System.Reflection.AssemblyProductAttribute("PSI_livrable1.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PSI_livrable1.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

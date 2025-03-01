@@ -74,7 +74,7 @@ namespace PSI_livrable1
 
             /// Test du parcours en profondeur (Profondeur)
             Console.WriteLine("\n Parcours Profondeur :");
-            HashSet<int> visiteDFS = new HashSet<int>();
+            List<int> visiteDFS = new List<int>();
             monGraphe.Profondeur(premierNoeud, visiteDFS);
             Console.WriteLine();
 
@@ -88,7 +88,7 @@ namespace PSI_livrable1
             // PARTIE VISUALISATION (PAS TOUCHE MOUCHE)
             Visualisation vis = new Visualisation(monGraphe); 
             vis.SauvegarderGraphique("graphe.png");
-
+            Console.WriteLine("\nGraphique sauvegardé sous le nom de graphe.png");
         }    
     }
 }

@@ -17,13 +17,10 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void Constructeur_InitialiseCorrectement()
         {
-            // Arrangement
             int id = 1;
 
-            // Action
             var noeud = new Noeud(id);
 
-            // Assert
             Assert.Equal(id, noeud.Id);
             Assert.Empty(noeud.Voisins);
         }
@@ -34,14 +31,11 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void AjouterVoisin_AjouteCorrectement()
         {
-            // Arrangement
             var noeud1 = new Noeud(1);
             var noeud2 = new Noeud(2);
 
-            // Action
             noeud1.AjouterVoisin(noeud2);
 
-            // Assert
             Assert.Contains(noeud2, noeud1.Voisins);
             Assert.Contains(noeud1, noeud2.Voisins);
         }
@@ -52,15 +46,12 @@ namespace PSI_livrable1.Tests
         [Fact]
         public void AjouterVoisin_EviteDoublons()
         {
-            // Arrangement
             var noeud1 = new Noeud(1);
             var noeud2 = new Noeud(2);
 
-            // Action
             noeud1.AjouterVoisin(noeud2);
-            noeud1.AjouterVoisin(noeud2); // Tentative d'ajout en double
+            noeud1.AjouterVoisin(noeud2);
 
-            // Assert
             Assert.Single(noeud1.Voisins);
             Assert.Single(noeud2.Voisins);
         }
