@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +15,8 @@ namespace Livrable_2_psi
         private Graphe<T> graphe;
         private int largeur;
         private int hauteur;
-        private int rayonNoeud = 20; // taille du cercle pour un noeud
+        private int rayonNoeud = 5; // taille du cercle pour un noeud
+        private Dictionary<T, Point> positionsNoeuds;
 
         /// <summary>
         /// cree une nouvelle visualisation du graphe
@@ -26,6 +29,7 @@ namespace Livrable_2_psi
             this.graphe = graphe;
             this.largeur = largeur;
             this.hauteur = hauteur;
+            this.positionsNoeuds = new Dictionary<T, Point>();
         }
 
         /// <summary>
@@ -34,71 +38,84 @@ namespace Livrable_2_psi
         /// <returns>Bitmap contenant le dessin du graphe</returns>
         public Bitmap DessinerGraphe()
         {
-            Bitmap bmp = new Bitmap(largeur, hauteur);
-            Graphics g = Graphics.FromImage(bmp);
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            g.Clear(Color.White);
-
-            // place les noeuds en cercle
-            int nbNodes = graphe.Noeuds.Count;
-            if (nbNodes == 0)
-                return bmp;
-
-            int centreX = largeur / 2;
-            int centreY = hauteur / 2;
-            int rayonDisposition = Math.Min(largeur, hauteur) / 2 - rayonNoeud - 0;
-
-            // garde la position de chaque noeud
-            Dictionary<T, Point> positions = new Dictionary<T, Point>();
-            int index = 0;
-            foreach (var noeud in graphe.Noeuds.Values)
+            Bitmap bitmap = new Bitmap(largeur, hauteur);
+            using (Graphics g = Graphics.FromImage(bitmap))
             {
-                double angle = 2 * Math.PI * index / nbNodes;
-                int x = centreX + (int)(rayonDisposition * Math.Cos(angle));
-                int y = centreY + (int)(rayonDisposition * Math.Sin(angle));
-                positions[noeud.Id] = new Point(x, y);
-                index++;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.Clear(Color.White);
+
+                // trouve les limites des coordonnees
+                double minLong = double.MaxValue, maxLong = double.MinValue;
+                double minLat = double.MaxValue, maxLat = double.MinValue;
+
+                foreach (var noeud in graphe.Noeuds.Values)
+                {
+                    if (noeud is Noeud<T> noeudMetro)
+                    {
+                        minLong = Math.Min(minLong, noeudMetro.Longitude);
+                        maxLong = Math.Max(maxLong, noeudMetro.Longitude);
+                        minLat = Math.Min(minLat, noeudMetro.Latitude);
+                        maxLat = Math.Max(maxLat, noeudMetro.Latitude);
+                    }
+                }
+
+                // calcule les facteurs d'echelle
+                double echelleX = (largeur - 100) / (maxLong - minLong);
+                double echelleY = (hauteur - 100) / (maxLat - minLat);
+
+                // dessine les liens
+                foreach (var lien in graphe.Liens)
+                {
+                    if (lien.Noeud1 is Noeud<T> n1 && lien.Noeud2 is Noeud<T> n2)
+                    {
+                        int x1 = (int)((n1.Longitude - minLong) * echelleX) + 50;
+                        int y1 = (int)((maxLat - n1.Latitude) * echelleY) + 50;
+                        int x2 = (int)((n2.Longitude - minLong) * echelleX) + 50;
+                        int y2 = (int)((maxLat - n2.Latitude) * echelleY) + 50;
+
+                        using (Pen pen = new Pen(Color.Gray, 1))
+                        {
+                            g.DrawLine(pen, x1, y1, x2, y2);
+                        }
+                    }
+                }
+
+                // dessine les noeuds
+                foreach (var noeud in graphe.Noeuds.Values)
+                {
+                    if (noeud is Noeud<T> noeudMetro)
+                    {
+                        int x = (int)((noeudMetro.Longitude - minLong) * echelleX) + 50;
+                        int y = (int)((maxLat - noeudMetro.Latitude) * echelleY) + 50;
+
+                        positionsNoeuds[noeud.Id] = new Point(x, y);
+
+                        // dessine le cercle du noeud
+                        using (Brush brush = new SolidBrush(Color.Red))
+                        {
+                            g.FillEllipse(brush, x - rayonNoeud, y - rayonNoeud, rayonNoeud * 2, rayonNoeud * 2);
+                        }
+
+                        // met le nom de la station
+                        using (Font font = new Font("Arial", 8))
+                        {
+                            g.DrawString(noeudMetro.NomStation, font, Brushes.Black, x + 5, y - 5);
+                        }
+                    }
+                }
             }
 
-            // dessine les liens
-            Pen penLien = new Pen(Color.Black, 2);
-            foreach (Lien<T> lien in graphe.Liens)
-            {
-                Point p1 = positions[lien.Noeud1.Id];
-                Point p2 = positions[lien.Noeud2.Id];
-                g.DrawLine(penLien, p1, p2);
-            }
-
-            // dessine les noeuds
-            Brush brushNoeud = Brushes.Blue;
-            Pen penNoeud = new Pen(Color.Black, 2);
-            Font font = new Font("Arial", 10);
-            foreach (var noeud in graphe.Noeuds.Values)
-            {
-                Point pos = positions[noeud.Id];
-                Rectangle rect = new Rectangle(pos.X - rayonNoeud, pos.Y - rayonNoeud, rayonNoeud * 2, rayonNoeud * 2);
-                g.FillEllipse(brushNoeud, rect);
-                g.DrawEllipse(penNoeud, rect);
-
-                // met le numero du noeud dans le cercle
-                string idStr = noeud.Id.ToString();
-                SizeF tailleTexte = g.MeasureString(idStr, font);
-                g.DrawString(idStr, font, Brushes.White, pos.X - tailleTexte.Width / 2, pos.Y - tailleTexte.Height / 2);
-            }
-
-            g.Dispose();
-            return bmp;
+            return bitmap;
         }
 
         /// <summary>
         /// sauvegarde limage du graphe dans un fichier
         /// </summary>
-        /// <param name="cheminFichier">Chemin et nom du fichier (par ex. "graphe.png")</param>
-        public void SauvegarderGraphique(string cheminFichier)
+        public void SauvegarderGraphique(string nomFichier)
         {
-            using (Bitmap bmp = DessinerGraphe())
+            using (Bitmap bitmap = DessinerGraphe())
             {
-                bmp.Save(cheminFichier, System.Drawing.Imaging.ImageFormat.Png);
+                bitmap.Save(nomFichier, ImageFormat.Png);
             }
         }
     }

@@ -11,6 +11,10 @@ namespace Livrable_2_psi
         // Champs privés pour stocker les données
         private T id;
         private List<Noeud<T>> voisins;
+        private string nomStation;
+        private double longitude;
+        private double latitude;
+        private string numeroLigne;
 
         /// <summary>
         /// recupere ou modifie lidentifiant du noeud
@@ -31,11 +35,60 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
+        /// recupere ou modifie le nom de la station
+        /// </summary>
+        public string NomStation
+        {
+            get { return nomStation; }
+            set { nomStation = value; }
+        }
+
+        /// <summary>
+        /// recupere ou modifie la longitude de la station
+        /// </summary>
+        public double Longitude
+        {
+            get { return longitude; }
+            set { longitude = value; }
+        }
+
+        /// <summary>
+        /// recupere ou modifie la latitude de la station
+        /// </summary>
+        public double Latitude
+        {
+            get { return latitude; }
+            set { latitude = value; }
+        }
+
+        /// <summary>
+        /// recupere ou modifie le numero de la ligne
+        /// </summary>
+        public string NumeroLigne
+        {
+            get { return numeroLigne; }
+            set { numeroLigne = value; }
+        }
+
+        /// <summary>
         /// cree un nouveau noeud avec un identifiant
         /// </summary>
         public Noeud(T id)
         {
             this.id = id;
+            Voisins = new List<Noeud<T>>();
+        }
+
+        /// <summary>
+        /// cree un nouveau noeud metro
+        /// </summary>
+        public Noeud(T id, string nomStation, double longitude, double latitude, string numeroLigne)
+        {
+            this.id = id;
+            this.nomStation = nomStation;
+            this.longitude = longitude;
+            this.latitude = latitude;
+            this.numeroLigne = numeroLigne;
             Voisins = new List<Noeud<T>>();
         }
 

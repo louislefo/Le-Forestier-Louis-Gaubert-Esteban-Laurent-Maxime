@@ -75,7 +75,7 @@ namespace Livrable_2_psi
         /// <summary>
         /// fait un parcours en largeur du graphe
         /// </summary>
-        public void largeur(Noeud<T> depart)
+        public void ParcoursLargeur(Noeud<T> depart)
         {
             List<T> visites = new List<T>();
             Queue<Noeud<T>> file = new Queue<Noeud<T>>();
@@ -111,102 +111,6 @@ namespace Livrable_2_psi
                 }
             }
             Console.WriteLine();
-        }
-
-        /// <summary>
-        /// fait un parcours en profondeur du graphe
-        /// </summary>
-        public void Profondeur(Noeud<T> actuel, List<T> visites)
-        {
-            if (actuel == null)
-                return;
-
-            bool estDejaVisite = false;
-            for (int i = 0; i < visites.Count; i++)
-            {
-                if (visites[i].Equals(actuel.Id))
-                {
-                    estDejaVisite = true;
-                    break;
-                }
-            }
-
-            if (estDejaVisite)
-                return;
-
-            Console.Write(actuel.Id + " ");
-            visites.Add(actuel.Id);
-
-            for (int i = 0; i < actuel.Voisins.Count; i++)
-            {
-                Profondeur(actuel.Voisins[i], visites);
-            }
-        }
-
-        /// <summary>
-        /// verifie si le graphe est connexe
-        /// </summary>
-        public bool EstConnexe()
-        {
-            if (Noeuds.Count == 0)
-                return false;
-
-            List<T> visites = new List<T>();
-            Profondeur(ObtenirPremierNoeud(), visites);
-
-            int nombreNoeudsVisites = visites.Count;
-            int nombreTotalNoeuds = Noeuds.Count;
-
-            return nombreNoeudsVisites == nombreTotalNoeuds;
-        }
-
-        /// <summary>
-        /// verifie si le graphe contient un cycle
-        /// </summary>
-        public bool ContientCycle()
-        {
-            List<T> visites = new List<T>();
-            return ContientCycle(ObtenirPremierNoeud(), null, visites);
-        }
-
-        /// <summary>
-        /// aide a trouver les cycles dans le graphe
-        /// </summary>
-        private bool ContientCycle(Noeud<T> actuel, Noeud<T> parent, List<T> visites)
-        {
-            if (actuel == null)
-                return false;
-
-            visites.Add(actuel.Id);
-
-            for (int i = 0; i < actuel.Voisins.Count; i++)
-            {
-                Noeud<T> voisin = actuel.Voisins[i];
-                bool estDejaVisite = false;
-
-                for (int j = 0; j < visites.Count; j++)
-                {
-                    if (visites[j].Equals(voisin.Id))
-                    {
-                        estDejaVisite = true;
-                        break;
-                    }
-                }
-
-                if (!estDejaVisite)
-                {
-                    bool cycleDetecte = ContientCycle(voisin, actuel, visites);
-                    if (cycleDetecte)
-                    {
-                        return true;
-                    }
-                }
-                else if (voisin != parent)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }
