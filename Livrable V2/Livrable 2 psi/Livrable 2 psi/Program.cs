@@ -18,6 +18,83 @@ namespace Livrable_2_psi
         /// </summary>
         static void Main(string[] args)
         {
+            // PARTIE METRO
+            Graphe<int> grapheMetro = new Graphe<int>();
+            string cheminFichierMetro = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MetroParisNoeuds.csv");
+            Dictionary<int, NoeudMetro> noeudsMetro = new Dictionary<int, NoeudMetro>();
+
+            try
+            {
+                // lit le fichier CSV avec StreamReader
+                using (StreamReader sr = new StreamReader(cheminFichierMetro, System.Text.Encoding.UTF8))
+                {
+                    // saute la ligne d'en-tête
+                    string ligneEnTete = sr.ReadLine();
+
+                    // lit chaque ligne
+                    string ligne;
+                    while ((ligne = sr.ReadLine()) != null)
+                    {
+                        string[] colonnes = ligne.Split(';');
+                        if (colonnes.Length >= 7)
+                        {
+                            int id = int.Parse(colonnes[0]);
+                            string numeroLigne = colonnes[1];
+                            string nomStation = colonnes[2];
+                            double longitude = double.Parse(colonnes[3], CultureInfo.InvariantCulture);
+                            double latitude = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
+
+                            var noeudMetro = new NoeudMetro(id, nomStation, longitude, latitude, numeroLigne);
+                            noeudsMetro[id] = noeudMetro;
+                            grapheMetro.Noeuds[id] = noeudMetro;
+                        }
+                    }
+                }
+
+                // lit le fichier des arcs pour ajouter les liens
+                string cheminFichierArcs = @".\.\MetroParisArcs.csv";
+                using (StreamReader sr = new StreamReader(cheminFichierArcs, System.Text.Encoding.UTF8))
+                {
+                    // saute la ligne d'en-tête
+                    string ligneEnTete = sr.ReadLine();
+
+                    // lit chaque ligne
+                    string ligne;
+                    while ((ligne = sr.ReadLine()) != null)
+                    {
+                        string[] colonnes = ligne.Split(';');
+                        if (colonnes.Length >= 5 && !string.IsNullOrEmpty(colonnes[3]))
+                        {
+                            int idStation = int.Parse(colonnes[0]);
+                            int idSuivant = int.Parse(colonnes[3]); // ID de la station suivante
+
+                            // ajoute le lien entre la station actuelle et la station suivante
+                            grapheMetro.AjouterLien(idStation, idSuivant);
+                        }
+                    }
+                }
+
+                // crée la visualisation du métro
+                GrapheMetro visMetro = new GrapheMetro(grapheMetro);
+                visMetro.SauvegarderGraphique("metro.png");
+                Console.WriteLine("\nCarte du métro sauvegardée sous le nom de metro.png");
+
+                // ouvre le fichier metro.png
+                try
+                {
+                    Process.Start(new ProcessStartInfo("metro.png") { UseShellExecute = true });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Erreur lors de l'ouverture du fichier : " + e.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur lors de la lecture du fichier CSV : " + e.Message);
+            }
+
+            /*
             string cheminFichier = @".\.\soc-karate.mtx";
 
             Graphe<int> monGraphe = new Graphe<int>();
@@ -101,74 +178,9 @@ namespace Livrable_2_psi
             {
                 Console.WriteLine("Erreur lors de l'ouverture du fichier : " + e.Message);
             }
+            */
 
-            // PARTIE METRO
-            Graphe<int> grapheMetro = new Graphe<int>();
-            string cheminFichierMetro = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MetroParisNoeuds.csv");
 
-            try
-            {
-                // lit le fichier CSV
-                string[] lignes = File.ReadAllLines(cheminFichierMetro, System.Text.Encoding.UTF8);
-                Dictionary<int, NoeudMetro> noeudsMetro = new Dictionary<int, NoeudMetro>();
-
-                // saute la ligne d'en-tête
-                for (int i = 1; i < lignes.Length; i++)
-                {
-                    string[] colonnes = lignes[i].Split(';');
-                    if (colonnes.Length >= 7)
-                    {
-                        int id = int.Parse(colonnes[0]);
-                        string numeroLigne = colonnes[1];
-                        string nomStation = colonnes[2];
-                        double longitude = double.Parse(colonnes[3], CultureInfo.InvariantCulture);
-                        double latitude = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
-
-                        var noeudMetro = new NoeudMetro(id, nomStation, longitude, latitude, numeroLigne);
-                        noeudsMetro[id] = noeudMetro;
-                        grapheMetro.Noeuds[id] = noeudMetro;
-                    }
-                }
-
-                // ajoute les liens entre les stations de la même ligne
-                for (int i = 1; i < lignes.Length - 1; i++)
-                {
-                    string[] colonnesActuelles = lignes[i].Split(';');
-                    string[] colonnesSuivantes = lignes[i + 1].Split(';');
-
-                    if (colonnesActuelles.Length >= 7 && colonnesSuivantes.Length >= 7)
-                    {
-                        int idActuel = int.Parse(colonnesActuelles[0]);
-                        int idSuivant = int.Parse(colonnesSuivantes[0]);
-                        string ligneActuelle = colonnesActuelles[1];
-                        string ligneSuivante = colonnesSuivantes[1];
-
-                        if (ligneActuelle == ligneSuivante)
-                        {
-                            grapheMetro.AjouterLien(idActuel, idSuivant);
-                        }
-                    }
-                }
-
-                // crée la visualisation du métro
-                GrapheMetro visMetro = new GrapheMetro(grapheMetro);
-                visMetro.SauvegarderGraphique("metro.png");
-                Console.WriteLine("\nCarte du métro sauvegardée sous le nom de metro.png");
-
-                // ouvre le fichier metro.png
-                try
-                {
-                    Process.Start(new ProcessStartInfo("metro.png") { UseShellExecute = true });
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Erreur lors de l'ouverture du fichier : " + e.Message);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erreur lors de la lecture du fichier CSV : " + e.Message);
-            }
         }
     }
 }
