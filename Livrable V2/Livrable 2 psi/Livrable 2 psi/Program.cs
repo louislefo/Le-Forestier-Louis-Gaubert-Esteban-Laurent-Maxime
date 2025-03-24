@@ -29,8 +29,8 @@ namespace Livrable_2_psi
                 grapheMetro.Noeuds[noeud.Key] = noeud.Value;
             }
 
-            // charge les arcs
-            chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);
+            // charge les arcs  
+            chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);  // Modif a faire lien et arcs
 
             // crée la visualisation du métro
             Visualisation<int> visMetro = new Visualisation<int>(grapheMetro, 1200, 800);
