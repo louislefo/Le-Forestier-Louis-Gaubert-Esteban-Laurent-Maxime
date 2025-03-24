@@ -24,7 +24,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                string connectionString = "SERVER=localhost;PORT=3306;DATABASE=psi;UID=root;PASSWORD=lolote@34F";
+                string connectionString = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=root;PASSWORD=lolote@34F";
                 MaConnection = new MySqlConnection(connectionString);
                 MaConnection.Open();
                 Console.WriteLine("connexion ouverte");
@@ -58,7 +58,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                string requete = "SELECT COUNT(*) FROM clients";
+                string requete = "SELECT COUNT(*) FROM client";
                 MySqlCommand cmd = new MySqlCommand(requete, MaConnection);
                 int nbClients = Convert.ToInt32(cmd.ExecuteScalar());
                 Console.WriteLine("nombre de clients : " + nbClients);

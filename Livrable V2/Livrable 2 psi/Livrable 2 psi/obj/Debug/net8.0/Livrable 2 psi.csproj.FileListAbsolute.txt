@@ -19,3 +19,27 @@ C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet
 C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\obj\Debug\net8.0\Livrable 2 psi.pdb
 C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\obj\Debug\net8.0\Livrable 2 psi.genruntimeconfig.cache
 C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\obj\Debug\net8.0\ref\Livrable 2 psi.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\Google.Protobuf.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\K4os.Compression.LZ4.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\K4os.Compression.LZ4.Streams.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\K4os.Hash.xxHash.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\MySql.Data.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.IO.Pipelines.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.Security.Permissions.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.Text.Encodings.Web.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win-x64\native\comerr64.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win-x64\native\gssapi64.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win-x64\native\k5sprt64.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win-x64\native\krb5_64.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win-x64\native\krbcc64.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.Messages.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable 2 psi\Livrable 2 psi\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
