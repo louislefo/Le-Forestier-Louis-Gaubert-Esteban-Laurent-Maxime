@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj": {}
+    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj": {
+    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj",
         "projectName": "PSI_livrable1.Tests",
-        "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj",
+        "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\PSI_livrable1.Tests.csproj",
         "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\obj\\",
+        "outputPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj": {
-                "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj"
+              "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj": {
+                "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj"
               }
             }
           }
@@ -91,12 +91,12 @@
         }
       }
     },
-    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj": {
+    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj",
+        "projectUniqueName": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj",
         "projectName": "PSI_livrable1",
-        "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj",
+        "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\PSI_livrable1.csproj",
         "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\LivrableV1\\PSI_livrable1\\PSI_livrable1\\obj\\",
         "projectStyle": "PackageReference",

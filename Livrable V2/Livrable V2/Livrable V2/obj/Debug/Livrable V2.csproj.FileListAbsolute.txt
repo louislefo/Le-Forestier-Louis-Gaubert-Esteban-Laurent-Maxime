@@ -1,0 +1,9 @@
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\bin\Debug\Livrable V2.exe.config
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\bin\Debug\Livrable V2.exe
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\bin\Debug\Livrable V2.pdb
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\obj\Debug\Livrable V2.csproj.AssemblyReference.cache
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\obj\Debug\Livrable_V2.Properties.Resources.resources
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\obj\Debug\Livrable V2.csproj.GenerateResource.cache
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\obj\Debug\Livrable V2.csproj.CoreCompileInputs.cache
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\obj\Debug\Livrable V2.exe
+C:\Users\louis\OneDrive\Desktop\Esilv\A2\Semestre 2\Projet SI algo\Projet\Projet-probl-me-info\Livrable V2\Livrable V2\Livrable V2\obj\Debug\Livrable V2.pdb
