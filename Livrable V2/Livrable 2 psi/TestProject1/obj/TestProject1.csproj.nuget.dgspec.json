@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj": {}
+    "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj": {
+    "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
+        "projectUniqueName": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
         "projectName": "Livrable 2 psi",
-        "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
-        "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\obj\\",
+        "projectPath": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
+        "packagesPath": "C:\\Users\\lmaxi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\louis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lmaxi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -79,20 +79,20 @@
         }
       }
     },
-    "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj": {
+    "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj",
+        "projectUniqueName": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj",
         "projectName": "TestProject1",
-        "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj",
-        "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\obj\\",
+        "projectPath": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\TestProject1.csproj",
+        "packagesPath": "C:\\Users\\lmaxi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\TestProject1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\louis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lmaxi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -107,8 +107,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj": {
-                "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj"
+              "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj": {
+                "projectPath": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj"
               }
             }
           }
@@ -131,7 +131,7 @@
           "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[17.8.0, )"
+              "version": "[17.13.0, )"
             },
             "coverlet.collector": {
               "target": "Package",
