@@ -273,7 +273,7 @@
           }
         }
       },
-      "System.IO.Pipelines/9.0.0": {
+      "System.IO.Pipelines/9.0.3": {
         "type": "package",
         "compile": {
           "lib/net8.0/System.IO.Pipelines.dll": {
@@ -431,7 +431,7 @@
           }
         }
       },
-      "System.Text.Encodings.Web/9.0.0": {
+      "System.Text.Encodings.Web/9.0.3": {
         "type": "package",
         "compile": {
           "lib/net8.0/System.Text.Encodings.Web.dll": {
@@ -453,11 +453,11 @@
           }
         }
       },
-      "System.Text.Json/9.0.0": {
+      "System.Text.Json/9.0.3": {
         "type": "package",
         "dependencies": {
-          "System.IO.Pipelines": "9.0.0",
-          "System.Text.Encodings.Web": "9.0.0"
+          "System.IO.Pipelines": "9.0.3",
+          "System.Text.Encodings.Web": "9.0.3"
         },
         "compile": {
           "lib/net8.0/System.Text.Json.dll": {
@@ -978,10 +978,10 @@
         "system.io.nuspec"
       ]
     },
-    "System.IO.Pipelines/9.0.0": {
-      "sha512": "eA3cinogwaNB4jdjQHOP3Z3EuyiDII7MT35jgtnsA4vkn0LUrrSHsU0nzHTzFzmaFYeKV7MYyMxOocFzsBHpTw==",
+    "System.IO.Pipelines/9.0.3": {
+      "sha512": "aP1Qh9llcEmo0qN+VKvVDHFMe5Cqpfb1VjhBO7rjmxCXtLs3IfVSOiNqqLBZ/4Qbcr4J0SDdJq9S7EKAGpnwEA==",
       "type": "package",
-      "path": "system.io.pipelines/9.0.0",
+      "path": "system.io.pipelines/9.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1001,7 +1001,7 @@
         "lib/net9.0/System.IO.Pipelines.xml",
         "lib/netstandard2.0/System.IO.Pipelines.dll",
         "lib/netstandard2.0/System.IO.Pipelines.xml",
-        "system.io.pipelines.9.0.0.nupkg.sha512",
+        "system.io.pipelines.9.0.3.nupkg.sha512",
         "system.io.pipelines.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -1468,10 +1468,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Text.Encodings.Web/9.0.0": {
-      "sha512": "e2hMgAErLbKyUUwt18qSBf9T5Y+SFAL3ZedM8fLupkVj8Rj2PZ9oxQ37XX2LF8fTO1wNIxvKpihD7Of7D/NxZw==",
+    "System.Text.Encodings.Web/9.0.3": {
+      "sha512": "5L+iI4fBMtGwt4FHLQh40/rgdbxnw6lHaLkR3gbaHG97TohzUv+z/oP03drsTR1lKCLhOkp40cFnHYOQLtpT5A==",
       "type": "package",
-      "path": "system.text.encodings.web/9.0.0",
+      "path": "system.text.encodings.web/9.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1495,15 +1495,15 @@
         "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.xml",
         "runtimes/browser/lib/net9.0/System.Text.Encodings.Web.dll",
         "runtimes/browser/lib/net9.0/System.Text.Encodings.Web.xml",
-        "system.text.encodings.web.9.0.0.nupkg.sha512",
+        "system.text.encodings.web.9.0.3.nupkg.sha512",
         "system.text.encodings.web.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Text.Json/9.0.0": {
-      "sha512": "js7+qAu/9mQvnhA4EfGMZNEzXtJCDxgkgj8ohuxq/Qxv+R56G+ljefhiJHOxTNiw54q8vmABCWUwkMulNdlZ4A==",
+    "System.Text.Json/9.0.3": {
+      "sha512": "r2JRkLjsYrq5Dpo7+y3Wa73OfirZPdVhxiTJWwZ+oJM7FOAe0LkM3GlH+pgkNRdd1G1kwUbmRCdmh4uoaWwu1g==",
       "type": "package",
-      "path": "system.text.json/9.0.0",
+      "path": "system.text.json/9.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1566,7 +1566,7 @@
         "lib/net9.0/System.Text.Json.xml",
         "lib/netstandard2.0/System.Text.Json.dll",
         "lib/netstandard2.0/System.Text.Json.xml",
-        "system.text.json.9.0.0.nupkg.sha512",
+        "system.text.json.9.0.3.nupkg.sha512",
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -1726,27 +1726,28 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "MySql.Data >= 9.2.0",
-      "System.Drawing.Common >= 9.0.3"
+      "System.Drawing.Common >= 9.0.3",
+      "System.Text.Json >= 9.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\louis\\.nuget\\packages\\": {},
+    "C:\\Users\\lmaxi\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
+      "projectUniqueName": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
       "projectName": "Livrable 2 psi",
-      "projectPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
-      "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\louis\\OneDrive\\Desktop\\Esilv\\A2\\Semestre 2\\Projet SI algo\\Projet\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\obj\\",
+      "projectPath": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\Livrable 2 psi.csproj",
+      "packagesPath": "C:\\Users\\lmaxi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lmaxi\\OneDrive\\Bureau\\projet PSI\\Projet-probl-me-info\\Livrable V2\\Livrable 2 psi\\Livrable 2 psi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\louis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lmaxi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1784,6 +1785,10 @@
             "version": "[9.2.0, )"
           },
           "System.Drawing.Common": {
+            "target": "Package",
+            "version": "[9.0.3, )"
+          },
+          "System.Text.Json": {
             "target": "Package",
             "version": "[9.0.3, )"
           }

@@ -57,6 +57,10 @@
             "System.Drawing.Common": {
               "target": "Package",
               "version": "[9.0.3, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.3, )"
             }
           },
           "imports": [
@@ -132,6 +136,10 @@
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.13.0, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.3, )"
             },
             "coverlet.collector": {
               "target": "Package",
