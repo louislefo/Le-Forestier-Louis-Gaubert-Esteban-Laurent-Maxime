@@ -390,5 +390,6 @@ FodyWeavers.xsd
 *.dll
 
 bin/DEBUG/net8.0/*
-obj/*
+obj/
+bin/
 
