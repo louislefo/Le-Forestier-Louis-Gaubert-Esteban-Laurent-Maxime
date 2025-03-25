@@ -16,8 +16,8 @@ namespace Livrable_2_psi
         {
             // PARTIE METRO
             Graphe<int> grapheMetro = new Graphe<int>();
-            string cheminFichierMetro = @".\.\MetroParisNoeuds.csv";
-            string cheminFichierArcs = @".\.\MetroParisArcs.csv";
+            string cheminFichierMetro = @"../../../MetroParisNoeuds.csv";
+            string cheminFichierArcs = @"../../../MetroParisArcs.csv";
 
             // charge les fichiers
             ChargerFichiers chargeur = new ChargerFichiers();
