@@ -385,3 +385,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Custom ignore
+*.dll
