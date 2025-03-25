@@ -73,17 +73,18 @@ namespace Livrable_2_psi
                             int idStation = int.Parse(colonnes[0]);
                             int idPrecedent = int.Parse(colonnes[2]);
                             int idSuivant = int.Parse(colonnes[3]);
+                            double poids = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
 
                             // Ajoute le lien avec la station précédente si elle existe
                             if (idPrecedent != 0)
                             {
-                                grapheMetro.AjouterLien(idStation, idPrecedent);
+                                grapheMetro.AjouterLien(idStation, idPrecedent, poids);
                             }
 
                             // Ajoute le lien avec la station suivante si elle existe
                             if (idSuivant != 0)
                             {
-                                grapheMetro.AjouterLien(idStation, idSuivant);
+                                grapheMetro.AjouterLien(idStation, idSuivant, poids);
                             }
                         }
                     }

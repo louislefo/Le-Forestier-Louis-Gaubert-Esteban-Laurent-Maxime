@@ -42,7 +42,7 @@ namespace Livrable_2_psi
         /// <summary>
         /// ajoute un lien entre deux noeuds
         /// </summary>
-        public void AjouterLien(T id1, T id2)
+        public void AjouterLien(T id1, T id2, double poids)
         {
             if (!Noeuds.ContainsKey(id1))
                 Noeuds[id1] = new Noeud<T>(id1);
@@ -56,7 +56,7 @@ namespace Livrable_2_psi
             if (!n1.Voisins.Contains(n2))
             {
                 n1.AjouterVoisin(n2);
-                Liens.Add(new Lien<T>(n1, n2));
+                Liens.Add(new Lien<T>(n1, n2, poids));
             }
         }
 
