@@ -22,19 +22,31 @@ namespace Livrable_2_psi
             // charge les fichiers
             ChargerFichiers chargeur = new ChargerFichiers();
             Dictionary<int, Noeud<int>> noeudsMetro = chargeur.ChargerNoeudsMetro(cheminFichierMetro);
+            Console.WriteLine($"Nombre de noeuds charges : {noeudsMetro.Count}");
             
             // ajoute les noeuds au graphe
             foreach (var noeud in noeudsMetro)
             {
                 grapheMetro.Noeuds[noeud.Key] = noeud.Value;
             }
+            Console.WriteLine($"Nombre de noeuds dans le graphe : {grapheMetro.Noeuds.Count}");
 
             // charge les arcs  
-            chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);  // Modif a faire lien et arcs
+            chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);
+            Console.WriteLine($"Nombre de liens dans le graphe : {grapheMetro.Liens.Count}");
+
+            // affiche quelques infos sur les noeuds pour debug
+            foreach (var noeud in grapheMetro.Noeuds.Values)
+            {
+                Console.WriteLine($"Station: {noeud.NomStation}, Ligne: {noeud.NumeroLigne}, Couleur: {noeud.CouleurLigne}");
+                Console.WriteLine($"Position: ({noeud.Longitude}, {noeud.Latitude})");
+                break; // on affiche juste le premier noeud pour tester
+            }
 
             // crée la visualisation du métro
-            Visualisation<int> visMetro = new Visualisation<int>(grapheMetro, 1200, 800);
-            visMetro.SauvegarderGraphique("metro.png");
+            Visualisation visMetro = new Visualisation(1200, 800);
+            visMetro.DessinerGraphe(grapheMetro);
+            visMetro.SauvegarderImage("metro.png");
             Console.WriteLine("\nCarte du métro sauvegardée sous le nom de metro.png");
 
             // ouvre le fichier metro.png

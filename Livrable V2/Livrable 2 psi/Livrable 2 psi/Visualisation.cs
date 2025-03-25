@@ -10,113 +10,119 @@ using System.Threading.Tasks;
 
 namespace Livrable_2_psi
 {
-    public class Visualisation<T>
+    /// <summary>
+    /// classe qui gere la visualisation du graphe
+    /// </summary>
+    public class Visualisation
     {
-        private Graphe<T> graphe;
+        private Bitmap image;
+        private Graphics graphics;
         private int largeur;
         private int hauteur;
-        private int rayonNoeud = 5; // taille du cercle pour un noeud
-        private Dictionary<T, Point> positionsNoeuds;
+        private int marge = 50;
+        private Dictionary<int, Point> positionsNoeuds;
 
         /// <summary>
-        /// cree une nouvelle visualisation du graphe
+        /// constructeur de la classe
         /// </summary>
-        /// <param name="graphe">Le graphe à visualiser</param>
-        /// <param name="largeur">Largeur de l'image (par défaut 800)</param>
-        /// <param name="hauteur">Hauteur de l'image (par défaut 600)</param>
-        public Visualisation(Graphe<T> graphe, int largeur = 800, int hauteur = 600)
+        public Visualisation(int largeur, int hauteur)
         {
-            this.graphe = graphe;
             this.largeur = largeur;
             this.hauteur = hauteur;
-            this.positionsNoeuds = new Dictionary<T, Point>();
+            this.image = new Bitmap(largeur, hauteur);
+            this.graphics = Graphics.FromImage(image);
+            this.graphics.Clear(Color.White);
+            this.positionsNoeuds = new Dictionary<int, Point>();
         }
 
         /// <summary>
-        /// dessine le graphe et le met dans une image
+        /// dessine le graphe du metro
         /// </summary>
-        /// <returns>Bitmap contenant le dessin du graphe</returns>
-        public Bitmap DessinerGraphe()
+        public void DessinerGraphe(Graphe<int> graphe)
         {
-            Bitmap bitmap = new Bitmap(largeur, hauteur);
-            using (Graphics g = Graphics.FromImage(bitmap))
+            // Trouver les limites des coordonnées
+            double minLong = double.MaxValue, maxLong = double.MinValue;
+            double minLat = double.MaxValue, maxLat = double.MinValue;
+
+            foreach (var noeud in graphe.Noeuds.Values)
             {
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.Clear(Color.White);
+                minLong = Math.Min(minLong, noeud.Longitude);
+                maxLong = Math.Max(maxLong, noeud.Longitude);
+                minLat = Math.Min(minLat, noeud.Latitude);
+                maxLat = Math.Max(maxLat, noeud.Latitude);
+            }
 
-                // trouve les limites des coordonnees
-                double minLong = double.MaxValue, maxLong = double.MinValue;
-                double minLat = double.MaxValue, maxLat = double.MinValue;
+            // Calculer les facteurs d'échelle
+            double echelleLong = (largeur - 2 * marge) / (maxLong - minLong);
+            double echelleLat = (hauteur - 2 * marge) / (maxLat - minLat);
 
-                foreach (var noeud in graphe.Noeuds.Values)
+            // Dessiner les liens
+            foreach (var lien in graphe.Liens)
+            {
+                var noeud1 = graphe.Noeuds[lien.Noeud1.Id];
+                var noeud2 = graphe.Noeuds[lien.Noeud2.Id];
+
+                // Convertir les coordonnées en pixels
+                int x1 = (int)((noeud1.Longitude - minLong) * echelleLong) + marge;
+                int y1 = hauteur - ((int)((noeud1.Latitude - minLat) * echelleLat) + marge);
+                int x2 = (int)((noeud2.Longitude - minLong) * echelleLong) + marge;
+                int y2 = hauteur - ((int)((noeud2.Latitude - minLat) * echelleLat) + marge);
+
+                // Debug: afficher les coordonnées
+                Console.WriteLine($"Lien: ({x1}, {y1}) -> ({x2}, {y2})");
+
+                try
                 {
-                    if (noeud is Noeud<T> noeudMetro)
+                    // Utiliser la couleur de la ligne
+                    Color couleurLigne = ColorTranslator.FromHtml(noeud1.CouleurLigne);
+                    using (Pen pen = new Pen(couleurLigne, 2))
                     {
-                        minLong = Math.Min(minLong, noeudMetro.Longitude);
-                        maxLong = Math.Max(maxLong, noeudMetro.Longitude);
-                        minLat = Math.Min(minLat, noeudMetro.Latitude);
-                        maxLat = Math.Max(maxLat, noeudMetro.Latitude);
+                        graphics.DrawLine(pen, x1, y1, x2, y2);
                     }
                 }
-
-                // calcule les facteurs d'echelle
-                double echelleX = (largeur - 100) / (maxLong - minLong);
-                double echelleY = (hauteur - 100) / (maxLat - minLat);
-
-                // dessine les liens
-                foreach (var lien in graphe.Liens)
+                catch (Exception e)
                 {
-                    if (lien.Noeud1 is Noeud<T> n1 && lien.Noeud2 is Noeud<T> n2)
+                    Console.WriteLine($"Erreur de couleur: {e.Message}, utilisation de la couleur par défaut");
+                    using (Pen pen = new Pen(Color.Gray, 2))
                     {
-                        int x1 = (int)((n1.Longitude - minLong) * echelleX) + 50;
-                        int y1 = (int)((maxLat - n1.Latitude) * echelleY) + 50;
-                        int x2 = (int)((n2.Longitude - minLong) * echelleX) + 50;
-                        int y2 = (int)((maxLat - n2.Latitude) * echelleY) + 50;
-
-                        using (Pen pen = new Pen(Color.Gray, 1))
-                        {
-                            g.DrawLine(pen, x1, y1, x2, y2);
-                        }
-                    }
-                }
-
-                // dessine les noeuds
-                foreach (var noeud in graphe.Noeuds.Values)
-                {
-                    if (noeud is Noeud<T> noeudMetro)
-                    {
-                        int x = (int)((noeudMetro.Longitude - minLong) * echelleX) + 50;
-                        int y = (int)((maxLat - noeudMetro.Latitude) * echelleY) + 50;
-
-                        positionsNoeuds[noeud.Id] = new Point(x, y);
-
-                        // dessine le cercle du noeud
-                        using (Brush brush = new SolidBrush(Color.Red))
-                        {
-                            g.FillEllipse(brush, x - rayonNoeud, y - rayonNoeud, rayonNoeud * 2, rayonNoeud * 2);
-                        }
-
-                        // met le nom de la station
-                        using (Font font = new Font("Arial", 8))
-                        {
-                            g.DrawString(noeudMetro.NomStation, font, Brushes.Black, x + 5, y - 5);
-                        }
+                        graphics.DrawLine(pen, x1, y1, x2, y2);
                     }
                 }
             }
 
-            return bitmap;
+            // Dessiner les noeuds
+            foreach (var noeud in graphe.Noeuds.Values)
+            {
+                int x = (int)((noeud.Longitude - minLong) * echelleLong) + marge;
+                int y = hauteur - ((int)((noeud.Latitude - minLat) * echelleLat) + marge);
+
+                positionsNoeuds[noeud.Id] = new Point(x, y);
+
+                using (SolidBrush brush = new SolidBrush(Color.White))
+                {
+                    graphics.FillEllipse(brush, x - 4, y - 4, 8, 8);
+                }
+
+                using (Pen pen = new Pen(Color.Black))
+                {
+                    graphics.DrawEllipse(pen, x - 4, y - 4, 8, 8);
+                }
+
+                // Afficher le nom de la station
+                using (Font font = new Font("Arial", 7))
+                using (SolidBrush brush = new SolidBrush(Color.Black))
+                {
+                    graphics.DrawString(noeud.NomStation, font, brush, x + 4, y - 4);
+                }
+            }
         }
 
         /// <summary>
-        /// sauvegarde limage du graphe dans un fichier
+        /// sauvegarde l'image
         /// </summary>
-        public void SauvegarderGraphique(string nomFichier)
+        public void SauvegarderImage(string chemin)
         {
-            using (Bitmap bitmap = DessinerGraphe())
-            {
-                bitmap.Save(nomFichier, ImageFormat.Png);
-            }
+            image.Save(chemin);
         }
     }
 }

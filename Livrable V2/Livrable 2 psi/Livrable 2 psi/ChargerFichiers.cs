@@ -30,15 +30,16 @@ namespace Livrable_2_psi
                     while ((ligne = sr.ReadLine()) != null)
                     {
                         string[] colonnes = ligne.Split(';');
-                        if (colonnes.Length >= 7)
+                        if (colonnes.Length >= 8)
                         {
                             int id = int.Parse(colonnes[0]);
                             string numeroLigne = colonnes[1];
                             string nomStation = colonnes[2];
                             double longitude = double.Parse(colonnes[3], CultureInfo.InvariantCulture);
                             double latitude = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
+                            string couleurLigne = colonnes[7];
 
-                            var noeudMetro = new Noeud<int>(id, nomStation, longitude, latitude, numeroLigne);
+                            var noeudMetro = new Noeud<int>(id, nomStation, longitude, latitude, numeroLigne, couleurLigne);
                             noeudsMetro[id] = noeudMetro;
                         }
                     }
@@ -67,12 +68,23 @@ namespace Livrable_2_psi
                     while ((ligne = sr.ReadLine()) != null)
                     {
                         string[] colonnes = ligne.Split(';');
-                        if (colonnes.Length >= 5 && !string.IsNullOrEmpty(colonnes[3]))
+                        if (colonnes.Length >= 7)
                         {
                             int idStation = int.Parse(colonnes[0]);
+                            int idPrecedent = int.Parse(colonnes[2]);
                             int idSuivant = int.Parse(colonnes[3]);
 
-                            grapheMetro.AjouterLien(idStation, idSuivant);
+                            // Ajoute le lien avec la station précédente si elle existe
+                            if (idPrecedent != 0)
+                            {
+                                grapheMetro.AjouterLien(idStation, idPrecedent);
+                            }
+
+                            // Ajoute le lien avec la station suivante si elle existe
+                            if (idSuivant != 0)
+                            {
+                                grapheMetro.AjouterLien(idStation, idSuivant);
+                            }
                         }
                     }
                 }

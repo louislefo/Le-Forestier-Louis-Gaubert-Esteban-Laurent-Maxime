@@ -15,6 +15,7 @@ namespace Livrable_2_psi
         private double longitude;
         private double latitude;
         private string numeroLigne;
+        private string couleurLigne;
 
         /// <summary>
         /// recupere ou modifie lidentifiant du noeud
@@ -71,6 +72,15 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
+        /// recupere ou modifie la couleur de la ligne
+        /// </summary>
+        public string CouleurLigne
+        {
+            get { return couleurLigne; }
+            set { couleurLigne = value; }
+        }
+
+        /// <summary>
         /// cree un nouveau noeud avec un identifiant
         /// </summary>
         public Noeud(T id)
@@ -82,13 +92,14 @@ namespace Livrable_2_psi
         /// <summary>
         /// cree un nouveau noeud metro
         /// </summary>
-        public Noeud(T id, string nomStation, double longitude, double latitude, string numeroLigne)
+        public Noeud(T id, string nomStation, double longitude, double latitude, string numeroLigne, string couleurLigne)
         {
             this.id = id;
             this.nomStation = nomStation;
             this.longitude = longitude;
             this.latitude = latitude;
             this.numeroLigne = numeroLigne;
+            this.couleurLigne = couleurLigne;
             Voisins = new List<Noeud<T>>();
         }
 
