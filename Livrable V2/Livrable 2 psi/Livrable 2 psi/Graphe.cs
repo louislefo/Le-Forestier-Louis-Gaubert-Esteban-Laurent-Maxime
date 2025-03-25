@@ -73,7 +73,7 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// fait un parcours en largeur du graphe
+        /// fait un parcours en largeur du graphe ello
         /// </summary>
         public void ParcoursLargeur(Noeud<T> depart)
         {
