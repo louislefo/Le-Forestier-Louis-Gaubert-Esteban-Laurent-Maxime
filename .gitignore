@@ -388,3 +388,6 @@ FodyWeavers.xsd
 
 # Custom ignore
 *.dll
+
+bin/DEBUG/net8.0/*
+
