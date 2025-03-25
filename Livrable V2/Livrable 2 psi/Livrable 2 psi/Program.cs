@@ -60,66 +60,25 @@ namespace Livrable_2_psi
             }
 
             // PARTIE PLUS COURT CHEMIN
-            Console.WriteLine("\nTest des algorithmes de plus court chemin :");
-            
-            // on prend deux stations pour tester
-            Noeud<int> stationDepart = null;
-            Noeud<int> stationArrivee = null;
-            
-            foreach (var noeud in grapheMetro.Noeuds.Values)
-            {
-                if (stationDepart == null)
-                    stationDepart = noeud;
-                else if (stationArrivee == null)
-                {
-                    stationArrivee = noeud;
-                    break;
-                }
-            }
+            Console.WriteLine("\nRecherche d'un itineraire :");
+            GestionnaireItineraire<int> gestionnaire = new GestionnaireItineraire<int>(grapheMetro);
+            gestionnaire.AfficherListeStations();
 
-            if (stationDepart != null && stationArrivee != null)
-            {
-                Console.WriteLine($"\nRecherche du plus court chemin entre {stationDepart.NomStation} et {stationArrivee.NomStation}");
+            Console.WriteLine("\nEntrez l'ID de la station de depart :");
+            string idDepart = Console.ReadLine();
 
-                PlusCourtChemin<int> plusCourtChemin = new PlusCourtChemin<int>();
+            Console.WriteLine("Entrez l'ID de la station d'arrivee :");
+            string idArrivee = Console.ReadLine();
 
-                // test de Dijkstra
-                Console.WriteLine("\nAlgorithme de Dijkstra :");
-                List<Noeud<int>> cheminDijkstra = plusCourtChemin.Dijkstra(grapheMetro, stationDepart, stationArrivee);
-                AfficherChemin(cheminDijkstra);
-
-                // test de Bellman-Ford
-                Console.WriteLine("\nAlgorithme de Bellman-Ford :");
-                List<Noeud<int>> cheminBellmanFord = plusCourtChemin.BellmanFord(grapheMetro, stationDepart, stationArrivee);
-                AfficherChemin(cheminBellmanFord);
-            }
+            gestionnaire.RechercherItineraire(idDepart, idArrivee);
 
             // PARTIE BDD
+            /*
             Console.WriteLine("\nTest de la connexion a la base de donnees :");
             Connexion maConnexion = new Connexion();
             maConnexion.TestConnexion();
             maConnexion.FermerConnexion();
-        }
-
-        /// <summary>
-        /// affiche un chemin de stations
-        /// </summary>
-        private static void AfficherChemin(List<Noeud<int>> chemin)
-        {
-            if (chemin.Count == 0)
-            {
-                Console.WriteLine("Aucun chemin trouvé");
-                return;
-            }
-
-            Console.WriteLine("Chemin trouvé :");
-            for (int i = 0; i < chemin.Count; i++)
-            {
-                Console.Write(chemin[i].NomStation);
-                if (i < chemin.Count - 1)
-                    Console.Write(" -> ");
-            }
-            Console.WriteLine();
+            */
         }
     }
 }
