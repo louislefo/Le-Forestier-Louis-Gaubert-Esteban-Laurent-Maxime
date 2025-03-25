@@ -24,7 +24,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                string connectionString = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=root;PASSWORD=lolote@34F";
+                string connectionString = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=root;PASSWORD=mdp";
                 MaConnection = new MySqlConnection(connectionString);
                 MaConnection.Open();
                 Console.WriteLine("connexion ouverte");
