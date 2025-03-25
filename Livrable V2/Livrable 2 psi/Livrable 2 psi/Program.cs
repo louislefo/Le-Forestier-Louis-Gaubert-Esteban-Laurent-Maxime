@@ -22,29 +22,29 @@ namespace Livrable_2_psi
             // charge les fichiers
             ChargerFichiers chargeur = new ChargerFichiers();
             Dictionary<int, Noeud<int>> noeudsMetro = chargeur.ChargerNoeudsMetro(cheminFichierMetro);
-            Console.WriteLine($"Nombre de noeuds charges : {noeudsMetro.Count}");
+            Console.WriteLine("Nombre de noeuds charges : " + noeudsMetro.Count);
             
             // ajoute les noeuds au graphe
-            foreach (var noeud in noeudsMetro)
+            foreach (int id in noeudsMetro.Keys)
             {
-                grapheMetro.Noeuds[noeud.Key] = noeud.Value;
+                grapheMetro.Noeuds[id] = noeudsMetro[id];
             }
-            Console.WriteLine($"Nombre de noeuds dans le graphe : {grapheMetro.Noeuds.Count}");
+            Console.WriteLine("Nombre de noeuds dans le graphe : " + grapheMetro.Noeuds.Count);
 
             // charge les arcs  
             chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);
-            Console.WriteLine($"Nombre de liens dans le graphe : {grapheMetro.Liens.Count}");
+            Console.WriteLine("Nombre de liens dans le graphe : " + grapheMetro.Liens.Count);
 
             // affiche quelques infos sur les noeuds pour debug
-            foreach (var noeud in grapheMetro.Noeuds.Values)
+            foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
             {
-                Console.WriteLine($"Station: {noeud.NomStation}, Ligne: {noeud.NumeroLigne}, Couleur: {noeud.CouleurLigne}");
-                Console.WriteLine($"Position: ({noeud.Longitude}, {noeud.Latitude})");
+                Console.WriteLine("Station: " + noeud.NomStation + ", Ligne: " + noeud.NumeroLigne + ", Couleur: " + noeud.CouleurLigne);
+                Console.WriteLine("Position: (" + noeud.Longitude + ", " + noeud.Latitude + ")");
                 break; // on affiche juste le premier noeud pour tester
             }
 
             // crée la visualisation du métro
-            Visualisation visMetro = new Visualisation(1200, 800);
+            VisualisationCarte visMetro = new VisualisationCarte(1200, 800);
             visMetro.DessinerGraphe(grapheMetro);
             visMetro.SauvegarderImage("metro.png");
             Console.WriteLine("\nCarte du métro sauvegardée sous le nom de metro.png");
@@ -70,12 +70,32 @@ namespace Livrable_2_psi
             Console.WriteLine("Entrez l'ID de la station d'arrivee :");
             string idArrivee = Console.ReadLine();
 
-            gestionnaire.RechercherItineraire(idDepart, idArrivee);
+            List<Noeud<int>> itineraire = gestionnaire.RechercherItineraire(idDepart, idArrivee);
+
+            // crée la visualisation de l'itineraire
+            if (itineraire != null && itineraire.Count > 0)
+            {
+                VisualisationItineraire visItineraire = new VisualisationItineraire(1200, 800);
+                string texteItineraire = "Itineraire de " + itineraire[0].NomStation + " a " + itineraire[itineraire.Count - 1].NomStation;
+                visItineraire.DessinerItineraire(grapheMetro, itineraire, texteItineraire);
+                visItineraire.SauvegarderImage("itineraire.png");
+                Console.WriteLine("\nCarte de l'itineraire sauvegardee sous le nom de itineraire.png");
+
+                // ouvre le fichier itineraire.png
+                try
+                {
+                    Process.Start(new ProcessStartInfo("itineraire.png") { UseShellExecute = true });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Erreur lors de l'ouverture du fichier : " + e.Message);
+                }
+            }
 
             // PARTIE BDD
             /*
             Console.WriteLine("\nTest de la connexion a la base de donnees :");
-            Connexion maConnexion = new Connexion();
+            ConnexionBDD maConnexion = new ConnexionBDD();
             maConnexion.TestConnexion();
             maConnexion.FermerConnexion();
             */

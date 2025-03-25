@@ -10,7 +10,7 @@ namespace Livrable_2_psi
     /// <summary>
     /// classe qui gere la connexion a la bdd
     /// </summary>
-    public class Connexion
+    public class ConnexionBDD
     {
         /// <summary>
         /// la connexion mysql
@@ -20,7 +20,7 @@ namespace Livrable_2_psi
         /// <summary>
         /// constructeur qui initialise la connexion
         /// </summary>
-        public Connexion()
+        public ConnexionBDD()
         {
             try
             {

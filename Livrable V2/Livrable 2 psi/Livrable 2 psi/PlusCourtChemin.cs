@@ -4,37 +4,39 @@ using System.Collections.Generic;
 namespace Livrable_2_psi
 {
     /// <summary>
-    /// classe qui gere les algorithmes de plus court chemin
+    /// classe qui gere les algorithmes de plus court chemin en temps
     /// </summary>
     public class PlusCourtChemin<T> where T : IComparable<T>
     {
+        private const int TEMPS_CORRESPONDANCE = 5; // temps en minutes pour changer de ligne
+
         /// <summary>
         /// trouve les stations de correspondance (stations sur plusieurs lignes)
         /// </summary>
         private List<Noeud<T>> TrouverStationsCorrespondance(Graphe<T> graphe)
         {
             List<Noeud<T>> stationsCorrespondance = new List<Noeud<T>>();
-            Dictionary<string, HashSet<string>> stationsParNom = new Dictionary<string, HashSet<string>>();
+            Dictionary<string, List<string>> stationsParNom = new Dictionary<string, List<string>>();
 
             // regroupe les stations par nom
-            foreach (var noeud in graphe.Noeuds.Values)
+            foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
                 if (!stationsParNom.ContainsKey(noeud.NomStation))
                 {
-                    stationsParNom[noeud.NomStation] = new HashSet<string>();
+                    stationsParNom[noeud.NomStation] = new List<string>();
                 }
                 stationsParNom[noeud.NomStation].Add(noeud.NumeroLigne);
             }
 
             // ajoute les stations qui ont plusieurs lignes
-            foreach (var station in stationsParNom)
+            foreach (string nomStation in stationsParNom.Keys)
             {
-                if (station.Value.Count > 1)
+                if (stationsParNom[nomStation].Count > 1)
                 {
                     // trouve le premier noeud de cette station
-                    foreach (var noeud in graphe.Noeuds.Values)
+                    foreach (Noeud<T> noeud in graphe.Noeuds.Values)
                     {
-                        if (noeud.NomStation == station.Key)
+                        if (noeud.NomStation == nomStation)
                         {
                             stationsCorrespondance.Add(noeud);
                             break;
@@ -47,7 +49,7 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// algorithme de Dijkstra pour trouver le plus court chemin
+        /// algorithme de Dijkstra pour trouver le plus court chemin en temps
         /// </summary>
         public List<Noeud<T>> Dijkstra(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
@@ -55,30 +57,30 @@ namespace Livrable_2_psi
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
             // initialisation des structures de donnees
-            Dictionary<Noeud<T>, double> distances = new Dictionary<Noeud<T>, double>();
+            Dictionary<Noeud<T>, double> temps = new Dictionary<Noeud<T>, double>();
             Dictionary<Noeud<T>, Noeud<T>> predecesseurs = new Dictionary<Noeud<T>, Noeud<T>>();
-            HashSet<Noeud<T>> nonVisites = new HashSet<Noeud<T>>();
+            List<Noeud<T>> nonVisites = new List<Noeud<T>>();
 
-            // initialise les distances
-            foreach (var noeud in graphe.Noeuds.Values)
+            // initialise les temps
+            foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                distances[noeud] = double.MaxValue;
+                temps[noeud] = double.MaxValue;
                 nonVisites.Add(noeud);
             }
-            distances[depart] = 0;
+            temps[depart] = 0;
 
             // boucle principale
             while (nonVisites.Count > 0)
             {
-                // trouve le noeud non visite avec la plus petite distance
+                // trouve le noeud non visite avec le plus petit temps
                 Noeud<T> noeudActuel = null;
-                double distanceMin = double.MaxValue;
+                double tempsMin = double.MaxValue;
 
-                foreach (var noeud in nonVisites)
+                foreach (Noeud<T> noeud in nonVisites)
                 {
-                    if (distances[noeud] < distanceMin)
+                    if (temps[noeud] < tempsMin)
                     {
-                        distanceMin = distances[noeud];
+                        tempsMin = temps[noeud];
                         noeudActuel = noeud;
                     }
                 }
@@ -90,25 +92,25 @@ namespace Livrable_2_psi
 
                 nonVisites.Remove(noeudActuel);
 
-                // met a jour les distances des voisins
-                foreach (var lien in graphe.Liens)
+                // met a jour les temps des voisins
+                foreach (Lien<T> lien in graphe.Liens)
                 {
                     // verifie dans les deux sens car le graphe est non oriente
                     if (lien.Noeud1 == noeudActuel && nonVisites.Contains(lien.Noeud2))
                     {
-                        double nouvelleDistance = distances[noeudActuel] + lien.Poids;
-                        if (nouvelleDistance < distances[lien.Noeud2])
+                        double nouveauTemps = temps[noeudActuel] + lien.Poids; // lien.Poids represente le temps entre les stations
+                        if (nouveauTemps < temps[lien.Noeud2])
                         {
-                            distances[lien.Noeud2] = nouvelleDistance;
+                            temps[lien.Noeud2] = nouveauTemps;
                             predecesseurs[lien.Noeud2] = noeudActuel;
                         }
                     }
                     if (lien.Noeud2 == noeudActuel && nonVisites.Contains(lien.Noeud1))
                     {
-                        double nouvelleDistance = distances[noeudActuel] + lien.Poids;
-                        if (nouvelleDistance < distances[lien.Noeud1])
+                        double nouveauTemps = temps[noeudActuel] + lien.Poids;
+                        if (nouveauTemps < temps[lien.Noeud1])
                         {
-                            distances[lien.Noeud1] = nouvelleDistance;
+                            temps[lien.Noeud1] = nouveauTemps;
                             predecesseurs[lien.Noeud1] = noeudActuel;
                         }
                     }
@@ -117,14 +119,14 @@ namespace Livrable_2_psi
                 // si on est sur une station de correspondance, on peut changer de ligne
                 if (stationsCorrespondance.Exists(s => s.NomStation == noeudActuel.NomStation))
                 {
-                    foreach (var noeud in graphe.Noeuds.Values)
+                    foreach (Noeud<T> noeud in graphe.Noeuds.Values)
                     {
                         if (noeud.NomStation == noeudActuel.NomStation && noeud.NumeroLigne != noeudActuel.NumeroLigne)
                         {
-                            double nouvelleDistance = distances[noeudActuel] + 1; // cout de 1 pour changer de ligne
-                            if (nouvelleDistance < distances[noeud])
+                            double nouveauTemps = temps[noeudActuel] + TEMPS_CORRESPONDANCE; // ajoute le temps de correspondance
+                            if (nouveauTemps < temps[noeud])
                             {
-                                distances[noeud] = nouvelleDistance;
+                                temps[noeud] = nouveauTemps;
                                 predecesseurs[noeud] = noeudActuel;
                             }
                         }
@@ -136,13 +138,13 @@ namespace Livrable_2_psi
             List<Noeud<T>> chemin = new List<Noeud<T>>();
             Noeud<T> noeudCourant = null;
 
-            // trouve le noeud d'arrivee avec le plus petit poids
-            double distanceMinArrivee = double.MaxValue;
-            foreach (var noeud in graphe.Noeuds.Values)
+            // trouve le noeud d'arrivee avec le plus petit temps
+            double tempsMinArrivee = double.MaxValue;
+            foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                if (noeud.NomStation == arrivee.NomStation && distances[noeud] < distanceMinArrivee)
+                if (noeud.NomStation == arrivee.NomStation && temps[noeud] < tempsMinArrivee)
                 {
-                    distanceMinArrivee = distances[noeud];
+                    tempsMinArrivee = temps[noeud];
                     noeudCourant = noeud;
                 }
             }
@@ -176,7 +178,7 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// algorithme de Bellman-Ford pour trouver le plus court chemin
+        /// algorithme de Bellman-Ford pour trouver le plus court chemin en temps
         /// </summary>
         public List<Noeud<T>> BellmanFord(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
@@ -184,48 +186,48 @@ namespace Livrable_2_psi
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
             // initialisation des structures de donnees
-            Dictionary<Noeud<T>, double> distances = new Dictionary<Noeud<T>, double>();
+            Dictionary<Noeud<T>, double> temps = new Dictionary<Noeud<T>, double>();
             Dictionary<Noeud<T>, Noeud<T>> predecesseurs = new Dictionary<Noeud<T>, Noeud<T>>();
 
-            // initialise les distances
-            foreach (var noeud in graphe.Noeuds.Values)
+            // initialise les temps
+            foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                distances[noeud] = double.MaxValue;
+                temps[noeud] = double.MaxValue;
             }
-            distances[depart] = 0;
+            temps[depart] = 0;
 
             // boucle principale
             for (int i = 0; i < graphe.Noeuds.Count - 1; i++)
             {
-                foreach (var lien in graphe.Liens)
+                foreach (Lien<T> lien in graphe.Liens)
                 {
                     // verifie dans les deux sens car le graphe est non oriente
-                    if (distances[lien.Noeud1] != double.MaxValue && 
-                        distances[lien.Noeud1] + lien.Poids < distances[lien.Noeud2])
+                    if (temps[lien.Noeud1] != double.MaxValue && 
+                        temps[lien.Noeud1] + lien.Poids < temps[lien.Noeud2])
                     {
-                        distances[lien.Noeud2] = distances[lien.Noeud1] + lien.Poids;
+                        temps[lien.Noeud2] = temps[lien.Noeud1] + lien.Poids;
                         predecesseurs[lien.Noeud2] = lien.Noeud1;
                     }
 
-                    if (distances[lien.Noeud2] != double.MaxValue && 
-                        distances[lien.Noeud2] + lien.Poids < distances[lien.Noeud1])
+                    if (temps[lien.Noeud2] != double.MaxValue && 
+                        temps[lien.Noeud2] + lien.Poids < temps[lien.Noeud1])
                     {
-                        distances[lien.Noeud1] = distances[lien.Noeud2] + lien.Poids;
+                        temps[lien.Noeud1] = temps[lien.Noeud2] + lien.Poids;
                         predecesseurs[lien.Noeud1] = lien.Noeud2;
                     }
                 }
 
                 // ajoute les changements de ligne aux stations de correspondance
-                foreach (var station in stationsCorrespondance)
+                foreach (Noeud<T> station in stationsCorrespondance)
                 {
-                    foreach (var noeud in graphe.Noeuds.Values)
+                    foreach (Noeud<T> noeud in graphe.Noeuds.Values)
                     {
                         if (noeud.NomStation == station.NomStation && noeud.NumeroLigne != station.NumeroLigne)
                         {
-                            if (distances[station] != double.MaxValue && 
-                                distances[station] + 1 < distances[noeud])
+                            if (temps[station] != double.MaxValue && 
+                                temps[station] + TEMPS_CORRESPONDANCE < temps[noeud])
                             {
-                                distances[noeud] = distances[station] + 1;
+                                temps[noeud] = temps[station] + TEMPS_CORRESPONDANCE;
                                 predecesseurs[noeud] = station;
                             }
                         }
@@ -237,13 +239,13 @@ namespace Livrable_2_psi
             List<Noeud<T>> chemin = new List<Noeud<T>>();
             Noeud<T> noeudCourant = null;
 
-            // trouve le noeud d'arrivee avec le plus petit poids
-            double distanceMinArrivee = double.MaxValue;
-            foreach (var noeud in graphe.Noeuds.Values)
+            // trouve le noeud d'arrivee avec le plus petit temps
+            double tempsMinArrivee = double.MaxValue;
+            foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                if (noeud.NomStation == arrivee.NomStation && distances[noeud] < distanceMinArrivee)
+                if (noeud.NomStation == arrivee.NomStation && temps[noeud] < tempsMinArrivee)
                 {
-                    distanceMinArrivee = distances[noeud];
+                    tempsMinArrivee = temps[noeud];
                     noeudCourant = noeud;
                 }
             }
