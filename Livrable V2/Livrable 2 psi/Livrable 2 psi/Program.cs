@@ -15,9 +15,11 @@ namespace Livrable_2_psi
         static void Main(string[] args)
         {
             // PARTIE AUTHENTIFICATION
+            
             Console.WriteLine("=== Bienvenue sur Liv'In Paris ===");
             Application application = new Application();
             application.Demarrer();
+            
 
             // PARTIE METRO
             Graphe<int> grapheMetro = new Graphe<int>();
@@ -97,13 +99,8 @@ namespace Livrable_2_psi
                 }
             }
 
-            // PARTIE BDD
-            /*
-            Console.WriteLine("\nTest de la connexion a la base de donnees :");
-            ConnexionBDD maConnexion = new ConnexionBDD();
-            maConnexion.TestConnexion();
-            maConnexion.FermerConnexion();
-            */
+           
+            
         }
     }
 }

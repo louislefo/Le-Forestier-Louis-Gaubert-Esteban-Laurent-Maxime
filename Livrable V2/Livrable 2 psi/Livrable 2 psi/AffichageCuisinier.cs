@@ -11,9 +11,9 @@ namespace Livrable_2_psi
         public Authentification authentification;
 
         /// constructeur par defaut
-        public AffichageCuisinier()
+        public AffichageCuisinier(ConnexionBDD connexion)
         {
-            authentification = new Authentification();
+            authentification = new Authentification(connexion);
         }
 
         /// affiche le menu du cuisinier
