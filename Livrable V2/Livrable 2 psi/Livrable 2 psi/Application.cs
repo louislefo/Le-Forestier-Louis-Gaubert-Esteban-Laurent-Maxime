@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
@@ -11,13 +12,23 @@ namespace Livrable_2_psi
         public Authentification authentification;
         public AffichageCuisinier affichageCuisinier;
         public AffichageClient affichageClient;
+        public ConnexionBDD connexionBDD;
 
         /// constructeur par defaut
         public Application()
         {
-            authentification = new Authentification();
-            affichageCuisinier = new AffichageCuisinier();
-            affichageClient = new AffichageClient();
+            try
+            {
+                connexionBDD = new ConnexionBDD();
+                authentification = new Authentification(connexionBDD);
+                affichageCuisinier = new AffichageCuisinier(connexionBDD);
+                affichageClient = new AffichageClient(connexionBDD);
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("erreur lors de la connexion a la base de donnees : " + e.Message);
+                Environment.Exit(1);
+            }
         }
 
         /// methode pour demarrer l'application
@@ -64,6 +75,12 @@ namespace Livrable_2_psi
                         affichageClient.AfficherMenuClient(authentification.nomUtilisateur);
                     }
                 }
+            }
+
+            // ferme la connexion a la base de donnees quand on quitte l'application
+            if (connexionBDD != null)
+            {
+                connexionBDD.FermerConnexion();
             }
         }
     }
