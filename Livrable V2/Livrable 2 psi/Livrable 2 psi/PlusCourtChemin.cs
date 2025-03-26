@@ -277,5 +277,75 @@ namespace Livrable_2_psi
 
             return chemin;
         }
+
+        /// <summary>
+        /// algorithme de Floyd-Warshall pour trouver les plus courts chemins entre tous les sommets
+        /// </summary>
+        public Dictionary<(Noeud<T>, Noeud<T>), double> FloydWarshall(Graphe<T> graphe)
+        {
+            // cree une liste des noeuds pour acceder facilement aux indices
+            List<Noeud<T>> noeuds = new List<Noeud<T>>(graphe.Noeuds.Values);
+            int n = noeuds.Count;
+
+            // initialise la matrice des distances
+            double[,] distances = new double[n, n];
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (i == j)
+                    {
+                        distances[i, j] = 0;
+                    }
+                    else
+                    {
+                        distances[i, j] = int.MaxValue;
+                    }
+                }
+            }
+
+            // remplit la matrice avec les poids des liens existants
+            foreach (Lien<T> lien in graphe.Liens)
+            {
+                int i = noeuds.IndexOf(lien.Noeud1);
+                int j = noeuds.IndexOf(lien.Noeud2);
+                distances[i, j] = lien.Poids;
+                distances[j, i] = lien.Poids; // car le graphe est non oriente
+            }
+
+            // applique l'algorithme de Floyd-Warshall
+            for (int k = 0; k < n; k++)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (distances[i, k] != int.MaxValue && distances[k, j] != int.MaxValue)
+                        {
+                            double nouvelleDistance = distances[i, k] + distances[k, j];
+                            if (nouvelleDistance < distances[i, j])
+                            {
+                                distances[i, j] = nouvelleDistance;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // convertit la matrice en dictionnaire pour un acces plus facile
+            Dictionary<(Noeud<T>, Noeud<T>), double> resultat = new Dictionary<(Noeud<T>, Noeud<T>), double>();
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (distances[i, j] != int.MaxValue)
+                    {
+                        resultat[(noeuds[i], noeuds[j])] = distances[i, j];
+                    }
+                }
+            }
+
+            return resultat;
+        }
     }
 } 
