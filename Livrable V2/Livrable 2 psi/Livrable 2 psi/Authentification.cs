@@ -10,6 +10,7 @@ namespace Livrable_2_psi
     {
         public string nomUtilisateur;
         public string motDePasse;
+        public bool estClient;
         public bool estCuisinier;
         public bool estConnecte;
 
@@ -18,6 +19,7 @@ namespace Livrable_2_psi
         {
             nomUtilisateur = "";
             motDePasse = "";
+            estClient = false;
             estCuisinier = false;
             estConnecte = false;
         }
@@ -54,10 +56,12 @@ namespace Livrable_2_psi
             if (reponse.ToLower() == "oui")
             {
                 estCuisinier = true;
+                estClient = false;
             }
             else
             {
                 estCuisinier = false;
+                estClient = true;
             }
 
             // ici on va ajouter dans la base de donnees
@@ -72,6 +76,8 @@ namespace Livrable_2_psi
             estConnecte = false;
             nomUtilisateur = "";
             motDePasse = "";
+            estClient = false;
+            estCuisinier = false;
         }
     }
 }
