@@ -22,7 +22,7 @@ CREATE TABLE cuisinier(
     note_moyenne DECIMAL(2,1),
     nombre_livraisons INT,
     id_utilisateur VARCHAR(50) NOT NULL,
-    StationMetro nvarchar(100),
+    StationMetro VARCHAR(100),
     PRIMARY KEY(id_cuisinier),
     UNIQUE(id_utilisateur),
     FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
@@ -34,7 +34,7 @@ CREATE TABLE client(
     type_client__Particulier_Entreprise_ VARCHAR(50),
     entreprise_nom VARCHAR(100),
     référent VARCHAR(100),
-    StationMetro nvarchar(100),
+    StationMetro VARCHAR(100),
     PRIMARY KEY(id_client),
     UNIQUE(id_utilisateur),
     FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
@@ -43,6 +43,7 @@ CREATE TABLE client(
 CREATE TABLE Commande_(
     id_commande VARCHAR(50),
     id_client VARCHAR(50),
+    id_cuisinier VARCHAR(50),
     total_prix DECIMAL(10,2),
     statut_En_attente__Confirmée__En_cours__Livrée__Annulée_ VARCHAR(50),
     date_commande DATE,
