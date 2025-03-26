@@ -17,62 +17,10 @@ namespace Livrable_2_psi
         {
             authentification = new Authentification(connexion);
             affichageCuisinier = new AffichageCuisinier(connexion);
+            
             applicationEnCours = true;
         }
 
-        /// affiche le menu d'authentification
-        public void AfficherMenuAuthentification()
-        {
-            bool continuer = true;
-            while (continuer && applicationEnCours)
-            {
-                Console.WriteLine("\n=== Menu Authentification ===");
-                Console.WriteLine("1. Se connecter");
-                Console.WriteLine("2. S'inscrire");
-                Console.WriteLine("3. Quitter");
-                Console.WriteLine("Choix : ");
-
-                string choix = Console.ReadLine();
-
-                switch (choix)
-                {
-                    case "1":
-                        if (authentification.SeConnecter())
-                        {
-                            if (authentification.estCuisinier)
-                            {
-                                affichageCuisinier.AfficherMenuCuisinier(authentification.nomUtilisateur);
-                            }
-                            else
-                            {
-                                AfficherMenuClient(authentification.nomUtilisateur);
-                            }
-                        }
-                        break;
-                    case "2":
-                        if (authentification.SInscrire())
-                        {
-                            if (authentification.estCuisinier)
-                            {
-                                affichageCuisinier.AfficherMenuCuisinier(authentification.nomUtilisateur);
-                            }
-                            else
-                            {
-                                AfficherMenuClient(authentification.nomUtilisateur);
-                            }
-                        }
-                        break;
-                    case "3":
-                        applicationEnCours = false;
-                        continuer = false;
-                        Console.WriteLine("Au revoir !");
-                        break;
-                    default:
-                        Console.WriteLine("Choix invalide");
-                        break;
-                }
-            }
-        }
 
         /// affiche le menu du client
         public void AfficherMenuClient(string nomUtilisateur)
@@ -95,22 +43,25 @@ namespace Livrable_2_psi
                 switch (choix)
                 {
                     case "1":
+                        Console.Clear();
                         // TODO: Afficher les plats disponibles
                         Console.WriteLine("Fonctionnalite a venir");
                         break;
                     case "2":
+                        Console.Clear();
                         // TODO: Afficher les commandes
                         Console.WriteLine("Fonctionnalite a venir");
                         break;
                     case "3":
+                        Console.Clear();
                         // TODO: Passer une commande
                         Console.WriteLine("Fonctionnalite a venir");
                         break;
                     case "4":
+                        Console.Clear();
                         authentification.SeDeconnecter();
                         continuer = false;
                         Console.WriteLine("Vous etes deconnecte");
-                        AfficherMenuAuthentification();
                         break;
                     case "5":
                         applicationEnCours = false;

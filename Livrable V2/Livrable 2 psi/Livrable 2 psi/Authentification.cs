@@ -90,6 +90,7 @@ namespace Livrable_2_psi
                             stationMetro = (string)reader["station_client"];
                         }
                         Console.WriteLine("connexion reussie");
+                        Console.Clear();
                     }
                     else
                     {
@@ -202,6 +203,7 @@ namespace Livrable_2_psi
                 }
 
                 Console.WriteLine("inscription reussie");
+                Console.Clear();
                 estConnecte = true;
                 return true;
             }

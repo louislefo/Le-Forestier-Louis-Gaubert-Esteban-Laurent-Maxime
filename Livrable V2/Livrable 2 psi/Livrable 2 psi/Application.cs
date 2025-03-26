@@ -13,6 +13,7 @@ namespace Livrable_2_psi
         public AffichageCuisinier affichageCuisinier;
         public AffichageClient affichageClient;
         public ConnexionBDD connexionBDD;
+        public bool applicationEnCours;
 
         /// constructeur par defaut
         public Application()
@@ -23,6 +24,15 @@ namespace Livrable_2_psi
                 authentification = new Authentification(connexionBDD);
                 affichageCuisinier = new AffichageCuisinier(connexionBDD);
                 affichageClient = new AffichageClient(connexionBDD);
+
+                // partage l'instance d'authentification
+                affichageCuisinier.authentification = authentification;
+                affichageClient.authentification = authentification;
+
+                // partage l'etat de l'application
+                applicationEnCours = true;
+                affichageCuisinier.applicationEnCours = true;
+                affichageClient.applicationEnCours = true;
             }
             catch (MySqlException e)
             {
@@ -34,13 +44,11 @@ namespace Livrable_2_psi
         /// methode pour demarrer l'application
         public void Demarrer()
         {
-            bool continuer = true;
-
-            while (continuer)
+            while (applicationEnCours)
             {
                 if (!authentification.estConnecte)
                 {
-                    Console.WriteLine("=== Liv'In Paris ===");
+                    Console.WriteLine("\n=== Bienvenue sur Liv'In Paris ===");
                     Console.WriteLine("1. Se connecter");
                     Console.WriteLine("2. S'inscrire");
                     Console.WriteLine("3. Quitter");
@@ -57,7 +65,9 @@ namespace Livrable_2_psi
                             authentification.SInscrire();
                             break;
                         case "3":
-                            continuer = false;
+                            applicationEnCours = false;
+                            affichageCuisinier.applicationEnCours = false;
+                            affichageClient.applicationEnCours = false;
                             break;
                         default:
                             Console.WriteLine("Choix invalide");

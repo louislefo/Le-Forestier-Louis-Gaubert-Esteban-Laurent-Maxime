@@ -14,9 +14,7 @@ namespace Livrable_2_psi
         /// </summary>
         static void Main(string[] args)
         {
-            // PARTIE AUTHENTIFICATION
-            
-            Console.WriteLine("=== Bienvenue sur Liv'In Paris ===");
+             
             Application application = new Application();
             application.Demarrer();
             
