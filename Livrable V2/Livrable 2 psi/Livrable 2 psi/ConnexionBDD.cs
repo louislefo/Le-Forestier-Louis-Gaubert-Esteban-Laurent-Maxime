@@ -31,7 +31,7 @@ namespace Livrable_2_psi
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("erreur de connexion : " + e.Message);
+                Console.WriteLine(" ## erreur de connexion : " + e.Message);
                 throw e;
             }
         }

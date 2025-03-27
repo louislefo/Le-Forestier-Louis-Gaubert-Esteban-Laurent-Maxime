@@ -51,7 +51,8 @@ namespace Livrable_2_psi
                     Console.WriteLine("\n=== Bienvenue sur Liv'In Paris ===");
                     Console.WriteLine("1. Se connecter");
                     Console.WriteLine("2. S'inscrire");
-                    Console.WriteLine("3. Quitter");
+                    Console.WriteLine("3. ModulesStat");
+                    Console.WriteLine("4. Quitter");
                     Console.WriteLine("Choix : ");
 
                     string choix = Console.ReadLine();
@@ -60,11 +61,20 @@ namespace Livrable_2_psi
                     {
                         case "1":
                             authentification.SeConnecter();
+                            Console.Clear();
                             break;
                         case "2":
                             authentification.SInscrire();
+                            Console.Clear();
                             break;
                         case "3":
+                            MenuModules menuModules = new MenuModules();
+                            Console.Clear();
+                            menuModules.AfficherMenuModules();
+                            
+                            break;
+
+                        case "4":
                             applicationEnCours = false;
                             affichageCuisinier.applicationEnCours = false;
                             affichageClient.applicationEnCours = false;

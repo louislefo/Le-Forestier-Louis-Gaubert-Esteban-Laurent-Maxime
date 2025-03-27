@@ -43,7 +43,6 @@ CREATE TABLE client(
 CREATE TABLE Commande_(
     id_commande VARCHAR(50),
     id_client VARCHAR(50),
-    id_cuisinier VARCHAR(50),
     total_prix DECIMAL(10,2),
     statut_En_attente__Confirmée__En_cours__Livrée__Annulée_ VARCHAR(50),
     date_commande DATE,
