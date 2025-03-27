@@ -21,7 +21,7 @@ namespace Livrable_2_psi
         {
             while (moduleEnCours)
             {
-                Console.WriteLine("\n=== Menu des ModulesStat ===");
+                Console.WriteLine("\n=== Menu des Modules ===");
                 Console.WriteLine("1. Module Client");
                 Console.WriteLine("2. Module Cuisinier");
                 Console.WriteLine("3. Module Commande");
