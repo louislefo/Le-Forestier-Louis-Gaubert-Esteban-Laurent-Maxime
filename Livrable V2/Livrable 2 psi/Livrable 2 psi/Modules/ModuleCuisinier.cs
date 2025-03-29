@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.IO;
 
 namespace Livrable_2_psi
@@ -11,11 +11,11 @@ namespace Livrable_2_psi
     /// </summary>
     public class ModuleCuisinier
     {
-        private string connectionString;
+        public ConnexionBDD connexionBDD;
 
-        public ModuleCuisinier(string connectionString)
+        public ModuleCuisinier(ConnexionBDD connexionBDD)
         {
-            this.connectionString = connectionString;
+            this.connexionBDD = connexionBDD;
         }
 
         /// <summary>
@@ -37,28 +37,26 @@ namespace Livrable_2_psi
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
+                // insere dans la table utilisateur
+                string sqlUtilisateur = "INSERT INTO utilisateur (nom, prenom, adresse) VALUES (@nom, @prenom, @adresse); SELECT LAST_INSERT_ID();";
+                MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
+                cmdUtilisateur.Parameters.AddWithValue("@nom", nom);
+                cmdUtilisateur.Parameters.AddWithValue("@prenom", prenom);
+                cmdUtilisateur.Parameters.AddWithValue("@adresse", adresse);
 
-                    // insere dans la table utilisateur
-                    string sqlUtilisateur = "INSERT INTO utilisateur (nom, prenom, adresse) VALUES (@nom, @prenom, @adresse); SELECT SCOPE_IDENTITY();";
-                    SqlCommand cmdUtilisateur = new SqlCommand(sqlUtilisateur, conn);
-                    cmdUtilisateur.Parameters.AddWithValue("@nom", nom);
-                    cmdUtilisateur.Parameters.AddWithValue("@prenom", prenom);
-                    cmdUtilisateur.Parameters.AddWithValue("@adresse", adresse);
+                int idUtilisateur = Convert.ToInt32(cmdUtilisateur.ExecuteScalar());
 
-                    int idUtilisateur = Convert.ToInt32(cmdUtilisateur.ExecuteScalar());
+                // insere dans la table cuisinier
+                string sqlCuisinier = "INSERT INTO cuisinier (id_utilisateur, station_metro) VALUES (@idUtilisateur, @stationMetro)";
+                MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
+                cmdCuisinier.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
+                cmdCuisinier.Parameters.AddWithValue("@stationMetro", stationMetro);
 
-                    // insere dans la table cuisinier
-                    string sqlCuisinier = "INSERT INTO cuisinier (id_utilisateur, station_metro) VALUES (@idUtilisateur, @stationMetro)";
-                    SqlCommand cmdCuisinier = new SqlCommand(sqlCuisinier, conn);
-                    cmdCuisinier.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
-                    cmdCuisinier.Parameters.AddWithValue("@stationMetro", stationMetro);
+                cmdCuisinier.ExecuteNonQuery();
+                Console.WriteLine("cuisinier ajoute avec succes");
 
-                    cmdCuisinier.ExecuteNonQuery();
-                    Console.WriteLine("cuisinier ajoute avec succes");
-                }
+                cmdUtilisateur.Dispose();
+                cmdCuisinier.Dispose();
             }
             catch (Exception ex)
             {
@@ -86,27 +84,25 @@ namespace Livrable_2_psi
                             string adresse = donnees[2].Trim();
                             string stationMetro = donnees[3].Trim();
 
-                            using (SqlConnection conn = new SqlConnection(connectionString))
-                            {
-                                conn.Open();
+                            // insere dans la table utilisateur
+                            string sqlUtilisateur = "INSERT INTO utilisateur (nom, prenom, adresse) VALUES (@nom, @prenom, @adresse); SELECT LAST_INSERT_ID();";
+                            MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
+                            cmdUtilisateur.Parameters.AddWithValue("@nom", nom);
+                            cmdUtilisateur.Parameters.AddWithValue("@prenom", prenom);
+                            cmdUtilisateur.Parameters.AddWithValue("@adresse", adresse);
 
-                                // insere dans la table utilisateur
-                                string sqlUtilisateur = "INSERT INTO utilisateur (nom, prenom, adresse) VALUES (@nom, @prenom, @adresse); SELECT SCOPE_IDENTITY();";
-                                SqlCommand cmdUtilisateur = new SqlCommand(sqlUtilisateur, conn);
-                                cmdUtilisateur.Parameters.AddWithValue("@nom", nom);
-                                cmdUtilisateur.Parameters.AddWithValue("@prenom", prenom);
-                                cmdUtilisateur.Parameters.AddWithValue("@adresse", adresse);
+                            int idUtilisateur = Convert.ToInt32(cmdUtilisateur.ExecuteScalar());
 
-                                int idUtilisateur = Convert.ToInt32(cmdUtilisateur.ExecuteScalar());
+                            // insere dans la table cuisinier
+                            string sqlCuisinier = "INSERT INTO cuisinier (id_utilisateur, station_metro) VALUES (@idUtilisateur, @stationMetro)";
+                            MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
+                            cmdCuisinier.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
+                            cmdCuisinier.Parameters.AddWithValue("@stationMetro", stationMetro);
 
-                                // insere dans la table cuisinier
-                                string sqlCuisinier = "INSERT INTO cuisinier (id_utilisateur, station_metro) VALUES (@idUtilisateur, @stationMetro)";
-                                SqlCommand cmdCuisinier = new SqlCommand(sqlCuisinier, conn);
-                                cmdCuisinier.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
-                                cmdCuisinier.Parameters.AddWithValue("@stationMetro", stationMetro);
+                            cmdCuisinier.ExecuteNonQuery();
 
-                                cmdCuisinier.ExecuteNonQuery();
-                            }
+                            cmdUtilisateur.Dispose();
+                            cmdCuisinier.Dispose();
                         }
                     }
                 }
@@ -125,24 +121,22 @@ namespace Livrable_2_psi
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
+                // supprime d'abord de la table cuisinier
+                string sqlCuisinier = "DELETE FROM cuisinier WHERE id_utilisateur = @idCuisinier";
+                MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
+                cmdCuisinier.Parameters.AddWithValue("@idCuisinier", idCuisinier);
+                cmdCuisinier.ExecuteNonQuery();
 
-                    // supprime d'abord de la table cuisinier
-                    string sqlCuisinier = "DELETE FROM cuisinier WHERE id_utilisateur = @idCuisinier";
-                    SqlCommand cmdCuisinier = new SqlCommand(sqlCuisinier, conn);
-                    cmdCuisinier.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-                    cmdCuisinier.ExecuteNonQuery();
+                // puis de la table utilisateur
+                string sqlUtilisateur = "DELETE FROM utilisateur WHERE id_utilisateur = @idCuisinier";
+                MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
+                cmdUtilisateur.Parameters.AddWithValue("@idCuisinier", idCuisinier);
+                cmdUtilisateur.ExecuteNonQuery();
 
-                    // puis de la table utilisateur
-                    string sqlUtilisateur = "DELETE FROM utilisateur WHERE id_utilisateur = @idCuisinier";
-                    SqlCommand cmdUtilisateur = new SqlCommand(sqlUtilisateur, conn);
-                    cmdUtilisateur.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-                    cmdUtilisateur.ExecuteNonQuery();
+                Console.WriteLine("cuisinier supprime avec succes");
 
-                    Console.WriteLine("cuisinier supprime avec succes");
-                }
+                cmdCuisinier.Dispose();
+                cmdUtilisateur.Dispose();
             }
             catch (Exception ex)
             {
@@ -157,28 +151,26 @@ namespace Livrable_2_psi
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
+                // modifie la table utilisateur
+                string sqlUtilisateur = "UPDATE utilisateur SET nom = @nom, prenom = @prenom, adresse = @adresse WHERE id_utilisateur = @idCuisinier";
+                MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
+                cmdUtilisateur.Parameters.AddWithValue("@idCuisinier", idCuisinier);
+                cmdUtilisateur.Parameters.AddWithValue("@nom", nom);
+                cmdUtilisateur.Parameters.AddWithValue("@prenom", prenom);
+                cmdUtilisateur.Parameters.AddWithValue("@adresse", adresse);
+                cmdUtilisateur.ExecuteNonQuery();
 
-                    // modifie la table utilisateur
-                    string sqlUtilisateur = "UPDATE utilisateur SET nom = @nom, prenom = @prenom, adresse = @adresse WHERE id_utilisateur = @idCuisinier";
-                    SqlCommand cmdUtilisateur = new SqlCommand(sqlUtilisateur, conn);
-                    cmdUtilisateur.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-                    cmdUtilisateur.Parameters.AddWithValue("@nom", nom);
-                    cmdUtilisateur.Parameters.AddWithValue("@prenom", prenom);
-                    cmdUtilisateur.Parameters.AddWithValue("@adresse", adresse);
-                    cmdUtilisateur.ExecuteNonQuery();
+                // modifie la table cuisinier
+                string sqlCuisinier = "UPDATE cuisinier SET station_metro = @stationMetro WHERE id_utilisateur = @idCuisinier";
+                MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
+                cmdCuisinier.Parameters.AddWithValue("@idCuisinier", idCuisinier);
+                cmdCuisinier.Parameters.AddWithValue("@stationMetro", stationMetro);
+                cmdCuisinier.ExecuteNonQuery();
 
-                    // modifie la table cuisinier
-                    string sqlCuisinier = "UPDATE cuisinier SET station_metro = @stationMetro WHERE id_utilisateur = @idCuisinier";
-                    SqlCommand cmdCuisinier = new SqlCommand(sqlCuisinier, conn);
-                    cmdCuisinier.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-                    cmdCuisinier.Parameters.AddWithValue("@stationMetro", stationMetro);
-                    cmdCuisinier.ExecuteNonQuery();
+                Console.WriteLine("cuisinier modifie avec succes");
 
-                    Console.WriteLine("cuisinier modifie avec succes");
-                }
+                cmdUtilisateur.Dispose();
+                cmdCuisinier.Dispose();
             }
             catch (Exception ex)
             {
@@ -193,40 +185,37 @@ namespace Livrable_2_psi
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                string sql = "SELECT DISTINCT u.*, c.station_metro " +
+                           "FROM utilisateur u " +
+                           "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
+                           "INNER JOIN commande co ON u.id_utilisateur = co.id_client " +
+                           "WHERE co.id_cuisinier = @idCuisinier " +
+                           (dateDebut.HasValue ? "AND co.date_commande >= @dateDebut " : "") +
+                           (dateFin.HasValue ? "AND co.date_commande <= @dateFin " : "") +
+                           "ORDER BY u.nom, u.prenom";
+
+                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
+                cmd.Parameters.AddWithValue("@idCuisinier", idCuisinier);
+                if (dateDebut.HasValue)
+                    cmd.Parameters.AddWithValue("@dateDebut", dateDebut.Value);
+                if (dateFin.HasValue)
+                    cmd.Parameters.AddWithValue("@dateFin", dateFin.Value);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    conn.Open();
-                    string sql = "SELECT DISTINCT u.*, c.station_metro " +
-                               "FROM utilisateur u " +
-                               "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                               "INNER JOIN commande co ON u.id_utilisateur = co.id_client " +
-                               "WHERE co.id_cuisinier = @idCuisinier " +
-                               (dateDebut.HasValue ? "AND co.date_commande >= @dateDebut " : "") +
-                               (dateFin.HasValue ? "AND co.date_commande <= @dateFin " : "") +
-                               "ORDER BY u.nom, u.prenom";
-
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-                    if (dateDebut.HasValue)
-                        cmd.Parameters.AddWithValue("@dateDebut", dateDebut.Value);
-                    if (dateFin.HasValue)
-                        cmd.Parameters.AddWithValue("@dateFin", dateFin.Value);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    Console.WriteLine("\nListe des clients servis :");
+                    Console.WriteLine("----------------------------------------");
+                    while (reader.Read())
                     {
-                        Console.WriteLine("\nListe des clients servis :");
+                        Console.WriteLine("ID: " + reader["id_utilisateur"]);
+                        Console.WriteLine("Nom: " + reader["nom"]);
+                        Console.WriteLine("Prenom: " + reader["prenom"]);
+                        Console.WriteLine("Adresse: " + reader["adresse"]);
+                        Console.WriteLine("Station Metro: " + reader["station_metro"]);
                         Console.WriteLine("----------------------------------------");
-                        while (reader.Read())
-                        {
-                            Console.WriteLine("ID: " + reader["id_utilisateur"]);
-                            Console.WriteLine("Nom: " + reader["nom"]);
-                            Console.WriteLine("Prenom: " + reader["prenom"]);
-                            Console.WriteLine("Adresse: " + reader["adresse"]);
-                            Console.WriteLine("Station Metro: " + reader["station_metro"]);
-                            Console.WriteLine("----------------------------------------");
-                        }
                     }
                 }
+                cmd.Dispose();
             }
             catch (Exception ex)
             {
@@ -241,31 +230,28 @@ namespace Livrable_2_psi
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                string sql = "SELECT p.nom_plat, COUNT(*) as frequence " +
+                           "FROM plat p " +
+                           "INNER JOIN commande co ON p.id_plat = co.id_plat " +
+                           "WHERE co.id_cuisinier = @idCuisinier " +
+                           "GROUP BY p.id_plat, p.nom_plat " +
+                           "ORDER BY frequence DESC";
+
+                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
+                cmd.Parameters.AddWithValue("@idCuisinier", idCuisinier);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    conn.Open();
-                    string sql = "SELECT p.nom_plat, COUNT(*) as frequence " +
-                               "FROM plat p " +
-                               "INNER JOIN commande co ON p.id_plat = co.id_plat " +
-                               "WHERE co.id_cuisinier = @idCuisinier " +
-                               "GROUP BY p.id_plat, p.nom_plat " +
-                               "ORDER BY frequence DESC";
-
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    Console.WriteLine("\nListe des plats realises avec leur frequence :");
+                    Console.WriteLine("----------------------------------------");
+                    while (reader.Read())
                     {
-                        Console.WriteLine("\nListe des plats realises avec leur frequence :");
+                        Console.WriteLine("Plat: " + reader["nom_plat"]);
+                        Console.WriteLine("Nombre de fois realise: " + reader["frequence"]);
                         Console.WriteLine("----------------------------------------");
-                        while (reader.Read())
-                        {
-                            Console.WriteLine("Plat: " + reader["nom_plat"]);
-                            Console.WriteLine("Nombre de fois realise: " + reader["frequence"]);
-                            Console.WriteLine("----------------------------------------");
-                        }
                     }
                 }
+                cmd.Dispose();
             }
             catch (Exception ex)
             {
@@ -280,36 +266,33 @@ namespace Livrable_2_psi
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                string sql = "SELECT p.* " +
+                           "FROM plat p " +
+                           "INNER JOIN plat_du_jour pdj ON p.id_plat = pdj.id_plat " +
+                           "WHERE pdj.id_cuisinier = @idCuisinier " +
+                           "AND DATE(pdj.date) = CURDATE()";
+
+                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
+                cmd.Parameters.AddWithValue("@idCuisinier", idCuisinier);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    conn.Open();
-                    string sql = "SELECT p.* " +
-                               "FROM plat p " +
-                               "INNER JOIN plat_du_jour pdj ON p.id_plat = pdj.id_plat " +
-                               "WHERE pdj.id_cuisinier = @idCuisinier " +
-                               "AND pdj.date = CAST(GETDATE() AS DATE)";
-
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    if (reader.Read())
                     {
-                        if (reader.Read())
-                        {
-                            Console.WriteLine("\nPlat du jour :");
-                            Console.WriteLine("----------------------------------------");
-                            Console.WriteLine("ID: " + reader["id_plat"]);
-                            Console.WriteLine("Nom: " + reader["nom_plat"]);
-                            Console.WriteLine("Description: " + reader["description"]);
-                            Console.WriteLine("Prix: " + reader["prix"] + "€");
-                            Console.WriteLine("----------------------------------------");
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nAucun plat du jour pour aujourd'hui");
-                        }
+                        Console.WriteLine("\nPlat du jour :");
+                        Console.WriteLine("----------------------------------------");
+                        Console.WriteLine("ID: " + reader["id_plat"]);
+                        Console.WriteLine("Nom: " + reader["nom_plat"]);
+                        Console.WriteLine("Description: " + reader["description"]);
+                        Console.WriteLine("Prix: " + reader["prix"] + "€");
+                        Console.WriteLine("----------------------------------------");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nAucun plat du jour pour aujourd'hui");
                     }
                 }
+                cmd.Dispose();
             }
             catch (Exception ex)
             {
