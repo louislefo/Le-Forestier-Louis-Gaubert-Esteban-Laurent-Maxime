@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace Livrable_2_psi
+namespace Livrable_2_psi.Modules
 {
     /// <summary>
     /// classe qui gere les operations sur les commandes
@@ -179,11 +179,11 @@ namespace Livrable_2_psi
 
                         // simule les etapes
                         Console.WriteLine("1. Commande recue");
-                        System.Threading.Thread.Sleep(1000);
+                        Thread.Sleep(1000);
                         Console.WriteLine("2. Preparation en cours");
-                        System.Threading.Thread.Sleep(2000);
+                        Thread.Sleep(2000);
                         Console.WriteLine("3. Livraison en cours");
-                        System.Threading.Thread.Sleep(3000);
+                        Thread.Sleep(3000);
                         Console.WriteLine("4. Commande livree");
                     }
                     else
@@ -194,4 +194,4 @@ namespace Livrable_2_psi
             }
         }
     }
-} 
+}

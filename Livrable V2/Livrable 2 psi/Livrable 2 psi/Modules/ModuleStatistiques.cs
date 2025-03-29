@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace Livrable_2_psi
+namespace Livrable_2_psi.Modules
 {
     /// <summary>
     /// classe qui gere les statistiques
@@ -281,4 +281,4 @@ namespace Livrable_2_psi
             }
         }
     }
-} 
+}
