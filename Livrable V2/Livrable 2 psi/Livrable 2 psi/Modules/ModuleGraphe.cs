@@ -14,9 +14,7 @@ namespace Livrable_2_psi
         
         private GestionnaireItineraire<int>   gestionnaire;
 
-        /// <summary>
-        /// constructeur du module graphe
-        /// </summary>
+        
         public ModuleGraphe(Graphe<int> grapheMetro)
         {
             this.grapheMetro = grapheMetro;
@@ -25,10 +23,6 @@ namespace Livrable_2_psi
         }
 
         
-
-        /// <summary>
-        /// affiche la carte du metro
-        /// </summary>
         public void AfficherCarteMetro()
         {
             Console.WriteLine("\nCreation de la carte du metro...");
@@ -92,9 +86,8 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// affiche les infos generales du metro
-        /// </summary>
+        
+        /// compte les stations du metro
         public void AfficherInformationsMetro()
         {
             Console.WriteLine("\n=== INFORMATIONS DU METRO ===");
@@ -102,6 +95,9 @@ namespace Livrable_2_psi
             // compter les stations par ligne
             Dictionary<string, int>  stationsParLigne = new Dictionary<string, int>();
             Dictionary<string, List<string>>  nomsStationsParLigne = new Dictionary<string, List<string>>();
+            
+            // liste pour stocker tous les noms de stations uniques
+            List<string>  toutesLesStations = new List<string>();
             
             foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
             {
@@ -116,11 +112,17 @@ namespace Livrable_2_psi
                     stationsParLigne[noeud.NumeroLigne]++;
                     nomsStationsParLigne[noeud.NumeroLigne].Add(noeud.NomStation);
                 }
+                
+                // ajouter le nom de la station a la liste totale si pas deja presente
+                if (!toutesLesStations.Contains(noeud.NomStation))
+                {
+                    toutesLesStations.Add(noeud.NomStation);
+                }
             }
             
             // affichage des statistiques
-            Console.WriteLine("Nombre total de stations : " + nomsStationsParLigne.Values.Sum(liste => liste.Count));
-            Console.WriteLine("Nombre total de noeuds : " + grapheMetro.Noeuds.Count);
+            Console.WriteLine("Nombre total de stations uniques : " + toutesLesStations.Count);
+            Console.WriteLine("Nombre total de noeuds (avec doublons) : " + grapheMetro.Noeuds.Count);
             Console.WriteLine("Nombre total de liens : " + grapheMetro.Liens.Count);
             Console.WriteLine("\nNombre de stations par ligne :");
             
@@ -133,25 +135,15 @@ namespace Livrable_2_psi
         /// <summary>
         /// affiche les stations dune ligne de metro
         /// </summary>
-        public void AfficherStationsParLigne()
+        public void AfficherStationsParLigne(string ligneChoisie)
         {
             // récupérer la liste des lignes
-            HashSet<string>  lignes = new HashSet<string>();
+            List<string>  lignes = new List<string>();
             foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
             {
                 lignes.Add(noeud.NumeroLigne);
             }
             
-            // afficher la liste des lignes
-            Console.WriteLine("\n=== LIGNES DE METRO DISPONIBLES ===");
-            foreach (string  ligne in lignes.OrderBy(l => l))
-            {
-                Console.WriteLine("Ligne " + ligne);
-            }
-            
-            // saisie de la ligne
-            Console.WriteLine("\nEntrez le numero de ligne :");
-            string   ligneChoisie = Console.ReadLine();
             
             // vérifier que la ligne existe
             if (!lignes.Contains(ligneChoisie))
@@ -162,7 +154,7 @@ namespace Livrable_2_psi
             
             // récupérer et afficher les stations de la ligne
             Console.WriteLine("\n=== STATIONS DE LA LIGNE " + ligneChoisie + " ===");
-            HashSet<string>  stationsDeLigne = new HashSet<string>();
+            List<string>  stationsDeLigne = new List<string>();
             
             foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
             {
@@ -180,40 +172,6 @@ namespace Livrable_2_psi
             Console.WriteLine("\nNombre total de stations : " + stationsDeLigne.Count);
         }
 
-        /// <summary>
-        /// analyse le reseau de metro
-        /// </summary>
-        public void AnalyserReseau()
-        {
-            Console.WriteLine("\n=== ANALYSE DU RESEAU DE METRO ===");
-            
-            // compter les correspondances
-            Dictionary<string, int>  correspondancesParStation = new Dictionary<string, int>();
-            
-            foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
-            {
-                if (!correspondancesParStation.ContainsKey(noeud.NomStation))
-                {
-                    correspondancesParStation[noeud.NomStation] = 0;
-                }
-                
-                correspondancesParStation[noeud.NomStation]++;
-            }
-            
-            // afficher les stations avec correspondances
-            Console.WriteLine("\nStations avec correspondances :");
-            int  nbCorrespondances = 0;
-            
-            foreach (KeyValuePair<string, int> station in correspondancesParStation.OrderByDescending(s => s.Value))
-            {
-                if (station.Value > 1)
-                {
-                    Console.WriteLine(station.Key + " : " + station.Value + " lignes");
-                    nbCorrespondances++;
-                }
-            }
-            
-            Console.WriteLine("\nNombre total de stations avec correspondances : " + nbCorrespondances);
-        }
+        
     }
 }

@@ -64,6 +64,7 @@ namespace Livrable_2_psi
                         AfficherModuleStatistiques();
                         break;
                     case "5":
+                        Console.Clear();
                         AfficherModuleGraphe();
                         break;
                     case "6":
@@ -84,7 +85,7 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
-                Console.Clear();
+                
                 Console.WriteLine("\n=== Module Client ===");
                 Console.WriteLine("1. Ajouter un client");
                 Console.WriteLine("2. Supprimer un client");
@@ -100,15 +101,18 @@ namespace Livrable_2_psi
                 switch (choix)
                 {
                     case "1":
+                        Console.Clear();
                         moduleClient.AjouterClientConsole();
                         break;
                     
                     case "2":
+                        Console.Clear();
                         Console.Write("ID du client : ");
                         int idSupprimer = int.Parse(Console.ReadLine());
                         moduleClient.SupprimerClient(idSupprimer);
                         break;
                     case "3":
+                        Console.Clear();
                         Console.Write("ID du client : ");
                         int idModifier = int.Parse(Console.ReadLine());
                         Console.Write("nouveau nom : ");
@@ -122,15 +126,19 @@ namespace Livrable_2_psi
                         moduleClient.ModifierClient(idModifier, nom, prenom, adresse, stationMetro);
                         break;
                     case "4":
+                        Console.Clear();
                         moduleClient.AfficherClientsAlphabetique();
                         break;
                     case "5":
+                        Console.Clear();
                         moduleClient.AfficherClientsParRue();
                         break;
                     case "6":
+                        Console.Clear();
                         moduleClient.AfficherClientsParAchats();
                         break;
                     case "7":
+                        Console.Clear();
                         continuer = false;
                         break;
                     default:
@@ -146,7 +154,7 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
-                Console.Clear();
+                
                 Console.WriteLine("\n=== Module Cuisinier ===");
                 Console.WriteLine("1. Ajouter un cuisinier");
                 Console.WriteLine("2. Supprimer un cuisinier");
@@ -162,14 +170,17 @@ namespace Livrable_2_psi
                 switch (choix)
                 {
                     case "1":
+                        Console.Clear();
                         moduleCuisinier.AjouterCuisinierConsole();
                         break;  
                     case "2":
+                        Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idSupprimer = int.Parse(Console.ReadLine());
                         moduleCuisinier.SupprimerCuisinier(idSupprimer);
                         break;
                     case "3":
+                        Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idModifier = int.Parse(Console.ReadLine());
                         Console.Write("nouveau nom : ");
@@ -183,6 +194,7 @@ namespace Livrable_2_psi
                         moduleCuisinier.ModifierCuisinier(idModifier, nom, prenom, adresse, stationMetro);
                         break;
                     case "4":
+                        Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idCuisinier = int.Parse(Console.ReadLine());
                         Console.Write("date debut (format: yyyy-mm-dd) : ");
@@ -192,16 +204,19 @@ namespace Livrable_2_psi
                         moduleCuisinier.AfficherClientsServis(idCuisinier, dateDebut, dateFin);
                         break;
                     case "5":
+                        Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idPlats = int.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherPlatsRealises(idPlats);
                         break;
                     case "6":
+                        Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idPlatJour = int.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherPlatDuJour(idPlatJour);
                         break;
                     case "7":
+                        Console.Clear();
                         continuer = false;
                         break;
                     default:
@@ -217,7 +232,7 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
-                Console.Clear();
+                
                 Console.WriteLine("\n=== Module Commande ===");
                 Console.WriteLine("1. Creer une commande");
                 Console.WriteLine("2. Modifier une commande");
@@ -232,6 +247,7 @@ namespace Livrable_2_psi
                 switch (choix)
                 {
                     case "1":
+                        Console.Clear();
                         Console.Write("ID du client : ");
                         int idClient = int.Parse(Console.ReadLine());
                         Console.Write("ID du cuisinier : ");
@@ -241,6 +257,7 @@ namespace Livrable_2_psi
                         moduleCommande.CreerCommande(idClient, idCuisinier, idPlat, DateTime.Now);
                         break;
                     case "2":
+                        Console.Clear();
                         Console.Write("ID de la commande : ");
                         int idCommande = int.Parse(Console.ReadLine());
                         Console.Write("nouvel ID du plat : ");
@@ -248,23 +265,27 @@ namespace Livrable_2_psi
                         moduleCommande.ModifierCommande(idCommande, nouveauIdPlat, DateTime.Now);
                         break;
                     case "3":
+                        Console.Clear();
                         Console.Write("ID de la commande : ");
                         int idPrix = int.Parse(Console.ReadLine());
                         double prix = moduleCommande.CalculerPrixCommande(idPrix);
                         Console.WriteLine("prix total : " + prix + "€");
                         break;
                     case "4":
+                        Console.Clear();
                         Console.Write("ID de la commande : ");
                         int idChemin = int.Parse(Console.ReadLine());
                         var (stationDepart, stationArrivee) = moduleCommande.DeterminerCheminLivraison(idChemin);
                         Console.WriteLine("chemin de livraison : " + stationDepart + " -> " + stationArrivee);
                         break;
                     case "5":
+                        Console.Clear();
                         Console.Write("ID de la commande : ");
                         int idSimulation = int.Parse(Console.ReadLine());
                         moduleCommande.SimulerEtapesCommande(idSimulation);
                         break;
                     case "6":
+                        Console.Clear();
                         continuer = false;
                         break;
                     default:
@@ -280,7 +301,7 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
-                Console.Clear();
+                
                 Console.WriteLine("\n=== Module Statistiques ===");
                 Console.WriteLine("1. Afficher les livraisons par cuisinier");
                 Console.WriteLine("2. Afficher les commandes par periode");
@@ -296,9 +317,11 @@ namespace Livrable_2_psi
                 switch (choix)
                 {
                     case "1":
+                        Console.Clear();
                         moduleStatistiques.AfficherLivraisonsParCuisinier();
                         break;
                     case "2":
+                        Console.Clear();
                         Console.Write("date debut (format: yyyy-mm-dd) : ");
                         DateTime dateDebut = DateTime.Parse(Console.ReadLine());
                         Console.Write("date fin (format: yyyy-mm-dd) : ");
@@ -306,12 +329,15 @@ namespace Livrable_2_psi
                         moduleStatistiques.AfficherCommandesParPeriode(dateDebut, dateFin);
                         break;
                     case "3":
+                        Console.Clear();
                         moduleStatistiques.AfficherMoyennePrixCommandes();
                         break;
                     case "4":
+                        Console.Clear();
                         moduleStatistiques.AfficherMoyenneComptesClients();
                         break;
                     case "5":
+                        Console.Clear();
                         Console.Write("date debut (format: yyyy-mm-dd) : ");
                         DateTime dateDebutType = DateTime.Parse(Console.ReadLine());
                         Console.Write("date fin (format: yyyy-mm-dd) : ");
@@ -319,6 +345,7 @@ namespace Livrable_2_psi
                         moduleStatistiques.AfficherCommandesParTypePlat(dateDebutType, dateFinType);
                         break;
                     case "6":
+                        Console.Clear();
                         moduleStatistiques.AfficherStatistiquesCreatives();
                         break;
                     case "7":
@@ -335,15 +362,13 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
-                Console.Clear();
+                
                 Console.WriteLine("\n=== Module Graphe ===");
                 Console.WriteLine("1. Afficher la carte du metro");
                 Console.WriteLine("2. Rechercher un itineraire");
                 Console.WriteLine("3. Afficher les informations du metro");
                 Console.WriteLine("4. Afficher les stations d'une ligne de metro");
-                Console.WriteLine("5. Afficher les commandes par type de plat");
-                Console.WriteLine("6. Afficher les statistiques creatives");
-                Console.WriteLine("7. Retour");
+                Console.WriteLine("5. Retour");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -351,24 +376,27 @@ namespace Livrable_2_psi
                 switch (choix)
                 {
                     case "1":
+                        Console.Clear();
                         moduleGraphe.AfficherCarteMetro();
+                        
                         break;
                     case "2":
+                        Console.Clear();
                         moduleGraphe.RechercherItineraire();
+
                         break;
                     case "3":
+                        Console.Clear();
                         moduleGraphe.AfficherInformationsMetro();
                         break;
                     case "4":
-                        moduleStatistiques.AfficherMoyenneComptesClients();
+                        Console.Clear();
+                        Console.Write("nom de la ligne : ");
+                        string nomLigne = Console.ReadLine();
+                        moduleGraphe.AfficherStationsParLigne(nomLigne);
                         break;
                     case "5":
-                        moduleGraphe.AfficherStationsParLigne();
-                        break;
-                    case "6":
-                        moduleStatistiques.AfficherStatistiquesCreatives();
-                        break;
-                    case "7":
+                        Console.Clear();
                         continuer = false;
                         break;
                     default:
