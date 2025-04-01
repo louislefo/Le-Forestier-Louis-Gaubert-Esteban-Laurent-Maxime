@@ -16,6 +16,12 @@ namespace Livrable_2_psi
         public ConnexionBDD connexionBDD;
         public bool applicationEnCours;
 
+        private Graphe<int> grapheMetro;
+        private string cheminFichierMetro = @"../../../Données/MetroParisNoeuds.csv";
+        private string cheminFichierArcs = @"../../../Données/MetroParisArcs.csv";
+        private ChargerFichiers chargeur;
+        private GestionnaireItineraire<int> gestionnaire;
+
         /// constructeur par defaut
         public Application()
         {
@@ -34,12 +40,34 @@ namespace Livrable_2_psi
                 applicationEnCours = true;
                 affichageCuisinier.applicationEnCours = true;
                 affichageClient.applicationEnCours = true;
+
+                // graphe
+                grapheMetro = new Graphe<int>();
+                chargeur = new ChargerFichiers();
+                ChargerDonneesMetro();
+                gestionnaire = new GestionnaireItineraire<int>(grapheMetro);
             }
             catch (MySqlException e)
             {
                 Console.WriteLine("erreur lors de la connexion a la base de donnees : " + e.Message);
                 Environment.Exit(1);
             }
+        }
+        private void ChargerDonneesMetro()
+        {
+            // chargement des noeuds
+            Dictionary<int, Noeud<int>> noeudsMetro = chargeur.ChargerNoeudsMetro(cheminFichierMetro);
+            Console.WriteLine("Nombre de noeuds charges : " + noeudsMetro.Count);
+
+            // ajout des noeuds au graphe
+            foreach (int id in noeudsMetro.Keys)
+            {
+                grapheMetro.Noeuds[id] = noeudsMetro[id];
+            }
+
+            // chargement des arcs
+            chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);
+            Console.WriteLine("Nombre de liens dans le graphe : " + grapheMetro.Liens.Count);
         }
 
         /// methode pour demarrer l'application
@@ -69,7 +97,7 @@ namespace Livrable_2_psi
                             Console.Clear();
                             break;
                         case "3":
-                            MenuModules menuModules = new MenuModules(connexionBDD);
+                            MenuModules menuModules = new MenuModules(connexionBDD,grapheMetro);
                             Console.Clear();
                             menuModules.AfficherMenuModules();
                             
