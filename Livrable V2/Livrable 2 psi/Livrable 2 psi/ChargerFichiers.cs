@@ -39,7 +39,7 @@ namespace Livrable_2_psi
                             double latitude = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
                             string couleurLigne = colonnes[7];
 
-                            var noeudMetro = new Noeud<int>(id, nomStation, longitude, latitude, numeroLigne, couleurLigne);
+                            Noeud<int> noeudMetro = new Noeud<int>(id, nomStation, longitude, latitude, numeroLigne, couleurLigne);
                             noeudsMetro[id] = noeudMetro;
                         }
                     }

@@ -22,6 +22,9 @@ namespace Livrable_2_psi
         public bool estConnecte;
         public ConnexionBDD connexionBDD;
 
+        public AffichageCuisinier affichageCuisinier;
+        public AffichageClient affichageClient;
+
         /// constructeur par defaut
         public Authentification(ConnexionBDD connexion)
         {
@@ -57,7 +60,8 @@ namespace Livrable_2_psi
                                "LEFT JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
                                "LEFT JOIN cuisinier cu ON u.id_utilisateur = cu.id_utilisateur " +
                                "WHERE u.id_utilisateur = '" + nomUtilisateur + "'";
-                
+                Console.WriteLine(requete);
+
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -82,12 +86,14 @@ namespace Livrable_2_psi
                             estCuisinier = true;
                             estClient = false;
                             stationMetro = (string)reader["station_cuisinier"];
+
                         }
                         else
                         {
                             estCuisinier = false;
                             estClient = true;
                             stationMetro = (string)reader["station_client"];
+
                         }
                         Console.WriteLine("connexion reussie");
                         Console.Clear();
@@ -104,6 +110,8 @@ namespace Livrable_2_psi
 
                 reader.Close();
                 commande.Dispose();
+
+
                 return estConnecte;
             }
             catch (MySqlException e)
@@ -120,29 +128,6 @@ namespace Livrable_2_psi
             Console.WriteLine("Entrez votre nom d'utilisateur : ");
             nomUtilisateur = Console.ReadLine();
 
-            Console.WriteLine("Entrez votre mot de passe : ");
-            motDePasse = Console.ReadLine();
-
-            Console.WriteLine("Entrez votre nom : ");
-            nom = Console.ReadLine();
-
-            Console.WriteLine("Entrez votre prenom : ");
-            prenom = Console.ReadLine();
-
-            Console.WriteLine("Entrez votre email : ");
-            email = Console.ReadLine();
-
-            Console.WriteLine("Entrez votre telephone : ");
-            telephone = Console.ReadLine();
-
-            Console.WriteLine("Entrez votre adresse : ");
-            adresse = Console.ReadLine();
-
-            Console.WriteLine("Entrez votre station de metro la plus proche : ");
-            stationMetro = Console.ReadLine();
-
-            Console.WriteLine("Voulez-vous être cuisinier: 1 ou client : 2 (tapez le chiffre)");
-            int reponse = Convert.ToInt32(Console.ReadLine());
 
             try
             {
@@ -159,6 +144,30 @@ namespace Livrable_2_psi
                     Console.WriteLine("cet utilisateur existe deja");
                     return false;
                 }
+
+                Console.WriteLine("Entrez votre mot de passe : ");
+                motDePasse = Console.ReadLine();
+
+                Console.WriteLine("Entrez votre nom : ");
+                nom = Console.ReadLine();
+
+                Console.WriteLine("Entrez votre prenom : ");
+                prenom = Console.ReadLine();
+
+                Console.WriteLine("Entrez votre email : ");
+                email = Console.ReadLine();
+
+                Console.WriteLine("Entrez votre telephone : ");
+                telephone = Console.ReadLine();
+
+                Console.WriteLine("Entrez votre adresse : ");
+                adresse = Console.ReadLine();
+
+                Console.WriteLine("Entrez votre station de metro la plus proche : ");
+                stationMetro = Console.ReadLine();
+
+                Console.WriteLine("Voulez-vous être cuisinier: 1 ou client : 2 (tapez le chiffre)");
+                int reponse = Convert.ToInt32(Console.ReadLine());
 
                 // determine le type d'utilisateur
                 string typeUtilisateur;
@@ -178,7 +187,7 @@ namespace Livrable_2_psi
                 // insere le nouvel utilisateur
                 string requeteInsert = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, téléphone, adresse, type__Cuisinier_Client_, mot_de_passe) " +
                                      "VALUES ('" + nomUtilisateur + "', '" + nom + "', '" + prenom + "', '" + email + "', '" + telephone + "', '" + adresse + "', '" + typeUtilisateur + "', '" + motDePasse + "')";
-                
+
                 MySqlCommand commandeInsert = new MySqlCommand(requeteInsert, connexionBDD.maConnexion);
                 commandeInsert.CommandText = requeteInsert;
                 commandeInsert.ExecuteNonQuery();
@@ -228,6 +237,23 @@ namespace Livrable_2_psi
             stationMetro = "";
             estClient = false;
             estCuisinier = false;
+        }
+
+        public int Qui()
+        {
+            if (estClient)
+            {
+                return 1;
+            }
+            else if (estCuisinier)
+            {
+                return 2;
+            }
+            else
+            {
+                return 0;
+            }
+
         }
     }
 }

@@ -10,11 +10,15 @@ namespace Livrable_2_psi
     {
         public Authentification authentification;
         public bool applicationEnCours;
+        public ConnexionBDD connexionBDD;
+        public Graphe<int> grapheMetro;
 
         /// constructeur par defaut
-        public AffichageCuisinier(ConnexionBDD connexion)
+        public AffichageCuisinier(ConnexionBDD connexion,Authentification authentification, Graphe<int> grapheMetro)
         {
-            authentification = new Authentification(connexion);
+            this.authentification = authentification;
+            this.connexionBDD = connexion;
+            this.grapheMetro = grapheMetro;
             applicationEnCours = true;
         }
 
