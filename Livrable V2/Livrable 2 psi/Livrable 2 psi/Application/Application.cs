@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Livrable_2_psi;
 using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
@@ -68,7 +69,7 @@ namespace Livrable_2_psi
                             Console.Clear();
                             break;
                         case "3":
-                            MenuModules menuModules = new MenuModules();
+                            MenuModules menuModules = new MenuModules(connexionBDD);
                             Console.Clear();
                             menuModules.AfficherMenuModules();
                             
