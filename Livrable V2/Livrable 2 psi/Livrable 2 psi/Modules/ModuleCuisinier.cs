@@ -299,5 +299,351 @@ namespace Livrable_2_psi
                 Console.WriteLine("erreur lors de l'affichage du plat du jour : " + ex.Message);
             }
         }
+
+        /// <summary>
+        /// menu sql pour executer des requetes personnalisees
+        /// </summary>
+        public void MenuRequetesSQL()
+        {
+            bool   continuer = true;
+            
+            while (continuer)
+            {
+                Console.Clear();
+                Console.WriteLine("\n=== MENU REQUETES SQL CUISINIERS ===");
+                Console.WriteLine("1. Afficher tous les cuisiniers");
+                Console.WriteLine("2. Rechercher un cuisinier par nom");
+                Console.WriteLine("3. Afficher les cuisiniers les plus actifs");
+                Console.WriteLine("4. Afficher les plats les plus préparés");
+                Console.WriteLine("5. Afficher les cuisiniers par quartier");
+                Console.WriteLine("6. Exécuter une requête SQL personnalisée");
+                Console.WriteLine("0. Retour");
+                
+                Console.Write("\nVotre choix : ");
+                string   choix = Console.ReadLine();
+                
+                switch (choix)
+                {
+                    case "1":
+                        AfficherTousCuisiniers();
+                        break;
+                    case "2":
+                        RechercherCuisinierParNom();
+                        break;
+                    case "3":
+                        AfficherCuisiniersLesPlusActifs();
+                        break;
+                    case "4":
+                        AfficherPlatsPlusPrepares();
+                        break;
+                    case "5":
+                        AfficherCuisiniersParQuartier();
+                        break;
+                    case "6":
+                        ExecuterRequetePersonnalisee();
+                        break;
+                    case "0":
+                        continuer = false;
+                        break;
+                    default:
+                        Console.WriteLine("Choix non valide !");
+                        break;
+                }
+                
+                if (continuer)
+                {
+                    Console.WriteLine("\nAppuyez sur une touche pour continuer...");
+                    Console.ReadKey();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// affiche tous les cuisiniers
+        /// </summary>
+        private void AfficherTousCuisiniers()
+        {
+            try
+            {
+                string   requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro " +
+                                 "FROM utilisateur u " +
+                                 "INNER JOIN cuisinier c ON u.id_utilisateur = c.id_utilisateur " +
+                                 "ORDER BY u.nom, u.prenom";
+                                 
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== LISTE DE TOUS LES CUISINIERS ===");
+                Console.WriteLine("ID | Nom | Prénom | Adresse | Station Métro");
+                Console.WriteLine("----------------------------------------");
+                
+                string[]   valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// recherche un cuisinier par son nom
+        /// </summary>
+        private void RechercherCuisinierParNom()
+        {
+            Console.WriteLine("\nEntrez le nom du cuisinier à rechercher :");
+            string  nom = Console.ReadLine();
+            
+            try
+            {
+                string   requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro " +
+                                 "FROM utilisateur u " +
+                                 "INNER JOIN cuisinier c ON u.id_utilisateur = c.id_utilisateur " +
+                                 "WHERE u.nom LIKE @nom " +
+                                 "ORDER BY u.prenom";
+                                 
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                commande.Parameters.AddWithValue("@nom", "%" + nom + "%");
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== CUISINIERS CORRESPONDANT À LA RECHERCHE ===");
+                Console.WriteLine("ID | Nom | Prénom | Adresse | Station Métro");
+                Console.WriteLine("----------------------------------------");
+                
+                int   compteur = 0;
+                string[]   valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    compteur++;
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                if (compteur == 0)
+                {
+                    Console.WriteLine("Aucun cuisinier trouvé avec ce nom.");
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// affiche les cuisiniers les plus actifs nombre de commandes
+        /// </summary>
+        private void AfficherCuisiniersLesPlusActifs()
+        {
+            try
+            {
+                string  requete = "SELECT u.id_utilisateur, u.nom, u.prenom, " +
+                                "COUNT(co.id_commande) AS nb_commandes, " +
+                                "SUM(co.prix_total) AS chiffre_affaires, " +
+                                "cu.station_metro " +
+                                "FROM utilisateur u " +
+                                "INNER JOIN cuisinier cu ON u.id_utilisateur = cu.id_utilisateur " +
+                                "LEFT JOIN commande co ON u.id_utilisateur = co.id_cuisinier " +
+                                "GROUP BY u.id_utilisateur, u.nom, u.prenom, cu.station_metro " +
+                                "ORDER BY nb_commandes DESC";
+                                
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== CUISINIERS LES PLUS ACTIFS ===");
+                Console.WriteLine("ID | Nom | Prénom | Nb commandes | Chiffre affaires | Station Métro");
+                Console.WriteLine("----------------------------------------");
+                
+                string[]  valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// affiche les plats les plus prepares
+        /// </summary>
+        private void AfficherPlatsPlusPrepares()
+        {
+            try
+            {
+                string   requete = "SELECT p.id_plat, p.nom_plat, p.description, p.prix, " +
+                                 "COUNT(co.id_commande) AS nb_commandes " +
+                                 "FROM plat p " +
+                                 "LEFT JOIN commande co ON p.id_plat = co.id_plat " +
+                                 "GROUP BY p.id_plat, p.nom_plat, p.description, p.prix " +
+                                 "ORDER BY nb_commandes DESC";
+                                 
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== PLATS LES PLUS PRÉPARÉS ===");
+                Console.WriteLine("ID | Nom | Description | Prix | Nb commandes");
+                Console.WriteLine("----------------------------------------");
+                
+                string[]  valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// affiche les cuisiniers par quartier
+        /// </summary>
+        private void AfficherCuisiniersParQuartier()
+        {
+            try
+            {
+                string  requete = "SELECT SUBSTRING_INDEX(u.adresse, ',', -1) AS quartier, " +
+                                "COUNT(*) AS nb_cuisiniers " +
+                                "FROM utilisateur u " +
+                                "INNER JOIN cuisinier c ON u.id_utilisateur = c.id_utilisateur " +
+                                "GROUP BY quartier " +
+                                "ORDER BY nb_cuisiniers DESC";
+                                
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== CUISINIERS PAR QUARTIER ===");
+                Console.WriteLine("Quartier | Nombre de cuisiniers");
+                Console.WriteLine("----------------------------------------");
+                
+                string[]  valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// execute une requete personnalisee
+        /// </summary>
+        private void ExecuterRequetePersonnalisee()
+        {
+            Console.WriteLine("\nEntrez votre requête SQL (attention: soyez prudent) :");
+            string requete = Console.ReadLine();
+            
+            try
+            {
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                // vérifie si c'est une requête SELECT ou autre
+                if (requete.Trim().ToUpper().StartsWith("SELECT"))
+                {
+                    // requête de type SELECT
+                    MySqlDataReader reader = commande.ExecuteReader();
+                    
+                    Console.WriteLine("\n=== RÉSULTATS DE LA REQUÊTE ===");
+                    
+                    // affiche les noms des colonnes
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        Console.Write(reader.GetName(i) + " | ");
+                    }
+                    Console.WriteLine("\n----------------------------------------");
+                    
+                    string[]  valueString = new string[reader.FieldCount];
+                    while (reader.Read())
+                    {
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            valueString[i] = reader.GetValue(i).ToString();
+                            Console.Write(valueString[i] + " | ");
+                        }
+                        Console.WriteLine();
+                    }
+                    
+                    reader.Close();
+                }
+                else
+                {
+                    // requête de type non-SELECT (INSERT, UPDATE, DELETE, etc.)
+                    int  nbLignes = commande.ExecuteNonQuery();
+                    Console.WriteLine("\nRequête exécutée avec succès. " + nbLignes + " ligne(s) affectée(s).");
+                }
+                
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
     }
 } 

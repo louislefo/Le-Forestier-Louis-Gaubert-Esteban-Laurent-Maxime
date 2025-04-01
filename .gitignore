@@ -428,3 +428,4 @@ Livrable V2/Livrable 2 psi/TestProject1/obj/Debug/net8.0/TestProject1.AssemblyIn
 Livrable V2/Livrable 2 psi/TestProject1/bin/Debug/net8.0/CoverletSourceRootsMapping_TestProject1
 Livrable V2/Livrable 2 psi/TestProject1/bin/Debug/net8.0/.msCoverageSourceRootsMapping_TestProject1
 Livrable V2/Livrable 2 psi/Livrable 2 psi/obj/project.assets.json
+*.dll

@@ -284,5 +284,367 @@ namespace Livrable_2_psi
                 Console.WriteLine("erreur lors de l'affichage des clients : " + ex.Message);
             }
         }
+
+        /// <summary>
+        /// menu sql pour executer des requetes personnalisees
+        /// </summary>
+        public void MenuRequetesSQL()
+        {
+            bool   continuer = true;
+            
+            while (continuer)
+            {
+                Console.Clear();
+                Console.WriteLine("\n=== MENU REQUETES SQL CLIENTS ===");
+                Console.WriteLine("1. Afficher tous les clients");
+                Console.WriteLine("2. Rechercher un client par nom");
+                Console.WriteLine("3. Afficher les clients sans commande");
+                Console.WriteLine("4. Afficher les clients avec plus de 3 commandes");
+                Console.WriteLine("5. Afficher le montant moyen des commandes par client");
+                Console.WriteLine("6. Exécuter une requête SQL personnalisée");
+                Console.WriteLine("0. Retour");
+                
+                Console.Write("\nVotre choix : ");
+                string choix  = Console.ReadLine();
+                
+                switch (choix)
+                {
+                    case "1":
+                        AfficherTousClients();
+                        break;
+                    case "2":
+                        RechercherClientParNom();
+                        break;
+                    case "3":
+                        AfficherClientsSansCommande();
+                        break;
+                    case "4":
+                        AfficherClientsAvecPlusieursCommandes(3);
+                        break;
+                    case "5":
+                        AfficherMontantMoyenCommandesParClient();
+                        break;
+                    case "6":
+                        ExecuterRequetePersonnalisee();
+                        break;
+                    case "0":
+                        continuer = false;
+                        break;
+                    default:
+                        Console.WriteLine("Choix non valide !");
+                        break;
+                }
+                
+                if (continuer)
+                {
+                    Console.WriteLine("\nAppuyez sur une touche pour continuer...");
+                    Console.ReadKey();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// affiche tous les clients
+        /// </summary>
+        private void AfficherTousClients()
+        {
+            try
+            {
+                string   requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro " +
+                                 "FROM utilisateur u " +
+                                 "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
+                                 "ORDER BY u.nom, u.prenom";
+                                 
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== LISTE DE TOUS LES CLIENTS ===");
+                Console.WriteLine("ID | Nom | Prénom | Adresse | Station Métro");
+                Console.WriteLine("----------------------------------------");
+                
+                string[]   valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// recherche un client par son nom
+        /// </summary>
+        private void RechercherClientParNom()
+        {
+            Console.WriteLine("\nEntrez le nom du client à rechercher :");
+            string  nom = Console.ReadLine();
+            
+            try
+            {
+                string  requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro " +
+                                "FROM utilisateur u " +
+                                "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
+                                "WHERE u.nom LIKE @nom " +
+                                "ORDER BY u.prenom";
+                                
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                commande.Parameters.AddWithValue("@nom", "%" + nom + "%");
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== CLIENTS CORRESPONDANT À LA RECHERCHE ===");
+                Console.WriteLine("ID | Nom | Prénom | Adresse | Station Métro");
+                Console.WriteLine("----------------------------------------");
+                
+                int   compteur = 0;
+                string[]  valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    compteur++;
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                if (compteur == 0)
+                {
+                    Console.WriteLine("Aucun client trouvé avec ce nom.");
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// affiche les clients sans commande
+        /// </summary>
+        private void AfficherClientsSansCommande()
+        {
+            try
+            {
+                string  requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro " +
+                                "FROM utilisateur u " +
+                                "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
+                                "LEFT JOIN commande co ON u.id_utilisateur = co.id_client " +
+                                "WHERE co.id_commande IS NULL " +
+                                "ORDER BY u.nom, u.prenom";
+                                
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== CLIENTS SANS COMMANDE ===");
+                Console.WriteLine("ID | Nom | Prénom | Adresse | Station Métro");
+                Console.WriteLine("----------------------------------------");
+                
+                int compteur = 0;
+                string[]  valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    compteur++;
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                if (compteur == 0)
+                {
+                    Console.WriteLine("Tous les clients ont passé au moins une commande.");
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// affiche les clients avec plus de n commandes
+        /// </summary>
+        private void AfficherClientsAvecPlusieursCommandes(int nombreCommandes)
+        {
+            try
+            {
+                string  requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro, COUNT(co.id_commande) AS nb_commandes " +
+                                "FROM utilisateur u " +
+                                "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
+                                "INNER JOIN commande co ON u.id_utilisateur = co.id_client " +
+                                "GROUP BY u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro " +
+                                "HAVING COUNT(co.id_commande) > @nombreCommandes " +
+                                "ORDER BY nb_commandes DESC";
+                                
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                commande.Parameters.AddWithValue("@nombreCommandes", nombreCommandes);
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== CLIENTS AVEC PLUS DE " + nombreCommandes + " COMMANDES ===");
+                Console.WriteLine("ID | Nom | Prénom | Adresse | Station Métro | Nombre de commandes");
+                Console.WriteLine("----------------------------------------");
+                
+                int compteur = 0;
+                string[]  valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    compteur++;
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                if (compteur == 0)
+                {
+                    Console.WriteLine("Aucun client n'a passé plus de " + nombreCommandes + " commandes.");
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// affiche le montant moyen des commandes par client
+        /// </summary>
+        private void AfficherMontantMoyenCommandesParClient()
+        {
+            try
+            {
+                string  requete = "SELECT u.id_utilisateur, u.nom, u.prenom, " +
+                                "COUNT(co.id_commande) AS nb_commandes, " +
+                                "AVG(co.prix_total) AS montant_moyen, " +
+                                "SUM(co.prix_total) AS montant_total " +
+                                "FROM utilisateur u " +
+                                "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
+                                "LEFT JOIN commande co ON u.id_utilisateur = co.id_client " +
+                                "GROUP BY u.id_utilisateur, u.nom, u.prenom " +
+                                "ORDER BY montant_moyen DESC";
+                                
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                MySqlDataReader reader = commande.ExecuteReader();
+                
+                Console.WriteLine("\n=== MONTANT MOYEN DES COMMANDES PAR CLIENT ===");
+                Console.WriteLine("ID | Nom | Prénom | Nb commandes | Montant moyen | Montant total");
+                Console.WriteLine("----------------------------------------");
+                
+                string[]  valueString = new string[reader.FieldCount];
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        valueString[i] = reader.GetValue(i).ToString();
+                        Console.Write(valueString[i] + " | ");
+                    }
+                    Console.WriteLine();
+                }
+                
+                reader.Close();
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// execute une requete personnalisee
+        /// </summary>
+        private void ExecuterRequetePersonnalisee()
+        {
+            Console.WriteLine("\nEntrez votre requête SQL (attention: soyez prudent) :");
+            string requete = Console.ReadLine();
+            
+            try
+            {
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                
+                // vérifie si c'est une requête SELECT ou autre
+                if (requete.Trim().ToUpper().StartsWith("SELECT"))
+                {
+                    // requête de type SELECT
+                    MySqlDataReader reader = commande.ExecuteReader();
+                    
+                    Console.WriteLine("\n=== RÉSULTATS DE LA REQUÊTE ===");
+                    
+                    // affiche les noms des colonnes
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        Console.Write(reader.GetName(i) + " | ");
+                    }
+                    Console.WriteLine("\n----------------------------------------");
+                    
+                    string[]  valueString = new string[reader.FieldCount];
+                    while (reader.Read())
+                    {
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            valueString[i] = reader.GetValue(i).ToString();
+                            Console.Write(valueString[i] + " | ");
+                        }
+                        Console.WriteLine();
+                    }
+                    
+                    reader.Close();
+                }
+                else
+                {
+                    // requête de type non-SELECT (INSERT, UPDATE, DELETE, etc.)
+                    int  nbLignes = commande.ExecuteNonQuery();
+                    Console.WriteLine("\nRequête exécutée avec succès. " + nbLignes + " ligne(s) affectée(s).");
+                }
+                
+                commande.Dispose();
+                Console.WriteLine("\n--------------------\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
+            }
+        }
     }
 } 

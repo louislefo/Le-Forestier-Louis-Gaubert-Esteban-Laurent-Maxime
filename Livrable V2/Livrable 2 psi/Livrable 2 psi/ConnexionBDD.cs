@@ -27,7 +27,7 @@ namespace Livrable_2_psi
                 string chaineConnexion = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=root;PASSWORD=lolote@34F";
                 maConnexion = new MySqlConnection(chaineConnexion);
                 maConnexion.Open();
-                Console.WriteLine(" ## connexion reussie");
+                Console.WriteLine(" ## connexion a la base reussie");
             }
             catch (MySqlException e)
             {
