@@ -13,15 +13,19 @@ namespace Livrable_2_psi
         private ModuleCuisinier moduleCuisinier;
         private ModuleCommande moduleCommande;
         private ModuleStatistiques moduleStatistiques;
+        private ModuleGraphe moduleGraphe;
+
+        private Graphe<int> grapheMetro;
 
         /// constructeur
-        public MenuModules(ConnexionBDD connexionBDD)
+        public MenuModules(ConnexionBDD connexionBDD,Graphe<int> grapheMetro)
         {
             moduleEnCours = true;
             this.moduleClient = new ModuleClient(connexionBDD);
             this.moduleCuisinier = new ModuleCuisinier(connexionBDD);
             this.moduleCommande = new ModuleCommande(connexionBDD);
             this.moduleStatistiques = new ModuleStatistiques(connexionBDD);
+            this.moduleGraphe = new ModuleGraphe(grapheMetro);
         }
 
         /// affiche le menu des modules
@@ -29,12 +33,14 @@ namespace Livrable_2_psi
         {
             while (moduleEnCours)
             {
+                Console.Clear();
                 Console.WriteLine("\n=== Menu des Modules ===");
                 Console.WriteLine("1. Module Client");
                 Console.WriteLine("2. Module Cuisinier");
                 Console.WriteLine("3. Module Commande");
                 Console.WriteLine("4. Module Statistiques");
-                Console.WriteLine("5. Retour au menu principal");
+                Console.WriteLine("5. Module Graphe");
+                Console.WriteLine("6. Retour au menu principal");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -58,9 +64,13 @@ namespace Livrable_2_psi
                         AfficherModuleStatistiques();
                         break;
                     case "5":
+                        AfficherModuleGraphe();
+                        break;
+                    case "6":
                         moduleEnCours = false;
                         Console.Clear();
                         break;
+
                     default:
                         Console.WriteLine("Choix invalide");
                         break;
@@ -74,15 +84,15 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
+                Console.Clear();
                 Console.WriteLine("\n=== Module Client ===");
                 Console.WriteLine("1. Ajouter un client");
-                Console.WriteLine("2. Ajouter des clients depuis un fichier");
-                Console.WriteLine("3. Supprimer un client");
-                Console.WriteLine("4. Modifier un client");
-                Console.WriteLine("5. Afficher les clients par ordre alphabetique");
-                Console.WriteLine("6. Afficher les clients par rue");
-                Console.WriteLine("7. Afficher les clients par montant des achats");
-                Console.WriteLine("8. Retour");
+                Console.WriteLine("2. Supprimer un client");
+                Console.WriteLine("3. Modifier un client");
+                Console.WriteLine("4. Afficher les clients par ordre alphabetique");
+                Console.WriteLine("5. Afficher les clients par rue");
+                Console.WriteLine("6. Afficher les clients par montant des achats");
+                Console.WriteLine("7. Retour");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -92,17 +102,13 @@ namespace Livrable_2_psi
                     case "1":
                         moduleClient.AjouterClientConsole();
                         break;
+                    
                     case "2":
-                        Console.Write("chemin du fichier : ");
-                        string chemin = Console.ReadLine();
-                        moduleClient.AjouterClientsFichier(chemin);
-                        break;
-                    case "3":
                         Console.Write("ID du client : ");
                         int idSupprimer = int.Parse(Console.ReadLine());
                         moduleClient.SupprimerClient(idSupprimer);
                         break;
-                    case "4":
+                    case "3":
                         Console.Write("ID du client : ");
                         int idModifier = int.Parse(Console.ReadLine());
                         Console.Write("nouveau nom : ");
@@ -115,16 +121,16 @@ namespace Livrable_2_psi
                         string stationMetro = Console.ReadLine();
                         moduleClient.ModifierClient(idModifier, nom, prenom, adresse, stationMetro);
                         break;
-                    case "5":
+                    case "4":
                         moduleClient.AfficherClientsAlphabetique();
                         break;
-                    case "6":
+                    case "5":
                         moduleClient.AfficherClientsParRue();
                         break;
-                    case "7":
+                    case "6":
                         moduleClient.AfficherClientsParAchats();
                         break;
-                    case "8":
+                    case "7":
                         continuer = false;
                         break;
                     default:
@@ -140,6 +146,7 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
+                Console.Clear();
                 Console.WriteLine("\n=== Module Cuisinier ===");
                 Console.WriteLine("1. Ajouter un cuisinier");
                 Console.WriteLine("2. Ajouter des cuisiniers depuis un fichier");
@@ -216,6 +223,7 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
+                Console.Clear();
                 Console.WriteLine("\n=== Module Commande ===");
                 Console.WriteLine("1. Creer une commande");
                 Console.WriteLine("2. Modifier une commande");
@@ -278,6 +286,7 @@ namespace Livrable_2_psi
             bool continuer = true;
             while (continuer)
             {
+                Console.Clear();
                 Console.WriteLine("\n=== Module Statistiques ===");
                 Console.WriteLine("1. Afficher les livraisons par cuisinier");
                 Console.WriteLine("2. Afficher les commandes par periode");
@@ -314,6 +323,53 @@ namespace Livrable_2_psi
                         Console.Write("date fin (format: yyyy-mm-dd) : ");
                         DateTime dateFinType = DateTime.Parse(Console.ReadLine());
                         moduleStatistiques.AfficherCommandesParTypePlat(dateDebutType, dateFinType);
+                        break;
+                    case "6":
+                        moduleStatistiques.AfficherStatistiquesCreatives();
+                        break;
+                    case "7":
+                        continuer = false;
+                        break;
+                    default:
+                        Console.WriteLine("choix invalide");
+                        break;
+                }
+            }
+        }
+        private void AfficherModuleGraphe()
+        {
+            bool continuer = true;
+            while (continuer)
+            {
+                Console.Clear();
+                Console.WriteLine("\n=== Module Graphe ===");
+                Console.WriteLine("1. Afficher la carte du metro");
+                Console.WriteLine("2. Rechercher un itineraire");
+                Console.WriteLine("3. Afficher les informations du metro");
+                Console.WriteLine("4. Afficher les stations d'une ligne de metro");
+                Console.WriteLine("5. Afficher les commandes par type de plat");
+                Console.WriteLine("6. Afficher les statistiques creatives");
+                Console.WriteLine("7. Retour");
+                Console.Write("Choix : ");
+
+                string choix = Console.ReadLine();
+
+                switch (choix)
+                {
+                    case "1":
+                        moduleGraphe.AfficherCarteMetro();
+                        break;
+                    case "2":
+                        moduleGraphe.RechercherItineraire();
+                        break;
+                    case "3":
+                        moduleGraphe.AfficherInformationsMetro();
+                        break;
+                    case "4":
+                        moduleStatistiques.AfficherMoyenneComptesClients();
+                        break;
+                    case "5":
+                        moduleGraphe.AfficherStationsParLigne();
                         break;
                     case "6":
                         moduleStatistiques.AfficherStatistiquesCreatives();

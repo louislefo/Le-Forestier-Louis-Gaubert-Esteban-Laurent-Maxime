@@ -11,100 +11,25 @@ namespace Livrable_2_psi
     public class ModuleGraphe
     {
         private Graphe<int> grapheMetro;
-        private string  cheminFichierMetro = @"../../../Données/MetroParisNoeuds.csv";
-        private string  cheminFichierArcs = @"../../../Données/MetroParisArcs.csv";
-        private ChargerFichiers  chargeur;
+        
         private GestionnaireItineraire<int>   gestionnaire;
 
         /// <summary>
         /// constructeur du module graphe
         /// </summary>
-        public ModuleGraphe()
+        public ModuleGraphe(Graphe<int> grapheMetro)
         {
-            grapheMetro = new Graphe<int>();
-            chargeur =  new ChargerFichiers();
-            ChargerDonneesMetro();
+            this.grapheMetro = grapheMetro;
+            
             gestionnaire = new GestionnaireItineraire<int>(grapheMetro);
         }
 
-        /// <summary>
-        /// charge les donnees du metro
-        /// </summary>
-        private void ChargerDonneesMetro()
-        {
-            // chargement des noeuds
-            Dictionary<int, Noeud<int>> noeudsMetro = chargeur.ChargerNoeudsMetro(cheminFichierMetro);
-            Console.WriteLine("Nombre de noeuds charges : " + noeudsMetro.Count);
-            
-            // ajout des noeuds au graphe
-            foreach (int id in noeudsMetro.Keys)
-            {
-                grapheMetro.Noeuds[id] = noeudsMetro[id];
-            }
-            
-            // chargement des arcs
-            chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);
-            Console.WriteLine("Nombre de liens dans le graphe : " + grapheMetro.Liens.Count);
-        }
-
-        /// <summary>
-        /// menu principal de la partie graphe
-        /// </summary>
-        public void AfficherMenu()
-        {
-            bool continuer = true;
-            
-            while (continuer)
-            {
-                Console.Clear();
-                Console.WriteLine("\n=== MENU GRAPHE METRO ===");
-                Console.WriteLine("1. Afficher la carte du metro");
-                Console.WriteLine("2. Rechercher un itineraire");
-                Console.WriteLine("3. Afficher les informations du metro");
-                Console.WriteLine("4. Afficher les stations d'une ligne");
-                Console.WriteLine("5. Analyser le reseau");
-                Console.WriteLine("0. Retour au menu principal");
-                
-                Console.Write("\nVotre choix : ");
-                string  choix = Console.ReadLine();
-                
-                switch (choix)
-                {
-                    case "1":
-                        AfficherCarteMetro();
-                        break;
-                    case "2":
-                        RechercherItineraire();
-                        break;
-                    case "3":
-                        AfficherInformationsMetro();
-                        break;
-                    case "4":
-                        AfficherStationsParLigne();
-                        break;
-                    case "5":
-                        AnalyserReseau();
-                        break;
-                    case "0":
-                        continuer = false;
-                        break;
-                    default:
-                        Console.WriteLine("Choix non valide !");
-                        break;
-                }
-                
-                if (continuer)
-                {
-                    Console.WriteLine("\nAppuyez sur une touche pour continuer...");
-                    Console.ReadKey();
-                }
-            }
-        }
+        
 
         /// <summary>
         /// affiche la carte du metro
         /// </summary>
-        private void AfficherCarteMetro()
+        public void AfficherCarteMetro()
         {
             Console.WriteLine("\nCreation de la carte du metro...");
             
@@ -129,7 +54,7 @@ namespace Livrable_2_psi
         /// <summary>
         /// recherche un itineraire dans le metro
         /// </summary>
-        private void RechercherItineraire()
+        public void RechercherItineraire()
         {
             Console.WriteLine("\n=== RECHERCHE D'ITINERAIRE ===");
             
@@ -170,7 +95,7 @@ namespace Livrable_2_psi
         /// <summary>
         /// affiche les infos generales du metro
         /// </summary>
-        private void AfficherInformationsMetro()
+        public void AfficherInformationsMetro()
         {
             Console.WriteLine("\n=== INFORMATIONS DU METRO ===");
             
@@ -208,7 +133,7 @@ namespace Livrable_2_psi
         /// <summary>
         /// affiche les stations dune ligne de metro
         /// </summary>
-        private void AfficherStationsParLigne()
+        public void AfficherStationsParLigne()
         {
             // récupérer la liste des lignes
             HashSet<string>  lignes = new HashSet<string>();
@@ -258,7 +183,7 @@ namespace Livrable_2_psi
         /// <summary>
         /// analyse le reseau de metro
         /// </summary>
-        private void AnalyserReseau()
+        public void AnalyserReseau()
         {
             Console.WriteLine("\n=== ANALYSE DU RESEAU DE METRO ===");
             

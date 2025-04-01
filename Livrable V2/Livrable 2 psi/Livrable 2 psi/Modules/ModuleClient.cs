@@ -186,8 +186,8 @@ namespace Livrable_2_psi
             try
             {
                 string sql = "SELECT u.*, c.station_metro FROM utilisateur u " +
-                           "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                           "ORDER BY u.nom, u.prenom";
+                             "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
+                             "ORDER BY u.nom, u.prenom";
 
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 using (MySqlDataReader reader = cmd.ExecuteReader())
