@@ -149,13 +149,12 @@ namespace Livrable_2_psi
                 Console.Clear();
                 Console.WriteLine("\n=== Module Cuisinier ===");
                 Console.WriteLine("1. Ajouter un cuisinier");
-                Console.WriteLine("2. Ajouter des cuisiniers depuis un fichier");
-                Console.WriteLine("3. Supprimer un cuisinier");
-                Console.WriteLine("4. Modifier un cuisinier");
-                Console.WriteLine("5. Afficher les clients servis");
-                Console.WriteLine("6. Afficher les plats realises");
-                Console.WriteLine("7. Afficher le plat du jour");
-                Console.WriteLine("8. Retour");
+                Console.WriteLine("2. Supprimer un cuisinier");
+                Console.WriteLine("3. Modifier un cuisinier");
+                Console.WriteLine("4. Afficher les clients servis");
+                Console.WriteLine("5. Afficher les plats realises par frequence");
+                Console.WriteLine("6. Afficher le plat du jour");
+                Console.WriteLine("7. Retour");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -164,18 +163,13 @@ namespace Livrable_2_psi
                 {
                     case "1":
                         moduleCuisinier.AjouterCuisinierConsole();
-                        break;
+                        break;  
                     case "2":
-                        Console.Write("chemin du fichier : ");
-                        string chemin = Console.ReadLine();
-                        moduleCuisinier.AjouterCuisiniersFichier(chemin);
-                        break;
-                    case "3":
                         Console.Write("ID du cuisinier : ");
                         int idSupprimer = int.Parse(Console.ReadLine());
                         moduleCuisinier.SupprimerCuisinier(idSupprimer);
                         break;
-                    case "4":
+                    case "3":
                         Console.Write("ID du cuisinier : ");
                         int idModifier = int.Parse(Console.ReadLine());
                         Console.Write("nouveau nom : ");
@@ -188,7 +182,7 @@ namespace Livrable_2_psi
                         string stationMetro = Console.ReadLine();
                         moduleCuisinier.ModifierCuisinier(idModifier, nom, prenom, adresse, stationMetro);
                         break;
-                    case "5":
+                    case "4":
                         Console.Write("ID du cuisinier : ");
                         int idCuisinier = int.Parse(Console.ReadLine());
                         Console.Write("date debut (format: yyyy-mm-dd) : ");
@@ -197,17 +191,17 @@ namespace Livrable_2_psi
                         DateTime? dateFin = DateTime.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherClientsServis(idCuisinier, dateDebut, dateFin);
                         break;
-                    case "6":
+                    case "5":
                         Console.Write("ID du cuisinier : ");
                         int idPlats = int.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherPlatsRealises(idPlats);
                         break;
-                    case "7":
+                    case "6":
                         Console.Write("ID du cuisinier : ");
                         int idPlatJour = int.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherPlatDuJour(idPlatJour);
                         break;
-                    case "8":
+                    case "7":
                         continuer = false;
                         break;
                     default:
