@@ -408,3 +408,9 @@ Livrable V2/Livrable 2 psi/Livrable 2 psi/obj/** */
 
 
 *.dll
+*.exe
+*.dll
+/Livrable V2/Livrable 2 psi/Livrable 2 psi/obj/Debug
+/Livrable V2/Livrable 2 psi/Livrable 2 psi/obj
+/Livrable V2/Livrable 2 psi/Livrable 2 psi/obj
+/Livrable V2/Livrable 2 psi/TestProject1/obj
