@@ -126,7 +126,7 @@ namespace Livrable_2_psi
                 }
             }
 
-            // ferme la connexion a la base de donnees quand on quitte l'application
+            // ferme la connexion  quand on quitte 
             if (connexionBDD != null)
             {
                 connexionBDD.FermerConnexion();
