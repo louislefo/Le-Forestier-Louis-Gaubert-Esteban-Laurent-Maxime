@@ -98,19 +98,36 @@ namespace Livrable_2_psi
         {
             string nom;
             bool valide = false;
-            Regex regex = new Regex(@"^[a-zA-ZÀ-ÿ\s-]+$");
 
             do
             {
                 Console.Write(message);
                 nom = Console.ReadLine();
-                if (regex.IsMatch(nom) && nom.Length >= 2)
+                
+                // verifie si le nom est vide
+                if (string.IsNullOrEmpty(nom))
                 {
-                    valide = true;
+                    Console.WriteLine("le nom ne peut pas etre vide");
+                    continue;
                 }
-                else
+
+                // verifie la longueur minimale
+                if (nom.Length < 2)
                 {
-                    Console.WriteLine("le nom doit contenir uniquement des lettres, espaces et tirets");
+                    Console.WriteLine("le nom doit contenir au moins 2 caracteres");
+                    continue;
+                }
+
+                // verifie que le nom ne contient que des lettres, espaces et tirets
+                valide = true;
+                for (int i = 0; i < nom.Length; i++)
+                {
+                    if (!char.IsLetter(nom[i]) && nom[i] != ' ' && nom[i] != '-')
+                    {
+                        valide = false;
+                        Console.WriteLine("le nom ne peut contenir que des lettres, espaces et tirets");
+                        break;
+                    }
                 }
             } while (!valide);
 
@@ -122,20 +139,51 @@ namespace Livrable_2_psi
         {
             string adresse;
             bool valide = false;
-            Regex regex = new Regex(@"^[0-9]+[a-zA-ZÀ-ÿ\s,.-]+$");
 
             do
             {
                 Console.Write(message);
                 adresse = Console.ReadLine();
-                if (regex.IsMatch(adresse) && adresse.Length >= 5)
+
+                // verifie si l'adresse est vide
+                if (string.IsNullOrEmpty(adresse))
                 {
-                    valide = true;
+                    Console.WriteLine("l'adresse ne peut pas etre vide");
+                    continue;
                 }
-                else
+
+                // verifie la longueur minimale
+                if (adresse.Length < 5)
                 {
-                    Console.WriteLine("l'adresse doit commencer par un numero et contenir uniquement des lettres, chiffres, espaces et caracteres speciaux autorises");
+                    Console.WriteLine("l'adresse doit contenir au moins 5 caracteres");
+                    continue;
                 }
+
+                // verifie que l'adresse commence par un chiffre
+                if (!char.IsDigit(adresse[0]))
+                {
+                    Console.WriteLine("l'adresse doit commencer par un numero");
+                    continue;
+                }
+
+                // verifie que l'adresse contient au moins une lettre
+                bool contientLettre = false;
+                for (int i = 0; i < adresse.Length; i++)
+                {
+                    if (char.IsLetter(adresse[i]))
+                    {
+                        contientLettre = true;
+                        break;
+                    }
+                }
+
+                if (!contientLettre)
+                {
+                    Console.WriteLine("l'adresse doit contenir au moins une lettre");
+                    continue;
+                }
+
+                valide = true;
             } while (!valide);
 
             return adresse;
@@ -146,19 +194,36 @@ namespace Livrable_2_psi
         {
             string station;
             bool valide = false;
-            Regex regex = new Regex(@"^[a-zA-ZÀ-ÿ\s-]+$");
 
             do
             {
                 Console.Write(message);
                 station = Console.ReadLine();
-                if (regex.IsMatch(station) && station.Length >= 2)
+
+                // verifie si la station est vide
+                if (string.IsNullOrEmpty(station))
                 {
-                    valide = true;
+                    Console.WriteLine("la station ne peut pas etre vide");
+                    continue;
                 }
-                else
+
+                // verifie la longueur minimale
+                if (station.Length < 2)
                 {
-                    Console.WriteLine("la station doit contenir uniquement des lettres, espaces et tirets");
+                    Console.WriteLine("la station doit contenir au moins 2 caracteres");
+                    continue;
+                }
+
+                // verifie que la station ne contient que des lettres, espaces et tirets
+                valide = true;
+                for (int i = 0; i < station.Length; i++)
+                {
+                    if (!char.IsLetter(station[i]) && station[i] != ' ' && station[i] != '-')
+                    {
+                        valide = false;
+                        Console.WriteLine("la station ne peut contenir que des lettres, espaces et tirets");
+                        break;
+                    }
                 }
             } while (!valide);
 
@@ -211,9 +276,7 @@ namespace Livrable_2_psi
             return reponse == "o";
         }
 
-        /// <summary>
         /// valide un email
-        /// </summary>
         public static bool ValiderEmail(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -222,19 +285,46 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-            if (!Regex.IsMatch(email, pattern))
+            // verifie si l'email contient un @
+            if (!email.Contains("@"))
+            {
+                Console.WriteLine("l'email doit contenir un @");
+                return false;
+            }
+
+            // separe l'email en deux parties
+            string[] parties = email.Split('@');
+            if (parties.Length != 2)
             {
                 Console.WriteLine("format d'email invalide");
+                return false;
+            }
+
+            // verifie la partie locale
+            if (parties[0].Length < 1)
+            {
+                Console.WriteLine("la partie locale de l'email ne peut pas etre vide");
+                return false;
+            }
+
+            // verifie le domaine
+            if (!parties[1].Contains("."))
+            {
+                Console.WriteLine("le domaine doit contenir un point");
+                return false;
+            }
+
+            string[] domaine = parties[1].Split('.');
+            if (domaine.Length < 2 || domaine[domaine.Length - 1].Length < 2)
+            {
+                Console.WriteLine("le domaine doit avoir une extension valide");
                 return false;
             }
 
             return true;
         }
 
-        /// <summary>
         /// valide un numero de telephone
-        /// </summary>
         public static bool ValiderTelephone(string telephone)
         {
             if (string.IsNullOrEmpty(telephone))
@@ -243,19 +333,37 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            string pattern = @"^(\+33|0)[1-9](\d{2}){4}$";
-            if (!Regex.IsMatch(telephone, pattern))
+            // enleve les espaces
+            telephone = telephone.Replace(" ", "");
+
+            // verifie la longueur
+            if (telephone.Length != 10 && telephone.Length != 11)
             {
-                Console.WriteLine("format de telephone invalide");
+                Console.WriteLine("le numero doit avoir 10 chiffres");
                 return false;
+            }
+
+            // verifie si le numero commence par 0 ou +33
+            if (telephone[0] != '0' && !telephone.StartsWith("+33"))
+            {
+                Console.WriteLine("le numero doit commencer par 0 ou +33");
+                return false;
+            }
+
+            // verifie que tous les caracteres sont des chiffres (sauf le +)
+            for (int i = 0; i < telephone.Length; i++)
+            {
+                if (telephone[i] != '+' && !char.IsDigit(telephone[i]))
+                {
+                    Console.WriteLine("le numero ne peut contenir que des chiffres");
+                    return false;
+                }
             }
 
             return true;
         }
 
-        /// <summary>
         /// valide un mot de passe
-        /// </summary>
         public static bool ValiderMotDePasse(string motDePasse)
         {
             if (string.IsNullOrEmpty(motDePasse))
@@ -270,19 +378,39 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            if (!Regex.IsMatch(motDePasse, @"[A-Z]"))
+            bool contientMajuscule = false;
+            bool contientMinuscule = false;
+            bool contientChiffre = false;
+
+            for (int i = 0; i < motDePasse.Length; i++)
+            {
+                if (char.IsUpper(motDePasse[i]))
+                {
+                    contientMajuscule = true;
+                }
+                else if (char.IsLower(motDePasse[i]))
+                {
+                    contientMinuscule = true;
+                }
+                else if (char.IsDigit(motDePasse[i]))
+                {
+                    contientChiffre = true;
+                }
+            }
+
+            if (!contientMajuscule)
             {
                 Console.WriteLine("le mot de passe doit contenir au moins une majuscule");
                 return false;
             }
 
-            if (!Regex.IsMatch(motDePasse, @"[a-z]"))
+            if (!contientMinuscule)
             {
                 Console.WriteLine("le mot de passe doit contenir au moins une minuscule");
                 return false;
             }
 
-            if (!Regex.IsMatch(motDePasse, @"[0-9]"))
+            if (!contientChiffre)
             {
                 Console.WriteLine("le mot de passe doit contenir au moins un chiffre");
                 return false;
@@ -291,9 +419,7 @@ namespace Livrable_2_psi
             return true;
         }
 
-        /// <summary>
         /// valide un nom d'utilisateur
-        /// </summary>
         public static bool ValiderNomUtilisateur(string nomUtilisateur)
         {
             if (string.IsNullOrEmpty(nomUtilisateur))
@@ -308,19 +434,19 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            string pattern = @"^[a-zA-Z0-9_]+$";
-            if (!Regex.IsMatch(nomUtilisateur, pattern))
+            for (int i = 0; i < nomUtilisateur.Length; i++)
             {
-                Console.WriteLine("le nom d'utilisateur ne peut contenir que des lettres, chiffres et underscores");
-                return false;
+                if (!char.IsLetterOrDigit(nomUtilisateur[i]) && nomUtilisateur[i] != '_')
+                {
+                    Console.WriteLine("le nom d'utilisateur ne peut contenir que des lettres, chiffres et underscores");
+                    return false;
+                }
             }
 
             return true;
         }
 
-        /// <summary>
         /// demande et valide un email
-        /// </summary>
         public static string DemanderEmail(string message)
         {
             string email;
@@ -336,9 +462,7 @@ namespace Livrable_2_psi
             return email;
         }
 
-        /// <summary>
         /// demande et valide un numero de telephone
-        /// </summary>
         public static string DemanderTelephone(string message)
         {
             string telephone;
@@ -354,9 +478,7 @@ namespace Livrable_2_psi
             return telephone;
         }
 
-        /// <summary>
         /// demande et valide un mot de passe
-        /// </summary>
         public static string DemanderMotDePasse(string message)
         {
             string motDePasse;
@@ -372,9 +494,7 @@ namespace Livrable_2_psi
             return motDePasse;
         }
 
-        /// <summary>
         /// demande et valide un nom d'utilisateur
-        /// </summary>
         public static string DemanderNomUtilisateur(string message)
         {
             string nomUtilisateur;
