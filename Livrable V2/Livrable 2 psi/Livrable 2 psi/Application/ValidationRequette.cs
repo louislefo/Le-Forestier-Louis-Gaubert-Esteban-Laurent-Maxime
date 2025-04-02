@@ -310,14 +310,14 @@ namespace Livrable_2_psi
             // verifie le domaine
             if (!parties[1].Contains("."))
             {
-                Console.WriteLine("le domaine doit contenir un point");
+                Console.WriteLine("l'email doit contenir un point");
                 return false;
             }
 
             string[] domaine = parties[1].Split('.');
             if (domaine.Length < 2 || domaine[domaine.Length - 1].Length < 2)
             {
-                Console.WriteLine("le domaine doit avoir une extension valide");
+                Console.WriteLine("l'email doit avoir une extension valide");
                 return false;
             }
 

@@ -68,7 +68,8 @@ namespace Livrable_2_psi
                     Console.WriteLine("\n=== Menu Principal ===");
                     Console.WriteLine("1. Se connecter");
                     Console.WriteLine("2. S'inscrire");
-                    Console.WriteLine("3. Quitter");
+                    Console.WriteLine("3. Modules");
+                    Console.WriteLine("4. Quitter");
                     Console.Write("Choix : ");
 
                     string choix = Console.ReadLine();
@@ -76,22 +77,45 @@ namespace Livrable_2_psi
                     switch (choix)
                     {
                         case "1":
-                            if (authentification.SeConnecter())
+                            authentification.SeConnecter();
+                            if (authentification.Qui() == 1)
                             {
-                                menuModules.AfficherMenuModules();
+                                AffichageClient affichageclient = new AffichageClient(connexionBDD, authentification, grapheMetro);
+                                affichageclient.AfficherMenuClient(authentification.nomUtilisateur);
                             }
+                            else
+                            {
+                                AffichageCuisinier affichagecuisinier = new AffichageCuisinier(connexionBDD, authentification, grapheMetro);
+                                affichagecuisinier.AfficherMenuCuisinier(authentification.nomUtilisateur);
+                            }
+                            Console.Clear();
                             break;
                         case "2":
-                            if (authentification.SInscrire())
+                            authentification.SInscrire();
+                            if (authentification.Qui() == 1)
                             {
-                                Console.WriteLine("inscription reussie, vous pouvez maintenant vous connecter");
+                                AffichageClient affichageclient = new AffichageClient(connexionBDD, authentification, grapheMetro);
+                                affichageclient.AfficherMenuClient(authentification.nomUtilisateur);
                             }
+                            else
+                            {
+                                AffichageCuisinier affichagecuisinier = new AffichageCuisinier(connexionBDD, authentification, grapheMetro);
+                                affichagecuisinier.AfficherMenuCuisinier(authentification.nomUtilisateur);
+                            }
+                            Console.Clear();
                             break;
                         case "3":
-                            continuer = false;
+                            MenuModules menuModules = new MenuModules(connexionBDD, grapheMetro);
+                            Console.Clear();
+                            menuModules.AfficherMenuModules();
+                            break;
+                        case "4":
+                            applicationEnCours = false;
+                            connexionBDD.FermerConnexion();
+                            Console.WriteLine("Au revoir ! ");
                             break;
                         default:
-                            Console.WriteLine("choix invalide");
+                            Console.WriteLine("Choix invalide");
                             break;
                     }
                 }
