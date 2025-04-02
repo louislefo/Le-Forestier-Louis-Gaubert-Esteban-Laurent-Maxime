@@ -8,8 +8,6 @@ namespace Livrable_2_psi
     /// </summary>
     public class PlusCourtChemin<T> where T : IComparable<T>
     {
-        private const int TEMPS_CORRESPONDANCE = 5; // temps en minutes pour changer de ligne
-
         /// <summary>
         /// trouve les stations de correspondance (stations sur plusieurs lignes)
         /// </summary>
@@ -98,7 +96,7 @@ namespace Livrable_2_psi
                     // verifie dans les deux sens car le graphe est non oriente
                     if (lien.Noeud1 == noeudActuel && nonVisites.Contains(lien.Noeud2))
                     {
-                        double nouveauTemps = temps[noeudActuel] + lien.Poids; // lien.Poids represente le temps entre les stations
+                        double nouveauTemps = temps[noeudActuel] + lien.Poids;
                         if (nouveauTemps < temps[lien.Noeud2])
                         {
                             temps[lien.Noeud2] = nouveauTemps;
@@ -123,7 +121,7 @@ namespace Livrable_2_psi
                     {
                         if (noeud.NomStation == noeudActuel.NomStation && noeud.NumeroLigne != noeudActuel.NumeroLigne)
                         {
-                            double nouveauTemps = temps[noeudActuel] + TEMPS_CORRESPONDANCE; // ajoute le temps de correspondance
+                            double nouveauTemps = temps[noeudActuel] + noeudActuel.TempsCorrespondance;
                             if (nouveauTemps < temps[noeud])
                             {
                                 temps[noeud] = nouveauTemps;
@@ -225,9 +223,9 @@ namespace Livrable_2_psi
                         if (noeud.NomStation == station.NomStation && noeud.NumeroLigne != station.NumeroLigne)
                         {
                             if (temps[station] != double.MaxValue && 
-                                temps[station] + TEMPS_CORRESPONDANCE < temps[noeud])
+                                temps[station] + station.TempsCorrespondance < temps[noeud])
                             {
-                                temps[noeud] = temps[station] + TEMPS_CORRESPONDANCE;
+                                temps[noeud] = temps[station] + station.TempsCorrespondance;
                                 predecesseurs[noeud] = station;
                             }
                         }

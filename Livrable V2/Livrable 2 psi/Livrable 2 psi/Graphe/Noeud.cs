@@ -16,6 +16,7 @@ namespace Livrable_2_psi
         private double latitude;
         private string numeroLigne;
         private string couleurLigne;
+        private int tempsCorrespondance;
 
         /// <summary>
         /// recupere ou modifie lidentifiant du noeud
@@ -81,12 +82,22 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
+        /// recupere ou modifie le temps de correspondance de la station
+        /// </summary>
+        public int TempsCorrespondance
+        {
+            get { return tempsCorrespondance; }
+            set { tempsCorrespondance = value; }
+        }
+
+        /// <summary>
         /// cree un nouveau noeud avec un identifiant
         /// </summary>
         public Noeud(T id)
         {
             this.id = id;
             Voisins = new List<Noeud<T>>();
+            tempsCorrespondance = 0;
         }
 
         /// <summary>
@@ -101,6 +112,7 @@ namespace Livrable_2_psi
             this.numeroLigne = numeroLigne;
             this.couleurLigne = couleurLigne;
             Voisins = new List<Noeud<T>>();
+            tempsCorrespondance = 0;
         }
 
         /// <summary>

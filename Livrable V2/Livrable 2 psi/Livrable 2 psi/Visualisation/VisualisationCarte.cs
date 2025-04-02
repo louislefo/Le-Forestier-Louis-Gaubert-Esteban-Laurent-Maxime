@@ -21,8 +21,6 @@ namespace Livrable_2_psi
         private int hauteur;
         private int marge = 50;
         private Dictionary<int, Point> positionsNoeuds;
-        private Dictionary<int, Point> positionsTextes;
-        private Dictionary<string, bool> nomsDejaAffiches;
         private Dictionary<string, int> nombreLignesParStation;
 
         /// <summary>
@@ -36,78 +34,7 @@ namespace Livrable_2_psi
             this.graphics = Graphics.FromImage(image);
             this.graphics.Clear(Color.White);
             this.positionsNoeuds = new Dictionary<int, Point>();
-            this.positionsTextes = new Dictionary<int, Point>();
-            this.nomsDejaAffiches = new Dictionary<string, bool>();
             this.nombreLignesParStation = new Dictionary<string, int>();
-        }
-
-        /// <summary>
-        /// calcule la position du texte pour eviter les superpositions
-        /// </summary>
-        private Point CalculerPositionTexte(int x, int y, string nomStation)
-        {
-            int decalageX = 10;
-            int decalageY = 0;
-            bool positionTrouvee = false;
-            int maxTentatives = 8; // nombre maximum de tentatives pour trouver une position
-
-            for (int i = 0; i < maxTentatives && !positionTrouvee; i++)
-            {
-                // teste differentes positions autour du point
-                switch (i)
-                {
-                    case 0: // droite
-                        decalageX = 10;
-                        decalageY = 0;
-                        break;
-                    case 1: // gauche
-                        decalageX = -10 - (int)(nomStation.Length * 4);
-                        decalageY = 0;
-                        break;
-                    case 2: // haut
-                        decalageX = 0;
-                        decalageY = -15;
-                        break;
-                    case 3: // bas
-                        decalageX = 0;
-                        decalageY = 15;
-                        break;
-                    case 4: // haut droite
-                        decalageX = 10;
-                        decalageY = -15;
-                        break;
-                    case 5: // haut gauche
-                        decalageX = -10 - (int)(nomStation.Length * 4);
-                        decalageY = -15;
-                        break;
-                    case 6: // bas droite
-                        decalageX = 10;
-                        decalageY = 15;
-                        break;
-                    case 7: // bas gauche
-                        decalageX = -10 - (int)(nomStation.Length * 4);
-                        decalageY = 15;
-                        break;
-                }
-
-                // verifie si la position est libre
-                bool positionLibre = true;
-                foreach (Point posTexte in positionsTextes.Values)
-                {
-                    if (Math.Abs((x + decalageX) - posTexte.X) < 50 && Math.Abs((y + decalageY) - posTexte.Y) < 20)
-                    {
-                        positionLibre = false;
-                        break;
-                    }
-                }
-
-                if (positionLibre)
-                {
-                    positionTrouvee = true;
-                }
-            }
-
-            return new Point(x + decalageX, y + decalageY);
         }
 
         /// <summary>
@@ -115,7 +42,7 @@ namespace Livrable_2_psi
         /// </summary>
         public void DessinerGraphe(Graphe<int> graphe)
         {
-            // Trouver les limites des coordonnées
+            // calcul des limites de la carte
             double minLong = double.MaxValue, maxLong = double.MinValue;
             double minLat = double.MaxValue, maxLat = double.MinValue;
 
@@ -127,11 +54,11 @@ namespace Livrable_2_psi
                 maxLat = Math.Max(maxLat, noeud.Latitude);
             }
 
-            // Calculer les facteurs d'échelle
+            // calcul de l echelle
             double echelleLong = (largeur - 2 * marge) / (maxLong - minLong);
             double echelleLat = (hauteur - 2 * marge) / (maxLat - minLat);
 
-            // Compter le nombre de lignes par station
+            // compte le nombre de lignes par station
             foreach (Noeud<int> noeud in graphe.Noeuds.Values)
             {
                 if (!nombreLignesParStation.ContainsKey(noeud.NomStation))
@@ -144,13 +71,13 @@ namespace Livrable_2_psi
                 }
             }
 
-            // Dessiner les liens
+            // dessine les liens 
             foreach (Lien<int> lien in graphe.Liens)
             {
                 Noeud<int> noeud1 = graphe.Noeuds[lien.Noeud1.Id];
                 Noeud<int> noeud2 = graphe.Noeuds[lien.Noeud2.Id];
 
-                // Convertir les coordonnées en pixels
+                // conversion en pixels
                 int x1 = (int)((noeud1.Longitude - minLong) * echelleLong) + marge;
                 int y1 = hauteur - ((int)((noeud1.Latitude - minLat) * echelleLat) + marge);
                 int x2 = (int)((noeud2.Longitude - minLong) * echelleLong) + marge;
@@ -158,16 +85,15 @@ namespace Livrable_2_psi
 
                 try
                 {
-                    // Utiliser la couleur de la ligne
                     Color couleurLigne = ColorTranslator.FromHtml(noeud1.CouleurLigne);
                     using (Pen pen = new Pen(couleurLigne, 2))
                     {
                         graphics.DrawLine(pen, x1, y1, x2, y2);
                     }
                 }
-                catch (Exception e)
+                catch
                 {
-                    Console.WriteLine("Erreur de couleur: " + e.Message + ", utilisation de la couleur par défaut");
+                    // si erreur de couleur utilise gris
                     using (Pen pen = new Pen(Color.Gray, 2))
                     {
                         graphics.DrawLine(pen, x1, y1, x2, y2);
@@ -175,7 +101,7 @@ namespace Livrable_2_psi
                 }
             }
 
-            // Dessiner les noeuds et calculer les positions des textes
+            // dessine les noeuds et les noms des stations importantes
             foreach (Noeud<int> noeud in graphe.Noeuds.Values)
             {
                 int x = (int)((noeud.Longitude - minLong) * echelleLong) + marge;
@@ -183,7 +109,7 @@ namespace Livrable_2_psi
 
                 positionsNoeuds[noeud.Id] = new Point(x, y);
 
-                // Dessiner le noeud plus gros si c'est une station de connexion
+                // noeud plus gros si cest une station de connexion
                 int tailleNoeud = nombreLignesParStation[noeud.NomStation] > 1 ? 6 : 4;
 
                 using (SolidBrush brush = new SolidBrush(Color.White))
@@ -196,27 +122,13 @@ namespace Livrable_2_psi
                     graphics.DrawEllipse(pen, x - tailleNoeud, y - tailleNoeud, tailleNoeud * 2, tailleNoeud * 2);
                 }
 
-                // Calculer la position du texte seulement si le nom n'a pas déjà été affiché
-                if (!nomsDejaAffiches.ContainsKey(noeud.NomStation))
+                // affiche uniquement les noms des stations de correspondance
+                if (nombreLignesParStation[noeud.NomStation] > 1)
                 {
-                    Point positionTexte = CalculerPositionTexte(x, y, noeud.NomStation);
-                    positionsTextes[noeud.Id] = positionTexte;
-                    nomsDejaAffiches[noeud.NomStation] = true;
-                }
-            }
-
-            // Dessiner les noms des stations
-            foreach (Noeud<int> noeud in graphe.Noeuds.Values)
-            {
-                if (positionsTextes.ContainsKey(noeud.Id))
-                {
-                    Point positionTexte = positionsTextes[noeud.Id];
-                    // Utiliser une police en gras pour les stations de connexion
-                    FontStyle style = nombreLignesParStation[noeud.NomStation] > 1 ? FontStyle.Bold : FontStyle.Regular;
-                    using (Font font = new Font("Arial", 7, style))
+                    using (Font font = new Font("Arial", 7, FontStyle.Bold))
                     using (SolidBrush brush = new SolidBrush(Color.Black))
                     {
-                        graphics.DrawString(noeud.NomStation, font, brush, positionTexte.X, positionTexte.Y);
+                        graphics.DrawString(noeud.NomStation, font, brush, x + 10, y - 10);
                     }
                 }
             }

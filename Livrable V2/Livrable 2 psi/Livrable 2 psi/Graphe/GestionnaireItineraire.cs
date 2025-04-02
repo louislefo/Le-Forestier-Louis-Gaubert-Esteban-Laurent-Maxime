@@ -111,9 +111,10 @@ namespace Livrable_2_psi
                 {
                     Console.WriteLine("\nCorrespondance à " + chemin[i].NomStation);
                     Console.WriteLine("Prendre la Ligne " + chemin[i].NumeroLigne);
+                    Console.WriteLine("Temps de correspondance : " + chemin[i].TempsCorrespondance + " minutes");
                     ligneActuelle = chemin[i].NumeroLigne;
                     nombreCorrespondances++;
-                    tempsTotal += 5; // temps de correspondance
+                    tempsTotal += chemin[i].TempsCorrespondance;
                 }
                 else
                 {

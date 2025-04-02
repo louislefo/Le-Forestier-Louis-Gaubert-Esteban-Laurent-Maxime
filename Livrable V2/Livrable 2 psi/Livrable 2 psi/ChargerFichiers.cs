@@ -74,6 +74,13 @@ namespace Livrable_2_psi
                             int idPrecedent = int.Parse(colonnes[2]);
                             int idSuivant = int.Parse(colonnes[3]);
                             double poids = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
+                            int tempsCorrespondance = int.Parse(colonnes[5]);
+
+                            // Met à jour le temps de correspondance de la station
+                            if (grapheMetro.Noeuds.ContainsKey(idStation))
+                            {
+                                grapheMetro.Noeuds[idStation].TempsCorrespondance = tempsCorrespondance;
+                            }
 
                             // Ajoute le lien avec la station précédente si elle existe
                             if (idPrecedent != 0)
