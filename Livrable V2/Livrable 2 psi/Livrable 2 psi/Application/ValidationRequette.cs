@@ -211,31 +211,152 @@ namespace Livrable_2_psi
             return reponse == "o";
         }
 
-        /// demande et valide un nom d'utilisateur
-        public static string DemanderNomUtilisateur(string message)
+        /// <summary>
+        /// valide un email
+        /// </summary>
+        public static bool ValiderEmail(string email)
         {
-            string nomUtilisateur;
+            if (string.IsNullOrEmpty(email))
+            {
+                Console.WriteLine("l'email ne peut pas etre vide");
+                return false;
+            }
+
+            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            if (!Regex.IsMatch(email, pattern))
+            {
+                Console.WriteLine("format d'email invalide");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// valide un numero de telephone
+        /// </summary>
+        public static bool ValiderTelephone(string telephone)
+        {
+            if (string.IsNullOrEmpty(telephone))
+            {
+                Console.WriteLine("le numero de telephone ne peut pas etre vide");
+                return false;
+            }
+
+            string pattern = @"^(\+33|0)[1-9](\d{2}){4}$";
+            if (!Regex.IsMatch(telephone, pattern))
+            {
+                Console.WriteLine("format de telephone invalide");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// valide un mot de passe
+        /// </summary>
+        public static bool ValiderMotDePasse(string motDePasse)
+        {
+            if (string.IsNullOrEmpty(motDePasse))
+            {
+                Console.WriteLine("le mot de passe ne peut pas etre vide");
+                return false;
+            }
+
+            if (motDePasse.Length < 8)
+            {
+                Console.WriteLine("le mot de passe doit contenir au moins 8 caracteres");
+                return false;
+            }
+
+            if (!Regex.IsMatch(motDePasse, @"[A-Z]"))
+            {
+                Console.WriteLine("le mot de passe doit contenir au moins une majuscule");
+                return false;
+            }
+
+            if (!Regex.IsMatch(motDePasse, @"[a-z]"))
+            {
+                Console.WriteLine("le mot de passe doit contenir au moins une minuscule");
+                return false;
+            }
+
+            if (!Regex.IsMatch(motDePasse, @"[0-9]"))
+            {
+                Console.WriteLine("le mot de passe doit contenir au moins un chiffre");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// valide un nom d'utilisateur
+        /// </summary>
+        public static bool ValiderNomUtilisateur(string nomUtilisateur)
+        {
+            if (string.IsNullOrEmpty(nomUtilisateur))
+            {
+                Console.WriteLine("le nom d'utilisateur ne peut pas etre vide");
+                return false;
+            }
+
+            if (nomUtilisateur.Length < 3)
+            {
+                Console.WriteLine("le nom d'utilisateur doit contenir au moins 3 caracteres");
+                return false;
+            }
+
+            string pattern = @"^[a-zA-Z0-9_]+$";
+            if (!Regex.IsMatch(nomUtilisateur, pattern))
+            {
+                Console.WriteLine("le nom d'utilisateur ne peut contenir que des lettres, chiffres et underscores");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// demande et valide un email
+        /// </summary>
+        public static string DemanderEmail(string message)
+        {
+            string email;
             bool valide = false;
-            Regex regex = new Regex(@"^[a-zA-Z0-9_]+$");
 
             do
             {
                 Console.Write(message);
-                nomUtilisateur = Console.ReadLine();
-                if (regex.IsMatch(nomUtilisateur) && nomUtilisateur.Length >= 3)
-                {
-                    valide = true;
-                }
-                else
-                {
-                    Console.WriteLine("le nom d'utilisateur doit contenir uniquement des lettres, chiffres et underscores");
-                }
+                email = Console.ReadLine();
+                valide = ValiderEmail(email);
             } while (!valide);
 
-            return nomUtilisateur;
+            return email;
         }
 
+        /// <summary>
+        /// demande et valide un numero de telephone
+        /// </summary>
+        public static string DemanderTelephone(string message)
+        {
+            string telephone;
+            bool valide = false;
+
+            do
+            {
+                Console.Write(message);
+                telephone = Console.ReadLine();
+                valide = ValiderTelephone(telephone);
+            } while (!valide);
+
+            return telephone;
+        }
+
+        /// <summary>
         /// demande et valide un mot de passe
+        /// </summary>
         public static string DemanderMotDePasse(string message)
         {
             string motDePasse;
@@ -245,65 +366,28 @@ namespace Livrable_2_psi
             {
                 Console.Write(message);
                 motDePasse = Console.ReadLine();
-                if (motDePasse.Length >= 6)
-                {
-                    valide = true;
-                }
-                else
-                {
-                    Console.WriteLine("le mot de passe doit contenir au moins 6 caracteres");
-                }
+                valide = ValiderMotDePasse(motDePasse);
             } while (!valide);
 
             return motDePasse;
         }
 
-        /// demande et valide un email
-        public static string DemanderEmail(string message)
+        /// <summary>
+        /// demande et valide un nom d'utilisateur
+        /// </summary>
+        public static string DemanderNomUtilisateur(string message)
         {
-            string email;
+            string nomUtilisateur;
             bool valide = false;
-            Regex regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
 
             do
             {
                 Console.Write(message);
-                email = Console.ReadLine();
-                if (regex.IsMatch(email))
-                {
-                    valide = true;
-                }
-                else
-                {
-                    Console.WriteLine("entrez un email valide");
-                }
+                nomUtilisateur = Console.ReadLine();
+                valide = ValiderNomUtilisateur(nomUtilisateur);
             } while (!valide);
 
-            return email;
-        }
-
-        /// demande et valide un numéro de téléphone
-        public static string DemanderTelephone(string message)
-        {
-            string telephone;
-            bool valide = false;
-            Regex regex = new Regex(@"^[0-9]{10}$");
-
-            do
-            {
-                Console.Write(message);
-                telephone = Console.ReadLine();
-                if (regex.IsMatch(telephone))
-                {
-                    valide = true;
-                }
-                else
-                {
-                    Console.WriteLine("entrez un numero de telephone valide (10 chiffres)");
-                }
-            } while (!valide);
-
-            return telephone;
+            return nomUtilisateur;
         }
 
         /// demande et valide un type d'utilisateur

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace Livrable_2_psi
 {
@@ -26,7 +27,7 @@ namespace Livrable_2_psi
         public AffichageClient affichageClient;
 
         /// constructeur par defaut
-        public Authentification(ConnexionBDD connexion)
+        public Authentification(ConnexionBDD connexionBDD)
         {
             nomUtilisateur = "";
             motDePasse = "";
@@ -39,18 +40,19 @@ namespace Livrable_2_psi
             estClient = false;
             estCuisinier = false;
             estConnecte = false;
-            connexionBDD = connexion;
+            this.connexionBDD = connexionBDD;
         }
 
         /// methode pour se connecter
         public bool SeConnecter()
         {
             Console.WriteLine("=== Connexion ===");
-            Console.WriteLine("Entrez votre nom d'utilisateur : ");
-            nomUtilisateur = Console.ReadLine();
-
-            Console.WriteLine("Entrez votre mot de passe : ");
-            motDePasse = Console.ReadLine();
+            
+            // validation de l'email
+            email = ValidationRequette.DemanderEmail("entrez votre email : ");
+            
+            // validation du mot de passe
+            motDePasse = ValidationRequette.DemanderMotDePasse("entrez votre mot de passe : ");
 
             try
             {
@@ -59,11 +61,10 @@ namespace Livrable_2_psi
                                "FROM utilisateur u " +
                                "LEFT JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
                                "LEFT JOIN cuisinier cu ON u.id_utilisateur = cu.id_utilisateur " +
-                               "WHERE u.id_utilisateur = '" + nomUtilisateur + "'";
-                Console.WriteLine(requete);
+                               "WHERE u.email = @email";
 
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
-                commande.CommandText = requete;
+                commande.Parameters.AddWithValue("@email", email);
 
                 MySqlDataReader reader = commande.ExecuteReader();
 
@@ -77,7 +78,6 @@ namespace Livrable_2_psi
                         estConnecte = true;
                         nom = (string)reader["nom"];
                         prenom = (string)reader["prénom"];
-                        email = (string)reader["email"];
                         telephone = (string)reader["téléphone"];
                         adresse = (string)reader["adresse"];
 
@@ -86,14 +86,12 @@ namespace Livrable_2_psi
                             estCuisinier = true;
                             estClient = false;
                             stationMetro = (string)reader["station_cuisinier"];
-
                         }
                         else
                         {
                             estCuisinier = false;
                             estClient = true;
                             stationMetro = (string)reader["station_client"];
-
                         }
                         Console.WriteLine("connexion reussie");
                         Console.Clear();
@@ -111,7 +109,6 @@ namespace Livrable_2_psi
                 reader.Close();
                 commande.Dispose();
 
-
                 return estConnecte;
             }
             catch (MySqlException e)
@@ -125,16 +122,16 @@ namespace Livrable_2_psi
         public bool SInscrire()
         {
             Console.WriteLine("=== Inscription ===");
-            Console.WriteLine("Entrez votre nom d'utilisateur : ");
-            nomUtilisateur = Console.ReadLine();
-
+            
+            // validation du nom d'utilisateur
+            nomUtilisateur = ValidationRequette.DemanderNomUtilisateur("entrez votre nom d'utilisateur : ");
 
             try
             {
                 // verifie si l'utilisateur existe deja
-                string requeteVerif = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur = '" + nomUtilisateur + "'";
+                string requeteVerif = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur = @nomUtilisateur";
                 MySqlCommand commandeVerif = new MySqlCommand(requeteVerif, connexionBDD.maConnexion);
-                commandeVerif.CommandText = requeteVerif;
+                commandeVerif.Parameters.AddWithValue("@nomUtilisateur", nomUtilisateur);
 
                 int count = Convert.ToInt32(commandeVerif.ExecuteScalar());
                 commandeVerif.Dispose();
@@ -145,29 +142,27 @@ namespace Livrable_2_psi
                     return false;
                 }
 
-                Console.WriteLine("Entrez votre mot de passe : ");
-                motDePasse = Console.ReadLine();
+                // validation du mot de passe
+                motDePasse = ValidationRequette.DemanderMotDePasse("entrez votre mot de passe : ");
 
-                Console.WriteLine("Entrez votre nom : ");
-                nom = Console.ReadLine();
+                // validation du nom et prenom
+                nom = ValidationRequette.DemanderNom("entrez votre nom : ");
+                prenom = ValidationRequette.DemanderNom("entrez votre prenom : ");
 
-                Console.WriteLine("Entrez votre prenom : ");
-                prenom = Console.ReadLine();
+                // validation de l'email
+                email = ValidationRequette.DemanderEmail("entrez votre email : ");
 
-                Console.WriteLine("Entrez votre email : ");
-                email = Console.ReadLine();
+                // validation du telephone
+                telephone = ValidationRequette.DemanderTelephone("entrez votre telephone : ");
 
-                Console.WriteLine("Entrez votre telephone : ");
-                telephone = Console.ReadLine();
+                // validation de l'adresse
+                adresse = ValidationRequette.DemanderAdresse("entrez votre adresse : ");
 
-                Console.WriteLine("Entrez votre adresse : ");
-                adresse = Console.ReadLine();
+                // validation de la station de metro
+                stationMetro = ValidationRequette.DemanderStationMetro("entrez votre station de metro la plus proche : ");
 
-                Console.WriteLine("Entrez votre station de metro la plus proche : ");
-                stationMetro = Console.ReadLine();
-
-                Console.WriteLine("Voulez-vous être cuisinier: 1 ou client : 2 (tapez le chiffre)");
-                int reponse = Convert.ToInt32(Console.ReadLine());
+                // validation du type d'utilisateur
+                int reponse = ValidationRequette.DemanderTypeUtilisateur("voulez-vous etre cuisinier: 1 ou client : 2 (tapez le chiffre)");
 
                 // determine le type d'utilisateur
                 string typeUtilisateur;
@@ -184,31 +179,45 @@ namespace Livrable_2_psi
                     typeUtilisateur = "Client";
                 }
 
-                // insere le nouvel utilisateur
-                string requeteInsert = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, téléphone, adresse, type__Cuisinier_Client_, mot_de_passe) " +
-                                     "VALUES ('" + nomUtilisateur + "', '" + nom + "', '" + prenom + "', '" + email + "', '" + telephone + "', '" + adresse + "', '" + typeUtilisateur + "', '" + motDePasse + "')";
+                // verifie si l'email existe deja
+                string sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = @email";
+                MySqlCommand cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
+                cmdVerifEmail.Parameters.AddWithValue("@email", email);
+                int countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
 
-                MySqlCommand commandeInsert = new MySqlCommand(requeteInsert, connexionBDD.maConnexion);
-                commandeInsert.CommandText = requeteInsert;
-                commandeInsert.ExecuteNonQuery();
-                commandeInsert.Dispose();
+                if (countEmail > 0)
+                {
+                    Console.WriteLine("cet email est deja utilise");
+                    return false;
+                }
 
-                // insere dans la table client ou cuisinier selon le type
+                // insere dans la table utilisateur
+                string sqlUtilisateur = "INSERT INTO utilisateur (nom_utilisateur, email, telephone, mot_de_passe, type_utilisateur) " +
+                                      "VALUES (@nomUtilisateur, @email, @telephone, @motDePasse, @typeUtilisateur); " +
+                                      "SELECT LAST_INSERT_ID();";
+                MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
+                cmdUtilisateur.Parameters.AddWithValue("@nomUtilisateur", nomUtilisateur);
+                cmdUtilisateur.Parameters.AddWithValue("@email", email);
+                cmdUtilisateur.Parameters.AddWithValue("@telephone", telephone);
+                cmdUtilisateur.Parameters.AddWithValue("@motDePasse", motDePasse);
+                cmdUtilisateur.Parameters.AddWithValue("@typeUtilisateur", typeUtilisateur);
+
+                int idUtilisateur = Convert.ToInt32(cmdUtilisateur.ExecuteScalar());
+
+                // insere dans la table correspondante selon le type
                 if (estClient)
                 {
-                    string requeteClient = "INSERT INTO client (id_client, id_utilisateur, type_client__Particulier_Entreprise_, StationMetro) " +
-                                         "VALUES ('" + nomUtilisateur + "_client', '" + nomUtilisateur + "', 'Particulier', '" + stationMetro + "')";
-                    MySqlCommand commandeClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
-                    commandeClient.ExecuteNonQuery();
-                    commandeClient.Dispose();
+                    string sqlClient = "INSERT INTO client (id_utilisateur) VALUES (@idUtilisateur)";
+                    MySqlCommand cmdClient = new MySqlCommand(sqlClient, connexionBDD.maConnexion);
+                    cmdClient.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
+                    cmdClient.ExecuteNonQuery();
                 }
                 else
                 {
-                    string requeteCuisinier = "INSERT INTO cuisinier (id_cuisinier, type__Cuisinier_Client_, zones_livraison, note_moyenne, nombre_livraisons, id_utilisateur, StationMetro) " +
-                                            "VALUES ('" + nomUtilisateur + "_cuisinier', 'Cuisinier', '', 0.0, 0, '" + nomUtilisateur + "', '" + stationMetro + "')";
-                    MySqlCommand commandeCuisinier = new MySqlCommand(requeteCuisinier, connexionBDD.maConnexion);
-                    commandeCuisinier.ExecuteNonQuery();
-                    commandeCuisinier.Dispose();
+                    string sqlCuisinier = "INSERT INTO cuisinier (id_utilisateur) VALUES (@idUtilisateur)";
+                    MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
+                    cmdCuisinier.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
+                    cmdCuisinier.ExecuteNonQuery();
                 }
 
                 Console.WriteLine("inscription reussie");
@@ -253,7 +262,6 @@ namespace Livrable_2_psi
             {
                 return 0;
             }
-
         }
     }
 }
