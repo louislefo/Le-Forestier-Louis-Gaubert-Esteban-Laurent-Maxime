@@ -1,3 +1,5 @@
+-- données test 
+
 USE PSI_LoMaEs;
 
 -- Insertion des utilisateurs
@@ -9,15 +11,15 @@ INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, téléphone, adres
 ('U005', 'Robert', 'Emma', 'emma.robert@email.com', '0656789012', '12 rue de Rivoli, Paris', 'Cuisinier', 'mdp102');
 
 -- Insertion des cuisiniers
-INSERT INTO cuisinier (id_cuisinier, type__Cuisinier_Client_, zones_livraison, note_moyenne, nombre_livraisons, id_utilisateur) VALUES
-('C001', 'Cuisinier', '1er, 2e, 3e arrondissement', 4.5, 25, 'U001'),
-('C002', 'Cuisinier', '4e, 5e, 6e arrondissement', 4.8, 30, 'U003'),
-('C003', 'Cuisinier', '7e, 8e, 9e arrondissement', 4.2, 15, 'U005');
+INSERT INTO cuisinier (id_cuisinier, type__Cuisinier_Client_, zones_livraison, note_moyenne, nombre_livraisons, id_utilisateur, StationMetro) VALUES
+('C001', 'Cuisinier', '1er, 2e, 3e arrondissement', 4.5, 25, 'U001', 'Tuileries'),
+('C002', 'Cuisinier', '4e, 5e, 6e arrondissement', 4.8, 30, 'U003', 'Saint-Michel'),
+('C003', 'Cuisinier', '7e, 8e, 9e arrondissement', 4.2, 15, 'U005', 'Louvre-Rivoli');
 
 -- Insertion des clients
-INSERT INTO client (id_client, id_utilisateur, type_client__Particulier_Entreprise_, entreprise_nom, référent) VALUES
-('CL001', 'U002', 'Particulier', NULL, NULL),
-('CL002', 'U004', 'Entreprise', 'Tech Solutions', 'Jean Dupont');
+INSERT INTO client (id_client, id_utilisateur, type_client__Particulier_Entreprise_, entreprise_nom, référent, StationMetro) VALUES
+('CL001', 'U002', 'Particulier', NULL, NULL, 'Victor Hugo'),
+('CL002', 'U004', 'Entreprise', 'Tech Solutions', 'Jean Dupont', 'Louvre-Palais Royal');
 
 -- Insertion des recettes
 INSERT INTO Recette_ (id_recette, nom, description, origine) VALUES
