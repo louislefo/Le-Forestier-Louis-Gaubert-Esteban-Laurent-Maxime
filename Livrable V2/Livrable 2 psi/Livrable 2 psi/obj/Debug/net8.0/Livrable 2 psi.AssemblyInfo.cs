@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Livrable 2 psi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2a672376fc7c78e9dd164b8a6839c6e52d96938")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8659f61a0d1b43263775b696b0c9b4d58e7de8d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Livrable 2 psi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Livrable 2 psi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
