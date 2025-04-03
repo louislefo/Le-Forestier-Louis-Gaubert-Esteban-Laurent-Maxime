@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Livrable_2_psi
 {
     /// <summary>
     /// classe qui gere les algorithmes de plus court chemin en temps
     /// </summary>
-    public class PlusCourtChemin<T> where T : IComparable<T>  // élément de la documentation Csharp qui permet de garder l'élément T 
+    public class PlusCourtChemin<T> where T : IComparable<T>  // ï¿½lï¿½ment de la documentation Csharp qui permet de garder l'ï¿½lï¿½ment T 
     {
         /// <summary>
         /// trouve les stations de correspondance (stations sur plusieurs lignes)
@@ -51,6 +52,10 @@ namespace Livrable_2_psi
         /// </summary>
         public List<Noeud<T>> Dijkstra(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
+            // demarre le timer
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
             // trouve les stations de correspondance
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
@@ -172,6 +177,10 @@ namespace Livrable_2_psi
                 return new List<Noeud<T>>(); // retourne une liste vide si le chemin n'est pas valide
             }
 
+            // arrete le timer et affiche le temps
+            timer.Stop();
+            Console.WriteLine("Temps pour trouver le plus court chemin via Dijkstra : "+timer.ElapsedMilliseconds+" ms");
+
             return chemin;
         }
 
@@ -180,6 +189,10 @@ namespace Livrable_2_psi
         /// </summary>
         public List<Noeud<T>> BellmanFord(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
+            // demarre le timer
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
             // trouve les stations de correspondance
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
@@ -273,6 +286,10 @@ namespace Livrable_2_psi
                 return new List<Noeud<T>>(); // retourne une liste vide si le chemin n'est pas valide
             }
 
+            // arrete le timer et affiche le temps
+            timer.Stop();
+            Console.WriteLine("Temps pour trouver le plus court chemin via Bellman-Ford : " +timer.ElapsedMilliseconds +" ms");
+
             return chemin;
         }
 
@@ -281,6 +298,10 @@ namespace Livrable_2_psi
         /// </summary>
         public Dictionary<(Noeud<T>, Noeud<T>), double> FloydWarshall(Graphe<T> graphe)
         {
+            // demarre le timer
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
             // cree une liste des noeuds pour acceder facilement aux indices
             List<Noeud<T>> noeuds = new List<Noeud<T>>(graphe.Noeuds.Values);
             int n = noeuds.Count;
@@ -342,6 +363,10 @@ namespace Livrable_2_psi
                     }
                 }
             }
+
+            // arrete le timer et affiche le temps
+            timer.Stop();
+            Console.WriteLine("Temps pour trouver le plus court chemin via Floyd-Warshall : "+timer.ElapsedMilliseconds+" ms");
 
             return resultat;
         }
