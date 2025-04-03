@@ -7,7 +7,7 @@ namespace Livrable_2_psi
     /// <summary>
     /// classe qui gere les algorithmes de plus court chemin en temps
     /// </summary>
-    public class PlusCourtChemin<T> where T : IComparable<T>  // �l�ment de la documentation Csharp qui permet de garder l'�l�ment T 
+    public class PlusCourtChemin<T>  // where T : IComparable<T>  // element de la documentation Csharp qui permet de garder l'element T 
     {
         /// <summary>
         /// trouve les stations de correspondance (stations sur plusieurs lignes)
@@ -38,7 +38,7 @@ namespace Livrable_2_psi
                         if (noeud.NomStation == nomStation)
                         {
                             stationsCorrespondance.Add(noeud);
-                            break;
+                            break;  // on sort de la boucle car on a trouve le premier noeud
                         }
                     }
                 }
@@ -67,10 +67,10 @@ namespace Livrable_2_psi
             // initialise les temps
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                temps[noeud] = double.MaxValue;
+                temps[noeud] = double.MaxValue;  // on met un temps infini pour commencer
                 nonVisites.Add(noeud);
             }
-            temps[depart] = 0;
+            temps[depart] = 0;  // le depart est a 0
 
             // boucle principale
             while (nonVisites.Count > 0)
@@ -203,9 +203,9 @@ namespace Livrable_2_psi
             // initialise les temps
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                temps[noeud] = double.MaxValue;
+                temps[noeud] = double.MaxValue;  // on met un temps infini pour commencer
             }
-            temps[depart] = 0;
+            temps[depart] = 0;  // le depart est a 0
 
             // boucle principale
             for (int i = 0; i < graphe.Noeuds.Count - 1; i++)
@@ -314,11 +314,11 @@ namespace Livrable_2_psi
                 {
                     if (i == j)
                     {
-                        distances[i, j] = 0;
+                        distances[i, j] = 0;  // distance a soi-meme est 0
                     }
                     else
                     {
-                        distances[i, j] = int.MaxValue;
+                        distances[i, j] = int.MaxValue;  // on met une distance infinie pour commencer
                     }
                 }
             }
