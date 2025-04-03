@@ -22,9 +22,9 @@ namespace Livrable_2_psi
         {
             moduleEnCours = true;
             this.moduleClient = new ModuleClient(connexionBDD, grapheMetro);
-            this.moduleCuisinier = new ModuleCuisinier(connexionBDD);
-            this.moduleCommande = new ModuleCommande(connexionBDD);
-            this.moduleStatistiques = new ModuleStatistiques(connexionBDD);
+            this.moduleCuisinier = new ModuleCuisinier(connexionBDD, grapheMetro);
+            this.moduleCommande = new ModuleCommande(connexionBDD, grapheMetro);
+            this.moduleStatistiques = new ModuleStatistiques(connexionBDD, grapheMetro);
             this.moduleGraphe = new ModuleGraphe(grapheMetro);
         }
 

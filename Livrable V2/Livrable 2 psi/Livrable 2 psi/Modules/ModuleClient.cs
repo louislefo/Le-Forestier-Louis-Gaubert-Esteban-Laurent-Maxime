@@ -22,9 +22,8 @@ namespace Livrable_2_psi
 
         public void AjouterClientConsole()
         {
-            // creation de la connexion a la bdd
-            ConnexionBDD connexion = new ConnexionBDD();
-            
+           
+    
             try
             {
                 // validation des données avec ValidationRequette
@@ -44,14 +43,14 @@ namespace Livrable_2_psi
                 string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, adresse, type__Cuisinier_Client_) VALUES ('" + 
                     idUtilisateur + "', '" + nom + "', '" + prenom + "', '" + adresse + "', 'Client')";
                 
-                MySqlCommand cmdUtilisateur = new MySqlCommand(requeteUtilisateur, connexion.maConnexion);
+                MySqlCommand cmdUtilisateur = new MySqlCommand(requeteUtilisateur, connexionBDD.maConnexion);
                 cmdUtilisateur.ExecuteNonQuery();
                 
                 // insertion dans la table client
                 string requeteClient = "INSERT INTO client (id_client, id_utilisateur, type_client__Particulier_Entreprise_, StationMetro) VALUES ('" + 
                     idClient + "', '" + idUtilisateur + "', 'Particulier', '" + stationMetro + "')";
                 
-                MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexion.maConnexion);
+                MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
                 cmdClient.ExecuteNonQuery();
                 
                 Console.WriteLine("Client ajouté avec succès !");
@@ -60,10 +59,7 @@ namespace Livrable_2_psi
             {
                 Console.WriteLine("Erreur lors de l'ajout du client : " + e.Message);
             }
-            finally
-            {
-                connexion.FermerConnexion();
-            }
+            
         }
 
         public void SupprimerClient(int id)
