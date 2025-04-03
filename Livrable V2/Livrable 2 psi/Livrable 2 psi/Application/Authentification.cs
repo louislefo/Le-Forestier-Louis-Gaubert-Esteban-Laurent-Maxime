@@ -216,6 +216,17 @@ namespace Livrable_2_psi
                     MySqlCommand cmdClient = new MySqlCommand(sqlClient, connexionBDD.maConnexion);
                     cmdClient.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
                     cmdClient.ExecuteNonQuery();
+
+                    // ajout utilisatteur dans la BDD
+                    string sqlclientbdd = "CREATE USER IF NOT EXISTS '"+ nomUtilisateur + "'@'localhost' IDENTIFIED BY '"+ motDePasse+"';";
+                    MySqlCommand cmdclientbdd = new MySqlCommand(sqlclientbdd, connexionBDD.maConnexion);
+                    cmdclientbdd.ExecuteNonQuery();
+
+                    // ajout droit de lecture et d'écriture sur la BDD
+                    string sqlDroits = "SELECT, INSERT, UPDATE ON PSI_LoMaEs.* TO '"+ nomUtilisateur + "'@'localhost';";
+                    MySqlCommand cmdDroits = new MySqlCommand(sqlDroits, connexionBDD.maConnexion);
+                    cmdDroits.ExecuteNonQuery();
+
                 }
                 else
                 {
@@ -223,7 +234,20 @@ namespace Livrable_2_psi
                     MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
                     cmdCuisinier.Parameters.AddWithValue("@idUtilisateur", idUtilisateur);
                     cmdCuisinier.ExecuteNonQuery();
+
+                    // ajout utilisatteur dans la BDD
+                    string sqlcuisinierbdd = "CREATE USER IF NOT EXISTS '"+ nomUtilisateur + "'@'localhost' IDENTIFIED BY '"+ motDePasse+"';";
+                    MySqlCommand cmdcuisinierbdd = new MySqlCommand(sqlcuisinierbdd, connexionBDD.maConnexion);
+                    cmdcuisinierbdd.ExecuteNonQuery();
+
+                    // ajout droit de lecture et d'écriture sur la BDD
+                    string sqlDroits = "SELECT, INSERT, UPDATE ON PSI_LoMaEs.* TO '"+ nomUtilisateur + "'@'localhost';";
+                    MySqlCommand cmdDroits = new MySqlCommand(sqlDroits, connexionBDD.maConnexion);
+                    cmdDroits.ExecuteNonQuery();
                 }
+
+                
+
 
                 Console.WriteLine("inscription reussie");
                 Console.Clear();

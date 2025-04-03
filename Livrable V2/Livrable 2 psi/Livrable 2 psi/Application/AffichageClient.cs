@@ -11,16 +11,18 @@ namespace Livrable_2_psi
         public Authentification authentification;
         public bool applicationEnCours;
         public AffichageCuisinier affichageCuisinier;
-        public ConnexionBDD connexionBDD;
+        public ConnexionBDDClient connexionBDDClient;
         public Graphe<int> grapheMetro;
+        public SqlClient sqlClient;
 
         /// constructeur par defaut
-        public AffichageClient(ConnexionBDD connexion,Authentification authentification, Graphe<int> grapheMetro)
+        public AffichageClient(ConnexionBDDClient connexionBDDClient,Authentification authentification, Graphe<int> grapheMetro)
         {
             this.authentification = authentification;
-            this.connexionBDD = connexion;
+            this.connexionBDDClient = connexionBDDClient;
             this.grapheMetro = grapheMetro;
             applicationEnCours = true;
+            sqlClient = new SqlClient(connexionBDDClient);
         }
 
 
@@ -46,18 +48,17 @@ namespace Livrable_2_psi
                 {
                     case "1":
                         Console.Clear();
-                        // TODO: Afficher les plats disponibles
-                        Console.WriteLine("Fonctionnalite a venir");
+                        sqlClient.VoirPlatsDisponibles();
                         break;
                     case "2":
                         Console.Clear();
-                        // TODO: Afficher les commandes
-                        Console.WriteLine("Fonctionnalite a venir");
+                        Console.WriteLine("Fonctionnalite en cours de dev");
+                        //sqlClient.VoirCommandesClient(authentification.Idutilisateur);
                         break;
                     case "3":
                         Console.Clear();
-                        // TODO: Passer une commande
-                        Console.WriteLine("Fonctionnalite a venir");
+                        Console.WriteLine("Fonctionnalite en cours de dev");
+                        //sqlClient.PasserCommande(authentification.Idutilisateur);
                         break;
                     case "4":
                         Console.Clear();

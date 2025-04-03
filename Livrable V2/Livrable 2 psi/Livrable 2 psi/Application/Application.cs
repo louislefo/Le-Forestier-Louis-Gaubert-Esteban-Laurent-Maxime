@@ -83,12 +83,14 @@ namespace Livrable_2_psi
                             authentification.SeConnecter();
                             if (authentification.Qui() == 1)
                             {
-                                AffichageClient affichageclient = new AffichageClient(connexionBDD, authentification, grapheMetro);
+                                ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(authentification.nomUtilisateur, authentification.motDePasse);
+                                AffichageClient affichageclient = new AffichageClient(connexionBDDClient, authentification, grapheMetro);
                                 affichageclient.AfficherMenuClient(authentification.nomUtilisateur);
                             }
                             else
                             {
-                                AffichageCuisinier affichagecuisinier = new AffichageCuisinier(connexionBDD, authentification, grapheMetro);
+                                ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(authentification.nomUtilisateur, authentification.motDePasse);
+                                AffichageCuisinier affichagecuisinier = new AffichageCuisinier(connexionBDDCuisinier, authentification, grapheMetro);
                                 affichagecuisinier.AfficherMenuCuisinier(authentification.nomUtilisateur);
                             }
                             Console.Clear();
@@ -97,12 +99,14 @@ namespace Livrable_2_psi
                             authentification.SInscrire();
                             if (authentification.Qui() == 1)
                             {
-                                AffichageClient affichageclient = new AffichageClient(connexionBDD, authentification, grapheMetro);
+                                ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(authentification.nomUtilisateur, authentification.motDePasse);
+                                AffichageClient affichageclient = new AffichageClient(connexionBDDClient, authentification, grapheMetro);
                                 affichageclient.AfficherMenuClient(authentification.nomUtilisateur);
                             }
                             else
                             {
-                                AffichageCuisinier affichagecuisinier = new AffichageCuisinier(connexionBDD, authentification, grapheMetro);
+                                ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(authentification.nomUtilisateur, authentification.motDePasse);
+                                AffichageCuisinier affichagecuisinier = new AffichageCuisinier(connexionBDDCuisinier, authentification, grapheMetro);
                                 affichagecuisinier.AfficherMenuCuisinier(authentification.nomUtilisateur);
                             }
                             Console.Clear();
