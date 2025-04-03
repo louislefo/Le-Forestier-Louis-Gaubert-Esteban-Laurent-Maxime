@@ -164,61 +164,6 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// simule les etapes d'une commande
-        /// </summary>
-        public void SimulerEtapesCommande(int idCommande)
-        {
-            try
-            {
-                // recupere les informations de la commande
-                string sql = "SELECT co.*, u.nom as nom_client, u.prenom as prenom_client, " +
-                           "p.nom_plat, cu.station_metro as station_cuisinier, c.station_metro as station_client " +
-                           "FROM commande co " +
-                           "INNER JOIN utilisateur u ON co.id_client = u.id_utilisateur " +
-                           "INNER JOIN plat p ON co.id_plat = p.id_plat " +
-                           "INNER JOIN cuisinier cu ON co.id_cuisinier = cu.id_utilisateur " +
-                           "INNER JOIN client c ON co.id_client = c.id_utilisateur " +
-                           "WHERE co.id_commande = @idCommande";
-
-                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
-                cmd.Parameters.AddWithValue("@idCommande", idCommande);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        Console.WriteLine("\nSimulation des etapes de la commande :");
-                        Console.WriteLine("----------------------------------------");
-                        Console.WriteLine("Commande #" + reader["id_commande"]);
-                        Console.WriteLine("Client: " + reader["prenom_client"] + " " + reader["nom_client"]);
-                        Console.WriteLine("Plat: " + reader["nom_plat"]);
-                        Console.WriteLine("Prix: " + reader["prix_total"] + "€");
-                        Console.WriteLine("Date: " + reader["date_commande"]);
-                        Console.WriteLine("Station depart: " + reader["station_cuisinier"]);
-                        Console.WriteLine("Station arrivee: " + reader["station_client"]);
-                        Console.WriteLine("----------------------------------------");
-
-                        // simule les etapes
-                        Console.WriteLine("1. Commande recue");
-                        System.Threading.Thread.Sleep(1000);
-                        Console.WriteLine("2. Preparation en cours");
-                        System.Threading.Thread.Sleep(2000);
-                        Console.WriteLine("3. Livraison en cours");
-                        System.Threading.Thread.Sleep(3000);
-                        Console.WriteLine("4. Commande livree");
-                    }
-                    else
-                    {
-                        throw new Exception("commande non trouvee");
-                    }
-                }
-                cmd.Dispose();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("erreur lors de la simulation des etapes de la commande : " + ex.Message);
-            }
-        }
+        
     }
 } 

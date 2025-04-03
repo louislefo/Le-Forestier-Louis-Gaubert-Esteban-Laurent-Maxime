@@ -22,9 +22,9 @@ namespace Livrable_2_psi
         {
             moduleEnCours = true;
             this.moduleClient = new ModuleClient(connexionBDD, grapheMetro);
-            this.moduleCuisinier = new ModuleCuisinier(connexionBDD, grapheMetro);
-            this.moduleCommande = new ModuleCommande(connexionBDD, grapheMetro);
-            this.moduleStatistiques = new ModuleStatistiques(connexionBDD, grapheMetro);
+            this.moduleCuisinier = new ModuleCuisinier(connexionBDD);
+            this.moduleCommande = new ModuleCommande(connexionBDD);
+            this.moduleStatistiques = new ModuleStatistiques(connexionBDD);
             this.moduleGraphe = new ModuleGraphe(grapheMetro);
         }
 
@@ -238,8 +238,7 @@ namespace Livrable_2_psi
                 Console.WriteLine("2. Modifier une commande");
                 Console.WriteLine("3. Calculer le prix d'une commande");
                 Console.WriteLine("4. Determiner le chemin de livraison");
-                Console.WriteLine("5. Simuler les etapes d'une commande");
-                Console.WriteLine("6. Retour");
+                Console.WriteLine("5. Retour");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -280,12 +279,6 @@ namespace Livrable_2_psi
                         break;
                     case "5":
                         Console.Clear();
-                        Console.Write("ID de la commande : ");
-                        int idSimulation = int.Parse(Console.ReadLine());
-                        moduleCommande.SimulerEtapesCommande(idSimulation);
-                        break;
-                    case "6":
-                        Console.Clear();
                         continuer = false;
                         break;
                     default:
@@ -308,8 +301,7 @@ namespace Livrable_2_psi
                 Console.WriteLine("3. Afficher la moyenne des prix des commandes");
                 Console.WriteLine("4. Afficher la moyenne des comptes clients");
                 Console.WriteLine("5. Afficher les commandes par type de plat");
-                Console.WriteLine("6. Afficher les statistiques creatives");
-                Console.WriteLine("7. Retour");
+                Console.WriteLine("6. Retour");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -345,10 +337,6 @@ namespace Livrable_2_psi
                         moduleStatistiques.AfficherCommandesParTypePlat(dateDebutType, dateFinType);
                         break;
                     case "6":
-                        Console.Clear();
-                        moduleStatistiques.AfficherStatistiquesCreatives();
-                        break;
-                    case "7":
                         continuer = false;
                         break;
                     default:
