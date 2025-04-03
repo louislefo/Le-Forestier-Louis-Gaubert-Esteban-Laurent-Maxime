@@ -6,7 +6,11 @@ using Livrable_2_psi;
 
 namespace Livrable_2_psi
 {
-    public class ValidationRequette
+    public class ValidationRequette // agit comme une grande bibliothèque de fonction que l'on peut utiliser pour la connexion et l'incription des utilisateur
+                                    // toutes les fonctions ne sont pas forcéménet utilisées mais la plupart permettent de bien remplir la base de données et 
+                                    // éviter les coquilles
+                                    // cela permet aussi de guider l'utilisateur lors de sa connexion ou de son incription
+                                    // En temps que root les fonctions sont aussi utilisées pour vérifier que le root ajoute de bonnes donnnées dans la BDD
     {
         public Graphe<int> GrapheMetro;
         public Dictionary<int, Noeud<int>> noeuds;
@@ -15,93 +19,6 @@ namespace Livrable_2_psi
         {
             this.GrapheMetro = GrapheMetro;
             this.noeuds = GrapheMetro.Noeuds;
-        }
-        
-        /// demande et valide un nombre entier
-        public static int DemanderNombreEntier(string message)
-        {
-            int nombre;
-            bool valide = false;
-
-            do
-            {
-                Console.Write(message);
-                if (int.TryParse(Console.ReadLine(), out nombre))
-                {
-                    if (nombre > 0)
-                    {
-                        valide = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("le nombre doit etre positif");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("entrez un nombre valide");
-                }
-            } while (!valide);
-
-            return nombre;
-        }
-
-        /// demande et valide un nombre decimal
-        public static double DemanderNombreDecimal(string message)
-        {
-            double nombre;
-            bool valide = false;
-
-            do
-            {
-                Console.Write(message);
-                if (double.TryParse(Console.ReadLine(), out nombre))
-                {
-                    if (nombre > 0)
-                    {
-                        valide = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("le nombre doit etre positif");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("entrez un nombre valide");
-                }
-            } while (!valide);
-
-            return nombre;
-        }
-
-        /// demande et valide une date
-        public static DateTime DemanderDate(string message)
-        {
-            DateTime date;
-            bool valide = false;
-
-            do
-            {
-                Console.Write(message + " (format: yyyy-mm-dd) : ");
-                if (DateTime.TryParse(Console.ReadLine(), out date))
-                {
-                    if (date <= DateTime.Now)
-                    {
-                        valide = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("la date ne peut pas etre dans le futur");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("entrez une date valide");
-                }
-            } while (!valide);
-
-            return date;
         }
 
         /// demande un nom et verifie qu'il est valide
@@ -273,52 +190,6 @@ namespace Livrable_2_psi
             }
 
             return station;
-        }
-
-        /// demande et valide un chemin de fichier
-        public static string DemanderCheminFichier(string message)
-        {
-            string chemin;
-            bool valide = false;
-
-            do
-            {
-                Console.Write(message);
-                chemin = Console.ReadLine();
-                if (System.IO.File.Exists(chemin))
-                {
-                    valide = true;
-                }
-                else
-                {
-                    Console.WriteLine("le fichier n'existe pas");
-                }
-            } while (!valide);
-
-            return chemin;
-        }
-
-        /// demande une confirmation
-        public static bool DemanderConfirmation(string message)
-        {
-            string reponse;
-            bool valide = false;
-
-            do
-            {
-                Console.Write(message + " (o/n) : ");
-                reponse = Console.ReadLine().ToLower();
-                if (reponse == "o" || reponse == "n")
-                {
-                    valide = true;
-                }
-                else
-                {
-                    Console.WriteLine("repondez par o (oui) ou n (non)");
-                }
-            } while (!valide);
-
-            return reponse == "o";
         }
 
         /// valide un email
