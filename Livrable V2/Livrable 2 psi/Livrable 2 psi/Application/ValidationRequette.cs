@@ -47,7 +47,7 @@ namespace Livrable_2_psi
                 }
 
                 // verifie que le nom ne contient que des lettres, espaces et tirets
-                valide = true;
+                        valide = true;
                 for (int i = 0; i < nom.Length; i++)
                 {
                     if (!char.IsLetter(nom[i]) && nom[i] != ' ' && nom[i] != '-')
@@ -181,7 +181,7 @@ namespace Livrable_2_psi
                     }
 
                     valide = true;
-                } while (!valide);
+            } while (!valide);
             }
             catch (Exception ex)
             {

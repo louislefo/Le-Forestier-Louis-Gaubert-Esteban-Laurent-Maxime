@@ -104,10 +104,6 @@ namespace Livrable_2_psi
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
                 string stationMetro = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
                 
-                // demande des zones de livraison
-                Console.WriteLine("Entrez les zones de livraison (séparées par des virgules) : ");
-                string zonesLivraison = Console.ReadLine();
-                
                 // generation d'un id unique pour l'utilisateur et le cuisinier
                 string idUtilisateur = GenererIdUtilisateur();
                 string idCuisinier = GenererIdCuisinier();
@@ -120,8 +116,8 @@ namespace Livrable_2_psi
                 cmdUtilisateur.ExecuteNonQuery();
                 
                 // insertion dans la table cuisinier
-                string requeteCuisinier = "INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, zones_livraison, note_moyenne, nombre_livraisons) VALUES ('" + 
-                    idCuisinier + "', '" + idUtilisateur + "', '" + stationMetro + "', '" + zonesLivraison + "', 0, 0)";
+                string requeteCuisinier = "INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, note_moyenne, nombre_livraisons) VALUES ('" + 
+                    idCuisinier + "', '" + idUtilisateur + "', '" + stationMetro + "', 0, 0)";
                 
                 MySqlCommand cmdCuisinier = new MySqlCommand(requeteCuisinier, connexionBDD.maConnexion);
                 cmdCuisinier.ExecuteNonQuery();

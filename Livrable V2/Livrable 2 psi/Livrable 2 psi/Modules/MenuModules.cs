@@ -113,11 +113,23 @@ namespace Livrable_2_psi
                     
                     case "3":
                         Console.Clear();
-                        moduleClient.SupprimerClient();
+                        Console.Write("ID du client : ");
+                        string idSupprimer = Console.ReadLine();
+                        moduleClient.SupprimerClient(idSupprimer);
                         break;
                     case "4":
                         Console.Clear();
-                        moduleClient.ModifierClient();
+                        Console.Write("ID du client : ");
+                        int idModifier = int.Parse(Console.ReadLine());
+                        Console.Write("nouveau nom : ");
+                        string nom = Console.ReadLine();
+                        Console.Write("nouveau prenom : ");
+                        string prenom = Console.ReadLine();
+                        Console.Write("nouvelle adresse : ");
+                        string adresse = Console.ReadLine();
+                        Console.Write("nouvelle station metro : ");
+                        string stationMetro = Console.ReadLine();
+                        moduleClient.ModifierClient(idModifier, nom, prenom, adresse, stationMetro);
                         break;
                     case "5":
                         Console.Clear();
