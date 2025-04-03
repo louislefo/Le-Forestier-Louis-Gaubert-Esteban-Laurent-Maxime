@@ -60,7 +60,8 @@ namespace Livrable_2_psi
                     case "4":
                         Console.Clear();
                         authentification.SeDeconnecter();
-                        continuer = false;
+                        connexionBDDCuisinier.FermerConnexionCuisinier();
+                        continuer = false;  
                         Console.WriteLine("Vous etes deconnecte");
                         break;
                     case "5":
