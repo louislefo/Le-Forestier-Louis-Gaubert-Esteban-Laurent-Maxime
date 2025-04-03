@@ -13,17 +13,17 @@ namespace Livrable_2_psi
         public MySqlConnection maConnexionCuisinier;
 
         // pour crer un utilisateur pour le cuistot
-        //create user if not exists 'superbozo'@'localhost' identified by '123' ;
-        //grant all on loueur.* to 'superbozo'@'localhost';
+        //create user if not exists 'IDCuisinier'@'localhost' identified by '123' ;
+        //grant all * to 'superbozo'@'localhost';
 
-        public ConnexionBDDCuisinier(string nomCuisinier, string motDePasse)
+        public ConnexionBDDCuisinier(string IDCuisinier, string motDePasse)
         {
             try
             {
-                string chaineConnexionCuisinier = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + nomCuisinier + ";PASSWORD=" + motDePasse;
+                string chaineConnexionCuisinier = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + IDCuisinier + ";PASSWORD=" + motDePasse;
                 maConnexionCuisinier = new MySqlConnection(chaineConnexionCuisinier);
                 maConnexionCuisinier.Open();
-                Console.WriteLine("connexion cuisinier " + nomCuisinier + " reussie");
+                Console.WriteLine("connexion cuisinier " + IDCuisinier + " reussie");
             }
             catch (MySqlException e)
             {

@@ -7,22 +7,25 @@ using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
-    /// classe qui gere la connexion a la bdd pour les clients
-    /// pas optimise mais ca marche
+    
     public class ConnexionBDDClient
     {
-        /// la connexion mysql pour les clients
+        
         public MySqlConnection maConnexionClient;
 
-        /// constructeur qui prend le nom et mdp du client
-        public ConnexionBDDClient(string nomClient, string motDePasse)
+
+
+        //create user if not exists 'superbozo'@'localhost' identified by '123' ;
+        //grant all on loueur.* to 'superbozo'@'localhost';
+        
+        public ConnexionBDDClient(string IDClient, string motDePasse)
         {
             try
             {
-                string chaineConnexionClient = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + nomClient + ";PASSWORD=" + motDePasse;
+                string chaineConnexionClient = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + IDClient + ";PASSWORD=" + motDePasse;
                 maConnexionClient = new MySqlConnection(chaineConnexionClient);
                 maConnexionClient.Open();
-                Console.WriteLine("connexion client " + nomClient + " reussie");
+                Console.WriteLine("connexion client " + IDClient + " reussie");
             }
             catch (MySqlException e)
             {
@@ -30,7 +33,7 @@ namespace Livrable_2_psi
             }
         }
 
-        /// ferme la connexion des clients
+        
         public void FermerConnexionClient()
         {
             try
@@ -44,20 +47,6 @@ namespace Livrable_2_psi
             }
         }
 
-        /// test pour voir si ca marche
-        public void TestConnexionClient()
-        {
-            try
-            {
-                string requete = "SELECT COUNT(*) FROM client";
-                MySqlCommand commande = new MySqlCommand(requete, maConnexionClient);
-                int nbClients = Convert.ToInt32(commande.ExecuteScalar());
-                Console.WriteLine("ya " + nbClients + " clients");
-            }
-            catch(MySqlException e)
-            {
-                Console.WriteLine("oups erreur test client : " + e.ToString());
-            }
-        }
+        
     }
 }
