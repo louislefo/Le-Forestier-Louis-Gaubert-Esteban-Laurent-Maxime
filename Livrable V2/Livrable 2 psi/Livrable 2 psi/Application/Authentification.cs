@@ -275,9 +275,8 @@ namespace Livrable_2_psi
                 Console.WriteLine("1 : Créer un compte cuisinier");
                 Console.WriteLine("2 : Créer un compte client");
                 Console.WriteLine("3 : Créer les deux");
-                Console.WriteLine("4 : Ne rien créer");
                 
-                int choix = ValidationRequette.DemanderTypeUtilisateur("Entrez votre choix (1-4) : ");
+                int choix = ValidationRequette.DemanderTypeUtilisateur("Entrez votre choix (1-3) : ");
                 
                 // creation d'une instance de ValidationRequette avec le graphe
                 ValidationRequette validation = new ValidationRequette(GrapheMetro);
