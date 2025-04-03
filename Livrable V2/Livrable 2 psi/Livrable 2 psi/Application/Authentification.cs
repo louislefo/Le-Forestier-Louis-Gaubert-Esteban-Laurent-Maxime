@@ -25,9 +25,11 @@ namespace Livrable_2_psi
 
         public AffichageCuisinier affichageCuisinier;
         public AffichageClient affichageClient;
+        public ValidationRequette ValidationRequette;
+        public Graphe<int> GrapheMetro;
 
         /// constructeur par defaut
-        public Authentification(ConnexionBDD connexionBDD)
+        public Authentification(ConnexionBDD connexionBDD, Graphe<int> GrapheMetro)
         {
             nomUtilisateur = "";
             motDePasse = "";
@@ -41,8 +43,11 @@ namespace Livrable_2_psi
             estCuisinier = false;
             estConnecte = false;
             this.connexionBDD = connexionBDD;
-        }
+            this.GrapheMetro = GrapheMetro;
+            ValidationRequette newrequette = new ValidationRequette(GrapheMetro);
 
+        }
+        
         /// methode pour se connecter
         public bool SeConnecter()
         {

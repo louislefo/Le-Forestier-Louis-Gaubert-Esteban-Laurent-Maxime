@@ -27,14 +27,18 @@ namespace Livrable_2_psi
         public Application()
         {
             connexionBDD = new ConnexionBDD();
-            authentification = new Authentification(connexionBDD);
-            menuModules = new MenuModules(connexionBDD, grapheMetro);
 
             // graphe
             grapheMetro = new Graphe<int>();
             chargeur = new ChargerFichiers();
             ChargerDonneesMetro();
             gestionnaire = new GestionnaireItineraire<int>(grapheMetro);
+
+
+            authentification = new Authentification(connexionBDD,grapheMetro);
+            menuModules = new MenuModules(connexionBDD, grapheMetro);
+
+            
         }
 
         private void ChargerDonneesMetro()

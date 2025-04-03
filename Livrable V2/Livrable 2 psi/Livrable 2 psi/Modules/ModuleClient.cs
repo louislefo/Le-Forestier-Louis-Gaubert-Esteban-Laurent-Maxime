@@ -80,7 +80,7 @@ namespace Livrable_2_psi
             {
                 string sql = "SELECT u.*, c.station_metro FROM utilisateur u " +
                            "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                           "ORDER BY u.nom, u.prenom";
+                           "ORDER BY u.nom, u.prenom DESC";
 
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -114,7 +114,7 @@ namespace Livrable_2_psi
             {
                 string sql = "SELECT u.*, c.station_metro FROM utilisateur u " +
                            "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                           "ORDER BY u.adresse";
+                           "ORDER BY u.adresse DESC";
 
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 using (MySqlDataReader reader = cmd.ExecuteReader())

@@ -1,11 +1,22 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Collections.Generic;
+using Livrable_2_psi;
 
 namespace Livrable_2_psi
 {
     public class ValidationRequette
     {
+        public Graphe<int> GrapheMetro;
+        public Dictionary<int, Noeud<int>> noeuds;
+
+        public ValidationRequette(Graphe<int> GrapheMetro)
+        {
+            this.GrapheMetro = GrapheMetro;
+            this.noeuds = GrapheMetro.Noeuds;
+        }
+        
         /// demande et valide un nombre entier
         public static int DemanderNombreEntier(string message)
         {
@@ -190,42 +201,82 @@ namespace Livrable_2_psi
         }
 
         /// demande et valide une station de metro
-        public static string DemanderStationMetro(string message)
+        public string DemanderStationMetro(string message)
         {
             string station;
             bool valide = false;
 
-            do
+            // utiliser le dictionnaire noeuds du graphe
+            try
             {
-                Console.Write(message);
-                station = Console.ReadLine();
-
-                // verifie si la station est vide
-                if (string.IsNullOrEmpty(station))
+                // verifie si le graphe est charge
+                if(noeuds == null || noeuds.Count == 0)
                 {
-                    Console.WriteLine("la station ne peut pas etre vide");
-                    continue;
+                    Console.WriteLine("le graphe n'est pas charge");
+                    return "";
                 }
 
-                // verifie la longueur minimale
-                if (station.Length < 2)
+                do
                 {
-                    Console.WriteLine("la station doit contenir au moins 2 caracteres");
-                    continue;
-                }
+                    Console.Write(message);
+                    station = Console.ReadLine().ToLower();
 
-                // verifie que la station ne contient que des lettres, espaces et tirets
-                valide = true;
-                for (int i = 0; i < station.Length; i++)
-                {
-                    if (!char.IsLetter(station[i]) && station[i] != ' ' && station[i] != '-')
+                    // verifie si la station est vide
+                    if (string.IsNullOrEmpty(station))
                     {
-                        valide = false;
-                        Console.WriteLine("la station ne peut contenir que des lettres, espaces et tirets");
-                        break;
+                        Console.WriteLine("la station ne peut pas etre vide");
+                        continue;
                     }
-                }
-            } while (!valide);
+
+                    // verifie la longueur minimale
+                    if (station.Length < 2)
+                    {
+                        Console.WriteLine("la station doit contenir au moins 2 caracteres");
+                        continue;
+                    }
+
+                    // verifie que la station ne contient que des lettres, espaces et tirets
+                    bool formatValide = true;
+                    for (int i = 0; i < station.Length; i++)
+                    {
+                        if (!char.IsLetter(station[i]) && station[i] != ' ' && station[i] != '-')
+                        {
+                            formatValide = false;
+                            Console.WriteLine("la station ne peut contenir que des lettres, espaces et tirets");
+                            break;
+                        }
+                    }
+
+                    if (!formatValide)
+                    {
+                        continue;
+                    }
+
+                    // verifie si la station existe dans le graphe
+                    bool stationExiste = false;
+                    foreach (var noeud in noeuds.Values)
+                    {
+                        if (noeud.NomStation.ToLower() == station)
+                        {
+                            stationExiste = true;
+                            break;
+                        }
+                    }
+
+                    if (!stationExiste)
+                    {
+                        Console.WriteLine("cette station n'existe pas dans le reseau de metro");
+                        continue;
+                    }
+
+                    valide = true;
+                } while (!valide);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de la verification de la station : " + ex.Message);
+                return "";
+            }
 
             return station;
         }
