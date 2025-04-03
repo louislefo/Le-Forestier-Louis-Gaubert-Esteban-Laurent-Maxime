@@ -20,6 +20,74 @@ namespace Livrable_2_psi
             this.grapheMetro = grapheMetro;
         }
 
+        /// <summary>
+        /// genere un id unique pour un utilisateur
+        /// </summary>
+        private string GenererIdUtilisateur()
+        {
+            try
+            {
+                // recupere le dernier id utilisateur
+                string sql = "SELECT id_utilisateur FROM utilisateur WHERE id_utilisateur LIKE 'USR%' ORDER BY id_utilisateur DESC LIMIT 1";
+                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
+                object result = cmd.ExecuteScalar();
+                
+                if (result == null)
+                {
+                    // si aucun utilisateur n'existe, commence par USR001
+                    return "USR001";
+                }
+                
+                string dernierId = result.ToString();
+                // extrait le numero
+                string numeroStr = dernierId.Substring(3);
+                int numero = int.Parse(numeroStr) + 1;
+                
+                // formate le nouvel id
+                return "USR" + numero.ToString("D3");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de la generation de l'id utilisateur : " + ex.Message);
+                // en cas d'erreur, genere un id avec timestamp
+                return "USR" + DateTime.Now.Ticks;
+            }
+        }
+        
+        /// <summary>
+        /// genere un id unique pour un client
+        /// </summary>
+        private string GenererIdClient()
+        {
+            try
+            {
+                // recupere le dernier id client
+                string sql = "SELECT id_client FROM client WHERE id_client LIKE 'CLI%' ORDER BY id_client DESC LIMIT 1";
+                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
+                object result = cmd.ExecuteScalar();
+                
+                if (result == null)
+                {
+                    // si aucun client n'existe, commence par CLI001
+                    return "CLI001";
+                }
+                
+                string dernierId = result.ToString();
+                // extrait le numero
+                string numeroStr = dernierId.Substring(3);
+                int numero = int.Parse(numeroStr) + 1;
+                
+                // formate le nouvel id
+                return "CLI" + numero.ToString("D3");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de la generation de l'id client : " + ex.Message);
+                // en cas d'erreur, genere un id avec timestamp
+                return "CLI" + DateTime.Now.Ticks;
+            }
+        }
+        
         public void AjouterClientConsole()
         {
             try
@@ -51,9 +119,9 @@ namespace Livrable_2_psi
                     referent = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
                 }
                 
-                // generation d'un id unique pour l'utilisateur
-                string idUtilisateur = "U" + DateTime.Now.Ticks;
-                string idClient = "C" + DateTime.Now.Ticks;
+                // generation d'un id unique pour l'utilisateur et le client
+                string idUtilisateur = GenererIdUtilisateur();
+                string idClient = GenererIdClient();
                 
                 // insertion dans la table utilisateur
                 string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
@@ -72,6 +140,85 @@ namespace Livrable_2_psi
                 cmdClient.ExecuteNonQuery();
                 
                 Console.WriteLine("Client ajouté avec succès !");
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Erreur lors de l'ajout du client : " + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// ajoute un client a partir d un utilisateur existant
+        /// </summary>
+        public void AjouterClientExistant()
+        {
+            try
+            {
+                // demande l'id de l'utilisateur existant
+                Console.WriteLine("Entrez l'ID de l'utilisateur existant : ");
+                string idUtilisateur = Console.ReadLine();
+                
+                // verifie si l'utilisateur existe
+                string sqlVerif = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur = @id";
+                MySqlCommand cmdVerif = new MySqlCommand(sqlVerif, connexionBDD.maConnexion);
+                cmdVerif.Parameters.AddWithValue("@id", idUtilisateur);
+                
+                int count = Convert.ToInt32(cmdVerif.ExecuteScalar());
+                
+                if (count == 0)
+                {
+                    Console.WriteLine("L'utilisateur avec l'ID " + idUtilisateur + " n'existe pas dans la base de données.");
+                    return;
+                }
+                
+                // verifie si l'utilisateur est deja un client
+                string sqlVerifClient = "SELECT COUNT(*) FROM client WHERE id_utilisateur = @id";
+                MySqlCommand cmdVerifClient = new MySqlCommand(sqlVerifClient, connexionBDD.maConnexion);
+                cmdVerifClient.Parameters.AddWithValue("@id", idUtilisateur);
+                
+                int countClient = Convert.ToInt32(cmdVerifClient.ExecuteScalar());
+                
+                if (countClient > 0)
+                {
+                    Console.WriteLine("L'utilisateur avec l'ID " + idUtilisateur + " est déjà un client.");
+                    return;
+                }
+                
+                // demande les informations du client
+                ValidationRequette validation = new ValidationRequette(grapheMetro);
+                string stationMetro = validation.DemanderStationMetro("Entrez la station metro du client : ");
+                
+                // demande du type de client (particulier ou entreprise)
+                Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
+                int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
+                
+                string entrepriseNom = null;
+                string referent = null;
+                
+                // si c'est une entreprise, demander les informations supplémentaires
+                if (typeClient == 2)
+                {
+                    entrepriseNom = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
+                    referent = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
+                }
+                
+                // generation d'un id unique pour le client
+                string idClient = GenererIdClient();
+                
+                // insertion dans la table client
+                string requeteClient = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
+                    idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + 
+                    (entrepriseNom == null ? "NULL" : "'" + entrepriseNom + "'") + ", " + 
+                    (referent == null ? "NULL" : "'" + referent + "'") + ")";
+                
+                MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
+                cmdClient.ExecuteNonQuery();
+                
+                Console.WriteLine("Client ajouté avec succès à partir de l'utilisateur existant !");
+                
+                cmdVerif.Dispose();
+                cmdVerifClient.Dispose();
+                cmdClient.Dispose();
             }
             catch (MySqlException e)
             {
@@ -276,9 +423,6 @@ namespace Livrable_2_psi
             }
         }
         
-
-        
-
         
     }
 } 

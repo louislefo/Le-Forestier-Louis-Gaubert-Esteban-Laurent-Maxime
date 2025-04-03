@@ -22,7 +22,7 @@ namespace Livrable_2_psi
         {
             moduleEnCours = true;
             this.moduleClient = new ModuleClient(connexionBDD, grapheMetro);
-            this.moduleCuisinier = new ModuleCuisinier(connexionBDD);
+            this.moduleCuisinier = new ModuleCuisinier(connexionBDD, grapheMetro);
             this.moduleCommande = new ModuleCommande(connexionBDD,grapheMetro);
             this.moduleStatistiques = new ModuleStatistiques(connexionBDD);
             this.moduleGraphe = new ModuleGraphe(grapheMetro);
@@ -87,13 +87,14 @@ namespace Livrable_2_psi
             {
                 
                 Console.WriteLine("\n=== Module Client ===");
-                Console.WriteLine("1. Ajouter un client");
-                Console.WriteLine("2. Supprimer un client");
-                Console.WriteLine("3. Modifier un client");
-                Console.WriteLine("4. Afficher les clients par ordre alphabetique");
-                Console.WriteLine("5. Afficher les clients par rue");
-                Console.WriteLine("6. Afficher les clients par montant des achats");
-                Console.WriteLine("7. Retour");
+                Console.WriteLine("1. Ajouter un nouveau client");
+                Console.WriteLine("2. Ajouter un client à partir d'un utilisateur existant");
+                Console.WriteLine("3. Supprimer un client");
+                Console.WriteLine("4. Modifier un client");
+                Console.WriteLine("5. Afficher les clients par ordre alphabetique");
+                Console.WriteLine("6. Afficher les clients par rue");
+                Console.WriteLine("7. Afficher les clients par montant des achats");
+                Console.WriteLine("8. Retour");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -107,11 +108,16 @@ namespace Livrable_2_psi
                     
                     case "2":
                         Console.Clear();
+                        moduleClient.AjouterClientExistant();
+                        break;
+                    
+                    case "3":
+                        Console.Clear();
                         Console.Write("ID du client : ");
                         string idSupprimer = Console.ReadLine();
                         moduleClient.SupprimerClient(idSupprimer);
                         break;
-                    case "3":
+                    case "4":
                         Console.Clear();
                         Console.Write("ID du client : ");
                         int idModifier = int.Parse(Console.ReadLine());
@@ -125,19 +131,19 @@ namespace Livrable_2_psi
                         string stationMetro = Console.ReadLine();
                         moduleClient.ModifierClient(idModifier, nom, prenom, adresse, stationMetro);
                         break;
-                    case "4":
+                    case "5":
                         Console.Clear();
                         moduleClient.AfficherClientsAlphabetique();
                         break;
-                    case "5":
+                    case "6":
                         Console.Clear();
                         moduleClient.AfficherClientsParRue();
                         break;
-                    case "6":
+                    case "7":
                         Console.Clear();
                         moduleClient.AfficherClientsParAchats();
                         break;
-                    case "7":
+                    case "8":
                         Console.Clear();
                         continuer = false;
                         break;
@@ -156,13 +162,14 @@ namespace Livrable_2_psi
             {
                 
                 Console.WriteLine("\n=== Module Cuisinier ===");
-                Console.WriteLine("1. Ajouter un cuisinier");
-                Console.WriteLine("2. Supprimer un cuisinier");
-                Console.WriteLine("3. Modifier un cuisinier");
-                Console.WriteLine("4. Afficher les clients servis");
-                Console.WriteLine("5. Afficher les plats realises par frequence");
-                Console.WriteLine("6. Afficher le plat du jour");
-                Console.WriteLine("7. Retour");
+                Console.WriteLine("1. Ajouter un nouveau cuisinier");
+                Console.WriteLine("2. Ajouter un cuisinier à partir d'un utilisateur existant");
+                Console.WriteLine("3. Supprimer un cuisinier");
+                Console.WriteLine("4. Modifier un cuisinier");
+                Console.WriteLine("5. Afficher les clients servis");
+                Console.WriteLine("6. Afficher les plats realises par frequence");
+                Console.WriteLine("7. Afficher le plat du jour");
+                Console.WriteLine("8. Retour");
                 Console.Write("Choix : ");
 
                 string choix = Console.ReadLine();
@@ -175,11 +182,15 @@ namespace Livrable_2_psi
                         break;  
                     case "2":
                         Console.Clear();
+                        moduleCuisinier.AjouterCuisinierExistant();
+                        break;
+                    case "3":
+                        Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         string idSupprimer = Console.ReadLine();
                         moduleCuisinier.SupprimerCuisinier(idSupprimer);
                         break;
-                    case "3":
+                    case "4":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idModifier = int.Parse(Console.ReadLine());
@@ -193,7 +204,7 @@ namespace Livrable_2_psi
                         string stationMetro = Console.ReadLine();
                         moduleCuisinier.ModifierCuisinier(idModifier, nom, prenom, adresse, stationMetro);
                         break;
-                    case "4":
+                    case "5":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idCuisinier = int.Parse(Console.ReadLine());
@@ -203,19 +214,19 @@ namespace Livrable_2_psi
                         DateTime? dateFin = DateTime.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherClientsServis(idCuisinier, dateDebut, dateFin);
                         break;
-                    case "5":
+                    case "6":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idPlats = int.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherPlatsRealises(idPlats);
                         break;
-                    case "6":
+                    case "7":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
                         int idPlatJour = int.Parse(Console.ReadLine());
                         moduleCuisinier.AfficherPlatDuJour(idPlatJour);
                         break;
-                    case "7":
+                    case "8":
                         Console.Clear();
                         continuer = false;
                         break;
