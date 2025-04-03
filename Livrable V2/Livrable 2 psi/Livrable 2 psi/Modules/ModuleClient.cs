@@ -22,33 +22,50 @@ namespace Livrable_2_psi
 
         public void AjouterClientConsole()
         {
-           
-    
             try
             {
                 // validation des données avec ValidationRequette
                 string nom = ValidationRequette.DemanderNom("Entrez le nom du client : ");
                 string prenom = ValidationRequette.DemanderNom("Entrez le prenom du client : ");
                 string adresse = ValidationRequette.DemanderAdresse("Entrez l'adresse du client : ");
+                string email = ValidationRequette.DemanderEmail("Entrez l'email du client : ");
+                string telephone = ValidationRequette.DemanderTelephone("Entrez le telephone du client : ");
+                string motDePasse = ValidationRequette.DemanderMotDePasse("Entrez le mot de passe du client : ");
                 
                 // creation d'une instance de ValidationRequette avec le graphe
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
                 string stationMetro = validation.DemanderStationMetro("Entrez la station metro du client : ");
+                
+                // demande du type de client (particulier ou entreprise)
+                Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
+                int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
+                
+                string entrepriseNom = null;
+                string referent = null;
+                
+                // si c'est une entreprise, demander les informations supplémentaires
+                if (typeClient == 2)
+                {
+                    entrepriseNom = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
+                    referent = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
+                }
                 
                 // generation d'un id unique pour l'utilisateur
                 string idUtilisateur = "U" + DateTime.Now.Ticks;
                 string idClient = "C" + DateTime.Now.Ticks;
                 
                 // insertion dans la table utilisateur
-                string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, adresse, type__Cuisinier_Client_) VALUES ('" + 
-                    idUtilisateur + "', '" + nom + "', '" + prenom + "', '" + adresse + "', 'Client')";
+                string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
+                    idUtilisateur + "', '" + nom + "', '" + prenom + "', '" + email + "', '" + adresse + "', '" + telephone + "', '" + motDePasse + "')";
                 
                 MySqlCommand cmdUtilisateur = new MySqlCommand(requeteUtilisateur, connexionBDD.maConnexion);
                 cmdUtilisateur.ExecuteNonQuery();
                 
                 // insertion dans la table client
-                string requeteClient = "INSERT INTO client (id_client, id_utilisateur, type_client__Particulier_Entreprise_, StationMetro) VALUES ('" + 
-                    idClient + "', '" + idUtilisateur + "', 'Particulier', '" + stationMetro + "')";
+                string requeteClient = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
+                    idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + 
+                    (entrepriseNom == null ? "NULL" : "'" + entrepriseNom + "'") + ", " + 
+                    (referent == null ? "NULL" : "'" + referent + "'") + ")";
                 
                 MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
                 cmdClient.ExecuteNonQuery();
@@ -59,7 +76,6 @@ namespace Livrable_2_psi
             {
                 Console.WriteLine("Erreur lors de l'ajout du client : " + e.Message);
             }
-            
         }
 
         public void SupprimerClient(int id)
