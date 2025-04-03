@@ -8,9 +8,7 @@ using System.Globalization;
 
 namespace Livrable_2_psi
 {
-    /// <summary>
-    /// classe qui charge les fichiers du metro
-    /// </summary>
+   
     public class ChargerFichiers
     {
         /// <summary>
@@ -36,7 +34,7 @@ namespace Livrable_2_psi
                             int id = int.Parse(colonnes[0]);
                             string numeroLigne = colonnes[1];
                             string nomStation = colonnes[2];
-                            double longitude = double.Parse(colonnes[3], CultureInfo.InvariantCulture);
+                            double longitude = double.Parse(colonnes[3], CultureInfo.InvariantCulture); 
                             double latitude = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
                             string couleurLigne = colonnes[7];
 

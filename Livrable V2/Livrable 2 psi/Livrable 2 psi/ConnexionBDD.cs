@@ -7,18 +7,14 @@ using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
-    /// <summary>
-    /// classe qui gere la connexion a la bdd
-    /// </summary>
+   
     public class ConnexionBDD
     {
-        /// <summary>
-        /// la connexion mysql
-        /// </summary>
+        
         public MySqlConnection maConnexion;
 
         /// <summary>
-        /// constructeur par defaut
+        /// constructeur par defaut et ouverture de la bdd
         /// </summary>
         public ConnexionBDD()
         {
