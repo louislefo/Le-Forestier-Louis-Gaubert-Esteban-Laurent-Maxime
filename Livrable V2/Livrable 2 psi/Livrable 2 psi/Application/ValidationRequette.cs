@@ -589,47 +589,5 @@ namespace Livrable_2_psi
 
             return type;
         }
-
-        /// verifie si un fichier existe et est accessible
-        public static bool VerifierFichierMetro(string cheminFichier)
-        {
-            try
-            {
-                if (!File.Exists(cheminFichier))
-                {
-                    Console.WriteLine("le fichier " + cheminFichier + " n'existe pas");
-                    return false;
-                }
-
-                using (StreamReader sr = new StreamReader(cheminFichier))
-                {
-                    string premiereLigne = sr.ReadLine();
-                    if (string.IsNullOrEmpty(premiereLigne))
-                    {
-                        Console.WriteLine("le fichier " + cheminFichier + " est vide");
-                        return false;
-                    }
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("erreur lors de la lecture du fichier : " + ex.Message);
-                return false;
-            }
-        }
-
-        /// verifie le format d'une ligne de fichier metro
-        public static bool ValiderLigneMetro(string ligne)
-        {
-            string[] colonnes = ligne.Split(',');
-            if (colonnes.Length < 2)
-            {
-                return false;
-            }
-
-            // verifie que les colonnes sont des nombres
-            return int.TryParse(colonnes[0], out _) && int.TryParse(colonnes[1], out _);
-        }
     }
 }
