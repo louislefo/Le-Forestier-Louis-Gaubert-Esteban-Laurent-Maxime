@@ -58,7 +58,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                string requete = "SELECT id_commande, date_commande, total_prix FROM Commande_ " + 
+                string requete = "SELECT id_commande, date_commande, prix_total FROM Commande_ " + 
                                "WHERE date_commande >= '" + dateDebut.ToString("yyyy-MM-dd") + "' " + 
                                "AND date_commande <= '" + dateFin.ToString("yyyy-MM-dd") + "'";
 
@@ -74,7 +74,7 @@ namespace Livrable_2_psi
                 {
                     string idCommande = reader["id_commande"].ToString();
                     string date = reader["date_commande"].ToString();
-                    string prix = reader["total_prix"].ToString();
+                    string prix = reader["prix_total"].ToString();
                     Console.WriteLine("commande numero " + idCommande + " faite le " + date + " pour " + prix + " euro");
                 }
                 Console.WriteLine("----------------------------------");
@@ -95,7 +95,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                string requete = "SELECT AVG(total_prix) as moyenne FROM Commande_";
+                string requete = "SELECT AVG(prix_total) as moyenne FROM Commande_";
 
                 MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande0.CommandText = requete;
@@ -167,12 +167,11 @@ namespace Livrable_2_psi
         {
             try
             {
-                string requete = "SELECT type__entrée__plat__dessert_, COUNT(*) as nombre FROM Plat_, LigneCommande_, Commande_ " + 
-                               "WHERE Plat_.id_plat = LigneCommande_.id_plat " + 
-                               "AND LigneCommande_.id_commande = Commande_.id_commande " + 
+                string requete = "SELECT type as type_plat, COUNT(*) as nombre FROM Plat_, Commande_ " + 
+                               "WHERE Plat_.id_plat = Commande_.id_plat " + 
                                "AND date_commande >= '" + dateDebut.ToString("yyyy-MM-dd") + "' " + 
                                "AND date_commande <= '" + dateFin.ToString("yyyy-MM-dd") + "' " + 
-                               "GROUP BY type__entrée__plat__dessert_";
+                               "GROUP BY type";
 
                 MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande0.CommandText = requete;
@@ -184,7 +183,7 @@ namespace Livrable_2_psi
 
                 while (reader.Read())
                 {
-                    string type = reader["type__entrée__plat__dessert_"].ToString();
+                    string type = reader["type_plat"].ToString();
                     string nombre = reader["nombre"].ToString();
                     Console.WriteLine("ya eu " + nombre + " commande de " + type);
                 }
