@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
@@ -32,7 +33,7 @@ namespace Livrable_2_psi
                 {
                     lecteurClient.Close();
                     commandeClient.Dispose();
-                    throw new Exception("le client nexiste pas");
+                    throw new Exception("le client n'existe pas");
                 }
                 lecteurClient.Close();
                 commandeClient.Dispose();
@@ -52,7 +53,7 @@ namespace Livrable_2_psi
                 {
                     lecteurPrix.Close();
                     commandePrix.Dispose();
-                    throw new Exception("le plat nexiste pas");
+                    throw new Exception("le plat n'existe pas");
                 }
                 lecteurPrix.Close();
                 commandePrix.Dispose();
@@ -60,21 +61,21 @@ namespace Livrable_2_psi
                 // on cree un id de commande
                 string idCommande = "CMD" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                // on insere la commande avec les bon champs
-                string requeteCommande = "INSERT INTO Commande_ (id_commande, id_client, date_commande, total_prix, statut_En_attente__Confirmée__En_cours__Livrée__Annulée_) " +
-                                       "VALUES ('" + idCommande + "', '" + idClient + "', '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', " + prixPlat + ", 'En attente')";
+                // on insere la commande avec les bons champs
+                string requeteCommande = "INSERT INTO Commande_ (id_commande, id_client, id_cuisinier, id_plat, date_commande, prix_total, statut) " +
+                                        "VALUES ('" + idCommande + "', '" + idClient + "', '" + idCuisinier + "', '" + idPlat + "', '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', " + prixPlat.ToString().Replace(',', '.') + ", 'En attente')";
 
                 MySqlCommand commandeInsert = new MySqlCommand(requeteCommande, connexionBDD.maConnexion);
                 commandeInsert.CommandText = requeteCommande;
-                commandeInsert.ExecuteNonQuery();
+                int resultat = commandeInsert.ExecuteNonQuery();
                 commandeInsert.Dispose();
 
-                Console.WriteLine("commande creee avec succes");
+                Console.WriteLine("commande créée avec succès");
                 return 1;
             }
             catch (Exception ex)
-            {
-                Console.WriteLine("erreur lors de la creation de la commande : " + ex.Message);
+            { 
+                Console.WriteLine("erreur lors de la création de la commande : " + ex.Message);
                 return -1;
             }
         }
@@ -84,7 +85,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                // on verifie si la commande existe
+                // on vérifie si la commande existe
                 string requeteCommande = "SELECT id_commande FROM Commande_ WHERE id_commande = '" + idCommande + "'";
                 MySqlCommand commandeVerif = new MySqlCommand(requeteCommande, connexionBDD.maConnexion);
                 commandeVerif.CommandText = requeteCommande;
@@ -94,12 +95,12 @@ namespace Livrable_2_psi
                 {
                     lecteurCommande.Close();
                     commandeVerif.Dispose();
-                    throw new Exception("la commande nexiste pas");
+                    throw new Exception("la commande n'existe pas");
                 }
                 lecteurCommande.Close();
                 commandeVerif.Dispose();
 
-                // on recupere le prix du nouveau plat
+                // on récupère le prix du nouveau plat
                 string requetePrix = "SELECT prix_par_personne FROM Plat_ WHERE id_plat = '" + idPlat + "'";
                 MySqlCommand commandePrix = new MySqlCommand(requetePrix, connexionBDD.maConnexion);
                 commandePrix.CommandText = requetePrix;
@@ -114,19 +115,19 @@ namespace Livrable_2_psi
                 {
                     lecteurPrix.Close();
                     commandePrix.Dispose();
-                    throw new Exception("le plat nexiste pas");
+                    throw new Exception("le plat n'existe pas");
                 }
                 lecteurPrix.Close();
                 commandePrix.Dispose();
 
                 // on modifie la commande
-                string requeteModif = "UPDATE Commande_ SET date_commande = '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', total_prix = " + prixPlat + " WHERE id_commande = '" + idCommande + "'";
+                string requeteModif = "UPDATE Commande_ SET id_plat = '" + idPlat + "', date_commande = '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', prix_total = " + prixPlat.ToString().Replace(',', '.') + " WHERE id_commande = '" + idCommande + "'";
                 MySqlCommand commandeModif = new MySqlCommand(requeteModif, connexionBDD.maConnexion);
                 commandeModif.CommandText = requeteModif;
                 commandeModif.ExecuteNonQuery();
                 commandeModif.Dispose();
 
-                Console.WriteLine("commande modifiee avec succes");
+                Console.WriteLine("commande modifiée avec succès");
             }
             catch (Exception ex)
             {
@@ -139,7 +140,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                string requete = "SELECT total_prix FROM Commande_ WHERE id_commande = '" + idCommande + "'";
+                string requete = "SELECT prix_total FROM Commande_ WHERE id_commande = '" + idCommande + "'";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -147,13 +148,13 @@ namespace Livrable_2_psi
                 double prix = 0;
                 if (lecteur.Read())
                 {
-                    prix = Convert.ToDouble(lecteur["total_prix"]);
+                    prix = Convert.ToDouble(lecteur["prix_total"]);
                 }
                 else
                 {
                     lecteur.Close();
                     commande.Dispose();
-                    throw new Exception("la commande nexiste pas");
+                    throw new Exception("la commande n'existe pas");
                 }
                 lecteur.Close();
                 commande.Dispose();
@@ -168,12 +169,12 @@ namespace Livrable_2_psi
             }
         }
 
-        /// determine le chemin de livraison de facon simple
+        /// determine le chemin de livraison et affiche la route
         public (string stationDepart, string stationArrivee) DeterminerCheminLivraison(string idCommande)
         {
             try
             {
-                // on verifie si la commande existe
+                // on vérifie si la commande existe
                 string requeteVerif = "SELECT id_commande FROM Commande_ WHERE id_commande = '" + idCommande + "'";
                 MySqlCommand commandeVerif = new MySqlCommand(requeteVerif, connexionBDD.maConnexion);
                 commandeVerif.CommandText = requeteVerif;
@@ -183,43 +184,119 @@ namespace Livrable_2_psi
                 {
                     lecteurVerif.Close();
                     commandeVerif.Dispose();
-                    throw new Exception("la commande nexiste pas");
+                    throw new Exception("la commande n'existe pas");
                 }
                 lecteurVerif.Close();
                 commandeVerif.Dispose();
 
+                // récupérer les stations du client et du cuisinier (à la fois nom et ID)
                 string requete = "SELECT cu.StationMetro as station_cuisinier, c.StationMetro as station_client " +
                                "FROM Commande_ co " +
                                "JOIN client c ON co.id_client = c.id_client " +
                                "JOIN Plat_ p ON co.id_plat = p.id_plat " +
-                               "JOIN cuisinier cu ON p.id_cuisinier = cu.id_cuisinier " +
+                               "JOIN cuisinier cu ON co.id_cuisinier = cu.id_cuisinier " +
                                "WHERE co.id_commande = '" + idCommande + "'";
 
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
                 MySqlDataReader lecteur = commande.ExecuteReader();
-                string stationDepart = "";
-                string stationArrivee = "";
+                string stationDepartNom = "";
+                string stationArriveeNom = "";
 
                 if (lecteur.Read())
                 {
-                    stationDepart = lecteur["station_cuisinier"].ToString();
-                    stationArrivee = lecteur["station_client"].ToString();
-                    Console.WriteLine("chemin de livraison: de " + stationDepart + " a " + stationArrivee);
+                    stationDepartNom = lecteur["station_cuisinier"].ToString();
+                    stationArriveeNom = lecteur["station_client"].ToString();
+                    Console.WriteLine("chemin de livraison: de " + stationDepartNom + " à " + stationArriveeNom);
                 }
                 else
                 {
-                    throw new Exception("probleme avec les stations");
+                    throw new Exception("problème avec les stations");
                 }
 
                 lecteur.Close();
                 commande.Dispose();
-                return (stationDepart, stationArrivee);
+                
+                // trouver les ID des stations correspondantes dans le graphe metro
+                string stationDepartId = "";
+                string stationArriveeId = "";
+                
+                // recherche des identifiants de stations dans le graphe
+                foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
+                {
+                    if (noeud.NomStation.Equals(stationDepartNom, StringComparison.OrdinalIgnoreCase))
+                    {
+                        stationDepartId = noeud.Id.ToString();
+                    }
+                    if (noeud.NomStation.Equals(stationArriveeNom, StringComparison.OrdinalIgnoreCase))
+                    {
+                        stationArriveeId = noeud.Id.ToString();
+                    }
+                    
+                    // si on a trouvé les deux stations, on peut arrêter la recherche
+                    if (stationDepartId != "" && stationArriveeId != "")
+                    {
+                        break;
+                    }
+                }
+                
+                // vérifier qu'on a bien trouvé les stations
+                if (stationDepartId == "")
+                {
+                    Console.WriteLine("ATTENTION: Station de départ '" + stationDepartNom + "' non trouvée dans le graphe");
+                    return (stationDepartNom, stationArriveeNom);
+                }
+                
+                if (stationArriveeId == "")
+                {
+                    Console.WriteLine("ATTENTION: Station d'arrivée '" + stationArriveeNom + "' non trouvée dans le graphe");
+                    return (stationDepartNom, stationArriveeNom);
+                }
+                
+                Console.WriteLine("ID stations: départ=" + stationDepartId + ", arrivée=" + stationArriveeId);
+                
+                // recherche et affichage de l'itinéraire avec les IDs
+                if (stationDepartId != "" && stationArriveeId != "")
+                {
+                    Console.WriteLine("\nRecherche de l'itinéraire de livraison...");
+                    
+                    GestionnaireItineraire<int> gestionItineraire = new GestionnaireItineraire<int>(grapheMetro);
+                    List<Noeud<int>> itineraire = gestionItineraire.RechercherItineraire(stationDepartId, stationArriveeId);
+                    
+                    if (itineraire != null && itineraire.Count > 0)
+                    {
+                        Console.WriteLine("\nCréation de la carte d'itinéraire...");
+                        VisualisationItineraire visItineraire = new VisualisationItineraire(1200, 800);
+                        string texteItineraire = "Itinéraire de livraison: " + itineraire[0].NomStation + " à " + itineraire[itineraire.Count - 1].NomStation;
+                        visItineraire.DessinerItineraire(grapheMetro, itineraire, texteItineraire);
+                        
+                        string nomFichier = "livraison_" + idCommande + ".png";
+                        visItineraire.SauvegarderImage(nomFichier);
+                        Console.WriteLine("Carte de l'itinéraire sauvegardée sous le nom " + nomFichier);
+                        
+                        // ouverture de l'image
+                        Console.WriteLine("Ouverture de l'image...");
+                        try
+                        {
+                            Process.Start(new ProcessStartInfo(nomFichier) { UseShellExecute = true });
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Erreur lors de l'ouverture du fichier : " + e.Message);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Aucun itinéraire trouvé entre les stations.");
+                    }
+                }
+                
+                return (stationDepartNom, stationArriveeNom);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("erreur lors de la determination du chemin de livraison : " + ex.Message);
+                Console.WriteLine("erreur lors de la détermination du chemin de livraison : " + ex.Message);
                 return (null, null);
             }
         }

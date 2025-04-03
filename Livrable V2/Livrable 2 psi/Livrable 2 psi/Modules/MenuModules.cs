@@ -233,13 +233,13 @@ namespace Livrable_2_psi
             while (continuer)
             {
                 
-                Console.WriteLine("\n=== modul comande ===");
-                Console.WriteLine("1. cree une comande");
-                Console.WriteLine("2. modifie une comande");
-                Console.WriteLine("3. calcule le pri dune comande");
-                Console.WriteLine("4. determine le chemin de livreson");
+                Console.WriteLine("\n=== modul commande ===");
+                Console.WriteLine("1. cree une commande");
+                Console.WriteLine("2. modifie une commande");
+                Console.WriteLine("3. calcule le prix d'une commande");
+                Console.WriteLine("4. determine le chemin de livraison");
                 Console.WriteLine("5. retoure");
-                Console.Write("choi : ");
+                Console.Write("choix : ");
 
                 string choix = Console.ReadLine();
 
@@ -247,42 +247,42 @@ namespace Livrable_2_psi
                 {
                     case "1":
                         Console.Clear();
-                        Console.Write("entre lid du clien : ");
+                        Console.Write("entre l'id du client : ");
                         string idClient = Console.ReadLine();
-                        Console.Write("entre lid du cuisinier : ");
+                        Console.Write("entre l'id du cuisinier : ");
                         string idCuisinier = Console.ReadLine();
-                        Console.Write("entre lid du pla : ");
+                        Console.Write("entre l'id du plat : ");
                         string idPlat = Console.ReadLine();
                         moduleCommande.CreerCommande(idClient, idCuisinier, idPlat, DateTime.Now);
                         break;
                     case "2":
                         Console.Clear();
-                        Console.Write("entre lid de la comande : ");
+                        Console.Write("entre l'id de la comande : ");
                         string idCommande = Console.ReadLine();
-                        Console.Write("entre le nouvo id du pla : ");
+                        Console.Write("entre le nouveau id du plat : ");
                         string nouveauIdPlat = Console.ReadLine();
                         moduleCommande.ModifierCommande(idCommande, nouveauIdPlat, DateTime.Now);
                         break;
                     case "3":
                         Console.Clear();
-                        Console.Write("entre lid de la comande : ");
+                        Console.Write("entre l'id de la comande : ");
                         string idPrix = Console.ReadLine();
                         double prix = moduleCommande.CalculerPrixCommande(idPrix);
                         Console.WriteLine("pri total : " + prix + " euro");
                         break;
                     case "4":
                         Console.Clear();
-                        Console.Write("entre lid de la comande : ");
+                        Console.Write("entre l'id de la comande : ");
                         string idChemin = Console.ReadLine();
                         var (stationDepart, stationArrivee) = moduleCommande.DeterminerCheminLivraison(idChemin);
-                        Console.WriteLine("chemin de livreson : " + stationDepart + " -> " + stationArrivee);
+                        Console.WriteLine("chemin de livraison : " + stationDepart + " -> " + stationArrivee);
                         break;
                     case "5":
                         Console.Clear();
                         continuer = false;
                         break;
                     default:
-                        Console.WriteLine("choi pa valide");
+                        Console.WriteLine("choix invalide");
                         break;
                 }
             }
