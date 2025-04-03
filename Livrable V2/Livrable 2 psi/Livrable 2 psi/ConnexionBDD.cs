@@ -24,7 +24,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                string chaineConnexion = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=root;PASSWORD=Mwqazes123*";
+                string chaineConnexion = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=root;PASSWORD=lolote@34F";
                 maConnexion = new MySqlConnection(chaineConnexion);
                 maConnexion.Open();
                 Console.WriteLine(" ## connexion a la base reussie");
@@ -52,22 +52,6 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// test simple pour verifier la connexion
-        /// </summary>
-        public void TestConnexion()
-        {
-            try
-            {
-                string requete = "SELECT COUNT(*) FROM client";
-                MySqlCommand cmd = new MySqlCommand(requete, maConnexion);
-                int nbClients = Convert.ToInt32(cmd.ExecuteScalar());
-                Console.WriteLine("nombre de clients : " + nbClients);
-            }
-            catch(MySqlException e)
-            {
-                Console.WriteLine("erreur test : " + e.ToString());
-            }
-        }
+        
     }
 }
