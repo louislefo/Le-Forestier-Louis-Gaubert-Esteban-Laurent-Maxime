@@ -239,17 +239,25 @@ namespace Livrable_2_psi
                 prenom = ValidationRequette.DemanderNom("entrez votre prenom : ");
                 email = ValidationRequette.DemanderEmail("entrez votre email : ");
 
-                // verifie si l'email existe deja
-                string sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = @email";
-                MySqlCommand cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
-                cmdVerifEmail.Parameters.AddWithValue("@email", email);
-                int countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
 
-                if (countEmail > 0)
-                {
-                    Console.WriteLine("cet email est deja utilise");
-                    return false;
-                }
+                    // verifie si l'email existe deja
+                    string sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = @email";
+                    MySqlCommand cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
+                    cmdVerifEmail.Parameters.AddWithValue("@email", email);
+                    int countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
+
+                    if (countEmail > 0)
+                    {
+
+                        Console.WriteLine("cet email est deja utilise");
+                        while (countEmail > 0)
+                        {
+                            Console.WriteLine("veuillez entrer un autre email");
+                            email = ValidationRequette.DemanderEmail("entrez votre email : ");
+                            countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
+                        }
+                        
+                    }
 
 
                 telephone = ValidationRequette.DemanderTelephone("entrez votre telephone : ");
@@ -263,7 +271,7 @@ namespace Livrable_2_psi
                 
                 // insertion dans la table utilisateur
                 string sqlUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
-                    idUtilisateur + "', '" + nom + "', '" + prenom + "', '" + email + "', '" + adresse + "', '" + telephone + "', '" + motDePasse + "')";
+                    idUtilisateur + "', '" + nomUtilisateur + "', '" + prenom + "', '" + email + "', '" + adresse + "', '" + telephone + "', '" + motDePasse + "')";
                 
                 MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
                 cmdUtilisateur.ExecuteNonQuery();
@@ -302,16 +310,31 @@ namespace Livrable_2_psi
                         
                         MySqlCommand cmdCuisinier = new MySqlCommand(requeteCuisinier, connexionBDD.maConnexion);
                         cmdCuisinier.ExecuteNonQuery();
+                        
+                        
+                        try
+                        {
+                            string CreateBDDCuisinier = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
+                            MySqlCommand cmdCreateBDDCuisinier = new MySqlCommand(CreateBDDCuisinier, connexionBDD.maConnexion);
+                            cmdCreateBDDCuisinier.ExecuteNonQuery();
+
+
+                            string GrantBDDCuisinier = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
+                            MySqlCommand cmdGrantBDDCuisinier = new MySqlCommand(GrantBDDCuisinier, connexionBDD.maConnexion);
+                            cmdGrantBDDCuisinier.ExecuteNonQuery();
+
+                            cmdCreateBDDCuisinier.Dispose();
+                            cmdGrantBDDCuisinier.Dispose();
+                        }
+                        catch (MySqlException e)
+                        {
+                            Console.WriteLine("erreur lors de la creation du compte acces BDD cuisinier : " + e.Message);
+                        }
+
                         Console.WriteLine("Compte cuisinier créé avec succès !");
+
                         break;
 
-                        string CreateBDDCuisinier = "CREATE USER IF NOT EXISTS '"+nom+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
-                        MySqlCommand cmdCreateBDDCuisinier = new MySqlCommand(CreateBDDCuisinier, connexionBDD.maConnexion);
-                        cmdCreateBDDCuisinier.ExecuteNonQuery();
-                        string GrantBDDCuisinier = "GRANT ALL PRIVILEGES ON PSI_LoMaEs.* TO '"+nom+"'@'localhost';";
-                        MySqlCommand cmdGrantBDDCuisinier = new MySqlCommand(GrantBDDCuisinier, connexionBDD.maConnexion);
-                        cmdGrantBDDCuisinier.ExecuteNonQuery();
-                        
                     case 2: // compte client uniquement
                         Console.WriteLine("\n=== Création du compte client ===");
                         string stationMetroClient = validation.DemanderStationMetro("Entrez la station metro du client : ");
@@ -342,6 +365,27 @@ namespace Livrable_2_psi
                         
                         MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
                         cmdClient.ExecuteNonQuery();
+
+
+                        try
+                        {
+                            string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
+                            MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
+                            cmdCreateBDDClient.ExecuteNonQuery();
+
+
+                            string GrantBDDClient = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
+                            MySqlCommand cmdGrantBDDClient = new MySqlCommand(GrantBDDClient, connexionBDD.maConnexion);
+                            cmdGrantBDDClient.ExecuteNonQuery();
+
+                            cmdCreateBDDClient.Dispose();
+                            cmdGrantBDDClient.Dispose();
+                        }
+                        catch (MySqlException e)
+                        {
+                            Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
+                        }
+
                         Console.WriteLine("Compte client créé avec succès !");
                         break;
                         
@@ -396,6 +440,63 @@ namespace Livrable_2_psi
                         
                         MySqlCommand cmdClient2 = new MySqlCommand(requeteClient2, connexionBDD.maConnexion);
                         cmdClient2.ExecuteNonQuery();
+
+
+                        try
+                        {
+                            string CreateBDDCuisinier = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
+                            MySqlCommand cmdCreateBDDCuisinier = new MySqlCommand(CreateBDDCuisinier, connexionBDD.maConnexion);
+                            cmdCreateBDDCuisinier.ExecuteNonQuery();
+
+
+                            string GrantBDDCuisinier = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
+                            MySqlCommand cmdGrantBDDCuisinier = new MySqlCommand(GrantBDDCuisinier, connexionBDD.maConnexion);
+                            cmdGrantBDDCuisinier.ExecuteNonQuery();
+
+                            cmdCreateBDDCuisinier.Dispose();
+                            cmdGrantBDDCuisinier.Dispose();
+                        }
+                        catch (MySqlException e)
+                        {
+                            Console.WriteLine("erreur lors de la creation du compte acces BDD cuisinier : " + e.Message);
+                        }
+
+                        try
+                        {
+                            string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
+                            MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
+                            cmdCreateBDDClient.ExecuteNonQuery();
+
+                            string GrantBDDClient = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
+                            MySqlCommand cmdGrantBDDClient = new MySqlCommand(GrantBDDClient, connexionBDD.maConnexion);
+                            cmdGrantBDDClient.ExecuteNonQuery();
+
+                            cmdCreateBDDClient.Dispose();
+                            cmdGrantBDDClient.Dispose();
+                        }
+                        catch (MySqlException e)
+                        {
+                            Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
+                        }   
+
+                        try
+                        {
+                            string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
+                            MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
+                            cmdCreateBDDClient.ExecuteNonQuery();
+
+
+                            string GrantBDDClient = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
+                            MySqlCommand cmdGrantBDDClient = new MySqlCommand(GrantBDDClient, connexionBDD.maConnexion);
+                            cmdGrantBDDClient.ExecuteNonQuery();
+
+                            cmdCreateBDDClient.Dispose();
+                            cmdGrantBDDClient.Dispose();
+                        }
+                        catch (MySqlException e)
+                        {
+                            Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
+                        }
                         
                         Console.WriteLine("Comptes cuisinier et client créés avec succès !");
                         break;

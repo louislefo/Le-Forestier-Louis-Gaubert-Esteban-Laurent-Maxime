@@ -63,6 +63,7 @@ namespace Livrable_2_psi
                     case "4":
                         Console.Clear();
                         authentification.SeDeconnecter();
+                        connexionBDDClient.FermerConnexionClient();
                         continuer = false;
                         Console.WriteLine("Vous etes deconnecte");
                         break;
