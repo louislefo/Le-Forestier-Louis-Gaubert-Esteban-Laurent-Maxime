@@ -55,6 +55,8 @@ namespace Livrable_2_psi
 
             // calcule le plus court chemin avec Dijkstra
             List<Noeud<T>> chemin = plusCourtChemin.Dijkstra(grapheMetro, stationDepart, stationArrivee);
+            List<Noeud<T>> chemin1 = plusCourtChemin.BellmanFord(grapheMetro, stationDepart, stationArrivee);
+            Dictionary<(Noeud<T>, Noeud<T>), double> chemin2 = plusCourtChemin.FloydWarshall(grapheMetro);
 
             // affiche le resultat
             if (chemin.Count == 0)
