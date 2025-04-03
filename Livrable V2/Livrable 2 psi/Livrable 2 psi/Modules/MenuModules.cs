@@ -21,7 +21,7 @@ namespace Livrable_2_psi
         public MenuModules(ConnexionBDD connexionBDD,Graphe<int> grapheMetro)
         {
             moduleEnCours = true;
-            this.moduleClient = new ModuleClient(connexionBDD);
+            this.moduleClient = new ModuleClient(connexionBDD, grapheMetro);
             this.moduleCuisinier = new ModuleCuisinier(connexionBDD);
             this.moduleCommande = new ModuleCommande(connexionBDD);
             this.moduleStatistiques = new ModuleStatistiques(connexionBDD);

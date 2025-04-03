@@ -12,28 +12,58 @@ namespace Livrable_2_psi
     public class ModuleClient
     {
         public ConnexionBDD connexionBDD;
+        private Graphe<int> grapheMetro;
 
-        public ModuleClient(ConnexionBDD connexionBDD)
+        public ModuleClient(ConnexionBDD connexionBDD, Graphe<int> grapheMetro)
         {
             this.connexionBDD = connexionBDD;
+            this.grapheMetro = grapheMetro;
         }
 
         public void AjouterClientConsole()
         {
-            Console.WriteLine("Entrez le nom du client : ");
-            string nom = Console.ReadLine();
-            Console.WriteLine("Entrez le prenom du client : ");
-            string prenom = Console.ReadLine();
-            Console.WriteLine("Entrez l'adresse du client : ");
-            string adresse = Console.ReadLine();
-            Console.WriteLine("Entrez la station metro du client : ");
-            string stationMetro = Console.ReadLine();
+            // creation de la connexion a la bdd
+            ConnexionBDD connexion = new ConnexionBDD();
             
-            
-
-
-
-            Console.WriteLine("Client ajouté avec succès !");
+            try
+            {
+                // validation des données avec ValidationRequette
+                string nom = ValidationRequette.DemanderNom("Entrez le nom du client : ");
+                string prenom = ValidationRequette.DemanderNom("Entrez le prenom du client : ");
+                string adresse = ValidationRequette.DemanderAdresse("Entrez l'adresse du client : ");
+                
+                // creation d'une instance de ValidationRequette avec le graphe
+                ValidationRequette validation = new ValidationRequette(grapheMetro);
+                string stationMetro = validation.DemanderStationMetro("Entrez la station metro du client : ");
+                
+                // generation d'un id unique pour l'utilisateur
+                string idUtilisateur = "U" + DateTime.Now.Ticks;
+                string idClient = "C" + DateTime.Now.Ticks;
+                
+                // insertion dans la table utilisateur
+                string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, adresse, type__Cuisinier_Client_) VALUES ('" + 
+                    idUtilisateur + "', '" + nom + "', '" + prenom + "', '" + adresse + "', 'Client')";
+                
+                MySqlCommand cmdUtilisateur = new MySqlCommand(requeteUtilisateur, connexion.maConnexion);
+                cmdUtilisateur.ExecuteNonQuery();
+                
+                // insertion dans la table client
+                string requeteClient = "INSERT INTO client (id_client, id_utilisateur, type_client__Particulier_Entreprise_, StationMetro) VALUES ('" + 
+                    idClient + "', '" + idUtilisateur + "', 'Particulier', '" + stationMetro + "')";
+                
+                MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexion.maConnexion);
+                cmdClient.ExecuteNonQuery();
+                
+                Console.WriteLine("Client ajouté avec succès !");
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Erreur lors de l'ajout du client : " + e.Message);
+            }
+            finally
+            {
+                connexion.FermerConnexion();
+            }
         }
 
         public void SupprimerClient(int id)
