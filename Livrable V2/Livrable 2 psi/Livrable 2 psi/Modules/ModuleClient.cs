@@ -105,7 +105,6 @@ namespace Livrable_2_psi
                 string stationMetro = validation.DemanderStationMetro("Entrez la station metro du client : ");
                 
                 // demande du type de client (particulier ou entreprise)
-                Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 
                 string typeClientStr = (typeClient == 1) ? "Particulier" : "Entreprise";
@@ -129,15 +128,23 @@ namespace Livrable_2_psi
                 
                 MySqlCommand cmdUtilisateur = new MySqlCommand(requeteUtilisateur, connexionBDD.maConnexion);
                 cmdUtilisateur.ExecuteNonQuery();
+                try
+                {
+                    // insertion dans la table client
+                    string requeteClient = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
+                        idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + 
+                        (entrepriseNom == null ? "NULL" : "'" + entrepriseNom + "'") + ", " + 
+                        (referent == null ? "NULL" : "'" + referent + "'") + ")";
+                    
+                    MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
+                    cmdClient.ExecuteNonQuery();
+
+                }
+                catch (MySqlException e)
+                {
+                    Console.WriteLine("Erreur lors de l'ajout du client : " + e.Message);
+                }
                 
-                // insertion dans la table client
-                string requeteClient = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
-                    idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + 
-                    (entrepriseNom == null ? "NULL" : "'" + entrepriseNom + "'") + ", " + 
-                    (referent == null ? "NULL" : "'" + referent + "'") + ")";
-                
-                MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
-                cmdClient.ExecuteNonQuery();
                 
                 Console.WriteLine("Client ajouté avec succès !");
             }
@@ -158,29 +165,32 @@ namespace Livrable_2_psi
                 Console.WriteLine("Entrez l'ID de l'utilisateur existant : ");
                 string idUtilisateur = Console.ReadLine();
                 
-                // verifie si l'utilisateur existe
-                string sqlVerif = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur = @id";
-                MySqlCommand cmdVerif = new MySqlCommand(sqlVerif, connexionBDD.maConnexion);
-                cmdVerif.Parameters.AddWithValue("@id", idUtilisateur);
+                // verifie si l'utilisateur existe avec une requete simple
+                string requete = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur='" + idUtilisateur + "'";
+                MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande0.CommandText = requete;
                 
-                int count = Convert.ToInt32(cmdVerif.ExecuteScalar());
+                int count = Convert.ToInt32(commande0.ExecuteScalar());
                 
                 if (count == 0)
                 {
                     Console.WriteLine("L'utilisateur avec l'ID " + idUtilisateur + " n'existe pas dans la base de données.");
+                    commande0.Dispose();
                     return;
                 }
                 
-                // verifie si l'utilisateur est deja un client
-                string sqlVerifClient = "SELECT COUNT(*) FROM client WHERE id_utilisateur = @id";
-                MySqlCommand cmdVerifClient = new MySqlCommand(sqlVerifClient, connexionBDD.maConnexion);
-                cmdVerifClient.Parameters.AddWithValue("@id", idUtilisateur);
+                // verifie si l'utilisateur est deja un client avec une requete simple
+                string requete2 = "SELECT COUNT(*) FROM client WHERE id_utilisateur='" + idUtilisateur + "'";
+                MySqlCommand commande1 = new MySqlCommand(requete2, connexionBDD.maConnexion);
+                commande1.CommandText = requete2;
                 
-                int countClient = Convert.ToInt32(cmdVerifClient.ExecuteScalar());
+                int countClient = Convert.ToInt32(commande1.ExecuteScalar());
                 
                 if (countClient > 0)
                 {
                     Console.WriteLine("L'utilisateur avec l'ID " + idUtilisateur + " est déjà un client.");
+                    commande0.Dispose();
+                    commande1.Dispose();
                     return;
                 }
                 
@@ -192,33 +202,32 @@ namespace Livrable_2_psi
                 Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 
-                string entrepriseNom = null;
-                string referent = null;
+                string entrepriseNom = "NULL";
+                string referent = "NULL";
                 
                 // si c'est une entreprise, demander les informations supplémentaires
                 if (typeClient == 2)
                 {
-                    entrepriseNom = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
-                    referent = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
+                    entrepriseNom = "'" + ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ") + "'";
+                    referent = "'" + ValidationRequette.DemanderNom("Entrez le nom du référent : ") + "'";
                 }
                 
                 // generation d'un id unique pour le client
                 string idClient = GenererIdClient();
                 
-                // insertion dans la table client
-                string requeteClient = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
-                    idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + 
-                    (entrepriseNom == null ? "NULL" : "'" + entrepriseNom + "'") + ", " + 
-                    (referent == null ? "NULL" : "'" + referent + "'") + ")";
+                // insertion dans la table client avec une requete simple
+                string requete3 = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
+                    idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + entrepriseNom + ", " + referent + ")";
                 
-                MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
-                cmdClient.ExecuteNonQuery();
+                MySqlCommand commande2 = new MySqlCommand(requete3, connexionBDD.maConnexion);
+                commande2.CommandText = requete3;
+                commande2.ExecuteNonQuery();
                 
                 Console.WriteLine("Client ajouté avec succès à partir de l'utilisateur existant !");
                 
-                cmdVerif.Dispose();
-                cmdVerifClient.Dispose();
-                cmdClient.Dispose();
+                commande0.Dispose();
+                commande1.Dispose();
+                commande2.Dispose();
             }
             catch (MySqlException e)
             {
@@ -226,26 +235,54 @@ namespace Livrable_2_psi
             }
         }
 
-        public void SupprimerClient(string id)
+        /// <summary>
+        /// supprime un client et son utilisateur de la base
+        /// </summary>
+        public void SupprimerClient()
         {
             try
             {
-                // supprime d'abord de la table client
-                string sqlClient = "DELETE FROM client WHERE id_utilisateur = @id";
-                MySqlCommand cmdClient = new MySqlCommand(sqlClient, connexionBDD.maConnexion);
-                cmdClient.Parameters.AddWithValue("@id", id);
-                cmdClient.ExecuteNonQuery();
+                Console.WriteLine("Entrez l'ID de l'utilisateur à supprimer : ");
+                string id = Console.ReadLine();
 
-                // ensuite supprime de la table utilisateur
-                string sqlUtilisateur = "DELETE FROM utilisateur WHERE id_utilisateur = @id";
-                MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
-                cmdUtilisateur.Parameters.AddWithValue("@id", id);
-                cmdUtilisateur.ExecuteNonQuery();
+                // verifie si le client existe
+                string requete1 = "SELECT COUNT(*) FROM client WHERE id_utilisateur='" + id + "'";
+                MySqlCommand commande1 = new MySqlCommand(requete1, connexionBDD.maConnexion);
+                commande1.CommandText = requete1;
+                
+                int count = Convert.ToInt32(commande1.ExecuteScalar());
+                
+                if (count == 0)
+                {
+                    Console.WriteLine("Le client avec l'ID " + id + " n'existe pas");
+                    commande1.Dispose();
+                    return;
+                }
+
+                // supprime d'abord les commandes liées au client
+                string requete2 = "DELETE FROM Commande_ WHERE id_client IN (SELECT id_client FROM client WHERE id_utilisateur='" + id + "')";
+                MySqlCommand commande2 = new MySqlCommand(requete2, connexionBDD.maConnexion);
+                commande2.CommandText = requete2;
+                commande2.ExecuteNonQuery();
+
+                // supprime le client
+                string requete3 = "DELETE FROM client WHERE id_utilisateur='" + id + "'";
+                MySqlCommand commande3 = new MySqlCommand(requete3, connexionBDD.maConnexion);
+                commande3.CommandText = requete3;
+                commande3.ExecuteNonQuery();
+
+                // supprime l'utilisateur
+                string requete4 = "DELETE FROM utilisateur WHERE id_utilisateur='" + id + "'";
+                MySqlCommand commande4 = new MySqlCommand(requete4, connexionBDD.maConnexion);
+                commande4.CommandText = requete4;
+                commande4.ExecuteNonQuery();
 
                 Console.WriteLine("Client supprimé avec succès !");
 
-                cmdClient.Dispose();
-                cmdUtilisateur.Dispose();
+                commande1.Dispose();
+                commande2.Dispose();
+                commande3.Dispose();
+                commande4.Dispose();
             }
             catch (Exception ex)
             {
@@ -253,13 +290,66 @@ namespace Livrable_2_psi
             }
         }
 
-        public void ModifierClient(int id, string nom, string prenom, string adresse, string stationMetro)
+        /// <summary>
+        /// modifie les informations d un client
+        /// </summary>
+        public void ModifierClient()
         {
-            Console.WriteLine("A faire");
+            try
+            {
+                Console.WriteLine("Entrez l'ID du client à modifier : ");
+                string id = Console.ReadLine();
+
+                // verifie si le client existe
+                string requete1 = "SELECT COUNT(*) FROM client WHERE id_utilisateur='" + id + "'";
+                MySqlCommand commande1 = new MySqlCommand(requete1, connexionBDD.maConnexion);
+                commande1.CommandText = requete1;
+                
+                int count = Convert.ToInt32(commande1.ExecuteScalar());
+                
+                if (count == 0)
+                {
+                    Console.WriteLine("Le client avec l'ID " + id + " n'existe pas");
+                    commande1.Dispose();
+                    return;
+                }
+
+                // demande les nouvelles informations
+                Console.WriteLine("Entrez le nouveau nom : ");
+                string nom = Console.ReadLine();
+
+                Console.WriteLine("Entrez le nouveau prénom : ");
+                string prenom = Console.ReadLine();
+
+                Console.WriteLine("Entrez la nouvelle adresse : ");
+                string adresse = Console.ReadLine();
+
+                ValidationRequette validation = new ValidationRequette(grapheMetro);
+                string stationMetro = validation.DemanderStationMetro("Entrez la nouvelle station de métro : ");
+
+                // mise a jour de l'utilisateur
+                string requete2 = "UPDATE utilisateur SET nom='" + nom + "', prénom='" + prenom + "', adresse='" + adresse + "' WHERE id_utilisateur='" + id + "'";
+                MySqlCommand commande2 = new MySqlCommand(requete2, connexionBDD.maConnexion);
+                commande2.CommandText = requete2;
+                commande2.ExecuteNonQuery();
+
+                // mise a jour du client
+                string requete3 = "UPDATE client SET StationMetro='" + stationMetro + "' WHERE id_utilisateur='" + id + "'";
+                MySqlCommand commande3 = new MySqlCommand(requete3, connexionBDD.maConnexion);
+                commande3.CommandText = requete3;
+                commande3.ExecuteNonQuery();
+
+                Console.WriteLine("Client modifié avec succès !");
+
+                commande1.Dispose();
+                commande2.Dispose();
+                commande3.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de la modification du client : " + ex.Message);
+            }
         }
-        
-
-
         
         /// <summary>
         /// affiche les clients par ordre alphabetique
@@ -268,26 +358,27 @@ namespace Livrable_2_psi
         {
             try
             {
-                string sql = "SELECT u.*, c.station_metro FROM utilisateur u " +
-                           "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                           "ORDER BY u.nom, u.prenom DESC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.nom ASC, u.prénom ASC";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
 
-                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                MySqlDataReader reader = commande.ExecuteReader();
+
+                Console.WriteLine("\nListe des clients par ordre alphabetique :");
+                Console.WriteLine("----------------------------------------");
+
+                while (reader.Read())
                 {
-                    Console.WriteLine("\nListe des clients par ordre alphabetique :");
+                    Console.WriteLine("ID : " + reader["id_utilisateur"]);
+                    Console.WriteLine("Nom : " + reader["nom"]);
+                    Console.WriteLine("Prenom : " + reader["prénom"]);
+                    Console.WriteLine("Adresse : " + reader["adresse"]);
+                    Console.WriteLine("Station Metro : " + reader["StationMetro"]);
                     Console.WriteLine("----------------------------------------");
-                    while (reader.Read())
-                    {
-                        Console.WriteLine("ID: " + reader["id_utilisateur"]);
-                        Console.WriteLine("Nom: " + reader["nom"]);
-                        Console.WriteLine("Prenom: " + reader["prenom"]);
-                        Console.WriteLine("Adresse: " + reader["adresse"]);
-                        Console.WriteLine("Station Metro: " + reader["station_metro"]);
-                        Console.WriteLine("----------------------------------------");
-                    }
                 }
-                cmd.Dispose();
+
+                reader.Close();
+                commande.Dispose();
             }
             catch (Exception ex)
             {
@@ -302,26 +393,27 @@ namespace Livrable_2_psi
         {
             try
             {
-                string sql = "SELECT u.*, c.station_metro FROM utilisateur u " +
-                           "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                           "ORDER BY u.adresse DESC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.adresse ASC";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
 
-                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                MySqlDataReader reader = commande.ExecuteReader();
+
+                Console.WriteLine("\nListe des clients par rue :");
+                Console.WriteLine("----------------------------------------");
+
+                while (reader.Read())
                 {
-                    Console.WriteLine("\nListe des clients par rue :");
+                    Console.WriteLine("ID : " + reader["id_utilisateur"]);
+                    Console.WriteLine("Nom : " + reader["nom"]);
+                    Console.WriteLine("Prenom : " + reader["prénom"]);
+                    Console.WriteLine("Adresse : " + reader["adresse"]);
+                    Console.WriteLine("Station Metro : " + reader["StationMetro"]);
                     Console.WriteLine("----------------------------------------");
-                    while (reader.Read())
-                    {
-                        Console.WriteLine("ID: " + reader["id_utilisateur"]);
-                        Console.WriteLine("Nom: " + reader["nom"]);
-                        Console.WriteLine("Prenom: " + reader["prenom"]);
-                        Console.WriteLine("Adresse: " + reader["adresse"]);
-                        Console.WriteLine("Station Metro: " + reader["station_metro"]);
-                        Console.WriteLine("----------------------------------------");
-                    }
                 }
-                cmd.Dispose();
+
+                reader.Close();
+                commande.Dispose();
             }
             catch (Exception ex)
             {
@@ -336,31 +428,28 @@ namespace Livrable_2_psi
         {
             try
             {
-                string sql = "SELECT u.*, c.station_metro, " +
-                           "IFNULL(SUM(co.prix_total), 0) as total_achats " +
-                           "FROM utilisateur u " +
-                           "INNER JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                           "LEFT JOIN commande co ON u.id_utilisateur = co.id_client " +
-                           "GROUP BY u.id_utilisateur, u.nom, u.prenom, u.adresse, c.station_metro " +
-                           "ORDER BY total_achats DESC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro, SUM(co.prix_total) as total FROM utilisateur u, client c, Commande_ co WHERE u.id_utilisateur = c.id_utilisateur AND c.id_client = co.id_client GROUP BY u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro ORDER BY total DESC";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
 
-                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                MySqlDataReader reader = commande.ExecuteReader();
+
+                Console.WriteLine("\nListe des clients par montant des achats :");
+                Console.WriteLine("----------------------------------------");
+
+                while (reader.Read())
                 {
-                    Console.WriteLine("\nListe des clients par montant des achats :");
+                    Console.WriteLine("ID : " + reader["id_utilisateur"]);
+                    Console.WriteLine("Nom : " + reader["nom"]);
+                    Console.WriteLine("Prenom : " + reader["prénom"]);
+                    Console.WriteLine("Adresse : " + reader["adresse"]);
+                    Console.WriteLine("Station Metro : " + reader["StationMetro"]);
+                    Console.WriteLine("Total des achats : " + reader["total"] + " euros");
                     Console.WriteLine("----------------------------------------");
-                    while (reader.Read())
-                    {
-                        Console.WriteLine("ID: " + reader["id_utilisateur"]);
-                        Console.WriteLine("Nom: " + reader["nom"]);
-                        Console.WriteLine("Prenom: " + reader["prenom"]);
-                        Console.WriteLine("Adresse: " + reader["adresse"]);
-                        Console.WriteLine("Station Metro: " + reader["station_metro"]);
-                        Console.WriteLine("Total des achats: " + reader["total_achats"] + "€");
-                        Console.WriteLine("----------------------------------------");
-                    }
                 }
-                cmd.Dispose();
+
+                reader.Close();
+                commande.Dispose();
             }
             catch (Exception ex)
             {
@@ -369,59 +458,6 @@ namespace Livrable_2_psi
         }
 
         
-        public void ExecuterRequetePersonnalisee()
-        {
-            Console.WriteLine("\nEntrez votre requête SQL (attention: soyez prudent) :");
-            string requete = Console.ReadLine();
-            
-            try
-            {
-                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
-                commande.CommandText = requete;
-                
-                // vérifie si c'est une requête SELECT ou autre
-                if (requete.Trim().ToUpper().StartsWith("SELECT"))
-                {
-                    // requête de type SELECT
-                    MySqlDataReader reader = commande.ExecuteReader();
-                    
-                    Console.WriteLine("\n=== RÉSULTATS DE LA REQUÊTE ===");
-                    
-                    // affiche les noms des colonnes
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        Console.Write(reader.GetName(i) + " | ");
-                    }
-                    Console.WriteLine("\n----------------------------------------");
-                    
-                    string[]  valueString = new string[reader.FieldCount];
-                    while (reader.Read())
-                    {
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            valueString[i] = reader.GetValue(i).ToString();
-                            Console.Write(valueString[i] + " | ");
-                        }
-                        Console.WriteLine();
-                    }
-                    
-                    reader.Close();
-                }
-                else
-                {
-                    // requête de type non-SELECT (INSERT, UPDATE, DELETE, etc.)
-                    int  nbLignes = commande.ExecuteNonQuery();
-                    Console.WriteLine("\nRequête exécutée avec succès. " + nbLignes + " ligne(s) affectée(s).");
-                }
-                
-                commande.Dispose();
-                Console.WriteLine("\n--------------------\n");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("erreur lors de l'exécution de la requête : " + ex.Message);
-            }
-        }
         
         
     }

@@ -16,8 +16,6 @@ namespace Livrable_2_psi
             this.connexionBDD = connexionBDD;
         }
 
-        
-
         public void AjouterPlat(string idCuisinier)
         {
             try
@@ -52,16 +50,16 @@ namespace Livrable_2_psi
                 Console.Write("photo (nom du fichier) : ");
                 string photo = Console.ReadLine();
 
-                // on cree un id de plat
+                // on cree un id de plat simple
                 string idPlat = "PLT" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                // on ajoute le plat
-                string requete = "INSERT INTO Plat_ (id_plat, id_cuisinier, nom, type, portions, date_fabrication, " + 
-                               "date_peremption, prix_par_personne, nationalite, regime, photo) " +
-                               "VALUES ('" + idPlat + "', '" + idCuisinier + "', '" + nomPlat + "', '" + typePlat + "', '" + 
-                               portions + "', '" + dateFabrication.ToString("yyyy-MM-dd") + "', '" + 
-                               datePeremption.ToString("yyyy-MM-dd") + "', " + prixParPersonne.ToString().Replace(',', '.') + 
-                               ", '" + nationalite + "', '" + regime + "', '" + photo + "')";
+                // requete simple sans parametres
+                string requete = "INSERT INTO Plat_ VALUES ('" + idPlat + "', '" + idCuisinier + "', '" + 
+                               nomPlat + "', '" + typePlat + "', '" + portions + "', '" + 
+                               dateFabrication.ToString("yyyy-MM-dd") + "', '" + 
+                               datePeremption.ToString("yyyy-MM-dd") + "', " + 
+                               prixParPersonne.ToString().Replace(',', '.') + ", '" + 
+                               nationalite + "', '" + regime + "', '" + photo + "')";
 
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
