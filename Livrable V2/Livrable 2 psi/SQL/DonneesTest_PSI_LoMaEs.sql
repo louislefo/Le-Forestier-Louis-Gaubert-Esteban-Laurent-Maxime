@@ -4,11 +4,11 @@ USE PSI_LoMaEs;
 
 -- Insertion des utilisateurs
 INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, téléphone, adresse, type__Cuisinier_Client_, mot_de_passe) VALUES
-('U001', 'Martin', 'Sophie', 'sophie.martin@email.com', '0612345678', '15 rue de la Paix, Paris', 'Cuisinier', 'mdp123'),
-('U002', 'Dubois', 'Pierre', 'pierre.dubois@email.com', '0623456789', '23 avenue Victor Hugo, Paris', 'Client', 'mdp456'),
-('U003', 'Bernard', 'Marie', 'marie.bernard@email.com', '0634567890', '8 boulevard Saint-Michel, Paris', 'Cuisinier', 'mdp789'),
-('U004', 'Petit', 'Lucas', 'lucas.petit@email.com', '0645678901', '45 rue du Louvre, Paris', 'Client', 'mdp101'),
-('U005', 'Robert', 'Emma', 'emma.robert@email.com', '0656789012', '12 rue de Rivoli, Paris', 'Cuisinier', 'mdp102');
+('U001', 'Martin', 'Sophie', 'sophie.martin@email.com', '0612345678', '15 rue de la Paix, Paris', 'Cuisinier', 'Mdp123'),
+('U002', 'Dubois', 'Pierre', 'pierre.dubois@email.com', '0623456789', '23 avenue Victor Hugo, Paris', 'Client', 'Mdp456'),
+('U003', 'Bernard', 'Marie', 'marie.bernard@email.com', '0634567890', '8 boulevard Saint-Michel, Paris', 'Cuisinier', 'Mdp789'),
+('U004', 'Petit', 'Lucas', 'lucas.petit@email.com', '0645678901', '45 rue du Louvre, Paris', 'Client', 'Mdp101'),
+('U005', 'Robert', 'Emma', 'emma.robert@email.com', '0656789012', '12 rue de Rivoli, Paris', 'Cuisinier', 'Mdp102');
 
 -- Insertion des cuisiniers
 INSERT INTO cuisinier (id_cuisinier, type__Cuisinier_Client_, zones_livraison, note_moyenne, nombre_livraisons, id_utilisateur, StationMetro) VALUES
