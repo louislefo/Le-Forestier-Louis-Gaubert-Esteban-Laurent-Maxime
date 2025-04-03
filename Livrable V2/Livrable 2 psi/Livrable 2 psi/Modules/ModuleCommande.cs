@@ -5,61 +5,72 @@ using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
-    /// <summary>
-    /// classe qui gere les operations sur les commandes
-    /// </summary>
+    /// classe qui gere les commandes pour un debutant
     public class ModuleCommande
     {
         public ConnexionBDD connexionBDD;
+        public Graphe<int> grapheMetro;
 
-        public ModuleCommande(ConnexionBDD connexionBDD)
+        public ModuleCommande(ConnexionBDD connexionBDD, Graphe<int> grapheMetro)
         {
             this.connexionBDD = connexionBDD;
+            this.grapheMetro = grapheMetro;
         }
 
-        /// <summary>
-        /// cree une nouvelle commande
-        /// </summary>
-        public int CreerCommande(int idClient, int idCuisinier, int idPlat, DateTime dateCommande)
+        /// cree une nouvelle commande de facon simple
+        public int CreerCommande(string idClient, string idCuisinier, string idPlat, DateTime dateCommande)
         {
             try
             {
-                // verifie si le client existe
-                string sqlVerifClient = "SELECT COUNT(*) FROM client WHERE id_utilisateur = @idClient";
-                MySqlCommand cmdVerifClient = new MySqlCommand(sqlVerifClient, connexionBDD.maConnexion);
-                cmdVerifClient.Parameters.AddWithValue("@idClient", idClient);
-                int countClient = Convert.ToInt32(cmdVerifClient.ExecuteScalar());
+                // on verifie si le client existe
+                string requeteClient = "SELECT id_client FROM client WHERE id_client = '" + idClient + "'";
+                MySqlCommand commandeClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
+                commandeClient.CommandText = requeteClient;
 
-                if (countClient == 0)
+                MySqlDataReader lecteurClient = commandeClient.ExecuteReader();
+                if (lecteurClient.Read() == false)
                 {
-                    throw new Exception("le client n'existe pas");
+                    lecteurClient.Close();
+                    commandeClient.Dispose();
+                    throw new Exception("le client nexiste pas");
                 }
+                lecteurClient.Close();
+                commandeClient.Dispose();
 
-                // recupere le prix du plat
-                string sqlPrix = "SELECT prix FROM plat WHERE id_plat = @idPlat";
-                MySqlCommand cmdPrix = new MySqlCommand(sqlPrix, connexionBDD.maConnexion);
-                cmdPrix.Parameters.AddWithValue("@idPlat", idPlat);
-                double prixPlat = Convert.ToDouble(cmdPrix.ExecuteScalar());
+                // on recupere le prix du plat
+                string requetePrix = "SELECT prix_par_personne FROM Plat_ WHERE id_plat = '" + idPlat + "'";
+                MySqlCommand commandePrix = new MySqlCommand(requetePrix, connexionBDD.maConnexion);
+                commandePrix.CommandText = requetePrix;
 
-                // insere la commande
-                string sqlCommande = "INSERT INTO commande (id_client, id_cuisinier, id_plat, date_commande, prix_total) " +
-                                   "VALUES (@idClient, @idCuisinier, @idPlat, @dateCommande, @prixTotal); " +
-                                   "SELECT LAST_INSERT_ID();";
-                MySqlCommand cmdCommande = new MySqlCommand(sqlCommande, connexionBDD.maConnexion);
-                cmdCommande.Parameters.AddWithValue("@idClient", idClient);
-                cmdCommande.Parameters.AddWithValue("@idCuisinier", idCuisinier);
-                cmdCommande.Parameters.AddWithValue("@idPlat", idPlat);
-                cmdCommande.Parameters.AddWithValue("@dateCommande", dateCommande);
-                cmdCommande.Parameters.AddWithValue("@prixTotal", prixPlat);
+                MySqlDataReader lecteurPrix = commandePrix.ExecuteReader();
+                double prixPlat = 0;
+                if (lecteurPrix.Read())
+                {
+                    prixPlat = Convert.ToDouble(lecteurPrix["prix_par_personne"]);
+                }
+                else
+                {
+                    lecteurPrix.Close();
+                    commandePrix.Dispose();
+                    throw new Exception("le plat nexiste pas");
+                }
+                lecteurPrix.Close();
+                commandePrix.Dispose();
 
-                int idCommande = Convert.ToInt32(cmdCommande.ExecuteScalar());
+                // on cree un id de commande
+                string idCommande = "CMD" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                // on insere la commande avec les bon champs
+                string requeteCommande = "INSERT INTO Commande_ (id_commande, id_client, date_commande, total_prix, statut_En_attente__Confirmée__En_cours__Livrée__Annulée_) " +
+                                       "VALUES ('" + idCommande + "', '" + idClient + "', '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', " + prixPlat + ", 'En attente')";
+
+                MySqlCommand commandeInsert = new MySqlCommand(requeteCommande, connexionBDD.maConnexion);
+                commandeInsert.CommandText = requeteCommande;
+                commandeInsert.ExecuteNonQuery();
+                commandeInsert.Dispose();
+
                 Console.WriteLine("commande creee avec succes");
-
-                cmdVerifClient.Dispose();
-                cmdPrix.Dispose();
-                cmdCommande.Dispose();
-
-                return idCommande;
+                return 1;
             }
             catch (Exception ex)
             {
@@ -68,33 +79,54 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// modifie une commande
-        /// </summary>
-        public void ModifierCommande(int idCommande, int idPlat, DateTime dateCommande)
+        /// modifie une commande de facon simple
+        public void ModifierCommande(string idCommande, string idPlat, DateTime dateCommande)
         {
             try
             {
-                // recupere le prix du nouveau plat
-                string sqlPrix = "SELECT prix FROM plat WHERE id_plat = @idPlat";
-                MySqlCommand cmdPrix = new MySqlCommand(sqlPrix, connexionBDD.maConnexion);
-                cmdPrix.Parameters.AddWithValue("@idPlat", idPlat);
-                double prixPlat = Convert.ToDouble(cmdPrix.ExecuteScalar());
+                // on verifie si la commande existe
+                string requeteCommande = "SELECT id_commande FROM Commande_ WHERE id_commande = '" + idCommande + "'";
+                MySqlCommand commandeVerif = new MySqlCommand(requeteCommande, connexionBDD.maConnexion);
+                commandeVerif.CommandText = requeteCommande;
 
-                // modifie la commande
-                string sqlCommande = "UPDATE commande SET id_plat = @idPlat, date_commande = @dateCommande, " +
-                                   "prix_total = @prixTotal WHERE id_commande = @idCommande";
-                MySqlCommand cmdCommande = new MySqlCommand(sqlCommande, connexionBDD.maConnexion);
-                cmdCommande.Parameters.AddWithValue("@idCommande", idCommande);
-                cmdCommande.Parameters.AddWithValue("@idPlat", idPlat);
-                cmdCommande.Parameters.AddWithValue("@dateCommande", dateCommande);
-                cmdCommande.Parameters.AddWithValue("@prixTotal", prixPlat);
+                MySqlDataReader lecteurCommande = commandeVerif.ExecuteReader();
+                if (lecteurCommande.Read() == false)
+                {
+                    lecteurCommande.Close();
+                    commandeVerif.Dispose();
+                    throw new Exception("la commande nexiste pas");
+                }
+                lecteurCommande.Close();
+                commandeVerif.Dispose();
 
-                cmdCommande.ExecuteNonQuery();
+                // on recupere le prix du nouveau plat
+                string requetePrix = "SELECT prix_par_personne FROM Plat_ WHERE id_plat = '" + idPlat + "'";
+                MySqlCommand commandePrix = new MySqlCommand(requetePrix, connexionBDD.maConnexion);
+                commandePrix.CommandText = requetePrix;
+
+                MySqlDataReader lecteurPrix = commandePrix.ExecuteReader();
+                double prixPlat = 0;
+                if (lecteurPrix.Read())
+                {
+                    prixPlat = Convert.ToDouble(lecteurPrix["prix_par_personne"]);
+                }
+                else
+                {
+                    lecteurPrix.Close();
+                    commandePrix.Dispose();
+                    throw new Exception("le plat nexiste pas");
+                }
+                lecteurPrix.Close();
+                commandePrix.Dispose();
+
+                // on modifie la commande
+                string requeteModif = "UPDATE Commande_ SET date_commande = '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', total_prix = " + prixPlat + " WHERE id_commande = '" + idCommande + "'";
+                MySqlCommand commandeModif = new MySqlCommand(requeteModif, connexionBDD.maConnexion);
+                commandeModif.CommandText = requeteModif;
+                commandeModif.ExecuteNonQuery();
+                commandeModif.Dispose();
+
                 Console.WriteLine("commande modifiee avec succes");
-
-                cmdPrix.Dispose();
-                cmdCommande.Dispose();
             }
             catch (Exception ex)
             {
@@ -102,21 +134,31 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// calcule le prix d'une commande
-        /// </summary>
-        public double CalculerPrixCommande(int idCommande)
+        /// calcule le prix dune commande de facon simple
+        public double CalculerPrixCommande(string idCommande)
         {
             try
             {
-                string sql = "SELECT prix_total FROM commande WHERE id_commande = @idCommande";
-                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
-                cmd.Parameters.AddWithValue("@idCommande", idCommande);
+                string requete = "SELECT total_prix FROM Commande_ WHERE id_commande = '" + idCommande + "'";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
 
-                double prix = Convert.ToDouble(cmd.ExecuteScalar());
-                Console.WriteLine("prix de la commande " + idCommande + ": " + prix + "€");
+                MySqlDataReader lecteur = commande.ExecuteReader();
+                double prix = 0;
+                if (lecteur.Read())
+                {
+                    prix = Convert.ToDouble(lecteur["total_prix"]);
+                }
+                else
+                {
+                    lecteur.Close();
+                    commande.Dispose();
+                    throw new Exception("la commande nexiste pas");
+                }
+                lecteur.Close();
+                commande.Dispose();
 
-                cmd.Dispose();
+                Console.WriteLine("prix de la commande " + idCommande + ": " + prix + " euros");
                 return prix;
             }
             catch (Exception ex)
@@ -126,36 +168,54 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// determine le chemin de livraison
-        /// </summary>
-        public (string stationDepart, string stationArrivee) DeterminerCheminLivraison(int idCommande)
+        /// determine le chemin de livraison de facon simple
+        public (string stationDepart, string stationArrivee) DeterminerCheminLivraison(string idCommande)
         {
             try
             {
-                string sql = "SELECT c.station_metro as station_client, cu.station_metro as station_cuisinier " +
-                           "FROM commande co " +
-                           "INNER JOIN client c ON co.id_client = c.id_utilisateur " +
-                           "INNER JOIN cuisinier cu ON co.id_cuisinier = cu.id_utilisateur " +
-                           "WHERE co.id_commande = @idCommande";
+                // on verifie si la commande existe
+                string requeteVerif = "SELECT id_commande FROM Commande_ WHERE id_commande = '" + idCommande + "'";
+                MySqlCommand commandeVerif = new MySqlCommand(requeteVerif, connexionBDD.maConnexion);
+                commandeVerif.CommandText = requeteVerif;
 
-                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
-                cmd.Parameters.AddWithValue("@idCommande", idCommande);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                MySqlDataReader lecteurVerif = commandeVerif.ExecuteReader();
+                if (lecteurVerif.Read() == false)
                 {
-                    if (reader.Read())
-                    {
-                        string stationDepart = reader["station_cuisinier"].ToString();
-                        string stationArrivee = reader["station_client"].ToString();
-                        Console.WriteLine("chemin de livraison: de " + stationDepart + " a " + stationArrivee);
-                        return (stationDepart, stationArrivee);
-                    }
-                    else
-                    {
-                        throw new Exception("commande non trouvee");
-                    }
+                    lecteurVerif.Close();
+                    commandeVerif.Dispose();
+                    throw new Exception("la commande nexiste pas");
                 }
+                lecteurVerif.Close();
+                commandeVerif.Dispose();
+
+                string requete = "SELECT cu.StationMetro as station_cuisinier, c.StationMetro as station_client " +
+                               "FROM Commande_ co " +
+                               "JOIN client c ON co.id_client = c.id_client " +
+                               "JOIN Plat_ p ON co.id_plat = p.id_plat " +
+                               "JOIN cuisinier cu ON p.id_cuisinier = cu.id_cuisinier " +
+                               "WHERE co.id_commande = '" + idCommande + "'";
+
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+
+                MySqlDataReader lecteur = commande.ExecuteReader();
+                string stationDepart = "";
+                string stationArrivee = "";
+
+                if (lecteur.Read())
+                {
+                    stationDepart = lecteur["station_cuisinier"].ToString();
+                    stationArrivee = lecteur["station_client"].ToString();
+                    Console.WriteLine("chemin de livraison: de " + stationDepart + " a " + stationArrivee);
+                }
+                else
+                {
+                    throw new Exception("probleme avec les stations");
+                }
+
+                lecteur.Close();
+                commande.Dispose();
+                return (stationDepart, stationArrivee);
             }
             catch (Exception ex)
             {
@@ -163,7 +223,5 @@ namespace Livrable_2_psi
                 return (null, null);
             }
         }
-
-        
     }
 } 

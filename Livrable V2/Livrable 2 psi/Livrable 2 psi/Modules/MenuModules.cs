@@ -23,7 +23,7 @@ namespace Livrable_2_psi
             moduleEnCours = true;
             this.moduleClient = new ModuleClient(connexionBDD, grapheMetro);
             this.moduleCuisinier = new ModuleCuisinier(connexionBDD);
-            this.moduleCommande = new ModuleCommande(connexionBDD);
+            this.moduleCommande = new ModuleCommande(connexionBDD,grapheMetro);
             this.moduleStatistiques = new ModuleStatistiques(connexionBDD);
             this.moduleGraphe = new ModuleGraphe(grapheMetro);
         }
@@ -233,13 +233,13 @@ namespace Livrable_2_psi
             while (continuer)
             {
                 
-                Console.WriteLine("\n=== Module Commande ===");
-                Console.WriteLine("1. Creer une commande");
-                Console.WriteLine("2. Modifier une commande");
-                Console.WriteLine("3. Calculer le prix d'une commande");
-                Console.WriteLine("4. Determiner le chemin de livraison");
-                Console.WriteLine("5. Retour");
-                Console.Write("Choix : ");
+                Console.WriteLine("\n=== modul comande ===");
+                Console.WriteLine("1. cree une comande");
+                Console.WriteLine("2. modifie une comande");
+                Console.WriteLine("3. calcule le pri dune comande");
+                Console.WriteLine("4. determine le chemin de livreson");
+                Console.WriteLine("5. retoure");
+                Console.Write("choi : ");
 
                 string choix = Console.ReadLine();
 
@@ -247,42 +247,42 @@ namespace Livrable_2_psi
                 {
                     case "1":
                         Console.Clear();
-                        Console.Write("ID du client : ");
-                        int idClient = int.Parse(Console.ReadLine());
-                        Console.Write("ID du cuisinier : ");
-                        int idCuisinier = int.Parse(Console.ReadLine());
-                        Console.Write("ID du plat : ");
-                        int idPlat = int.Parse(Console.ReadLine());
+                        Console.Write("entre lid du clien : ");
+                        string idClient = Console.ReadLine();
+                        Console.Write("entre lid du cuisinier : ");
+                        string idCuisinier = Console.ReadLine();
+                        Console.Write("entre lid du pla : ");
+                        string idPlat = Console.ReadLine();
                         moduleCommande.CreerCommande(idClient, idCuisinier, idPlat, DateTime.Now);
                         break;
                     case "2":
                         Console.Clear();
-                        Console.Write("ID de la commande : ");
-                        int idCommande = int.Parse(Console.ReadLine());
-                        Console.Write("nouvel ID du plat : ");
-                        int nouveauIdPlat = int.Parse(Console.ReadLine());
+                        Console.Write("entre lid de la comande : ");
+                        string idCommande = Console.ReadLine();
+                        Console.Write("entre le nouvo id du pla : ");
+                        string nouveauIdPlat = Console.ReadLine();
                         moduleCommande.ModifierCommande(idCommande, nouveauIdPlat, DateTime.Now);
                         break;
                     case "3":
                         Console.Clear();
-                        Console.Write("ID de la commande : ");
-                        int idPrix = int.Parse(Console.ReadLine());
+                        Console.Write("entre lid de la comande : ");
+                        string idPrix = Console.ReadLine();
                         double prix = moduleCommande.CalculerPrixCommande(idPrix);
-                        Console.WriteLine("prix total : " + prix + "€");
+                        Console.WriteLine("pri total : " + prix + " euro");
                         break;
                     case "4":
                         Console.Clear();
-                        Console.Write("ID de la commande : ");
-                        int idChemin = int.Parse(Console.ReadLine());
+                        Console.Write("entre lid de la comande : ");
+                        string idChemin = Console.ReadLine();
                         var (stationDepart, stationArrivee) = moduleCommande.DeterminerCheminLivraison(idChemin);
-                        Console.WriteLine("chemin de livraison : " + stationDepart + " -> " + stationArrivee);
+                        Console.WriteLine("chemin de livreson : " + stationDepart + " -> " + stationArrivee);
                         break;
                     case "5":
                         Console.Clear();
                         continuer = false;
                         break;
                     default:
-                        Console.WriteLine("choix invalide");
+                        Console.WriteLine("choi pa valide");
                         break;
                 }
             }
