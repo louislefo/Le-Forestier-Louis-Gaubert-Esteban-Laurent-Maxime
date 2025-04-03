@@ -63,8 +63,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                connexionBDD.TestConnexion();
-                Console.WriteLine("connexion a la base de donnees reussie");
+                
 
                 bool continuer = true;
                 while (continuer)

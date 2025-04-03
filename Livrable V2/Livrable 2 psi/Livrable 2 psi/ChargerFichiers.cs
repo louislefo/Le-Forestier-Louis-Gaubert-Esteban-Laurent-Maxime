@@ -22,7 +22,8 @@ namespace Livrable_2_psi
 
             try
             {
-                using (StreamReader sr = new StreamReader(cheminFichierMetro, System.Text.Encoding.UTF8))
+                
+                using (StreamReader sr = new StreamReader(cheminFichierMetro))
                 {
                     string ligneEnTete = sr.ReadLine();
 
@@ -60,7 +61,7 @@ namespace Livrable_2_psi
         {
             try
             {
-                using (StreamReader sr = new StreamReader(cheminFichierArcs, System.Text.Encoding.UTF8))
+                using (StreamReader sr = new StreamReader(cheminFichierArcs))
                 {
                     string ligneEnTete = sr.ReadLine();
 
@@ -73,7 +74,7 @@ namespace Livrable_2_psi
                             int idStation = int.Parse(colonnes[0]);
                             int idPrecedent = int.Parse(colonnes[2]);
                             int idSuivant = int.Parse(colonnes[3]);
-                            double poids = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
+                            double poids = double.Parse(colonnes[4]); 
                             int tempsCorrespondance = int.Parse(colonnes[5]);
 
                             // Met à jour le temps de correspondance de la station
