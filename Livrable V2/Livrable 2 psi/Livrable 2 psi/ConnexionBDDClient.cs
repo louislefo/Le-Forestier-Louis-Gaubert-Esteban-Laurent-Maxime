@@ -3,34 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
-    internal class ConnexionBDDClient
+    /// classe qui gere la connexion a la bdd pour les clients
+    /// pas optimise mais ca marche
+    public class ConnexionBDDClient
     {
+        /// la connexion mysql pour les clients
+        public MySqlConnection maConnexionClient;
 
-        /*
-         * 
-         * a mettre en palce 
-         * 
-         create user if not exists 'superbozo'@'localhost' identified by '123' ;
-        grant all on loueur.* to 'superbozo'@'localhost';
---
-create user if not exists 'bozo'@'localhost' identified by 'user' ;
-        grant select on loueur.location to 'bozo'@'localhost';
---
-revoke delete on loueur.location from 'superbozo'@'localhost';
-        show grants for 'superbozo'@'localhost';
-        show grants for 'bozo'@'localhost';
-        show grants for current_user;
-show grants;
---
-drop user 'bozo'@'localhost';
-        drop user 'superbozo'@'localhost';
-        select* from mysql.user;
-select user, host from mysql.user order by user;
-        */
+        /// constructeur qui prend le nom et mdp du client
+        public ConnexionBDDClient(string nomClient, string motDePasse)
+        {
+            try
+            {
+                string chaineConnexionClient = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + nomClient + ";PASSWORD=" + motDePasse;
+                maConnexionClient = new MySqlConnection(chaineConnexionClient);
+                maConnexionClient.Open();
+                Console.WriteLine("connexion client " + nomClient + " reussie");
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("oups erreur connexion client : " + e.Message);
+            }
+        }
 
+        /// ferme la connexion des clients
+        public void FermerConnexionClient()
+        {
+            try
+            {
+                maConnexionClient.Close();
+                Console.WriteLine("connexion client fermee");
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("probleme fermeture client : " + e.Message);
+            }
+        }
 
+        /// test pour voir si ca marche
+        public void TestConnexionClient()
+        {
+            try
+            {
+                string requete = "SELECT COUNT(*) FROM client";
+                MySqlCommand commande = new MySqlCommand(requete, maConnexionClient);
+                int nbClients = Convert.ToInt32(commande.ExecuteScalar());
+                Console.WriteLine("ya " + nbClients + " clients");
+            }
+            catch(MySqlException e)
+            {
+                Console.WriteLine("oups erreur test client : " + e.ToString());
+            }
+        }
     }
 }

@@ -1,38 +1,49 @@
-﻿using Mysqlx.Crud;
-using Mysqlx.Expr;
-using MySqlX.XDevAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
+using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
-    internal class ConnexionBDDCuisinier
+   
+    public class ConnexionBDDCuisinier
     {
+        public MySqlConnection maConnexionCuisinier;
 
-        /*
-         * 
-         a faire en sql
-         create user if not exists 'superbozo'@'localhost' identified by '123' ;
-        grant all on loueur.* to 'superbozo'@'localhost';
---
-create user if not exists 'bozo'@'localhost' identified by 'user' ;
-        grant select on loueur.location to 'bozo'@'localhost';
---
-revoke delete on loueur.location from 'superbozo'@'localhost';
-        show grants for 'superbozo'@'localhost';
-        show grants for 'bozo'@'localhost';
-        show grants for current_user;
-show grants;
---
-drop user 'bozo'@'localhost';
-        drop user 'superbozo'@'localhost';
-        select* from mysql.user;
-select user, host from mysql.user order by user;
-        */
+        // pour crer un utilisateur pour le cuistot
+        //create user if not exists 'superbozo'@'localhost' identified by '123' ;
+        //grant all on loueur.* to 'superbozo'@'localhost';
 
+        public ConnexionBDDCuisinier(string nomCuisinier, string motDePasse)
+        {
+            try
+            {
+                string chaineConnexionCuisinier = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + nomCuisinier + ";PASSWORD=" + motDePasse;
+                maConnexionCuisinier = new MySqlConnection(chaineConnexionCuisinier);
+                maConnexionCuisinier.Open();
+                Console.WriteLine("connexion cuisinier " + nomCuisinier + " reussie");
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("erreur connexion cuisinier : " + e.Message);
+            }
+        }
+
+        public void FermerConnexionCuisinier()
+        {
+            try
+            {
+                maConnexionCuisinier.Close();
+                Console.WriteLine("connexion cuisinier ferme");
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("probleme fermeture cuisinier : " + e.Message);
+            }
+        }
+
+        
     }
 }
