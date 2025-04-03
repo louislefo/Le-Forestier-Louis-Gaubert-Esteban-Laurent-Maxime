@@ -20,6 +20,73 @@ namespace Livrable_2_psi
             this.grapheMetro = grapheMetro;
         }
 
+        /// <summary>
+        /// genere un id unique pour un utilisateur
+        /// </summary>
+        private string GenererIdUtilisateur()
+        {
+            try
+            {
+                // recupere le dernier id utilisateur
+                string sql = "SELECT id_utilisateur FROM utilisateur WHERE id_utilisateur LIKE 'USR%' ORDER BY id_utilisateur DESC LIMIT 1";
+                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
+                object result = cmd.ExecuteScalar();
+                
+                if (result == null)
+                {
+                    // si aucun utilisateur n'existe, commence par USR001
+                    return "USR001";
+                }
+                
+                string dernierId = result.ToString();
+                // extrait le numero
+                string numeroStr = dernierId.Substring(3);
+                int numero = int.Parse(numeroStr) + 1;
+                
+                // formate le nouvel id
+                return "USR" + numero.ToString("D3");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de la generation de l'id utilisateur : " + ex.Message);
+                // en cas d'erreur, genere un id avec timestamp
+                return "USR" + DateTime.Now.Ticks;
+            }
+        }
+        
+        /// <summary>
+        /// genere un id unique pour un cuisinier
+        /// </summary>
+        private string GenererIdCuisinier()
+        {
+            try
+            {
+                // recupere le dernier id cuisinier
+                string sql = "SELECT id_cuisinier FROM cuisinier WHERE id_cuisinier LIKE 'CUI%' ORDER BY id_cuisinier DESC LIMIT 1";
+                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
+                object result = cmd.ExecuteScalar();
+                
+                if (result == null)
+                {
+                    // si aucun cuisinier n'existe, commence par CUI001
+                    return "CUI001";
+                }
+                
+                string dernierId = result.ToString();
+                // extrait le numero
+                string numeroStr = dernierId.Substring(3);
+                int numero = int.Parse(numeroStr) + 1;
+                
+                // formate le nouvel id
+                return "CUI" + numero.ToString("D3");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("erreur lors de la generation de l'id cuisinier : " + ex.Message);
+                // en cas d'erreur, genere un id avec timestamp
+                return "CUI" + DateTime.Now.Ticks;
+            }
+        }
         
         public void AjouterCuisinierConsole()
         {
@@ -41,9 +108,9 @@ namespace Livrable_2_psi
                 Console.WriteLine("Entrez les zones de livraison (séparées par des virgules) : ");
                 string zonesLivraison = Console.ReadLine();
                 
-                // generation d'un id unique pour l'utilisateur
-                string idUtilisateur = "U" + DateTime.Now.Ticks;
-                string idCuisinier = "C" + DateTime.Now.Ticks;
+                // generation d'un id unique pour l'utilisateur et le cuisinier
+                string idUtilisateur = GenererIdUtilisateur();
+                string idCuisinier = GenererIdCuisinier();
                 
                 // insertion dans la table utilisateur
                 string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
@@ -116,7 +183,7 @@ namespace Livrable_2_psi
                 string zonesLivraison = Console.ReadLine();
                 
                 // generation d'un id unique pour le cuisinier
-                string idCuisinier = "C" + DateTime.Now.Ticks;
+                string idCuisinier = GenererIdCuisinier();
                 
                 // insertion dans la table cuisinier
                 string requeteCuisinier = "INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, zones_livraison, note_moyenne, nombre_livraisons) VALUES ('" + 
