@@ -266,26 +266,24 @@ namespace Livrable_2_psi
                 prenom = ValidationRequette.DemanderNom("entrez votre prenom : ");
                 email = ValidationRequette.DemanderEmail("entrez votre email : ");
 
+                // verifie si l'email existe deja
+                string sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = '" + email + "'";
+                MySqlCommand cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
+                int countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
 
-                    // verifie si l'email existe deja
-                    string sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = @email";
-                    MySqlCommand cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
-                    cmdVerifEmail.Parameters.AddWithValue("@email", email);
-                    int countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
-
-                    if (countEmail > 0)
+                if (countEmail > 0)
+                {
+                    Console.WriteLine("cet email est deja utilise");
+                    while (countEmail > 0)
                     {
-
-                        Console.WriteLine("cet email est deja utilise");
-                        while (countEmail > 0)
-                        {
-                            Console.WriteLine("veuillez entrer un autre email");
-                            email = ValidationRequette.DemanderEmail("entrez votre email : ");
-                            countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
-                        }
-                        
+                        Console.WriteLine("veuillez entrer un autre email");
+                        email = ValidationRequette.DemanderEmail("entrez votre email : ");
+                        // on refait la verification avec le nouvel email
+                        sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = '" + email + "'";
+                        cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
+                        countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
                     }
-
+                }
 
                 telephone = ValidationRequette.DemanderTelephone("entrez votre telephone : ");
                 adresse = ValidationRequette.DemanderAdresse("entrez votre adresse : ");
