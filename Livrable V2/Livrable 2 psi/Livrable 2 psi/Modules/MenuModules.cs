@@ -108,7 +108,7 @@ namespace Livrable_2_psi
                     case "2":
                         Console.Clear();
                         Console.Write("ID du client : ");
-                        int idSupprimer = int.Parse(Console.ReadLine());
+                        string idSupprimer = Console.ReadLine();
                         moduleClient.SupprimerClient(idSupprimer);
                         break;
                     case "3":
@@ -176,7 +176,7 @@ namespace Livrable_2_psi
                     case "2":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
-                        int idSupprimer = int.Parse(Console.ReadLine());
+                        string idSupprimer = Console.ReadLine();
                         moduleCuisinier.SupprimerCuisinier(idSupprimer);
                         break;
                     case "3":

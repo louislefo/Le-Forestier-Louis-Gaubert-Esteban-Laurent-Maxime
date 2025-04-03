@@ -62,7 +62,7 @@ namespace Livrable_2_psi
             }
         }
 
-        public void SupprimerCuisinier(int idCuisinier)
+        public void SupprimerCuisinier(string idCuisinier)
         {
             try
             {

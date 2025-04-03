@@ -40,6 +40,7 @@ namespace Livrable_2_psi
                 Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 
+                string typeClientStr = (typeClient == 1) ? "Particulier" : "Entreprise";
                 string entrepriseNom = null;
                 string referent = null;
                 
@@ -78,31 +79,31 @@ namespace Livrable_2_psi
             }
         }
 
-        public void SupprimerClient(int id)
+        public void SupprimerClient(string id)
         {
             try
             {
                 // supprime d'abord de la table client
-                string sqlClient = "DELETE FROM client WHERE id_utilisateur = "+id+";";
+                string sqlClient = "DELETE FROM client WHERE id_utilisateur = @id";
                 MySqlCommand cmdClient = new MySqlCommand(sqlClient, connexionBDD.maConnexion);
                 cmdClient.Parameters.AddWithValue("@id", id);
                 cmdClient.ExecuteNonQuery();
 
-                string sql = "DELETE FROM client WHERE id_utilisateur = @id";
-                MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.ExecuteNonQuery();
+                // ensuite supprime de la table utilisateur
+                string sqlUtilisateur = "DELETE FROM utilisateur WHERE id_utilisateur = @id";
+                MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
+                cmdUtilisateur.Parameters.AddWithValue("@id", id);
+                cmdUtilisateur.ExecuteNonQuery();
 
                 Console.WriteLine("Client supprimé avec succès !");
 
                 cmdClient.Dispose();
-                cmd.Dispose();
+                cmdUtilisateur.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la suppression du client : " + ex.Message);
             }
-
         }
 
         public void ModifierClient(int id, string nom, string prenom, string adresse, string stationMetro)
