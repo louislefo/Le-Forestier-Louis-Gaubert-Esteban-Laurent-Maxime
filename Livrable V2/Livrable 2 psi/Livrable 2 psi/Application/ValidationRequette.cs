@@ -423,7 +423,7 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            if (motDePasse.Length < 8)
+            if (motDePasse.Length < 6)
             {
                 Console.WriteLine("le mot de passe doit contenir au moins 8 caracteres");
                 return false;
