@@ -164,57 +164,84 @@ namespace Livrable_2_psi
             try
             {
                 // verifie si l'utilisateur existe et recupere ses informations
-                string requete = "SELECT u.*, c.StationMetro as station_client, cu.StationMetro as station_cuisinier " +
-                               "FROM utilisateur u " +
-                               "LEFT JOIN client c ON u.id_utilisateur = c.id_utilisateur " +
-                               "LEFT JOIN cuisinier cu ON u.id_utilisateur = cu.id_utilisateur " +
-                               "WHERE u.email = @email";
-
+                string requete = "SELECT * FROM utilisateur WHERE email='" + email + "'";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
-                commande.Parameters.AddWithValue("@email", email);
+                commande.CommandText = requete;
 
                 MySqlDataReader reader = commande.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    string mdpBDD = (string)reader["mot_de_passe"];
-                    string typeUtilisateur = (string)reader["type__Cuisinier_Client_"];
+                    // on recupere le mot de passe de la base
+                    string mdpBDD = reader.GetString("mot_de_passe");
 
                     if (mdpBDD == motDePasse)
                     {
                         estConnecte = true;
-                        nom = (string)reader["nom"];
-                        prenom = (string)reader["prénom"];
-                        telephone = (string)reader["téléphone"];
-                        adresse = (string)reader["adresse"];
+                        
+                        // on recupere les infos de l'utilisateur de facon simple
+                        string idUtilisateur = reader.GetString("id_utilisateur");
+                        nomUtilisateur = reader.GetString("nom");  
+                        nom = reader.GetString("nom");
+                        prenom = reader.GetString("prénom");
+                        telephone = reader.GetString("telephone");
+                        adresse = reader.GetString("adresse");
 
-                        if (typeUtilisateur == "Cuisinier")
+                        reader.Close();
+                        commande.Dispose();
+
+                        // verifie si c'est un client
+                        string requeteClient = "SELECT StationMetro FROM client WHERE id_utilisateur='" + idUtilisateur + "'";
+                        MySqlCommand commandeClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
+                        commandeClient.CommandText = requeteClient;
+                        MySqlDataReader readerClient = commandeClient.ExecuteReader();
+
+                        if (readerClient.Read())
                         {
-                            estCuisinier = true;
-                            estClient = false;
-                            stationMetro = (string)reader["station_cuisinier"];
+                            estClient = true;
+                            estCuisinier = false;
+                            stationMetro = readerClient.GetString("StationMetro");
+                            readerClient.Close();
+                            commandeClient.Dispose();
                         }
                         else
                         {
-                            estCuisinier = false;
-                            estClient = true;
-                            stationMetro = (string)reader["station_client"];
+                            readerClient.Close();
+                            commandeClient.Dispose();
+
+                            // verifie si c'est un cuisinier
+                            string requeteCuisinier = "SELECT StationMetro FROM cuisinier WHERE id_utilisateur='" + idUtilisateur + "'";
+                            MySqlCommand commandeCuisinier = new MySqlCommand(requeteCuisinier, connexionBDD.maConnexion);
+                            commandeCuisinier.CommandText = requeteCuisinier;
+                            MySqlDataReader readerCuisinier = commandeCuisinier.ExecuteReader();
+
+                            if (readerCuisinier.Read())
+                            {
+                                estCuisinier = true;
+                                estClient = false;
+                                stationMetro = readerCuisinier.GetString("StationMetro");
+                            }
+
+                            readerCuisinier.Close();
+                            commandeCuisinier.Dispose();
                         }
+
                         Console.WriteLine("connexion reussie");
                         Console.Clear();
                     }
                     else
                     {
                         Console.WriteLine("mot de passe incorrect");
+                        reader.Close();
+                        commande.Dispose();
                     }
                 }
                 else
                 {
                     Console.WriteLine("utilisateur non trouve");
+                    reader.Close();
+                    commande.Dispose();
                 }
-
-                reader.Close();
-                commande.Dispose();
 
                 return estConnecte;
             }
@@ -331,6 +358,9 @@ namespace Livrable_2_psi
                             Console.WriteLine("erreur lors de la creation du compte acces BDD cuisinier : " + e.Message);
                         }
 
+                        estClient = false;
+                        estCuisinier = true;
+
                         Console.WriteLine("Compte cuisinier créé avec succès !");
 
                         break;
@@ -338,7 +368,6 @@ namespace Livrable_2_psi
                     case 2: // compte client uniquement
                         Console.WriteLine("\n=== Création du compte client ===");
                         string stationMetroClient = validation.DemanderStationMetro("Entrez la station metro du client : ");
-                        Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                         int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                         
                         string entrepriseNom = null;
@@ -385,6 +414,8 @@ namespace Livrable_2_psi
                         {
                             Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
                         }
+                        estClient = true;
+                        estCuisinier = false;
 
                         Console.WriteLine("Compte client créé avec succès !");
                         break;
@@ -401,7 +432,11 @@ namespace Livrable_2_psi
                         if (string.IsNullOrWhiteSpace(zonesLivraison2))
                         {
                             Console.WriteLine("Les zones de livraison ne peuvent pas être vides");
-                            return false;
+                            while (string.IsNullOrWhiteSpace(zonesLivraison2))
+                            {
+                                Console.WriteLine("Les zones de livraison ne peuvent pas être vides");
+                                zonesLivraison2 = Console.ReadLine();
+                            }
                         }
                         
                         string idCuisinier2 = GenererIdCuisinier();
@@ -413,7 +448,6 @@ namespace Livrable_2_psi
                         
                         // compte client
                         string stationMetroClient2 = validation.DemanderStationMetro("Entrez la station metro du client : ");
-                        Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                         int typeClient2 = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                         
                         string entrepriseNom2 = null;
@@ -428,7 +462,12 @@ namespace Livrable_2_psi
                             if (string.IsNullOrWhiteSpace(entrepriseNom2) || string.IsNullOrWhiteSpace(referent2))
                             {
                                 Console.WriteLine("Les informations de l'entreprise ne peuvent pas être vides");
-                                return false;
+                                while (string.IsNullOrWhiteSpace(entrepriseNom2) || string.IsNullOrWhiteSpace(referent2))
+                                {
+                                    Console.WriteLine("Les informations de l'entreprise ne peuvent pas être vides");
+                                    entrepriseNom2 = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
+                                    referent2 = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
+                                }
                             }
                         }
                         
@@ -497,12 +536,14 @@ namespace Livrable_2_psi
                         {
                             Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
                         }
+                        estClient = true;
+                        estCuisinier = true;
                         
                         Console.WriteLine("Comptes cuisinier et client créés avec succès !");
                         break;
                 }
                 
-                Console.Clear();
+                
                 estConnecte = true;
                 return true;
             }
