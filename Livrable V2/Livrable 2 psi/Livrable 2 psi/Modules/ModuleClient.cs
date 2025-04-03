@@ -276,9 +276,83 @@ namespace Livrable_2_psi
             }
         }
         
-
-        
-
-        
+        /// <summary>
+        /// ajoute un client a partir d un utilisateur existant
+        /// </summary>
+        public void AjouterClientExistant()
+        {
+            try
+            {
+                // demande l'id de l'utilisateur existant
+                Console.WriteLine("Entrez l'ID de l'utilisateur existant : ");
+                string idUtilisateur = Console.ReadLine();
+                
+                // verifie si l'utilisateur existe
+                string sqlVerif = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur = @id";
+                MySqlCommand cmdVerif = new MySqlCommand(sqlVerif, connexionBDD.maConnexion);
+                cmdVerif.Parameters.AddWithValue("@id", idUtilisateur);
+                
+                int count = Convert.ToInt32(cmdVerif.ExecuteScalar());
+                
+                if (count == 0)
+                {
+                    Console.WriteLine("L'utilisateur avec l'ID " + idUtilisateur + " n'existe pas dans la base de données.");
+                    return;
+                }
+                
+                // verifie si l'utilisateur est deja un client
+                string sqlVerifClient = "SELECT COUNT(*) FROM client WHERE id_utilisateur = @id";
+                MySqlCommand cmdVerifClient = new MySqlCommand(sqlVerifClient, connexionBDD.maConnexion);
+                cmdVerifClient.Parameters.AddWithValue("@id", idUtilisateur);
+                
+                int countClient = Convert.ToInt32(cmdVerifClient.ExecuteScalar());
+                
+                if (countClient > 0)
+                {
+                    Console.WriteLine("L'utilisateur avec l'ID " + idUtilisateur + " est déjà un client.");
+                    return;
+                }
+                
+                // demande les informations du client
+                ValidationRequette validation = new ValidationRequette(grapheMetro);
+                string stationMetro = validation.DemanderStationMetro("Entrez la station metro du client : ");
+                
+                // demande du type de client (particulier ou entreprise)
+                Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
+                int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
+                
+                string entrepriseNom = null;
+                string referent = null;
+                
+                // si c'est une entreprise, demander les informations supplémentaires
+                if (typeClient == 2)
+                {
+                    entrepriseNom = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
+                    referent = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
+                }
+                
+                // generation d'un id unique pour le client
+                string idClient = "C" + DateTime.Now.Ticks;
+                
+                // insertion dans la table client
+                string requeteClient = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
+                    idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + 
+                    (entrepriseNom == null ? "NULL" : "'" + entrepriseNom + "'") + ", " + 
+                    (referent == null ? "NULL" : "'" + referent + "'") + ")";
+                
+                MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
+                cmdClient.ExecuteNonQuery();
+                
+                Console.WriteLine("Client ajouté avec succès à partir de l'utilisateur existant !");
+                
+                cmdVerif.Dispose();
+                cmdVerifClient.Dispose();
+                cmdClient.Dispose();
+            }
+            catch (MySqlException e)
+            {
+                Console.WriteLine("Erreur lors de l'ajout du client : " + e.Message);
+            }
+        }
     }
 } 

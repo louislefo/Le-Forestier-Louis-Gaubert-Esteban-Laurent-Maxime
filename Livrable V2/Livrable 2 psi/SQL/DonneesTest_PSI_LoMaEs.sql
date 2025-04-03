@@ -1,86 +1,95 @@
--- données test 
-
 USE PSI_LoMaEs;
 
 -- Insertion des utilisateurs
 INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES
-('U001', 'Martin', 'Sophie', 'sophie.martin@email.com', '15 rue de la Paix, Paris', '0612345678', 'Mdp123'),
-('U002', 'Dubois', 'Pierre', 'pierre.dubois@email.com', '23 avenue Victor Hugo, Paris', '0623456789', 'Mdp456'),
-('U003', 'Bernard', 'Marie', 'marie.bernard@email.com', '8 boulevard Saint-Michel, Paris', '0634567890', 'Mdp789'),
-('U004', 'Petit', 'Lucas', 'lucas.petit@email.com', '45 rue du Louvre, Paris', '0645678901', 'Mdp101'),
-('U005', 'Robert', 'Emma', 'emma.robert@email.com', '12 rue de Rivoli, Paris', '0656789012', 'Mdp102');
-
--- Insertion des cuisiniers
-INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, zones_livraison, note_moyenne, nombre_livraisons) VALUES
-('C001', 'U001', 'Tuileries', '1er, 2e, 3e arrondissement', 4.5, 25),
-('C002', 'U003', 'Saint-Michel', '4e, 5e, 6e arrondissement', 4.8, 30),
-('C003', 'U005', 'Louvre-Rivoli', '7e, 8e, 9e arrondissement', 4.2, 15);
+('USR001', 'Dupont', 'Jean', 'jean.dupont@gmail.com', '12 rue du Faubourg, Paris', '0678451236', 'MotDePasse123'),
+('USR002', 'Moreau', 'Alice', 'alice.moreau@yahoo.fr', '35 avenue des Champs-Élysées, Paris', '0712345698', 'Alice2024'),
+('USR003', 'Lefebvre', 'Thomas', 'thomas.lefebvre@hotmail.com', '8 boulevard Haussmann, Paris', '0623457896', 'Thomas123!'),
+('USR004', 'Roux', 'Camille', 'camille.roux@gmail.com', '16 rue de la République, Paris', '0745698712', 'CamRoux2024'),
+('USR005', 'Lambert', 'Julie', 'julie.lambert@outlook.fr', '27 rue Saint-Honoré, Paris', '0698745632', 'JulieL456'),
+('USR006', 'Nardi', 'Namouk', 'julie.lambert@outlook.fr', '27 rue Saint-Honoré, Paris', '0698746632', 'Motdepasee7845');
 
 -- Insertion des clients
 INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES
-('CL001', 'U002', 'Victor Hugo', NULL, NULL),
-('CL002', 'U004', 'Louvre-Palais Royal', 'Tech Solutions', 'Jean Dupont');
+('CLI001', 'USR001', 'Châtelet', NULL, NULL),
+('CLI002', 'USR002', 'Franklin D. Roosevelt', 'Marketing Plus', 'Sophie Durand'),
+('CLI003', 'USR003', 'Opéra', 'Tech Innovations', 'Paul Martin'),
+('CLI004', 'USR004', 'Bastille', NULL, NULL),
+('CLI005', 'USR005', 'Concorde', 'Design Studio', 'Marc Petit');
+
+-- Insertion des cuisiniers
+INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, zones_livraison, note_moyenne, nombre_livraisons) VALUES
+('CUI001', 'USR001', 'Châtelet', '1er, 2e, 3e, 4e arrondissement', 4.7, 42),
+('CUI002', 'USR002', 'Franklin D. Roosevelt', '8e, 16e arrondissement', 4.3, 28),
+('CUI003', 'USR003', 'Opéra', '2e, 9e, 10e arrondissement', 4.9, 57),
+('CUI004', 'USR004', 'Bastille', '4e, 11e, 12e arrondissement', 4.1, 31),
+('CUI005', 'USR005', 'Concorde', '1er, 8e arrondissement', 4.6, 39);
 
 -- Insertion des recettes
 INSERT INTO Recette_ (id_recette, nom, description, origine) VALUES
-('R001', 'Coq au Vin Traditionnel', 'Recette classique française', 'France'),
-('R002', 'Pad Thai Authentique', 'Recette traditionnelle thaïlandaise', 'Thaïlande'),
-('R003', 'Tiramisu Italien', 'Dessert italien classique', 'Italie'),
-('R004', 'Sushi California', 'Recette de sushi populaire', 'Japon'),
-('R005', 'Ratatouille Provençale', 'Plat traditionnel provençal', 'France');
+('REC001', 'Boeuf Bourguignon', 'plat mijoté à base de boeuf et de vin rouge', 'France'),
+('REC002', 'Risotto aux Champignons', 'riz crémeux aux champignons et parmesan', 'Italie'),
+('REC003', 'Paella Valenciana', 'riz safrané avec fruits de mer et poulet', 'Espagne'),
+('REC004', 'Tarte Tatin', 'tarte aux pommes caramélisées', 'France'),
+('REC005', 'Curry Vert Thaï', 'curry épicé à base de lait de coco', 'Thaïlande');
 
 -- Insertion des plats
 INSERT INTO Plat_ (id_plat, id_cuisinier, nom, type, portions, date_fabrication, date_peremption, prix_par_personne, nationalite, regime, photo) VALUES
-('P001', 'C001', 'Coq au Vin', 'plat', '4 personnes', '2024-03-25', '2024-03-26', 25.00, 'française', 'standard', 'coq_vin.jpg'),
-('P002', 'C002', 'Pad Thai', 'plat', '2 personnes', '2024-03-25', '2024-03-26', 18.00, 'thaïlandaise', 'végétarien', 'pad_thai.jpg'),
-('P003', 'C003', 'Tiramisu', 'dessert', '6 personnes', '2024-03-25', '2024-03-26', 12.00, 'italienne', 'végétarien', 'tiramisu.jpg'),
-('P004', 'C001', 'Sushi California', 'entrée', '8 pièces', '2024-03-25', '2024-03-26', 15.00, 'japonaise', 'standard', 'sushi.jpg'),
-('P005', 'C002', 'Ratatouille', 'plat', '4 personnes', '2024-03-25', '2024-03-26', 20.00, 'française', 'végétarien', 'ratatouille.jpg');
+('PLA001', 'CUI001', 'Boeuf Bourguignon Maison', 'plat', '4 personnes', '2024-04-01', '2024-04-03', 22.50, 'française', 'standard', 'boeuf_bourguignon.jpg'),
+('PLA002', 'CUI002', 'Risotto Forestier', 'plat', '2 personnes', '2024-04-01', '2024-04-02', 18.75, 'italienne', 'végétarien', 'risotto.jpg'),
+('PLA003', 'CUI003', 'Paella Royale', 'plat', '6 personnes', '2024-04-01', '2024-04-03', 26.00, 'espagnole', 'standard', 'paella.jpg'),
+('PLA004', 'CUI004', 'Tarte Tatin Traditionnelle', 'dessert', '8 parts', '2024-04-01', '2024-04-04', 15.25, 'française', 'végétarien', 'tarte_tatin.jpg'),
+('PLA005', 'CUI005', 'Curry Vert au Poulet', 'plat', '3 personnes', '2024-04-01', '2024-04-02', 20.50, 'thaïlandaise', 'standard', 'curry_vert.jpg');
 
 -- Insertion des relations plat-recette
 INSERT INTO s_inspire_de (id_plat, id_recette) VALUES
-('P001', 'R001'),
-('P002', 'R002'),
-('P003', 'R003'),
-('P004', 'R004'),
-('P005', 'R005');
+('PLA001', 'REC001'),
+('PLA002', 'REC002'),
+('PLA003', 'REC003'),
+('PLA004', 'REC004'),
+('PLA005', 'REC005');
 
 -- Insertion des ingrédients
 INSERT INTO Ingrédients (id_ingredient, id_plat, nom) VALUES
-('I001', 'P001', 'Poulet'),
-('I002', 'P001', 'Vin rouge'),
-('I003', 'P002', 'Nouilles de riz'),
-('I004', 'P002', 'Crevettes'),
-('I005', 'P003', 'Café');
+('ING001', 'PLA001', 'Boeuf'),
+('ING002', 'PLA001', 'Vin rouge de Bourgogne'),
+('ING003', 'PLA002', 'Riz arborio'),
+('ING004', 'PLA002', 'Champignons de Paris'),
+('ING005', 'PLA003', 'Riz bomba'),
+('ING006', 'PLA003', 'Fruits de mer'),
+('ING007', 'PLA004', 'Pommes Golden'),
+('ING008', 'PLA004', 'Pâte brisée'),
+('ING009', 'PLA005', 'Poulet'),
+('ING010', 'PLA005', 'Lait de coco');
 
 -- Insertion des commandes
-INSERT INTO Commande_ (id_commande, id_client, date_commande, prix_total, statut) VALUES
-('CMD001', 'CL001', '2024-03-20 19:30:00', 43.00, 'Livrée'),
-('CMD002', 'CL002', '2024-03-21 20:00:00', 60.00, 'En cours'),
-('CMD003', 'CL001', '2024-03-22 19:45:00', 35.00, 'Confirmée'),
-('CMD004', 'CL002', '2024-03-23 19:35:00', 45.00, 'En attente'),
-('CMD005', 'CL001', '2024-03-24 19:35:00', 55.00, 'Livrée');
+INSERT INTO Commande_ (id_commande, id_client, id_cuisinier, id_plat, date_commande, prix_total, statut) VALUES
+('COM001', 'CLI001', 'CUI003', 'PLA003', '2024-04-02 18:15:00', 52.00, 'En préparation'),
+('COM002', 'CLI002', 'CUI005', 'PLA005', '2024-04-02 19:30:00', 41.00, 'Confirmée'),
+('COM003', 'CLI003', 'CUI001', 'PLA001', '2024-04-03 12:45:00', 45.00, 'Livrée'),
+('COM004', 'CLI004', 'CUI002', 'PLA002', '2024-04-03 20:00:00', 37.50, 'En attente'),
+('COM005', 'CLI005', 'CUI004', 'PLA004', '2024-04-04 13:15:00', 30.50, 'Annulée');
 
 -- Insertion des livraisons
 INSERT INTO Livraison (id_livraison, id_commande, date_livraison, trajet) VALUES
-('L001', 'CMD001', '2024-03-20 19:30:00', 'Station A -> Station B -> Station C'),
-('L002', 'CMD002', '2024-03-21 20:00:00', 'Station D -> Station E -> Station F'),
-('L003', 'CMD003', '2024-03-22 19:45:00', 'Station G -> Station H -> Station I'),
-('L004', 'CMD004', NULL, NULL),
-('L005', 'CMD005', '2024-03-24 19:35:00', 'Station J -> Station K -> Station L');
+('LIV001', 'COM001', '2024-04-02 19:45:00', 'Opéra -> Châtelet'),
+('LIV002', 'COM002', '2024-04-02 20:20:00', 'Concorde -> Franklin D. Roosevelt'),
+('LIV003', 'COM003', '2024-04-03 13:30:00', 'Châtelet -> Opéra'),
+('LIV004', 'COM004', NULL, 'Franklin D. Roosevelt -> Bastille'),
+('LIV005', 'COM005', NULL, 'Bastille -> Concorde');
 
 -- Insertion des transactions
 INSERT INTO Transaction_ (id_transaction, id_commande, montant, date_paiement, statut) VALUES
-('T001', 'CMD001', 43.00, '2024-03-20 19:25:00', 'Payé'),
-('T002', 'CMD002', 60.00, '2024-03-21 19:55:00', 'Payé'),
-('T003', 'CMD003', 35.00, '2024-03-22 19:40:00', 'En attente'),
-('T004', 'CMD004', 45.00, NULL, 'En attente'),
-('T005', 'CMD005', 55.00, '2024-03-24 19:35:00', 'Payé');
+('TRA001', 'COM001', 52.00, '2024-04-02 18:20:00', 'Payé'),
+('TRA002', 'COM002', 41.00, '2024-04-02 19:35:00', 'En attente'),
+('TRA003', 'COM003', 45.00, '2024-04-03 12:50:00', 'Payé'),
+('TRA004', 'COM004', 37.50, NULL, 'En attente'),
+('TRA005', 'COM005', 30.50, '2024-04-04 13:20:00', 'Remboursé');
 
 -- Insertion des avis
 INSERT INTO Avis_ (id_avis, id_client, id_cuisinier, id_commande, note, commentaire, date_publication) VALUES
-('A001', 'CL001', 'C001', 'CMD001', 5.0, 'Excellent plat, livraison rapide', '2024-03-21'),
-('A002', 'CL002', 'C002', 'CMD002', 4.5, 'Très bon service', '2024-03-22'),
-('A003', 'CL001', 'C003', 'CMD003', 4.0, 'Bon rapport qualité-prix', '2024-03-23'),
-('A004', 'CL002', 'C001', 'CMD004', 4.8, 'Délicieux, à recommander', '2024-03-24'),
-('A005', 'CL001', 'C002', 'CMD005', 5.0, 'Parfait, je recommande', '2024-03-25'); 
+('AVI001', 'CLI001', 'CUI003', 'COM001', 4.5, 'Excellente paella, très parfumée et généreuse en fruits de mer', '2024-04-03'),
+('AVI002', 'CLI002', 'CUI005', 'COM002', 4.2, 'Curry délicieux mais un peu trop épicé à mon goût', '2024-04-03'),
+('AVI003', 'CLI003', 'CUI001', 'COM003', 4.8, 'Boeuf tendre et sauce savoureuse, parfait !', '2024-04-04'),
+('AVI004', 'CLI004', 'CUI002', 'COM004', 3.9, 'Bon risotto mais il manquait un peu de crémeux', '2024-04-05'),
+('AVI005', 'CLI005', 'CUI004', 'COM005', NULL, NULL, NULL);
