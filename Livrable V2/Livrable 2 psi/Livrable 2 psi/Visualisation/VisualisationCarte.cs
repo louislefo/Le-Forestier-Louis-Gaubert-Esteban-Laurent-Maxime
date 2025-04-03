@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 
 namespace Livrable_2_psi
 {
-    /// <summary>
-    /// classe qui gere la visualisation du graphe
-    /// </summary>
+    
     public class VisualisationCarte
     {
         private Bitmap image;
@@ -134,9 +132,7 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// sauvegarde l'image
-        /// </summary>
+        
         public void SauvegarderImage(string chemin)
         {
             image.Save(chemin);

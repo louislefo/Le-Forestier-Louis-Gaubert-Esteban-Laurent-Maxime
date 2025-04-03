@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 
 namespace Livrable_2_psi
 {
-    /// <summary>
-    /// classe qui gere la visualisation de l'itineraire
-    /// </summary>
+    
     public class VisualisationItineraire
     {
         private Bitmap image;
@@ -24,9 +22,7 @@ namespace Livrable_2_psi
         private Dictionary<string, bool> nomsDejaAffiches;
         private Dictionary<string, int> nombreLignesParStation;
 
-        /// <summary>
-        /// constructeur de la classe
-        /// </summary>
+        
         public VisualisationItineraire(int largeur, int hauteur)
         {
             this.largeur = largeur;
@@ -234,9 +230,7 @@ namespace Livrable_2_psi
             }
         }
 
-        /// <summary>
-        /// sauvegarde l'image
-        /// </summary>
+        
         public void SauvegarderImage(string chemin)
         {
             image.Save(chemin);
