@@ -6,7 +6,7 @@ namespace Livrable_2_psi
     /// <summary>
     /// classe qui gere les algorithmes de plus court chemin en temps
     /// </summary>
-    public class PlusCourtChemin<T> where T : IComparable<T>
+    public class PlusCourtChemin<T> where T : IComparable<T>  // élément de la documentation Csharp qui permet de garder l'élément T 
     {
         /// <summary>
         /// trouve les stations de correspondance (stations sur plusieurs lignes)
