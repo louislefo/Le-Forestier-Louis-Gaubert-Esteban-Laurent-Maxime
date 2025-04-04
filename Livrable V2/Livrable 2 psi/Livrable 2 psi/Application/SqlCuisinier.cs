@@ -50,10 +50,8 @@ namespace Livrable_2_psi
                 Console.Write("photo (nom du fichier) : ");
                 string photo = Console.ReadLine();
 
-                // on cree un id de plat simple
                 string idPlat = "PLT" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                // requete simple sans parametres
                 string requete = "INSERT INTO Plat_ VALUES ('" + idPlat + "', '" + idCuisinier + "', '" + 
                                nomPlat + "', '" + typePlat + "', '" + portions + "', '" + 
                                dateFabrication.ToString("yyyy-MM-dd") + "', '" + 
@@ -74,7 +72,6 @@ namespace Livrable_2_psi
             }
         }
 
-        /// affiche les plats dun cuisinier
         public void VoirMesPlats(string idCuisinier)
         {
             try
@@ -123,7 +120,6 @@ namespace Livrable_2_psi
             }
         }
 
-        /// affiche les commandes en cours dun cuisinier
         public void VoirCommandesEnCours(string idCuisinier)
         {
             try

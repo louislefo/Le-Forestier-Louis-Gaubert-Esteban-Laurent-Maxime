@@ -15,7 +15,7 @@ namespace Livrable_2_psi
         public Graphe<int> grapheMetro;
         public SqlClient sqlClient;
 
-        /// constructeur par defaut
+        
         public AffichageClient(ConnexionBDDClient connexionBDDClient,Authentification authentification, Graphe<int> grapheMetro)
         {
             this.authentification = authentification;
@@ -26,7 +26,9 @@ namespace Livrable_2_psi
         }
 
 
-        /// affiche le menu du client
+        /// <summary>
+        /// affiche le menu du client avec les options 
+        /// </summary>
         public void AfficherMenuClient(string nomUtilisateur)
         {
             bool continuer = true;
