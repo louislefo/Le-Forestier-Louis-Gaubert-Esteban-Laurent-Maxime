@@ -7,7 +7,9 @@ using System.IO;
 namespace Livrable_2_psi
 {
     /// <summary>
-    /// classe qui gere les operations sur les cuisiniers
+    /// cette classe sert a gerer tout ce qui concerne les cuisiniers dans l'application
+    /// elle permet d'ajouter des cuisiniers, de les modifier, de les supprimer et de voir leurs plats
+    /// c'est une classe importante car elle gere les cuisiniers qui preparent les plats
     /// </summary>
     public class ModuleCuisinier
     {
@@ -21,78 +23,86 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// genere un id unique pour un utilisateur
+        /// cette methode sert a generer un id unique pour un utilisateur
+        /// elle regarde le dernier id dans la base et ajoute 1
+        /// si y a pas d'id elle commence a 1
         /// </summary>
         private string GenererIdUtilisateur()
         {
             try
             {
-                // recupere le dernier id utilisateur
+                // on cherche le dernier id utilisateur dans la base
                 string sql = "SELECT id_utilisateur FROM utilisateur WHERE id_utilisateur LIKE 'USR%' ORDER BY id_utilisateur DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
                 
                 if (result == null)
                 {
-                    // si aucun utilisateur n'existe, commence par USR001
+                    // si y a pas d'utilisateur on commence a 1
                     return "USR001";
                 }
                 
                 string dernierId = result.ToString();
-                // extrait le numero
+                // on prend juste le numero a la fin
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
                 
-                // formate le nouvel id
+                // on remet le format USR001
                 return "USR" + numero.ToString("D3");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la generation de l'id utilisateur : " + ex.Message);
-                // en cas d'erreur, genere un id avec timestamp
+                // si ca marche pas on met un timestamp
                 return "USR" + DateTime.Now.Ticks;
             }
         }
         
         /// <summary>
-        /// genere un id unique pour un cuisinier
+        /// cette methode sert a generer un id unique pour un cuisinier
+        /// elle fait pareil que pour l'utilisateur mais avec CUI au lieu de USR
         /// </summary>
         private string GenererIdCuisinier()
         {
             try
             {
-                // recupere le dernier id cuisinier
+                // on cherche le dernier id cuisinier dans la base
                 string sql = "SELECT id_cuisinier FROM cuisinier WHERE id_cuisinier LIKE 'CUI%' ORDER BY id_cuisinier DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
                 
                 if (result == null)
                 {
-                    // si aucun cuisinier n'existe, commence par CUI001
+                    // si y a pas de cuisinier on commence a 1
                     return "CUI001";
                 }
                 
                 string dernierId = result.ToString();
-                // extrait le numero
+                // on prend juste le numero a la fin
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
                 
-                // formate le nouvel id
+                // on remet le format CUI001
                 return "CUI" + numero.ToString("D3");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la generation de l'id cuisinier : " + ex.Message);
-                // en cas d'erreur, genere un id avec timestamp
+                // si ca marche pas on met un timestamp
                 return "CUI" + DateTime.Now.Ticks;
             }
         }
         
+        /// <summary>
+        /// cette methode sert a ajouter un cuisinier depuis la console
+        /// elle demande toutes les infos necessaires et les valide
+        /// puis elle cree l'utilisateur et le cuisinier dans la base
+        /// </summary>
         public void AjouterCuisinierConsole()
         {
             try
             {
-                // validation des données avec ValidationRequette
+                // on demande toutes les infos avec validation
                 string nom = ValidationRequette.DemanderNom("Entrez le nom du cuisinier : ");
                 string prenom = ValidationRequette.DemanderNom("Entrez le prenom du cuisinier : ");
                 string adresse = ValidationRequette.DemanderAdresse("Entrez l'adresse du cuisinier : ");
@@ -100,22 +110,22 @@ namespace Livrable_2_psi
                 string telephone = ValidationRequette.DemanderTelephone("Entrez le telephone du cuisinier : ");
                 string motDePasse = ValidationRequette.DemanderMotDePasse("Entrez le mot de passe du cuisinier : ");
                 
-                // creation d'une instance de ValidationRequette avec le graphe
+                // on cree une instance de validation pour la station metro
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
                 string stationMetro = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
                 
-                // generation d'un id unique pour l'utilisateur et le cuisinier
+                // on genere les ids
                 string idUtilisateur = GenererIdUtilisateur();
                 string idCuisinier = GenererIdCuisinier();
                 
-                // insertion dans la table utilisateur
+                // on insere dans la table utilisateur
                 string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
                     idUtilisateur + "', '" + nom + "', '" + prenom + "', '" + email + "', '" + adresse + "', '" + telephone + "', '" + motDePasse + "')";
                 
                 MySqlCommand cmdUtilisateur = new MySqlCommand(requeteUtilisateur, connexionBDD.maConnexion);
                 cmdUtilisateur.ExecuteNonQuery();
                 
-                // insertion dans la table cuisinier
+                // on insere dans la table cuisinier
                 string requeteCuisinier = "INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, note_moyenne, nombre_livraisons) VALUES ('" + 
                     idCuisinier + "', '" + idUtilisateur + "', '" + stationMetro + "', 0, 0)";
                 
@@ -134,17 +144,18 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// ajoute un cuisinier a partir d un utilisateur existant
+        /// cette methode sert a ajouter un cuisinier a partir d'un utilisateur qui existe deja
+        /// elle demande l'id de l'utilisateur et les infos specifiques au cuisinier
         /// </summary>
         public void AjouterCuisinierExistant()
         {
             try
             {
-                // demande l'id de l'utilisateur existant
+                // on demande l'id de l'utilisateur
                 Console.WriteLine("Entrez l'ID de l'utilisateur existant : ");
                 string idUtilisateur = Console.ReadLine();
                 
-                // verifie si l'utilisateur existe
+                // on verifie si l'utilisateur existe
                 string sqlVerif = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur = @id";
                 MySqlCommand cmdVerif = new MySqlCommand(sqlVerif, connexionBDD.maConnexion);
                 cmdVerif.Parameters.AddWithValue("@id", idUtilisateur);
@@ -157,7 +168,7 @@ namespace Livrable_2_psi
                     return;
                 }
                 
-                // verifie si l'utilisateur est deja un cuisinier
+                // on verifie si c'est deja un cuisinier
                 string sqlVerifCuisinier = "SELECT COUNT(*) FROM cuisinier WHERE id_utilisateur = @id";
                 MySqlCommand cmdVerifCuisinier = new MySqlCommand(sqlVerifCuisinier, connexionBDD.maConnexion);
                 cmdVerifCuisinier.Parameters.AddWithValue("@id", idUtilisateur);
@@ -170,18 +181,18 @@ namespace Livrable_2_psi
                     return;
                 }
                 
-                // demande les informations du cuisinier
+                // on demande les infos du cuisinier
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
                 string stationMetro = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
                 
-                // demande des zones de livraison
+                // on demande des zones de livraison
                 Console.WriteLine("Entrez les zones de livraison (séparées par des virgules) : ");
                 string zonesLivraison = Console.ReadLine();
                 
-                // generation d'un id unique pour le cuisinier
+                // on genere l'id cuisinier
                 string idCuisinier = GenererIdCuisinier();
                 
-                // insertion dans la table cuisinier
+                // on insere dans la table cuisinier
                 string requeteCuisinier = "INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, zones_livraison, note_moyenne, nombre_livraisons) VALUES ('" + 
                     idCuisinier + "', '" + idUtilisateur + "', '" + stationMetro + "', '" + zonesLivraison + "', 0, 0)";
                 
@@ -200,11 +211,15 @@ namespace Livrable_2_psi
             }
         }
 
+        /// <summary>
+        /// cette methode sert a supprimer un cuisinier
+        /// elle supprime d'abord le cuisinier puis l'utilisateur
+        /// </summary>
         public void SupprimerCuisinier(string idCuisinier)
         {
             try
             {
-                // supprime d'abord de la table cuisinier
+                // on supprime d'abord de la table cuisinier
                 string sqlCuisinier = "DELETE FROM cuisinier WHERE id_utilisateur = "+idCuisinier+";";
                 MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
                 cmdCuisinier.Parameters.AddWithValue("@idCuisinier", idCuisinier);
@@ -227,12 +242,15 @@ namespace Livrable_2_psi
             }
         }
 
-
+        /// <summary>
+        /// cette methode sert a modifier les infos d'un cuisinier
+        /// elle met a jour le nom, prenom, adresse et station metro
+        /// </summary>
         public void ModifierCuisinier(int idCuisinier, string nom, string prenom, string adresse, string stationMetro)
         {
             try
             {
-                // modifie la table utilisateur
+                // on modifie la table utilisateur
                 string sqlUtilisateur = "UPDATE utilisateur SET nom = @nom, prenom = @prenom, adresse = @adresse WHERE id_utilisateur = @idCuisinier";
                 MySqlCommand cmdUtilisateur = new MySqlCommand(sqlUtilisateur, connexionBDD.maConnexion);
                 cmdUtilisateur.Parameters.AddWithValue("@idCuisinier", idCuisinier);
@@ -241,7 +259,7 @@ namespace Livrable_2_psi
                 cmdUtilisateur.Parameters.AddWithValue("@adresse", adresse);
                 cmdUtilisateur.ExecuteNonQuery();
 
-                // modifie la table cuisinier
+                // on modifie la table cuisinier
                 string sqlCuisinier = "UPDATE cuisinier SET station_metro = @stationMetro WHERE id_utilisateur = @idCuisinier";
                 MySqlCommand cmdCuisinier = new MySqlCommand(sqlCuisinier, connexionBDD.maConnexion);
                 cmdCuisinier.Parameters.AddWithValue("@idCuisinier", idCuisinier);
@@ -260,7 +278,8 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// affiche les clients servis par un cuisinier
+        /// cette methode sert a afficher les clients servis par un cuisinier
+        /// elle fait une requete qui montre tous les clients qui ont commande chez ce cuisinier
         /// </summary>
         public void AfficherClientsServis(int idCuisinier, DateTime? dateDebut = null, DateTime? dateFin = null)
         {
@@ -305,7 +324,8 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// affiche les plats realises par un cuisinier avec leur frequence
+        /// cette methode sert a afficher les plats realises par un cuisinier
+        /// elle compte combien de fois chaque plat a ete commande
         /// </summary>
         public void AfficherPlatsRealises(int idCuisinier)
         {
@@ -341,7 +361,8 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// affiche le plat du jour d'un cuisinier
+        /// cette methode sert a afficher le plat du jour d'un cuisinier
+        /// elle cherche dans la base le plat du jour pour aujourd'hui
         /// </summary>
         public void AfficherPlatDuJour(int idCuisinier)
         {
@@ -380,7 +401,5 @@ namespace Livrable_2_psi
                 Console.WriteLine("erreur lors de l'affichage du plat du jour : " + ex.Message);
             }
         }
-
-        
     }
 } 
