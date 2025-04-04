@@ -6,7 +6,11 @@ using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
-    /// classe qui gere les commandes pour un debutant
+    /// <summary>
+    /// cette classe sert a gerer tout ce qui concerne les commandes dans l'application
+    /// elle permet de creer des commandes, de les modifier, de calculer les prix et de gerer les livraisons
+    /// c'est une classe importante car elle fait le lien entre les clients et les cuisiniers
+    /// </summary>
     public class ModuleCommande
     {
         public ConnexionBDD connexionBDD;
@@ -18,7 +22,11 @@ namespace Livrable_2_psi
             this.grapheMetro = grapheMetro;
         }
 
-        /// cree une nouvelle commande de facon simple
+        /// <summary>
+        /// cette methode sert a creer une nouvelle commande
+        /// elle verifie que le client et le plat existent
+        /// elle calcule le prix et cree la commande dans la base
+        /// </summary>
         public int CreerCommande(string idClient, string idCuisinier, string idPlat, DateTime dateCommande)
         {
             try
@@ -80,7 +88,11 @@ namespace Livrable_2_psi
             }
         }
 
-        /// modifie une commande de facon simple
+        /// <summary>
+        /// cette methode sert a modifier une commande existante
+        /// elle verifie que la commande existe et que le nouveau plat existe
+        /// elle met a jour le prix et les infos de la commande
+        /// </summary>
         public void ModifierCommande(string idCommande, string idPlat, DateTime dateCommande)
         {
             try
@@ -135,7 +147,10 @@ namespace Livrable_2_psi
             }
         }
 
-        /// calcule le prix dune commande de facon simple
+        /// <summary>
+        /// cette methode sert a calculer le prix d'une commande
+        /// elle recupere le prix dans la base et le retourne
+        /// </summary>
         public double CalculerPrixCommande(string idCommande)
         {
             try
@@ -169,7 +184,12 @@ namespace Livrable_2_psi
             }
         }
 
-        /// determine le chemin de livraison et affiche la route
+        /// <summary>
+        /// cette methode sert a determiner le chemin de livraison
+        /// elle trouve les stations du cuisinier et du client
+        /// elle cherche le meilleur chemin dans le metro
+        /// elle cree une image avec le chemin
+        /// </summary>
         public (string stationDepart, string stationArrivee) DeterminerCheminLivraison(string idCommande)
         {
             try
@@ -189,7 +209,7 @@ namespace Livrable_2_psi
                 lecteurVerif.Close();
                 commandeVerif.Dispose();
 
-                // récupérer les stations du client et du cuisinier (à la fois nom et ID)
+                // on récupère les stations du client et du cuisinier
                 string requete = "SELECT cu.StationMetro as station_cuisinier, c.StationMetro as station_client " +
                                "FROM Commande_ co " +
                                "JOIN client c ON co.id_client = c.id_client " +
@@ -218,11 +238,11 @@ namespace Livrable_2_psi
                 lecteur.Close();
                 commande.Dispose();
                 
-                // trouver les ID des stations correspondantes dans le graphe metro
+                // on cherche les ID des stations dans le graphe
                 string stationDepartId = "";
                 string stationArriveeId = "";
                 
-                // recherche des identifiants de stations dans le graphe
+                // on parcourt tous les noeuds pour trouver les stations
                 foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
                 {
                     if (noeud.NomStation.Equals(stationDepartNom, StringComparison.OrdinalIgnoreCase))
@@ -234,14 +254,14 @@ namespace Livrable_2_psi
                         stationArriveeId = noeud.Id.ToString();
                     }
                     
-                    // si on a trouvé les deux stations, on peut arrêter la recherche
+                    // si on a trouvé les deux stations, on peut s'arrêter
                     if (stationDepartId != "" && stationArriveeId != "")
                     {
                         break;
                     }
                 }
                 
-                // vérifier qu'on a bien trouvé les stations
+                // on vérifie qu'on a bien trouvé les stations
                 if (stationDepartId == "")
                 {
                     Console.WriteLine("ATTENTION: Station de départ '" + stationDepartNom + "' non trouvée dans le graphe");
@@ -256,7 +276,7 @@ namespace Livrable_2_psi
                 
                 Console.WriteLine("ID stations: départ=" + stationDepartId + ", arrivée=" + stationArriveeId);
                 
-                // recherche et affichage de l'itinéraire avec les IDs
+                // on cherche et affiche l'itinéraire
                 if (stationDepartId != "" && stationArriveeId != "")
                 {
                     Console.WriteLine("\nRecherche de l'itinéraire de livraison...");
@@ -275,7 +295,7 @@ namespace Livrable_2_psi
                         visItineraire.SauvegarderImage(nomFichier);
                         Console.WriteLine("Carte de l'itinéraire sauvegardée sous le nom " + nomFichier);
                         
-                        // ouverture de l'image
+                        // on ouvre l'image
                         Console.WriteLine("Ouverture de l'image...");
                         try
                         {

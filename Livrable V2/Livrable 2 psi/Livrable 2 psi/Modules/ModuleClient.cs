@@ -7,7 +7,9 @@ using System.IO;
 namespace Livrable_2_psi
 {
     /// <summary>
-    /// classe qui gere les operations sur les clients
+    /// cette classe sert a gerer tout ce qui concerne les clients dans l'application
+    /// elle permet d'ajouter des clients, de les modifier, de les supprimer et de les afficher
+    /// c'est une classe importante car elle gere les interactions avec la base de donnees pour les clients
     /// </summary>
     public class ModuleClient
     {
@@ -21,78 +23,86 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// genere un id unique pour un utilisateur
+        /// cette methode sert a generer un id unique pour un utilisateur
+        /// elle regarde le dernier id dans la base et ajoute 1
+        /// si y a pas d'id elle commence a 1
         /// </summary>
         private string GenererIdUtilisateur()
         {
             try
             {
-                // recupere le dernier id utilisateur
+                // on cherche le dernier id utilisateur dans la base
                 string sql = "SELECT id_utilisateur FROM utilisateur WHERE id_utilisateur LIKE 'USR%' ORDER BY id_utilisateur DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
                 
                 if (result == null)
                 {
-                    // si aucun utilisateur n'existe, commence par USR001
+                    // si y a pas d'utilisateur on commence a 1
                     return "USR001";
                 }
                 
                 string dernierId = result.ToString();
-                // extrait le numero
+                // on prend juste le numero a la fin
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
                 
-                // formate le nouvel id
+                // on remet le format USR001
                 return "USR" + numero.ToString("D3");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la generation de l'id utilisateur : " + ex.Message);
-                // en cas d'erreur, genere un id avec timestamp
+                // si ca marche pas on met un timestamp
                 return "USR" + DateTime.Now.Ticks;
             }
         }
         
         /// <summary>
-        /// genere un id unique pour un client
+        /// cette methode sert a generer un id unique pour un client
+        /// elle fait pareil que pour l'utilisateur mais avec CLI au lieu de USR
         /// </summary>
         private string GenererIdClient()
         {
             try
             {
-                // recupere le dernier id client
+                // on cherche le dernier id client dans la base
                 string sql = "SELECT id_client FROM client WHERE id_client LIKE 'CLI%' ORDER BY id_client DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
                 
                 if (result == null)
                 {
-                    // si aucun client n'existe, commence par CLI001
+                    // si y a pas de client on commence a 1
                     return "CLI001";
                 }
                 
                 string dernierId = result.ToString();
-                // extrait le numero
+                // on prend juste le numero a la fin
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
                 
-                // formate le nouvel id
+                // on remet le format CLI001
                 return "CLI" + numero.ToString("D3");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la generation de l'id client : " + ex.Message);
-                // en cas d'erreur, genere un id avec timestamp
+                // si ca marche pas on met un timestamp
                 return "CLI" + DateTime.Now.Ticks;
             }
         }
         
+        /// <summary>
+        /// cette methode sert a ajouter un client depuis la console
+        /// elle demande toutes les infos necessaires et les valide
+        /// puis elle cree l'utilisateur et le client dans la base
+        /// </summary>
         public void AjouterClientConsole()
         {
             try
             {
-                // validation des données avec ValidationRequette
+                // on demande toutes les infos avec validation
                 string nom = ValidationRequette.DemanderNom("Entrez le nom du client : ");
                 string prenom = ValidationRequette.DemanderNom("Entrez le prenom du client : ");
                 string adresse = ValidationRequette.DemanderAdresse("Entrez l'adresse du client : ");
@@ -100,29 +110,29 @@ namespace Livrable_2_psi
                 string telephone = ValidationRequette.DemanderTelephone("Entrez le telephone du client : ");
                 string motDePasse = ValidationRequette.DemanderMotDePasse("Entrez le mot de passe du client : ");
                 
-                // creation d'une instance de ValidationRequette avec le graphe
+                // on cree une instance de validation pour la station metro
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
                 string stationMetro = validation.DemanderStationMetro("Entrez la station metro du client : ");
                 
-                // demande du type de client (particulier ou entreprise)
+                // on demande si c'est un particulier ou une entreprise
                 int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 
                 string typeClientStr = (typeClient == 1) ? "Particulier" : "Entreprise";
                 string entrepriseNom = null;
                 string referent = null;
                 
-                // si c'est une entreprise, demander les informations supplémentaires
+                // si c'est une entreprise on demande plus d'infos
                 if (typeClient == 2)
                 {
                     entrepriseNom = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
                     referent = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
                 }
                 
-                // generation d'un id unique pour l'utilisateur et le client
+                // on genere les ids
                 string idUtilisateur = GenererIdUtilisateur();
                 string idClient = GenererIdClient();
                 
-                // insertion dans la table utilisateur
+                // on insere dans la table utilisateur
                 string requeteUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
                     idUtilisateur + "', '" + nom + "', '" + prenom + "', '" + email + "', '" + adresse + "', '" + telephone + "', '" + motDePasse + "')";
                 
@@ -130,7 +140,7 @@ namespace Livrable_2_psi
                 cmdUtilisateur.ExecuteNonQuery();
                 try
                 {
-                    // insertion dans la table client
+                    // on insere dans la table client
                     string requeteClient = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
                         idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + 
                         (entrepriseNom == null ? "NULL" : "'" + entrepriseNom + "'") + ", " + 
@@ -155,17 +165,18 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// ajoute un client a partir d un utilisateur existant
+        /// cette methode sert a ajouter un client a partir d'un utilisateur qui existe deja
+        /// elle demande l'id de l'utilisateur et les infos specifiques au client
         /// </summary>
         public void AjouterClientExistant()
         {
             try
             {
-                // demande l'id de l'utilisateur existant
+                // on demande l'id de l'utilisateur
                 Console.WriteLine("Entrez l'ID de l'utilisateur existant : ");
                 string idUtilisateur = Console.ReadLine();
                 
-                // verifie si l'utilisateur existe avec une requete simple
+                // on verifie si l'utilisateur existe
                 string requete = "SELECT COUNT(*) FROM utilisateur WHERE id_utilisateur='" + idUtilisateur + "'";
                 MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande0.CommandText = requete;
@@ -179,7 +190,7 @@ namespace Livrable_2_psi
                     return;
                 }
                 
-                // verifie si l'utilisateur est deja un client avec une requete simple
+                // on verifie si c'est deja un client
                 string requete2 = "SELECT COUNT(*) FROM client WHERE id_utilisateur='" + idUtilisateur + "'";
                 MySqlCommand commande1 = new MySqlCommand(requete2, connexionBDD.maConnexion);
                 commande1.CommandText = requete2;
@@ -194,28 +205,28 @@ namespace Livrable_2_psi
                     return;
                 }
                 
-                // demande les informations du client
+                // on demande les infos du client
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
                 string stationMetro = validation.DemanderStationMetro("Entrez la station metro du client : ");
                 
-                // demande du type de client (particulier ou entreprise)
+                // on demande le type de client
                 Console.WriteLine("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                 
                 string entrepriseNom = "NULL";
                 string referent = "NULL";
                 
-                // si c'est une entreprise, demander les informations supplémentaires
+                // si c'est une entreprise on demande plus d'infos
                 if (typeClient == 2)
                 {
                     entrepriseNom = "'" + ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ") + "'";
                     referent = "'" + ValidationRequette.DemanderNom("Entrez le nom du référent : ") + "'";
                 }
                 
-                // generation d'un id unique pour le client
+                // on genere l'id client
                 string idClient = GenererIdClient();
                 
-                // insertion dans la table client avec une requete simple
+                // on insere dans la table client
                 string requete3 = "INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, referent) VALUES ('" + 
                     idClient + "', '" + idUtilisateur + "', '" + stationMetro + "', " + entrepriseNom + ", " + referent + ")";
                 
@@ -236,7 +247,8 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// supprime un client et son utilisateur de la base
+        /// cette methode sert a supprimer un client et son utilisateur
+        /// elle supprime d'abord les commandes, puis le client, puis l'utilisateur
         /// </summary>
         public void SupprimerClient()
         {
@@ -245,7 +257,7 @@ namespace Livrable_2_psi
                 Console.WriteLine("Entrez l'ID de l'utilisateur à supprimer : ");
                 string id = Console.ReadLine();
 
-                // verifie si le client existe
+                // on verifie si le client existe
                 string requete1 = "SELECT COUNT(*) FROM client WHERE id_utilisateur='" + id + "'";
                 MySqlCommand commande1 = new MySqlCommand(requete1, connexionBDD.maConnexion);
                 commande1.CommandText = requete1;
@@ -259,19 +271,19 @@ namespace Livrable_2_psi
                     return;
                 }
 
-                // supprime d'abord les commandes liées au client
+                // on supprime d'abord les commandes
                 string requete2 = "DELETE FROM Commande_ WHERE id_client IN (SELECT id_client FROM client WHERE id_utilisateur='" + id + "')";
                 MySqlCommand commande2 = new MySqlCommand(requete2, connexionBDD.maConnexion);
                 commande2.CommandText = requete2;
                 commande2.ExecuteNonQuery();
 
-                // supprime le client
+                // on supprime le client
                 string requete3 = "DELETE FROM client WHERE id_utilisateur='" + id + "'";
                 MySqlCommand commande3 = new MySqlCommand(requete3, connexionBDD.maConnexion);
                 commande3.CommandText = requete3;
                 commande3.ExecuteNonQuery();
 
-                // supprime l'utilisateur
+                // on supprime l'utilisateur
                 string requete4 = "DELETE FROM utilisateur WHERE id_utilisateur='" + id + "'";
                 MySqlCommand commande4 = new MySqlCommand(requete4, connexionBDD.maConnexion);
                 commande4.CommandText = requete4;
@@ -291,7 +303,8 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// modifie les informations d un client
+        /// cette methode sert a modifier les infos d'un client
+        /// elle demande les nouvelles infos et met a jour la base
         /// </summary>
         public void ModifierClient()
         {
@@ -300,7 +313,7 @@ namespace Livrable_2_psi
                 Console.WriteLine("Entrez l'ID du client à modifier : ");
                 string id = Console.ReadLine();
 
-                // verifie si le client existe
+                // on verifie si le client existe
                 string requete1 = "SELECT COUNT(*) FROM client WHERE id_utilisateur='" + id + "'";
                 MySqlCommand commande1 = new MySqlCommand(requete1, connexionBDD.maConnexion);
                 commande1.CommandText = requete1;
@@ -314,7 +327,7 @@ namespace Livrable_2_psi
                     return;
                 }
 
-                // demande les nouvelles informations
+                // on demande les nouvelles infos
                 Console.WriteLine("Entrez le nouveau nom : ");
                 string nom = Console.ReadLine();
 
@@ -327,13 +340,13 @@ namespace Livrable_2_psi
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
                 string stationMetro = validation.DemanderStationMetro("Entrez la nouvelle station de métro : ");
 
-                // mise a jour de l'utilisateur
+                // on met a jour l'utilisateur
                 string requete2 = "UPDATE utilisateur SET nom='" + nom + "', prénom='" + prenom + "', adresse='" + adresse + "' WHERE id_utilisateur='" + id + "'";
                 MySqlCommand commande2 = new MySqlCommand(requete2, connexionBDD.maConnexion);
                 commande2.CommandText = requete2;
                 commande2.ExecuteNonQuery();
 
-                // mise a jour du client
+                // on met a jour le client
                 string requete3 = "UPDATE client SET StationMetro='" + stationMetro + "' WHERE id_utilisateur='" + id + "'";
                 MySqlCommand commande3 = new MySqlCommand(requete3, connexionBDD.maConnexion);
                 commande3.CommandText = requete3;
@@ -352,7 +365,8 @@ namespace Livrable_2_psi
         }
         
         /// <summary>
-        /// affiche les clients par ordre alphabetique
+        /// cette methode sert a afficher les clients par ordre alphabetique
+        /// elle fait une requete qui trie par nom puis prenom
         /// </summary>
         public void AfficherClientsAlphabetique()
         {
@@ -387,7 +401,8 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// affiche les clients par rue
+        /// cette methode sert a afficher les clients par rue
+        /// elle fait une requete qui trie par adresse
         /// </summary>
         public void AfficherClientsParRue()
         {
@@ -422,7 +437,8 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// affiche les clients par montant des achats cumules
+        /// cette methode sert a afficher les clients par montant des achats
+        /// elle fait une requete qui calcule la somme des commandes et trie par montant
         /// </summary>
         public void AfficherClientsParAchats()
         {
@@ -456,9 +472,5 @@ namespace Livrable_2_psi
                 Console.WriteLine("erreur lors de l'affichage des clients : " + ex.Message);
             }
         }
-
-        
-        
-        
     }
 } 
