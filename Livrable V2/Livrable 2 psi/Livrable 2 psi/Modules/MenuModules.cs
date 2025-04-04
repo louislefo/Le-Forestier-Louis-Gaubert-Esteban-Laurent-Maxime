@@ -228,12 +228,12 @@ namespace Livrable_2_psi
             while (continuer)
             {
                 
-                Console.WriteLine("\n=== modul commande ===");
-                Console.WriteLine("1. cree une commande");
-                Console.WriteLine("2. modifie une commande");
-                Console.WriteLine("3. calcule le prix d'une commande");
-                Console.WriteLine("4. determine le chemin de livraison");
-                Console.WriteLine("5. retoure");
+                Console.WriteLine("\n=== Module commande ===");
+                Console.WriteLine("1. Créer une commande");
+                Console.WriteLine("2. Modifier une commande");
+                Console.WriteLine("3. Calculer le prix d'une commande");
+                Console.WriteLine("4. Determiner le chemin de livraison");
+                Console.WriteLine("5. Retour");
                 Console.Write("choix : ");
 
                 string choix = Console.ReadLine();
