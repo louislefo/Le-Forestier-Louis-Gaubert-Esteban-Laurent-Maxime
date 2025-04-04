@@ -6,6 +6,11 @@ using Livrable_2_psi;
 
 namespace Livrable_2_psi
 {
+    /// <summary>
+    /// cette classe sert a verifier que les donnees entrees sont bonnes
+    /// elle a plein de methodes pour verifier les noms, adresses, emails etc
+    /// c'est utile pour pas avoir de donnees fausses dans la base
+    /// </summary>
     public class ValidationRequette // agit comme une grande bibliothèque de fonction que l'on peut utiliser pour la connexion et l'incription des utilisateur
                                     // toutes les fonctions ne sont pas forcéménet utilisées mais la plupart permettent de bien remplir la base de données et 
                                     // éviter les coquilles
@@ -21,7 +26,10 @@ namespace Livrable_2_psi
             this.noeuds = GrapheMetro.Noeuds;
         }
 
-        /// demande un nom et verifie qu'il est valide
+        /// <summary>
+        /// cette methode sert a demander un nom et verifier qu'il est bon
+        /// elle verifie que le nom a au moins 2 lettres et que c'est que des lettres
+        /// </summary>
         public static string DemanderNom(string message)
         {
             string nom;
@@ -32,21 +40,21 @@ namespace Livrable_2_psi
                 Console.Write(message);
                 nom = Console.ReadLine();
                 
-                // verifie si le nom est vide
+                // on verifie si le nom est vide
                 if (string.IsNullOrEmpty(nom))
                 {
                     Console.WriteLine("le nom ne peut pas etre vide");
                     continue;
                 }
 
-                // verifie la longueur minimale
+                // on verifie que le nom est assez long
                 if (nom.Length < 2)
                 {
                     Console.WriteLine("le nom doit contenir au moins 2 caracteres");
                     continue;
                 }
 
-                // verifie que le nom ne contient que des lettres, espaces et tirets
+                // on verifie que le nom a que des lettres et des espaces
                         valide = true;
                 for (int i = 0; i < nom.Length; i++)
                 {
@@ -62,7 +70,10 @@ namespace Livrable_2_psi
             return nom;
         }
 
-        /// demande une adresse et verifie qu'elle est valide
+        /// <summary>
+        /// cette methode sert a demander une adresse et verifier qu'elle est bonne
+        /// elle verifie que l'adresse commence par un numero et a au moins 5 caracteres
+        /// </summary>
         public static string DemanderAdresse(string message)
         {
             string adresse;
@@ -73,7 +84,7 @@ namespace Livrable_2_psi
                 Console.Write(message);
                 adresse = Console.ReadLine();
 
-                // verifie si l'adresse est vide
+                // on verifie si l'adresse est vide
                 if (string.IsNullOrEmpty(adresse))
                 {
                     Console.WriteLine("l'adresse ne peut pas etre vide");
@@ -86,7 +97,7 @@ namespace Livrable_2_psi
                     continue;
                 }
 
-                // verifie que l'adresse commence par un chiffre
+                // on verifie que l'adresse commence par un numero
                 if (!char.IsDigit(adresse[0]))
                 {
                     Console.WriteLine("l'adresse doit commencer par un numero");
@@ -115,13 +126,16 @@ namespace Livrable_2_psi
             return adresse;
         }
 
-        /// demande une station de metro et verifie qu'elle est valide
+        /// <summary>
+        /// cette methode sert a demander une station de metro et verifier qu'elle existe
+        /// elle regarde dans le graphe du metro si la station existe
+        /// </summary>
         public string DemanderStationMetro(string message)
         {
             string station;
             bool valide = false;
 
-            // utilise le dictionnaire noeuds du graphe
+            // on utilise le dictionnaire noeuds du graphe
             try
             {
                 if(noeuds == null || noeuds.Count == 0)
@@ -163,7 +177,7 @@ namespace Livrable_2_psi
                         continue;
                     }
 
-                    // verifie si la station existe dans le graphe
+                    // on verifie si la station existe dans le metro
                     bool stationExiste = false;
                     foreach (var noeud in noeuds.Values)
                     {
@@ -192,7 +206,10 @@ namespace Livrable_2_psi
             return station;
         }
 
-        /// valide un email
+        /// <summary>
+        /// cette methode sert a verifier qu'un email est bien forme
+        /// elle verifie qu'il y a un @ et un point apres
+        /// </summary>
         public static bool ValiderEmail(string email)
         {
             if (string.IsNullOrEmpty(email))
@@ -201,14 +218,14 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            // verifie si l'email contient un @
+            // on verifie qu'il y a un @
             if (!email.Contains("@"))
             {
                 Console.WriteLine("l'email doit contenir un @");
                 return false;
             }
 
-            // separe l'email en deux parties
+            // on separe l'email en deux parties
             string[] parties = email.Split('@');
             if (parties.Length != 2)
             {
@@ -216,14 +233,14 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            // verifie la partie locale
+            // on verifie la partie avant le @
             if (parties[0].Length < 1)
             {
                 Console.WriteLine("la partie locale de l'email ne peut pas etre vide");
                 return false;
             }
 
-            // verifie le domaine
+            // on verifie la partie apres le @
             if (!parties[1].Contains("."))
             {
                 Console.WriteLine("l'email doit contenir un point");
@@ -240,7 +257,10 @@ namespace Livrable_2_psi
             return true;
         }
 
-        /// valide un numero de telephone
+        /// <summary>
+        /// cette methode sert a verifier qu'un numero de telephone est bon
+        /// elle verifie qu'il commence par 0 ou +33 et a 10 chiffres
+        /// </summary>
         public static bool ValiderTelephone(string telephone)
         {
             if (string.IsNullOrEmpty(telephone))
@@ -249,24 +269,24 @@ namespace Livrable_2_psi
                 return false;
             }
 
-            // enleve les espaces
+            // on enleve les espaces
             telephone = telephone.Replace(" ", "");
 
-            // verifie la longueur
+            // on verifie la longueur
             if (telephone.Length != 10 && telephone.Length != 11)
             {
                 Console.WriteLine("le numero doit avoir 10 chiffres");
                 return false;
             }
 
-            // verifie si le numero commence par 0 ou +33
+            // on verifie que ca commence par 0 ou +33
             if (telephone[0] != '0' && !telephone.StartsWith("+33"))
             {
                 Console.WriteLine("le numero doit commencer par 0 ou +33");
                 return false;
             }
 
-            // verifie que tous les caracteres sont des chiffres (sauf le +)
+            // on verifie que c'est que des chiffres (sauf le +)
             for (int i = 0; i < telephone.Length; i++)
             {
                 if (telephone[i] != '+' && !char.IsDigit(telephone[i]))
@@ -279,7 +299,10 @@ namespace Livrable_2_psi
             return true;
         }
 
-        /// valide un mot de passe
+        /// <summary>
+        /// cette methode sert a verifier qu'un mot de passe est assez fort
+        /// elle verifie qu'il a au moins 6 caracteres, une majuscule, une minuscule et un chiffre
+        /// </summary>
         public static bool ValiderMotDePasse(string motDePasse)
         {
             if (string.IsNullOrEmpty(motDePasse))
@@ -335,7 +358,10 @@ namespace Livrable_2_psi
             return true;
         }
 
-        /// valide un nom d'utilisateur
+        /// <summary>
+        /// cette methode sert a verifier qu'un nom d'utilisateur est bon
+        /// elle verifie qu'il a au moins 3 caracteres et que c'est que des lettres, chiffres ou _
+        /// </summary>
         public static bool ValiderNomUtilisateur(string nomUtilisateur)
         {
             if (string.IsNullOrEmpty(nomUtilisateur))
@@ -346,7 +372,7 @@ namespace Livrable_2_psi
 
             if (nomUtilisateur.Length < 3)
             {
-                Console.WriteLine("le nom d'utilisateur doit etre supérieur ou égal à 3 caracteres");
+                Console.WriteLine("le nom d'utilisateur doit etre superieur ou egal a 3 caracteres");
                 return false;
             }
 
@@ -362,7 +388,10 @@ namespace Livrable_2_psi
             return true;
         }
 
-        /// demande un email et verifie qu'il est valide
+        /// <summary>
+        /// cette methode sert a demander un email et verifier qu'il est bon
+        /// elle utilise la methode ValiderEmail pour verifier
+        /// </summary>
         public static string DemanderEmail(string message)
         {
             string email;
@@ -410,7 +439,10 @@ namespace Livrable_2_psi
             return email;
         }
 
-        /// demande un telephone et verifie qu'il est valide
+        /// <summary>
+        /// cette methode sert a demander un telephone et verifier qu'il est bon
+        /// elle utilise la methode ValiderTelephone pour verifier
+        /// </summary>
         public static string DemanderTelephone(string message)
         {
             string telephone;
@@ -456,7 +488,10 @@ namespace Livrable_2_psi
             return telephone;
         }
 
-        /// demande un mot de passe et verifie qu'il est valide
+        /// <summary>
+        /// cette methode sert a demander un mot de passe et verifier qu'il est assez fort
+        /// elle utilise la methode ValiderMotDePasse pour verifier
+        /// </summary>
         public static string DemanderMotDePasse(string message)
         {
             string motDePasse;
@@ -523,7 +558,10 @@ namespace Livrable_2_psi
             return motDePasse;
         }
 
-        /// demande un nom d'utilisateur et verifie qu'il est valide
+        /// <summary>
+        /// cette methode sert a demander un nom d'utilisateur et verifier qu'il est bon
+        /// elle utilise la methode ValiderNomUtilisateur pour verifier
+        /// </summary>
         public static string DemanderNomUtilisateur(string message)
         {
             string nomUtilisateur;
@@ -561,7 +599,10 @@ namespace Livrable_2_psi
             return nomUtilisateur;
         }
 
-        /// demande un type d'utilisateur et verifie qu'il est valide
+        /// <summary>
+        /// cette methode sert a demander le type d'utilisateur
+        /// elle verifie que c'est soit 1 (cuisinier) soit 2 (client)
+        /// </summary>
         public static int DemanderTypeUtilisateur(string message)
         {
             int type;
