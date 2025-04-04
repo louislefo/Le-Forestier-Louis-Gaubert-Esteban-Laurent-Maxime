@@ -11,6 +11,8 @@ namespace Livrable_2_psi
         public Authentification authentification;
         public bool applicationEnCours;
         public ConnexionBDDCuisinier connexionBDDCuisinier;
+
+        public SqlCuisinier sqlCuisinier;
         public Graphe<int> grapheMetro;
 
         /// constructeur par defaut
@@ -19,6 +21,7 @@ namespace Livrable_2_psi
             this.authentification = authentification;
             this.connexionBDDCuisinier = connexion;
             this.grapheMetro = grapheMetro;
+            sqlCuisinier = new SqlCuisinier(connexion);
             applicationEnCours = true;
         }
 
@@ -44,18 +47,15 @@ namespace Livrable_2_psi
                 {
                     case "1":
                         Console.Clear();
-                        // TODO: Ajouter un plat
-                        Console.WriteLine("Fonctionnalite a venir");
+                        sqlCuisinier.AjouterPlat(authentification.idUtilisateur);
                         break;
                     case "2":
                         Console.Clear();
-                        // TODO: Afficher les plats
-                        Console.WriteLine("Fonctionnalite a venir");
+                        sqlCuisinier.VoirMesPlats(authentification.idUtilisateur);
                         break;
                     case "3":
                         Console.Clear();
-                        // TODO: Afficher les commandes
-                        Console.WriteLine("Fonctionnalite a venir");
+                        sqlCuisinier.VoirCommandesEnCours(authentification.idUtilisateur);
                         break;
                     case "4":
                         Console.Clear();

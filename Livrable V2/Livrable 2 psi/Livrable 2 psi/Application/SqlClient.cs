@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace Livrable_2_psi
 {
-    /// classe qui gere les requetes sql du client de facon simple
+    
     public class SqlClient
     {
         public ConnexionBDDClient connexionBDDClient;
@@ -17,13 +17,13 @@ namespace Livrable_2_psi
             this.connexionBDDClient = connexionBDDClient;
         }
 
-        /// recupere les plats disponibles de facon simple
+        
         public void VoirPlatsDisponibles()
         {
             try
             {
-                // requete simple pour avoir les plats
-                string requete = "SELECT Plat_.id_plat, nom, type, prix_par_personne, nom, prénom " +
+               
+                string requete = "SELECT Plat_.id_plat, Plat_.nom as nom_plat, Plat_.type, Plat_.prix_par_personne, utilisateur.nom as nom_cuisinier, utilisateur.prénom " +
                                "FROM Plat_, cuisinier, utilisateur " +
                                "WHERE Plat_.id_cuisinier = cuisinier.id_cuisinier " +
                                "AND cuisinier.id_utilisateur = utilisateur.id_utilisateur";
@@ -39,10 +39,10 @@ namespace Livrable_2_psi
                 while (reader.Read())
                 {
                     string idPlat = reader["id_plat"].ToString();
-                    string nomPlat = reader["nom"].ToString();
+                    string nomPlat = reader["nom_plat"].ToString();
                     string type = reader["type"].ToString();
                     string prix = reader["prix_par_personne"].ToString();
-                    string nomCuisinier = reader["nom"].ToString();
+                    string nomCuisinier = reader["nom_cuisinier"].ToString();
                     string prenomCuisinier = reader["prénom"].ToString();
 
                     Console.WriteLine("Plat numero " + idPlat);
@@ -62,12 +62,12 @@ namespace Livrable_2_psi
             }
         }
 
-        /// voir les commandes dun client de facon simple
+       
         public void VoirCommandesClient(string idClient)
         {
             try
             {
-                // requete simple pour avoir les commandes du client
+                
                 string requete = "SELECT Commande_.id_commande, date_commande, prix_total, statut, Plat_.nom as nom_plat " +
                                "FROM Commande_, Plat_ " +
                                "WHERE Commande_.id_plat = Plat_.id_plat " +
@@ -107,45 +107,42 @@ namespace Livrable_2_psi
             }
         }
 
-        /// passe une commande de facon simple
-        public void PasserCommande(string idClient, string idPlat)
+       
+        public void PasserCommande(string idClient)
         {
             try
             {
-                // on recupere dabord le cuisinier qui fait le plat
-                string requeteCuisinier = "SELECT id_cuisinier, prix_par_personne FROM Plat_ WHERE id_plat = '" + idPlat + "'";
-                MySqlCommand commandeCuisinier = new MySqlCommand(requeteCuisinier, connexionBDDClient.maConnexionClient);
-                commandeCuisinier.CommandText = requeteCuisinier;
+                Console.WriteLine("veuillez entrer l'id du plat que vous voulez commander");
+                string idPlat = Console.ReadLine();
 
-                MySqlDataReader readerCuisinier = commandeCuisinier.ExecuteReader();
+                string requetePlat = "SELECT id_cuisinier, prix_par_personne FROM Plat_ WHERE id_plat = '" + idPlat + "'";
+                MySqlCommand commandePlat = new MySqlCommand(requetePlat, connexionBDDClient.maConnexionClient);
+                MySqlDataReader readerPlat = commandePlat.ExecuteReader();
 
-                if (readerCuisinier.Read())
+                if (readerPlat.Read())
                 {
-                    string idCuisinier = readerCuisinier["id_cuisinier"].ToString();
-                    double prix = Convert.ToDouble(readerCuisinier["prix_par_personne"]);
+                    string idCuisinier = readerPlat["id_cuisinier"].ToString();
+                    double prix = Convert.ToDouble(readerPlat["prix_par_personne"]);
 
-                    readerCuisinier.Close();
-                    commandeCuisinier.Dispose();
+                    readerPlat.Close();
+                    commandePlat.Dispose();
 
-                    // on cree un id de commande
                     string idCommande = "CMD" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                    // on insere la commande
-                    string requeteCommande = "INSERT INTO Commande_ (id_commande, id_client, id_cuisinier, id_plat, date_commande, prix_total, statut) " +
-                                          "VALUES ('" + idCommande + "', '" + idClient + "', '" + idCuisinier + "', '" + idPlat + "', '" + 
+                    string requeteCommande = "INSERT INTO Commande_ VALUES ('" + idCommande + "', '" + idClient + "', '" + idCuisinier + "', '" + idPlat + "', '" + 
                                           DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', " + prix.ToString().Replace(',', '.') + ", 'En attente')";
 
                     MySqlCommand commandeInsert = new MySqlCommand(requeteCommande, connexionBDDClient.maConnexionClient);
-                    commandeInsert.CommandText = requeteCommande;
                     commandeInsert.ExecuteNonQuery();
                     commandeInsert.Dispose();
 
                     Console.WriteLine("votre commande a ete passee avec succes");
+                    Console.WriteLine("numero de commande : " + idCommande);
                 }
                 else
                 {
-                    readerCuisinier.Close();
-                    commandeCuisinier.Dispose();
+                    readerPlat.Close();
+                    commandePlat.Dispose();
                     Console.WriteLine("ce plat nexiste pas");
                 }
             }

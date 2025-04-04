@@ -52,13 +52,12 @@ namespace Livrable_2_psi
                         break;
                     case "2":
                         Console.Clear();
-                        Console.WriteLine("Fonctionnalite en cours de dev");
-                        //sqlClient.VoirCommandesClient(authentification.Idutilisateur);
+                        sqlClient.VoirCommandesClient(authentification.idUtilisateur);
                         break;
                     case "3":
                         Console.Clear();
-                        Console.WriteLine("Fonctionnalite en cours de dev");
-                        //sqlClient.PasserCommande(authentification.Idutilisateur);
+                        sqlClient.PasserCommande(authentification.idUtilisateur);
+                        
                         break;
                     case "4":
                         Console.Clear();
