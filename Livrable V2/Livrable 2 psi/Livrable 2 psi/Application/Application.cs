@@ -126,6 +126,7 @@ namespace Livrable_2_psi
                             applicationEnCours = false;
                             connexionBDD.FermerConnexion();
                             Console.WriteLine("Au revoir ! ");
+                            continuer = false;
                             break;
                         default:
                             Console.WriteLine("Choix invalide");
