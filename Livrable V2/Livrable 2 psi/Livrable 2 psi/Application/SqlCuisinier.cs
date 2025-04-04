@@ -9,9 +9,9 @@ namespace Livrable_2_psi
 {
     public class SqlCuisinier
     {
-        public ConnexionBDD connexionBDD;
+        public ConnexionBDDCuisinier connexionBDD;
 
-        public SqlCuisinier(ConnexionBDD connexionBDD)
+        public SqlCuisinier(ConnexionBDDCuisinier connexionBDD)
         {
             this.connexionBDD = connexionBDD;
         }
@@ -61,7 +61,7 @@ namespace Livrable_2_psi
                                prixParPersonne.ToString().Replace(',', '.') + ", '" + 
                                nationalite + "', '" + regime + "', '" + photo + "')";
 
-                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexionCuisinier);
                 commande.CommandText = requete;
                 commande.ExecuteNonQuery();
                 commande.Dispose();
@@ -83,7 +83,7 @@ namespace Livrable_2_psi
                                "prix_par_personne, nationalite, regime FROM Plat_ " +
                                "WHERE id_cuisinier = '" + idCuisinier + "'";
 
-                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexionCuisinier);
                 commande.CommandText = requete;
 
                 MySqlDataReader reader = commande.ExecuteReader();
@@ -137,7 +137,7 @@ namespace Livrable_2_psi
                                "WHERE c.id_cuisinier = '" + idCuisinier + "' " +
                                "AND c.statut != 'Terminée'";
 
-                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexionCuisinier);
                 commande.CommandText = requete;
 
                 MySqlDataReader reader = commande.ExecuteReader();
