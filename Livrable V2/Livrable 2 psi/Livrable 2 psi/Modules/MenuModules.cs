@@ -181,7 +181,7 @@ namespace Livrable_2_psi
                     case "4":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
-                        int idModifier = int.Parse(Console.ReadLine());
+                        string idModifier = Console.ReadLine();
                         Console.Write("nouveau nom : ");
                         string nom = Console.ReadLine();
                         Console.Write("nouveau prenom : ");
@@ -195,23 +195,19 @@ namespace Livrable_2_psi
                     case "5":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
-                        int idCuisinier = int.Parse(Console.ReadLine());
-                        Console.Write("date debut (format: yyyy-mm-dd) : ");
-                        DateTime? dateDebut = DateTime.Parse(Console.ReadLine());
-                        Console.Write("date fin (format: yyyy-mm-dd) : ");
-                        DateTime? dateFin = DateTime.Parse(Console.ReadLine());
-                        moduleCuisinier.AfficherClientsServis(idCuisinier, dateDebut, dateFin);
+                        string idCuisinier = Console.ReadLine();
+                        moduleCuisinier.AfficherClientsServis(idCuisinier);
                         break;
                     case "6":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
-                        int idPlats = int.Parse(Console.ReadLine());
+                        string idPlats = Console.ReadLine();
                         moduleCuisinier.AfficherPlatsRealises(idPlats);
                         break;
                     case "7":
                         Console.Clear();
                         Console.Write("ID du cuisinier : ");
-                        int idPlatJour = int.Parse(Console.ReadLine());
+                        string idPlatJour = Console.ReadLine();
                         moduleCuisinier.AfficherPlatDuJour(idPlatJour);
                         break;
                     case "8":
