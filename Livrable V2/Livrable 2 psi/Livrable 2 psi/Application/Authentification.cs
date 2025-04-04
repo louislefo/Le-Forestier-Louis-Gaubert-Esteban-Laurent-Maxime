@@ -22,6 +22,7 @@ namespace Livrable_2_psi
         public bool estCuisinier;
         public bool estConnecte;
         public ConnexionBDD connexionBDD;
+        public string idUtilisateur;
 
         public AffichageCuisinier affichageCuisinier;
         public AffichageClient affichageClient;
@@ -180,7 +181,7 @@ namespace Livrable_2_psi
                         estConnecte = true;
                         
                         // on recupere les infos de l'utilisateur de facon simple
-                        string idUtilisateur = reader.GetString("id_utilisateur");
+                        idUtilisateur = reader.GetString("id_utilisateur");
                         nomUtilisateur = reader.GetString("nom");  
                         nom = reader.GetString("nom");
                         prenom = reader.GetString("prénom");
@@ -292,7 +293,7 @@ namespace Livrable_2_psi
                 
                 
                 // generation d'un id unique pour l'utilisateur
-                string idUtilisateur = GenererIdUtilisateur();
+                idUtilisateur = GenererIdUtilisateur();
                 
                 // insertion dans la table utilisateur
                 string sqlUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
