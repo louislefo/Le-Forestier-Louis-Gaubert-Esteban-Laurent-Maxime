@@ -7,14 +7,21 @@ using System.Diagnostics;
 
 namespace Livrable_2_psi
 {
-    
+    /// <summary>
+    /// cette classe sert a gerer tout ce qui concerne le metro dans l'application
+    /// elle permet de voir la carte du metro, de chercher des itinéraires et de voir les infos sur les stations
+    /// c'est une classe importante car elle gere les trajets pour les livraisons
+    /// </summary>
     public class ModuleGraphe
     {
         private Graphe<int> grapheMetro;
         
         private GestionnaireItineraire<int>   gestionnaire;
 
-        
+        /// <summary>
+        /// on cree le module avec le graphe du metro
+        /// on initialise aussi le gestionnaire d'itinéraire qui va nous servir pour chercher les chemins
+        /// </summary>
         public ModuleGraphe(Graphe<int> grapheMetro)
         {
             this.grapheMetro = grapheMetro;
@@ -22,18 +29,22 @@ namespace Livrable_2_psi
             gestionnaire = new GestionnaireItineraire<int>(grapheMetro);
         }
 
-        
+        /// <summary>
+        /// cette methode sert a afficher la carte du metro
+        /// elle cree une image avec toutes les stations et les lignes
+        /// puis elle ouvre l'image pour qu'on puisse la voir
+        /// </summary>
         public void AfficherCarteMetro()
         {
             Console.WriteLine("\nCreation de la carte du metro...");
             
-            // dessin de la carte
+            // on cree la carte avec une taille de 1200x800
             VisualisationCarte   visMetro = new VisualisationCarte(1200, 800);
             visMetro.DessinerGraphe(grapheMetro);
             visMetro.SauvegarderImage("metro.png");
             Console.WriteLine("Carte du metro sauvegardee sous le nom de metro.png");
             
-            // ouverture de l'image
+            // on essaie d'ouvrir l'image
             Console.WriteLine("Ouverture de l'image...");
             try
             {
@@ -46,24 +57,25 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// recherche un itineraire dans le metro
+        /// cette methode sert a chercher un itineraire entre deux stations
+        /// elle demande les stations de depart et d'arrivee
+        /// puis elle cherche le chemin et cree une image avec le trajet
         /// </summary>
         public void RechercherItineraire()
         {
             Console.WriteLine("\n=== RECHERCHE D'ITINERAIRE ===");
             
-            
-            // saisie des stations
+            // on demande les stations
             Console.WriteLine("\nEntrez l'ID de la station de depart :");
             string  idDepart = Console.ReadLine();
             
             Console.WriteLine("Entrez l'ID de la station d'arrivee :");
             string idArrivee = Console.ReadLine();
             
-            // recherche de l'itineraire
+            // on cherche l'itineraire
             List<Noeud<int>> itineraire = gestionnaire.RechercherItineraire(idDepart, idArrivee);
             
-            // visualisation de l'itineraire
+            // si on a trouve un itineraire, on cree l'image
             if (itineraire != null && itineraire.Count > 0)
             {
                 Console.WriteLine("\nCreation de la carte d'itineraire...");
@@ -73,7 +85,7 @@ namespace Livrable_2_psi
                 visItineraire.SauvegarderImage("itineraire.png");
                 Console.WriteLine("Carte de l'itineraire sauvegardee sous le nom de itineraire.png");
                 
-                // ouverture de l'image
+                // on essaie d'ouvrir l'image
                 Console.WriteLine("Ouverture de l'image...");
                 try
                 {
@@ -86,46 +98,53 @@ namespace Livrable_2_psi
             }
         }
 
-        
-        /// compte les stations du metro
+        /// <summary>
+        /// cette methode sert a afficher des infos sur le metro
+        /// elle compte combien il y a de stations par ligne
+        /// et elle montre aussi toutes les stations uniques
+        /// </summary>
         public void AfficherInformationsMetro()
         {
             Console.WriteLine("\n=== INFORMATIONS DU METRO ===");
             
-            // compter les stations par ligne
+            // on cree des dictionnaires pour compter les stations
             Dictionary<string, int>  stationsParLigne = new Dictionary<string, int>();
             Dictionary<string, List<string>>  nomsStationsParLigne = new Dictionary<string, List<string>>();
             
-            // liste pour stocker tous les noms de stations uniques
+            // on cree une liste pour toutes les stations uniques
             List<string>  toutesLesStations = new List<string>();
             
+            // on parcourt tous les noeuds du graphe
             foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
             {
+                // on ajoute la ligne si elle existe pas
                 if (!stationsParLigne.ContainsKey(noeud.NumeroLigne))
                 {
                     stationsParLigne[noeud.NumeroLigne] = 0;
                     nomsStationsParLigne[noeud.NumeroLigne] = new List<string>();
                 }
                 
+                // on ajoute la station si elle existe pas dans la ligne
                 if (!nomsStationsParLigne[noeud.NumeroLigne].Contains(noeud.NomStation))
                 {
                     stationsParLigne[noeud.NumeroLigne]++;
                     nomsStationsParLigne[noeud.NumeroLigne].Add(noeud.NomStation);
                 }
                 
-                // ajouter le nom de la station a la liste totale si pas deja presente
+                // on ajoute la station a la liste totale si elle existe pas
                 if (!toutesLesStations.Contains(noeud.NomStation))
                 {
                     toutesLesStations.Add(noeud.NomStation);
                 }
             }
             
-            // affichage des statistiques
+            // on affiche les stats
             Console.WriteLine("Nombre total de stations uniques : " + toutesLesStations.Count);
             Console.WriteLine("Nombre total de noeuds (avec doublons) : " + grapheMetro.Noeuds.Count);
             Console.WriteLine("Nombre total de liens : " + grapheMetro.Liens.Count);
             Console.WriteLine("\nNombre de stations par ligne :");
             
+            // on affiche le nombre de stations par ligne
             foreach (KeyValuePair<string, int> ligne in stationsParLigne.OrderBy(l => l.Key))
             {
                 Console.WriteLine("Ligne " + ligne.Key + " : " + ligne.Value + " stations");
@@ -133,29 +152,31 @@ namespace Livrable_2_psi
         }
 
         /// <summary>
-        /// affiche les stations dune ligne de metro
+        /// cette methode sert a afficher toutes les stations d'une ligne
+        /// elle verifie d'abord si la ligne existe
+        /// puis elle montre toutes les stations dans l'ordre
         /// </summary>
         public void AfficherStationsParLigne(string ligneChoisie)
         {
-            // récupérer la liste des lignes
+            // on cree une liste pour toutes les lignes
             List<string>  lignes = new List<string>();
             foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
             {
                 lignes.Add(noeud.NumeroLigne);
             }
             
-            
-            // vérifier que la ligne existe
+            // on verifie si la ligne existe
             if (!lignes.Contains(ligneChoisie))
             {
                 Console.WriteLine("Cette ligne n'existe pas !");
                 return;
             }
             
-            // récupérer et afficher les stations de la ligne
+            // on cree une liste pour les stations de la ligne
             Console.WriteLine("\n=== STATIONS DE LA LIGNE " + ligneChoisie + " ===");
             List<string>  stationsDeLigne = new List<string>();
             
+            // on ajoute toutes les stations de la ligne
             foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
             {
                 if (noeud.NumeroLigne == ligneChoisie)
@@ -164,6 +185,7 @@ namespace Livrable_2_psi
                 }
             }
             
+            // on affiche les stations dans l'ordre
             foreach (string   station in stationsDeLigne.OrderBy(s => s))
             {
                 Console.WriteLine("- " + station);
@@ -171,7 +193,5 @@ namespace Livrable_2_psi
             
             Console.WriteLine("\nNombre total de stations : " + stationsDeLigne.Count);
         }
-
-        
     }
 }
