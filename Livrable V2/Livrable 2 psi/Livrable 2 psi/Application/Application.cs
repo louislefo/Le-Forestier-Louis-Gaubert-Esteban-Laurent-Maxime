@@ -23,12 +23,16 @@ namespace Livrable_2_psi
         private GestionnaireItineraire<int> gestionnaire;
         public MenuModules menuModules;
 
-        /// constructeur par defaut
+        /// <summary>
+        /// Creation de l'application
+        /// Ouverture de la connectionBDD en mode root
+        /// creation du graphe
+        /// </summary>
         public Application()
         {
             connexionBDD = new ConnexionBDD();
 
-            // graphe
+            
             grapheMetro = new Graphe<int>();
             chargeur = new ChargerFichiers();
             ChargerDonneesMetro();
@@ -43,22 +47,24 @@ namespace Livrable_2_psi
 
         private void ChargerDonneesMetro()
         {
-            // chargement des noeuds
+            
             Dictionary<int, Noeud<int>> noeudsMetro = chargeur.ChargerNoeudsMetro(cheminFichierMetro);
             Console.WriteLine("Nombre de noeuds charges : " + noeudsMetro.Count);
 
-            // ajout des noeuds au graphe
+            
             foreach (int id in noeudsMetro.Keys)
             {
                 grapheMetro.Noeuds[id] = noeudsMetro[id];
             }
 
-            // chargement des arcs
+            
             chargeur.ChargerArcsMetro(grapheMetro, cheminFichierArcs);
             Console.WriteLine("Nombre de liens dans le graphe : " + grapheMetro.Liens.Count);
         }
 
-        /// methode pour demarrer l'application
+        /// <summary>
+        /// demarage de l'application et affichage du menu principal
+        /// </summary>
         public void Demarrer()
         {
             try

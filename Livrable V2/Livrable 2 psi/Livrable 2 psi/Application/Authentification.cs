@@ -29,7 +29,7 @@ namespace Livrable_2_psi
         public ValidationRequette ValidationRequette;
         public Graphe<int> GrapheMetro;
 
-        /// constructeur par defaut
+        
         public Authentification(ConnexionBDD connexionBDD, Graphe<int> GrapheMetro)
         {
             nomUtilisateur = "";
@@ -56,29 +56,27 @@ namespace Livrable_2_psi
         {
             try
             {
-                // recupere le dernier id utilisateur
+                
                 string sql = "SELECT id_utilisateur FROM utilisateur WHERE id_utilisateur LIKE 'USR%' ORDER BY id_utilisateur DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
                 
                 if (result == null)
                 {
-                    // si aucun utilisateur n'existe, commence par USR001
                     return "USR001";
                 }
                 
                 string dernierId = result.ToString();
-                // extrait le numero
+                
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
                 
-                // formate le nouvel id
+                
                 return "USR" + numero.ToString("D3");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la generation de l'id utilisateur : " + ex.Message);
-                // en cas d'erreur, genere un id avec timestamp
                 return "USR" + DateTime.Now.Ticks;
             }
         }
@@ -90,29 +88,27 @@ namespace Livrable_2_psi
         {
             try
             {
-                // recupere le dernier id cuisinier
+               
                 string sql = "SELECT id_cuisinier FROM cuisinier WHERE id_cuisinier LIKE 'CUI%' ORDER BY id_cuisinier DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
                 
                 if (result == null)
                 {
-                    // si aucun cuisinier n'existe, commence par CUI001
                     return "CUI001";
                 }
                 
                 string dernierId = result.ToString();
-                // extrait le numero
+                
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
                 
-                // formate le nouvel id
+                
                 return "CUI" + numero.ToString("D3");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la generation de l'id cuisinier : " + ex.Message);
-                // en cas d'erreur, genere un id avec timestamp
                 return "CUI" + DateTime.Now.Ticks;
             }
         }
@@ -124,47 +120,42 @@ namespace Livrable_2_psi
         {
             try
             {
-                // recupere le dernier id client
+                
                 string sql = "SELECT id_client FROM client WHERE id_client LIKE 'CLI%' ORDER BY id_client DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
                 
                 if (result == null)
                 {
-                    // si aucun client n'existe, commence par CLI001
                     return "CLI001";
                 }
                 
                 string dernierId = result.ToString();
-                // extrait le numero
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
-                
-                // formate le nouvel id
                 return "CLI" + numero.ToString("D3");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("erreur lors de la generation de l'id client : " + ex.Message);
-                // en cas d'erreur, genere un id avec timestamp
                 return "CLI" + DateTime.Now.Ticks;
             }
         }
         
-        /// methode pour se connecter
+        /// <summary>
+        /// methode pour se connecter avec l'email et le mdp
+        /// </summary>
+        /// <returns></returns>
         public bool SeConnecter()
         {
             Console.WriteLine("=== Connexion ===");
             
-            // validation de l'email
             email = ValidationRequette.DemanderEmail("entrez votre email : ");
             
-            // validation du mot de passe
             motDePasse = ValidationRequette.DemanderMotDePasse("entrez votre mot de passe : ");
 
             try
             {
-                // verifie si l'utilisateur existe et recupere ses informations
                 string requete = "SELECT * FROM utilisateur WHERE email='" + email + "'";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
@@ -173,14 +164,12 @@ namespace Livrable_2_psi
 
                 if (reader.Read())
                 {
-                    // on recupere le mot de passe de la base
                     string mdpBDD = reader.GetString("mot_de_passe");
 
                     if (mdpBDD == motDePasse)
                     {
                         estConnecte = true;
                         
-                        // on recupere les infos de l'utilisateur de facon simple
                         idUtilisateur = reader.GetString("id_utilisateur");
                         nomUtilisateur = reader.GetString("nom");  
                         nom = reader.GetString("nom");
@@ -191,7 +180,6 @@ namespace Livrable_2_psi
                         reader.Close();
                         commande.Dispose();
 
-                        // verifie si c'est un client
                         string requeteClient = "SELECT StationMetro FROM client WHERE id_utilisateur='" + idUtilisateur + "'";
                         MySqlCommand commandeClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
                         commandeClient.CommandText = requeteClient;
@@ -210,7 +198,6 @@ namespace Livrable_2_psi
                             readerClient.Close();
                             commandeClient.Dispose();
 
-                            // verifie si c'est un cuisinier
                             string requeteCuisinier = "SELECT StationMetro FROM cuisinier WHERE id_utilisateur='" + idUtilisateur + "'";
                             MySqlCommand commandeCuisinier = new MySqlCommand(requeteCuisinier, connexionBDD.maConnexion);
                             commandeCuisinier.CommandText = requeteCuisinier;
@@ -255,19 +242,19 @@ namespace Livrable_2_psi
 
        
 
+        /// <summary>
         /// methode pour s'inscrire
+        /// </summary>
         public bool SInscrire()
         {
             Console.WriteLine("=== Inscription ===");
             
             try
             {
-                // validation des données utilisateur
                 nomUtilisateur = ValidationRequette.DemanderNom("entrez votre nom : ");
                 prenom = ValidationRequette.DemanderNom("entrez votre prenom : ");
                 email = ValidationRequette.DemanderEmail("entrez votre email : ");
 
-                // verifie si l'email existe deja
                 string sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = '" + email + "'";
                 MySqlCommand cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
                 int countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
@@ -279,7 +266,6 @@ namespace Livrable_2_psi
                     {
                         Console.WriteLine("veuillez entrer un autre email");
                         email = ValidationRequette.DemanderEmail("entrez votre email : ");
-                        // on refait la verification avec le nouvel email
                         sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = '" + email + "'";
                         cmdVerifEmail = new MySqlCommand(sqlVerifEmail, connexionBDD.maConnexion);
                         countEmail = Convert.ToInt32(cmdVerifEmail.ExecuteScalar());
@@ -292,10 +278,8 @@ namespace Livrable_2_psi
                 
                 
                 
-                // generation d'un id unique pour l'utilisateur
                 idUtilisateur = GenererIdUtilisateur();
                 
-                // insertion dans la table utilisateur
                 string sqlUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
                     idUtilisateur + "', '" + nomUtilisateur + "', '" + prenom + "', '" + email + "', '" + adresse + "', '" + telephone + "', '" + motDePasse + "')";
                 
@@ -304,7 +288,6 @@ namespace Livrable_2_psi
                 
                 Console.WriteLine("Compte utilisateur créé avec succès !");
                 
-                // demande du type de compte supplémentaire
                 Console.WriteLine("\nVoulez-vous créer un compte cuisinier et/ou client ?");
                 Console.WriteLine("1 : Créer un compte cuisinier");
                 Console.WriteLine("2 : Créer un compte client");
@@ -312,18 +295,16 @@ namespace Livrable_2_psi
                 
                 int choix = ValidationRequette.DemanderTypeUtilisateur("Entrez votre choix (1-3) : ");
                 
-                // creation d'une instance de ValidationRequette avec le graphe
                 ValidationRequette validation = new ValidationRequette(GrapheMetro);
                 
                 switch (choix)
                 {
-                    case 1: // compte cuisinier uniquement
+                    case 1: // cuisinier
                         Console.WriteLine("\n=== Création du compte cuisinier ===");
                         string stationMetroCuisinier = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
                         Console.WriteLine("Entrez les zones de livraison (séparées par des virgules) : ");
                         string zonesLivraison = Console.ReadLine();
                         
-                        // verification des zones de livraison
                         if (string.IsNullOrWhiteSpace(zonesLivraison))
                         {
                             Console.WriteLine("Les zones de livraison ne peuvent pas être vides");
@@ -338,7 +319,7 @@ namespace Livrable_2_psi
                         cmdCuisinier.ExecuteNonQuery();
                         
                         
-                        try
+                        try // creation du compte acces BDD cuisinier
                         {
                             string CreateBDDCuisinier = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDCuisinier = new MySqlCommand(CreateBDDCuisinier, connexionBDD.maConnexion);
@@ -364,7 +345,7 @@ namespace Livrable_2_psi
 
                         break;
 
-                    case 2: // compte client uniquement
+                    case 2: // compte client 
                         Console.WriteLine("\n=== Création du compte client ===");
                         string stationMetroClient = validation.DemanderStationMetro("Entrez la station metro du client : ");
                         int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
@@ -377,7 +358,6 @@ namespace Livrable_2_psi
                             entrepriseNom = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
                             referent = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
                             
-                            // verification des informations entreprise
                             if (string.IsNullOrWhiteSpace(entrepriseNom) || string.IsNullOrWhiteSpace(referent))
                             {
                                 Console.WriteLine("Les informations de l'entreprise ne peuvent pas être vides");
@@ -395,7 +375,7 @@ namespace Livrable_2_psi
                         cmdClient.ExecuteNonQuery();
 
 
-                        try
+                        try // creation du compte acces BDD client
                         {
                             string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
@@ -422,12 +402,10 @@ namespace Livrable_2_psi
                     case 3: // les deux comptes
                         Console.WriteLine("\n=== Création des comptes cuisinier et client ===");
                         
-                        // compte cuisinier
                         string stationMetroCuisinier2 = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
                         Console.WriteLine("Entrez les zones de livraison (séparées par des virgules) : ");
                         string zonesLivraison2 = Console.ReadLine();
                         
-                        // verification des zones de livraison
                         if (string.IsNullOrWhiteSpace(zonesLivraison2))
                         {
                             Console.WriteLine("Les zones de livraison ne peuvent pas être vides");
@@ -445,7 +423,6 @@ namespace Livrable_2_psi
                         MySqlCommand cmdCuisinier2 = new MySqlCommand(requeteCuisinier2, connexionBDD.maConnexion);
                         cmdCuisinier2.ExecuteNonQuery();
                         
-                        // compte client
                         string stationMetroClient2 = validation.DemanderStationMetro("Entrez la station metro du client : ");
                         int typeClient2 = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                         
@@ -480,7 +457,7 @@ namespace Livrable_2_psi
                         cmdClient2.ExecuteNonQuery();
 
 
-                        try
+                        try // creation du compte acces BDD cuisinier
                         {
                             string CreateBDDCuisinier = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDCuisinier = new MySqlCommand(CreateBDDCuisinier, connexionBDD.maConnexion);
@@ -499,7 +476,7 @@ namespace Livrable_2_psi
                             Console.WriteLine("erreur lors de la creation du compte acces BDD cuisinier : " + e.Message);
                         }
 
-                        try
+                        try // creation du compte acces BDD client
                         {
                             string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
@@ -517,24 +494,7 @@ namespace Livrable_2_psi
                             Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
                         }   
 
-                        try
-                        {
-                            string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
-                            MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
-                            cmdCreateBDDClient.ExecuteNonQuery();
-
-
-                            string GrantBDDClient = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
-                            MySqlCommand cmdGrantBDDClient = new MySqlCommand(GrantBDDClient, connexionBDD.maConnexion);
-                            cmdGrantBDDClient.ExecuteNonQuery();
-
-                            cmdCreateBDDClient.Dispose();
-                            cmdGrantBDDClient.Dispose();
-                        }
-                        catch (MySqlException e)
-                        {
-                            Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
-                        }
+                        
                         estClient = true;
                         estCuisinier = true;
                         
@@ -553,7 +513,9 @@ namespace Livrable_2_psi
             }
         }
 
+        /// <summary>
         /// methode pour se deconnecter
+        /// </summary>
         public void SeDeconnecter()
         {
             estConnecte = false;
@@ -569,6 +531,10 @@ namespace Livrable_2_psi
             estCuisinier = false;
         }
 
+        /// <summary>
+        /// methode pour savoir si l'utilisateur est un client ou un cuisinier
+        /// </summary>
+        /// <returns></returns>
         public int Qui()
         {
             if (estClient)

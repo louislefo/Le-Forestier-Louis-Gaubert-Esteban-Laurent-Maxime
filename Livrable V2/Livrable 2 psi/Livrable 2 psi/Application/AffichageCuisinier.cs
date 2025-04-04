@@ -15,7 +15,7 @@ namespace Livrable_2_psi
         public SqlCuisinier sqlCuisinier;
         public Graphe<int> grapheMetro;
 
-        /// constructeur par defaut
+        
         public AffichageCuisinier(ConnexionBDDCuisinier connexion,Authentification authentification, Graphe<int> grapheMetro)
         {
             this.authentification = authentification;
@@ -25,7 +25,10 @@ namespace Livrable_2_psi
             applicationEnCours = true;
         }
 
-        /// affiche le menu du cuisinier
+       /// <summary>
+       /// affiche le menu du cuisinier avec les options 
+       /// </summary>
+       /// <param name="nomUtilisateur"></param>
         public void AfficherMenuCuisinier(string nomUtilisateur)
         {
             bool continuer = true;
