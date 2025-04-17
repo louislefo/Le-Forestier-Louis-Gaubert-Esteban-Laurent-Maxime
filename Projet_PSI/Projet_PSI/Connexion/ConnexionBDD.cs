@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
-namespace Livrable_2_psi
+namespace Projet_PSI
 {
-   
     public class ConnexionBDD
     {
-        
+
         public MySqlConnection maConnexion;
 
         /// <summary>
@@ -48,6 +48,6 @@ namespace Livrable_2_psi
             }
         }
 
-        
+
     }
 }
