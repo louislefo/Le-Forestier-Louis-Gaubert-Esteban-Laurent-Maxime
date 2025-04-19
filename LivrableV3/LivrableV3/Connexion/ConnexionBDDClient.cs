@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
 namespace LivrableV3
@@ -25,11 +26,11 @@ namespace LivrableV3
                 string chaineConnexionClient = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + IDClient + ";PASSWORD=" + motDePasse;
                 maConnexionClient = new MySqlConnection(chaineConnexionClient);
                 maConnexionClient.Open();
-                Console.WriteLine("connexion client " + IDClient + " reussie");
+                MessageBox.Show("connexion client " + IDClient + " reussie");
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("oups erreur connexion client : " + e.Message);
+                MessageBox.Show("Erreur de connexion : " + e.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -39,11 +40,11 @@ namespace LivrableV3
             try
             {
                 maConnexionClient.Close();
-                Console.WriteLine("connexion client fermee");
+                MessageBox.Show("connexion client fermee");
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("probleme fermeture client : " + e.Message);
+                MessageBox.Show("Erreur de fermeture de connexion : " + e.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

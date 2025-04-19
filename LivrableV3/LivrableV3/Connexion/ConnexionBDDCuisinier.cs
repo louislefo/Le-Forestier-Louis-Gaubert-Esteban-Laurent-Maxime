@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
 namespace LivrableV3
@@ -23,11 +24,12 @@ namespace LivrableV3
                 string chaineConnexionCuisinier = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + IDCuisinier + ";PASSWORD=" + motDePasse;
                 maConnexionCuisinier = new MySqlConnection(chaineConnexionCuisinier);
                 maConnexionCuisinier.Open();
-                Console.WriteLine("connexion cuisinier " + IDCuisinier + " reussie");
+                MessageBox.Show("connexion cuisinier " + IDCuisinier + " reussie");
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("erreur connexion cuisinier : " + e.Message);
+                MessageBox.Show("Erreur de connexion : " + e.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
             }
         }
 
@@ -36,11 +38,12 @@ namespace LivrableV3
             try
             {
                 maConnexionCuisinier.Close();
-                Console.WriteLine("connexion cuisinier ferme");
+                MessageBox.Show("connexion cuisinier fermee");
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("probleme fermeture cuisinier : " + e.Message);
+                
+                MessageBox.Show("Erreur de fermeture de connexion : " + e.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LivrableV3
 {
@@ -17,11 +18,10 @@ namespace LivrableV3
         }
 
 
-        public void VoirPlatsDisponibles()
+        public string VoirPlatsDisponibles()
         {
             try
             {
-
                 string requete = "SELECT Plat_.id_plat, Plat_.nom as nom_plat, Plat_.type, Plat_.prix_par_personne, utilisateur.nom as nom_cuisinier, utilisateur.prénom " +
                                "FROM Plat_, cuisinier, utilisateur " +
                                "WHERE Plat_.id_cuisinier = cuisinier.id_cuisinier " +
@@ -31,9 +31,9 @@ namespace LivrableV3
                 commande.CommandText = requete;
 
                 MySqlDataReader reader = commande.ExecuteReader();
-
-                Console.WriteLine("\nvoici les plats disponibles");
+                string rep = "\nvoici les plats disponibles\r\n";
                 Console.WriteLine("----------------------------------");
+                rep+= "--------------------------------\r\n";
 
                 while (reader.Read())
                 {
@@ -44,25 +44,34 @@ namespace LivrableV3
                     string nomCuisinier = reader["nom_cuisinier"].ToString();
                     string prenomCuisinier = reader["prénom"].ToString();
 
+                    rep += "Plat numero " + idPlat + "\r\n";
                     Console.WriteLine("Plat numero " + idPlat);
+                    rep += "Nom: " + nomPlat + "\r\n";
                     Console.WriteLine("Nom: " + nomPlat);
+                    rep += "Type: " + type + "\r\n";
                     Console.WriteLine("Type: " + type);
+                    rep += "Prix: " + prix + " euros\r\n";
                     Console.WriteLine("Prix: " + prix + " euros");
+                    rep += "Cuisinier: " + prenomCuisinier + " " + nomCuisinier + "\r\n";
                     Console.WriteLine("Cuisinier: " + prenomCuisinier + " " + nomCuisinier);
+                    rep += "--------------------------------\r\n";
                     Console.WriteLine("----------------------------------");
                 }
 
+                
                 reader.Close();
                 commande.Dispose();
+                return rep;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("oups ya une erreur : " + ex.Message);
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+                return null;
             }
         }
 
 
-        public void VoirCommandesClient(string idClient)
+        public string VoirCommandesClient(string idClient)
         {
             try
             {
@@ -78,7 +87,9 @@ namespace LivrableV3
 
                 MySqlDataReader reader = commande.ExecuteReader();
 
+                string rep = "\nvoici vos commandes\r\n";
                 Console.WriteLine("\nvoici vos commandes");
+                rep += "--------------------------------\r\n";
                 Console.WriteLine("----------------------------------");
 
                 while (reader.Read())
@@ -89,20 +100,30 @@ namespace LivrableV3
                     string statut = reader["statut"].ToString();
                     string nomPlat = reader["nom_plat"].ToString();
 
+                    rep += "Commande numero " + idCommande + "\r\n";
                     Console.WriteLine("Commande numero " + idCommande);
+                    rep += "Date: " + date + "\r\n";
                     Console.WriteLine("Date: " + date);
+                    rep += "Plat: " + nomPlat + "\r\n";
                     Console.WriteLine("Plat: " + nomPlat);
+                    rep += "Prix: " + prix + " euros\r\n";
                     Console.WriteLine("Prix: " + prix + " euros");
+                    rep += "Statut: " + statut + "\r\n";
                     Console.WriteLine("Statut: " + statut);
+                    rep += "--------------------------------\r\n";
                     Console.WriteLine("----------------------------------");
-                }
 
+
+                }
+                
                 reader.Close();
                 commande.Dispose();
+                return rep;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("oups ya une erreur : " + ex.Message);
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+                return null;
             }
         }
 

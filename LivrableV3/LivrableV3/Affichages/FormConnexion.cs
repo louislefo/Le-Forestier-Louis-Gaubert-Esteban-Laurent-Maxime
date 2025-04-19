@@ -94,6 +94,7 @@ namespace LivrableV3
             this.textBoxMotDePasse.Name = "textBoxMotDePasse";
             this.textBoxMotDePasse.Size = new System.Drawing.Size(194, 30);
             this.textBoxMotDePasse.TabIndex = 5;
+            this.textBoxMotDePasse.UseSystemPasswordChar = true;
             // 
             // btnConnexion
             // 
@@ -104,10 +105,10 @@ namespace LivrableV3
             this.btnConnexion.Text = "Se Connecter";
             this.btnConnexion.UseVisualStyleBackColor = true;
             this.btnConnexion.Click += new System.EventHandler(this.btnConnexion_Click);
-            this.AcceptButton = this.btnConnexion;
             // 
             // FormConnexion
             // 
+            this.AcceptButton = this.btnConnexion;
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(785, 762);
             this.Controls.Add(this.btnConnexion);
@@ -193,7 +194,7 @@ namespace LivrableV3
                             /// redirection vers le form client
                             try
                             {
-                                ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(authentification.idUtilisateur, authentification.motDePasse);
+                                ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(authentification.nomUtilisateur, authentification.motDePasse);
                                 FormClient formClient = new FormClient(connexionBDDClient, authentification, authentification.GrapheMetro, mainForm);
                                 this.Hide();
                                 formClient.ShowDialog();
@@ -228,7 +229,7 @@ namespace LivrableV3
                                 try
                                 {
                                     /// redirection vers le form cuisinier
-                                    ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(authentification.idUtilisateur, authentification.motDePasse);
+                                    ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(authentification.nomUtilisateur, authentification.motDePasse);
                                     FormCuisinier formCuisinier = new FormCuisinier(connexionBDDCuisinier, authentification, authentification.GrapheMetro, mainForm);
                                     this.Hide();
                                     formCuisinier.ShowDialog();

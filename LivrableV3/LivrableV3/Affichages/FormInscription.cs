@@ -174,6 +174,7 @@ namespace LivrableV3
             this.textBoxMotdepasse.Name = "textBoxMotdepasse";
             this.textBoxMotdepasse.Size = new System.Drawing.Size(166, 30);
             this.textBoxMotdepasse.TabIndex = 12;
+            this.textBoxMotdepasse.UseSystemPasswordChar = true;
             // 
             // btninscription
             // 

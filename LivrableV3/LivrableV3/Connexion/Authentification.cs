@@ -539,9 +539,13 @@ namespace LivrableV3
             {
                 return 1;
             }
-            else if (estCuisinier)
+            if (estCuisinier)
             {
                 return 2;
+            }
+            if (estClient && estCuisinier)
+            {
+                return 3;
             }
             else
             {

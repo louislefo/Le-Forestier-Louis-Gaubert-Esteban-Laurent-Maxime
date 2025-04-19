@@ -12,8 +12,16 @@ namespace LivrableV3
         private Button BtnDeconnexion;
         private Label labelNom;
         private Graphe<int> grapheMetro;
+        private Button btncommander;
+        private Button btnVoircomandes;
+        private Button btnvoiritineraire;
+        private Button btnhistorique;
+        private TextBox textBoxrep;
+        private Button btnvoircuisiniers;
         private MainForm mainForm;
-        
+        private Button btnvoirplats;
+        private SqlClient sqlClient;
+
 
         /// constructeur du formulaire client
         public FormClient(ConnexionBDDClient connexion, Authentification auth, Graphe<int> graphe, MainForm main)
@@ -23,7 +31,8 @@ namespace LivrableV3
             authentification = auth;
             grapheMetro = graphe;
             labelNom.Text = "Bonjour " + authentification.nom+ " "+ authentification.prenom;
-            this.mainForm = main;   
+            this.mainForm = main;
+            sqlClient = new SqlClient(connexionBDDClient);
         }
 
         private void InitializeComponent()
@@ -31,6 +40,13 @@ namespace LivrableV3
             this.labelTitre = new System.Windows.Forms.Label();
             this.BtnDeconnexion = new System.Windows.Forms.Button();
             this.labelNom = new System.Windows.Forms.Label();
+            this.btncommander = new System.Windows.Forms.Button();
+            this.btnVoircomandes = new System.Windows.Forms.Button();
+            this.btnvoiritineraire = new System.Windows.Forms.Button();
+            this.btnhistorique = new System.Windows.Forms.Button();
+            this.textBoxrep = new System.Windows.Forms.TextBox();
+            this.btnvoircuisiniers = new System.Windows.Forms.Button();
+            this.btnvoirplats = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelTitre
@@ -57,17 +73,90 @@ namespace LivrableV3
             // 
             this.labelNom.AutoSize = true;
             this.labelNom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNom.Location = new System.Drawing.Point(500, 35);
+            this.labelNom.Location = new System.Drawing.Point(509, 47);
             this.labelNom.Name = "labelNom";
             this.labelNom.Size = new System.Drawing.Size(67, 20);
             this.labelNom.TabIndex = 2;
             this.labelNom.Text = "Bonjour";
             this.labelNom.Click += new System.EventHandler(this.labelNom_Click);
             // 
+            // btncommander
+            // 
+            this.btncommander.Location = new System.Drawing.Point(302, 156);
+            this.btncommander.Name = "btncommander";
+            this.btncommander.Size = new System.Drawing.Size(146, 59);
+            this.btncommander.TabIndex = 3;
+            this.btncommander.Text = "Commander";
+            this.btncommander.UseVisualStyleBackColor = true;
+            // 
+            // btnVoircomandes
+            // 
+            this.btnVoircomandes.Location = new System.Drawing.Point(39, 364);
+            this.btnVoircomandes.Name = "btnVoircomandes";
+            this.btnVoircomandes.Size = new System.Drawing.Size(144, 80);
+            this.btnVoircomandes.TabIndex = 4;
+            this.btnVoircomandes.Text = "Voir mes commandes";
+            this.btnVoircomandes.UseVisualStyleBackColor = true;
+            this.btnVoircomandes.Click += new System.EventHandler(this.btnVoircomandes_Click);
+            // 
+            // btnvoiritineraire
+            // 
+            this.btnvoiritineraire.Location = new System.Drawing.Point(39, 474);
+            this.btnvoiritineraire.Name = "btnvoiritineraire";
+            this.btnvoiritineraire.Size = new System.Drawing.Size(144, 66);
+            this.btnvoiritineraire.TabIndex = 5;
+            this.btnvoiritineraire.Text = "Voir l\'itinéraire";
+            this.btnvoiritineraire.UseVisualStyleBackColor = true;
+            // 
+            // btnhistorique
+            // 
+            this.btnhistorique.Location = new System.Drawing.Point(39, 570);
+            this.btnhistorique.Name = "btnhistorique";
+            this.btnhistorique.Size = new System.Drawing.Size(144, 67);
+            this.btnhistorique.TabIndex = 6;
+            this.btnhistorique.Text = "Voir l\'historique";
+            this.btnhistorique.UseVisualStyleBackColor = true;
+            this.btnhistorique.Click += new System.EventHandler(this.btnhistorique_Click);
+            // 
+            // textBoxrep
+            // 
+            this.textBoxrep.Location = new System.Drawing.Point(216, 268);
+            this.textBoxrep.Multiline = true;
+            this.textBoxrep.Name = "textBoxrep";
+            this.textBoxrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxrep.Size = new System.Drawing.Size(530, 451);
+            this.textBoxrep.TabIndex = 7;
+            // 
+            // btnvoircuisiniers
+            // 
+            this.btnvoircuisiniers.Location = new System.Drawing.Point(39, 652);
+            this.btnvoircuisiniers.Name = "btnvoircuisiniers";
+            this.btnvoircuisiniers.Size = new System.Drawing.Size(144, 67);
+            this.btnvoircuisiniers.TabIndex = 8;
+            this.btnvoircuisiniers.Text = "Voir les cuisiniers";
+            this.btnvoircuisiniers.UseVisualStyleBackColor = true;
+            // 
+            // btnvoirplats
+            // 
+            this.btnvoirplats.Location = new System.Drawing.Point(39, 268);
+            this.btnvoirplats.Name = "btnvoirplats";
+            this.btnvoirplats.Size = new System.Drawing.Size(144, 65);
+            this.btnvoirplats.TabIndex = 9;
+            this.btnvoirplats.Text = "Voir tous les plats";
+            this.btnvoirplats.UseVisualStyleBackColor = true;
+            this.btnvoirplats.Click += new System.EventHandler(this.btnvoirplats_Click);
+            // 
             // FormClient
             // 
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(785, 762);
+            this.Controls.Add(this.btnvoirplats);
+            this.Controls.Add(this.btnvoircuisiniers);
+            this.Controls.Add(this.textBoxrep);
+            this.Controls.Add(this.btnhistorique);
+            this.Controls.Add(this.btnvoiritineraire);
+            this.Controls.Add(this.btnVoircomandes);
+            this.Controls.Add(this.btncommander);
             this.Controls.Add(this.labelNom);
             this.Controls.Add(this.BtnDeconnexion);
             this.Controls.Add(this.labelTitre);
@@ -99,6 +188,22 @@ namespace LivrableV3
         private void labelNom_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnhistorique_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnVoircomandes_Click(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void btnvoirplats_Click(object sender, EventArgs e)
+        {
+           textBoxrep.Text =  sqlClient.VoirPlatsDisponibles();
         }
     }
 } 
