@@ -19,14 +19,14 @@ namespace LivrableV3
         //create user if not exists 'superbozo'@'localhost' identified by '123' ;
         //grant all on loueur.* to 'superbozo'@'localhost';
         
-        public ConnexionBDDClient(string IDClient, string motDePasse)
+        public ConnexionBDDClient(string nomClient, string motDePasse)
         {
             try
             {
-                string chaineConnexionClient = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + IDClient + ";PASSWORD=" + motDePasse;
+                string chaineConnexionClient = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + nomClient + ";PASSWORD=" + motDePasse;
                 maConnexionClient = new MySqlConnection(chaineConnexionClient);
                 maConnexionClient.Open();
-                MessageBox.Show("connexion client " + IDClient + " reussie");
+                MessageBox.Show("connexion client " + nomClient + " reussie");
             }
             catch (MySqlException e)
             {

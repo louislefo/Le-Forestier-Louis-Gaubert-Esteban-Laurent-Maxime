@@ -17,14 +17,14 @@ namespace LivrableV3
         //create user if not exists 'IDCuisinier'@'localhost' identified by '123' ;
         //grant all * to 'superbozo'@'localhost';
 
-        public ConnexionBDDCuisinier(string IDCuisinier, string motDePasse)
+        public ConnexionBDDCuisinier(string nomCuisinier, string motDePasse)
         {
             try
             {
-                string chaineConnexionCuisinier = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + IDCuisinier + ";PASSWORD=" + motDePasse;
+                string chaineConnexionCuisinier = "SERVER=localhost;PORT=3306;DATABASE=PSI_LoMaEs;UID=" + nomCuisinier + ";PASSWORD=" + motDePasse;
                 maConnexionCuisinier = new MySqlConnection(chaineConnexionCuisinier);
                 maConnexionCuisinier.Open();
-                MessageBox.Show("connexion cuisinier " + IDCuisinier + " reussie");
+                MessageBox.Show("connexion cuisinier " + nomCuisinier + " reussie");
             }
             catch (MySqlException e)
             {
