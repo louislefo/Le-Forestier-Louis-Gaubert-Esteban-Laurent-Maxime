@@ -59,9 +59,10 @@ namespace LivrableV3
             this.labelNom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelNom.Location = new System.Drawing.Point(500, 35);
             this.labelNom.Name = "labelNom";
-            this.labelNom.Size = new System.Drawing.Size(84, 25);
+            this.labelNom.Size = new System.Drawing.Size(67, 20);
             this.labelNom.TabIndex = 2;
             this.labelNom.Text = "Bonjour";
+            this.labelNom.Click += new System.EventHandler(this.labelNom_Click);
             // 
             // FormClient
             // 
@@ -87,10 +88,15 @@ namespace LivrableV3
 
         private void labelTitre_Click(object sender, EventArgs e)
         {
-
+            labelTitre.Text = "tu as trouvé l'easter egg";
         }
 
         private void FormClient_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelNom_Click(object sender, EventArgs e)
         {
 
         }

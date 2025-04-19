@@ -610,20 +610,32 @@ namespace LivrableV3
 
                 string stationMetro = listBoxStation.SelectedItem?.ToString();
 
-                 nomUtilisateur = validation.DemanderNom(nomUtilisateur);
-                 prenom = validation.DemanderPrenom(prenom);
-                 email = validation.DemanderEmail(email);
-                 telephone = validation.DemanderTelephone(telephone);
-                 adresse = validation.DemanderAdresse(adresse);
-                 motDePasse = validation.DemanderMotDePasse(motDePasse);
+                // on valide les donnees
+                nomUtilisateur = validation.DemanderNom(nomUtilisateur);
+                if (nomUtilisateur == "") return;
 
-                stationMetro = listBoxStation.SelectedItem?.ToString();
+                prenom = validation.DemanderPrenom(prenom);
+                if (prenom == "") return;
+
+                email = validation.DemanderEmail(email);
+                if (email == "") return;
+
+                telephone = validation.DemanderTelephone(telephone);
+                if (telephone == "") return;
+
+                adresse = validation.DemanderAdresse(adresse);
+                if (adresse == "") return;
+
+                motDePasse = validation.DemanderMotDePasse(motDePasse);
+                if (motDePasse == "") return;
+
                 if (string.IsNullOrEmpty(stationMetro))
                 {
                     MessageBox.Show("Veuillez selectionner une station de metro");
                     return;
                 }
                 stationMetro = validation.DemanderStationMetro(stationMetro);
+                if (stationMetro == "") return;
 
                 if (listBoxType.SelectedIndex == -1)
                 {

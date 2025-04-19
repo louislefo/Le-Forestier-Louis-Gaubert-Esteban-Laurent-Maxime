@@ -31,85 +31,64 @@ namespace LivrableV3
         /// cette methode sert a demander un nom et verifier qu'il est bon
         /// elle verifie que le nom a au moins 2 lettres et que c'est que des lettres
         /// </summary>
-        public string DemanderNom(string message)
+        public string DemanderNom(string nom)
         {
-            string nom;
-            bool valide = false;
-
-            do
+            // on verifie si le nom est vide
+            if (string.IsNullOrEmpty(nom))
             {
-                Console.Write(message);
-                nom = Console.ReadLine();
-                
-                // on verifie si le nom est vide
-                if (string.IsNullOrEmpty(nom))
-                {
-                    MessageBox.Show("le nom ne peut pas etre vide");
-                    break;
-                }
+                MessageBox.Show("le nom ne peut pas etre vide");
+                return "";
+            }
 
-                // on verifie que le nom est assez long
-                if (nom.Length < 2)
-                {
-                    MessageBox.Show("le nom doit contenir au moins 2 caracteres");
-                    continue;
-                }
+            // on verifie que le nom est assez long
+            if (nom.Length < 2)
+            {
+                MessageBox.Show("le nom doit contenir au moins 2 caracteres");
+                return "";
+            }
 
-                // on verifie que le nom a que des lettres et des espaces
-                valide = true;
-                for (int i = 0; i < nom.Length; i++)
+            // on verifie que le nom a que des lettres et des espaces
+            for (int i = 0; i < nom.Length; i++)
+            {
+                if (!char.IsLetter(nom[i]) && nom[i] != ' ' && nom[i] != '-')
                 {
-                    if (!char.IsLetter(nom[i]) && nom[i] != ' ' && nom[i] != '-')
-                    {
-                        valide = false;
-                        MessageBox.Show("le nom ne peut contenir que des lettres, espaces et tirets");
-                        break;
-                    }
+                    MessageBox.Show("le nom ne peut contenir que des lettres espaces et tirets");
+                    return "";
                 }
-            } while (!valide);
+            }
 
             return nom;
         }
+
         /// <summary>
         /// cette methode sert a demander un nom et verifier qu'il est bon
         /// elle verifie que le nom a au moins 2 lettres et que c'est que des lettres
         /// </summary>
-        public string DemanderPrenom(string message)
+        public string DemanderPrenom(string prenom)
         {
-            string prenom;
-            bool valide = false;
-
-            do
+            // on verifie si le prenom est vide
+            if (string.IsNullOrEmpty(prenom))
             {
-                Console.Write(message);
-                prenom = Console.ReadLine();
+                MessageBox.Show("le prenom ne peut pas etre vide");
+                return "";
+            }
 
-                // on verifie si le nom est vide
-                if (string.IsNullOrEmpty(prenom))
-                {
-                    MessageBox.Show("le prenom ne peut pas etre vide");
-                    break;
-                }
+            // on verifie que le prenom est assez long
+            if (prenom.Length < 2)
+            {
+                MessageBox.Show("le prenom doit contenir au moins 2 caracteres");
+                return "";
+            }
 
-                // on verifie que le nom est assez long
-                if (prenom.Length < 2)
+            // on verifie que le prenom a que des lettres et des espaces
+            for (int i = 0; i < prenom.Length; i++)
+            {
+                if (!char.IsLetter(prenom[i]) && prenom[i] != ' ' && prenom[i] != '-')
                 {
-                    MessageBox.Show("le prenom doit contenir au moins 2 caracteres");
-                    continue;
+                    MessageBox.Show("le prenom ne peut contenir que des lettres espaces et tirets");
+                    return "";
                 }
-
-                // on verifie que le nom a que des lettres et des espaces
-                valide = true;
-                for (int i = 0; i < prenom.Length; i++)
-                {
-                    if (!char.IsLetter(prenom[i]) && prenom[i] != ' ' && prenom[i] != '-')
-                    {
-                        valide = false;
-                        MessageBox.Show("le prenom ne peut contenir que des lettres, espaces et tirets");
-                        break;
-                    }
-                }
-            } while (!valide);
+            }
 
             return prenom;
         }
@@ -118,54 +97,43 @@ namespace LivrableV3
         /// cette methode sert a demander une adresse et verifier qu'elle est bonne
         /// elle verifie que l'adresse commence par un numero et a au moins 5 caracteres
         /// </summary>
-        public string DemanderAdresse(string message)
+        public string DemanderAdresse(string adresse)
         {
-            string adresse;
-            bool valide = false;
-
-            do
+            // on verifie si l'adresse est vide
+            if (string.IsNullOrEmpty(adresse))
             {
-                Console.Write(message);
-                adresse = Console.ReadLine();
+                MessageBox.Show("l'adresse ne peut pas etre vide");
+                return "";
+            }
 
-                // on verifie si l'adresse est vide
-                if (string.IsNullOrEmpty(adresse))
+            if (adresse.Length < 5)
+            {
+                MessageBox.Show("l'adresse doit avoir au moins 5 caracteres");
+                return "";
+            }
+
+            // on verifie que l'adresse commence par un numero
+            if (!char.IsDigit(adresse[0]))
+            {
+                MessageBox.Show("l'adresse doit commencer par un numero");
+                return "";
+            }
+
+            bool contientLettre = false;
+            for (int i = 0; i < adresse.Length; i++)
+            {
+                if (char.IsLetter(adresse[i]))
                 {
-                    MessageBox.Show("l'adresse ne peut pas etre vide");
-                    continue;
+                    contientLettre = true;
+                    break;
                 }
+            }
 
-                if (adresse.Length < 5)
-                {
-                    MessageBox.Show("l'adresse doit avoir au moins 5 caracteres");
-                    continue;
-                }
-
-                // on verifie que l'adresse commence par un numero
-                if (!char.IsDigit(adresse[0]))
-                {
-                    MessageBox.Show("l'adresse doit commencer par un numero");
-                    continue;
-                }
-
-                bool contientLettre = false;
-                for (int i = 0; i < adresse.Length; i++)
-                {
-                    if (char.IsLetter(adresse[i]))
-                    {
-                        contientLettre = true;
-                        break;
-                    }
-                }
-
-                if (!contientLettre)
-                {
-                    MessageBox.Show("l'adresse doit contenir au moins une lettre");
-                    continue;
-                }
-
-                valide = true;
-            } while (!valide);
+            if (!contientLettre)
+            {
+                MessageBox.Show("l'adresse doit contenir au moins une lettre");
+                return "";
+            }
 
             return adresse;
         }
@@ -174,12 +142,8 @@ namespace LivrableV3
         /// cette methode sert a demander une station de metro et verifier qu'elle existe
         /// elle regarde dans le graphe du metro si la station existe
         /// </summary>
-        public string DemanderStationMetro(string message)
+        public string DemanderStationMetro(string station)
         {
-            string station;
-            bool valide = false;
-
-            // on utilise le dictionnaire noeuds du graphe
             try
             {
                 if(noeuds == null || noeuds.Count == 0)
@@ -188,66 +152,45 @@ namespace LivrableV3
                     return "";
                 }
 
-                do
+                if (string.IsNullOrEmpty(station))
                 {
-                    Console.Write(message);
-                    station = Console.ReadLine().ToLower();
+                    MessageBox.Show("la station ne peut pas etre vide");
+                    return "";
+                }
 
-                    if (string.IsNullOrEmpty(station))
+                if (station.Length < 2)
+                {
+                    MessageBox.Show("la station doit avoir au moins 2 caracteres");
+                    return "";
+                }
+
+                // on met en minuscule pour comparer
+                station = station.ToLower();
+
+                // on verifie si la station existe dans le metro
+                bool stationExiste = false;
+                for (int i = 0; i < noeuds.Count; i++)
+                {
+                    if (noeuds[i+1].NomStation.ToLower() == station)
                     {
-                        MessageBox.Show("la station ne peut pas etre vide");
-                        continue;
+                        stationExiste = true;
+                        break;
                     }
+                }
 
-                    if (station.Length < 2)
-                    {
-                        MessageBox.Show("la station doit avoir au moins 2 caracteres");
-                        continue;
-                    }
+                if (!stationExiste)
+                {
+                    MessageBox.Show("cette station n'existe pas dans le metro");
+                    return "";
+                }
 
-                    bool formatValide = true;
-                    for (int i = 0; i < station.Length; i++)
-                    {
-                        if (!char.IsLetter(station[i]) && station[i] != ' ' && station[i] != '-')
-                        {
-                            formatValide = false;
-                            MessageBox.Show("la station ne peut contenir que des lettres, espaces et tirets");
-                            break;
-                        }
-                    }
-
-                    if (!formatValide)
-                    {
-                        continue;
-                    }
-
-                    // on verifie si la station existe dans le metro
-                    bool stationExiste = false;
-                    foreach (var noeud in noeuds.Values)
-                    {
-                        if (noeud.NomStation.ToLower() == station)
-                        {
-                            stationExiste = true;
-                            break;
-                        }
-                    }
-
-                    if (!stationExiste)
-                    {
-                        MessageBox.Show("cette station n'existe pas dans le reseau de metro");
-                        continue;
-                    }
-
-                    valide = true;
-                } while (!valide);
+                return station;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("erreur lors de la verification de la station : " + ex.Message);
+                MessageBox.Show("erreur avec la station : " + ex.Message);
                 return "";
             }
-
-            return station;
         }
 
         /// <summary>
@@ -436,49 +379,38 @@ namespace LivrableV3
         /// cette methode sert a demander un email et verifier qu'il est bon
         /// elle utilise la methode ValiderEmail pour verifier
         /// </summary>
-        public  string DemanderEmail(string message)
+        public  string DemanderEmail(string email)
         {
-            string email;
-            bool valide = false;
-
-            do
+            if (string.IsNullOrEmpty(email))
             {
-                Console.Write(message);
-                email = Console.ReadLine();
+                MessageBox.Show("l'email ne peut pas etre vide");
+                return "";
+            }
 
-                if (string.IsNullOrEmpty(email))
-                {
-                    MessageBox.Show("l'email ne peut pas etre vide");
-                    break;
-                }
+            if (!email.Contains("@"))
+            {
+                MessageBox.Show("l'email doit contenir un @");
+                return "";
+            }
 
-                if (!email.Contains("@"))
-                {
-                    MessageBox.Show("l'email doit contenir un @");
-                    continue;
-                }
+            string[] parties = email.Split('@');
+            if (parties.Length != 2)
+            {
+                MessageBox.Show("format de mail invalide");
+                return "";
+            }
 
-                string[] parties = email.Split('@');
-                if (parties.Length != 2)
-                {
-                    MessageBox.Show("format de mail invalide");
-                    continue;
-                }
+            if (parties[0].Length < 1)
+            {
+                MessageBox.Show("la partie devant le @ ne peut pas etre vide");
+                return "";
+            }
 
-                if (parties[0].Length < 1)
-                {
-                    MessageBox.Show("la partie devant le @ ne peut pas etre vide");
-                    continue;
-                }
-
-                if (!parties[1].Contains("."))
-                {
-                    MessageBox.Show("l'email doit contenir un point");
-                    continue;
-                }
-
-                valide = true;
-            } while (!valide);
+            if (!parties[1].Contains("."))
+            {
+                MessageBox.Show("l'email doit contenir un point");
+                return "";
+            }
 
             return email;
         }
@@ -487,47 +419,36 @@ namespace LivrableV3
         /// cette methode sert a demander un telephone et verifier qu'il est bon
         /// elle utilise la methode ValiderTelephone pour verifier
         /// </summary>
-        public  string DemanderTelephone(string message)
+        public  string DemanderTelephone(string telephone)
         {
-            string telephone;
-            bool valide = false;
-
-            do
+            if (string.IsNullOrEmpty(telephone))
             {
-                Console.Write(message);
-                telephone = Console.ReadLine();
+                MessageBox.Show("le telephone ne peut pas etre vide");
+                return "";
+            }
 
-                if (string.IsNullOrEmpty(telephone))
+            telephone = telephone.Replace(" ", "");
+
+            if (telephone.Length != 10 && telephone.Length != 11)
+            {
+                MessageBox.Show("le numero doit avoir 10 chiffres");
+                return "";
+            }
+
+            if (telephone[0] != '0' && !telephone.StartsWith("+33"))
+            {
+                MessageBox.Show("le numero doit commencer par 0 ou +33");
+                return "";
+            }
+
+            for (int i = 0; i < telephone.Length; i++)
+            {
+                if (telephone[i] != '+' && !char.IsDigit(telephone[i]))
                 {
-                    MessageBox.Show("le telephone ne peut pas etre vide");
-                    continue;
+                    MessageBox.Show("le numero ne peut contenir que des chiffres");
+                    return "";
                 }
-
-                telephone = telephone.Replace(" ", "");
-
-                if (telephone.Length != 10 && telephone.Length != 11)
-                {
-                    MessageBox.Show("le numero doit avoir 10 chiffres");
-                    continue;
-                }
-
-                if (telephone[0] != '0' && !telephone.StartsWith("+33"))
-                {
-                    MessageBox.Show("le numero doit commencer par 0 ou +33");
-                    continue;
-                }
-
-                valide = true;
-                for (int i = 0; i < telephone.Length; i++)
-                {
-                    if (telephone[i] != '+' && !char.IsDigit(telephone[i]))
-                    {
-                        valide = false;
-                        MessageBox.Show("le numero ne peut contenir que des chiffres");
-                        break;
-                    }
-                }
-            } while (!valide);
+            }
 
             return telephone;
         }
@@ -536,68 +457,57 @@ namespace LivrableV3
         /// cette methode sert a demander un mot de passe et verifier qu'il est assez fort
         /// elle utilise la methode ValiderMotDePasse pour verifier
         /// </summary>
-        public  string DemanderMotDePasse(string message)
+        public  string DemanderMotDePasse(string motDePasse)
         {
-            string motDePasse;
-            bool valide = false;
-
-            do
+            if (string.IsNullOrEmpty(motDePasse))
             {
-                Console.Write(message);
-                motDePasse = Console.ReadLine();
+                MessageBox.Show("le mot de passe ne peut pas etre vide");
+                return "";
+            }
 
-                if (string.IsNullOrEmpty(motDePasse))
+            if (motDePasse.Length < 6)
+            {
+                MessageBox.Show("le mot de passe doit avoir au moins 6 caracteres");
+                return "";
+            }
+
+            bool contientMajuscule = false;
+            bool contientMinuscule = false;
+            bool contientChiffre = false;
+
+            for (int i = 0; i < motDePasse.Length; i++)
+            {
+                if (char.IsUpper(motDePasse[i]))
                 {
-                    MessageBox.Show("le mot de passe ne peut pas etre vide");
-                    continue;
+                    contientMajuscule = true;
                 }
-
-                if (motDePasse.Length < 6)
+                else if (char.IsLower(motDePasse[i]))
                 {
-                    MessageBox.Show("le mot de passe doit avoir au moins 6 caracteres");
-                    continue;
+                    contientMinuscule = true;
                 }
-
-                bool contientMajuscule = false;
-                bool contientMinuscule = false;
-                bool contientChiffre = false;
-
-                for (int i = 0; i < motDePasse.Length; i++)
+                else if (char.IsDigit(motDePasse[i]))
                 {
-                    if (char.IsUpper(motDePasse[i]))
-                    {
-                        contientMajuscule = true;
-                    }
-                    else if (char.IsLower(motDePasse[i]))
-                    {
-                        contientMinuscule = true;
-                    }
-                    else if (char.IsDigit(motDePasse[i]))
-                    {
-                        contientChiffre = true;
-                    }
+                    contientChiffre = true;
                 }
+            }
 
-                if (!contientMajuscule)
-                {
-                    MessageBox.Show("le mot de passe doit contenir au moins une majuscule");
-                    continue;
-                }
+            if (!contientMajuscule)
+            {
+                MessageBox.Show("le mot de passe doit contenir au moins une majuscule");
+                return "";
+            }
 
-                if (!contientMinuscule)
-                {
-                    MessageBox.Show("le mot de passe doit contenir au moins une minuscule");
-                    continue;
-                }
+            if (!contientMinuscule)
+            {
+                MessageBox.Show("le mot de passe doit contenir au moins une minuscule");
+                return "";
+            }
 
-                if (!contientChiffre)
-                {
-                    MessageBox.Show("le mot de passe doit contenir au moins un chiffre");
-                    continue;
-                }
-
-                valide = true;
-            } while (!valide);
+            if (!contientChiffre)
+            {
+                MessageBox.Show("le mot de passe doit contenir au moins un chiffre");
+                return "";
+            }
 
             return motDePasse;
         }
@@ -606,39 +516,28 @@ namespace LivrableV3
         /// cette methode sert a demander un nom d'utilisateur et verifier qu'il est bon
         /// elle utilise la methode ValiderNomUtilisateur pour verifier
         /// </summary>
-        public string DemanderNomUtilisateur(string message)
+        public string DemanderNomUtilisateur(string nomUtilisateur)
         {
-            string nomUtilisateur;
-            bool valide = false;
-
-            do
+            if (string.IsNullOrEmpty(nomUtilisateur))
             {
-                Console.Write(message);
-                nomUtilisateur = Console.ReadLine();
+                MessageBox.Show("le nom d'utilisateur ne peut pas etre vide");
+                return "";
+            }
 
-                if (string.IsNullOrEmpty(nomUtilisateur))
-                {
-                    MessageBox.Show("le nom d'utilisateur ne peut pas etre vide");
-                    continue;
-                }
+            if (nomUtilisateur.Length < 3)
+            {
+                MessageBox.Show("le nom d'utilisateur doit avoir au moins 3 caracteres");
+                return "";
+            }
 
-                if (nomUtilisateur.Length < 3)
+            for (int i = 0; i < nomUtilisateur.Length; i++)
+            {
+                if (!char.IsLetterOrDigit(nomUtilisateur[i]) && nomUtilisateur[i] != '_')
                 {
-                    MessageBox.Show("le nom d'utilisateur doit avoir au moins 3 caracteres");
-                    continue;
+                    MessageBox.Show("le nom d'utilisateur ne peut contenir que des lettres, chiffres et underscores");
+                    return "";
                 }
-
-                valide = true;
-                for (int i = 0; i < nomUtilisateur.Length; i++)
-                {
-                    if (!char.IsLetterOrDigit(nomUtilisateur[i]) && nomUtilisateur[i] != '_')
-                    {
-                        valide = false;
-                        MessageBox.Show("le nom d'utilisateur ne peut contenir que des lettres, chiffres et underscores");
-                        break;
-                    }
-                }
-            } while (!valide);
+            }
 
             return nomUtilisateur;
         }
