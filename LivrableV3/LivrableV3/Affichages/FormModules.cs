@@ -1,11 +1,17 @@
+using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
 using System.Drawing;
+using System.Web;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace LivrableV3
 {
     public partial class FormModules : Form
     {
+        #region variables
+
         private ConnexionBDD connexionBDD;
         private TabControl tabModule;
         private TabPage tabModuleClient;
@@ -17,7 +23,28 @@ namespace LivrableV3
         private Button btnAfficherMetro;
         private Graphe<int> grapheMetro;
         private Button btnitineraire;
+        private Label labelClientrep;
+        private Button btnClientparachat;
+        private Button btnclientparrue;
+        private Button btnclienttrialpha;
+        private TextBox textBoxclientrep;
+        private Button btnClientSuppClient;
+        private Button btnClientModifclient;
+        private Button btnClientAjoutClient;
+        private Button btnstatlivparcuisinier;
+        private Button btnstatcomdpartype;
+        private Button btnstatmoyennecompteclient;
+        private Button btnstatmoyenneprix;
+        private Button btnstatcomparper;
+        private Label labelstatrep;
+        private TextBox textBoxstatrep;
+        private Label label1;
+        private DateTimePicker dateTimePickerstatFin;
+        private DateTimePicker dateTimePickerstatdebut;
+        private Label labelstatdatefin;
         private MainForm main;
+
+        #endregion
 
         public FormModules(ConnexionBDD connexion, Graphe<int> graphe, MainForm main)
         {
@@ -38,7 +65,28 @@ namespace LivrableV3
             this.btnitineraire = new System.Windows.Forms.Button();
             this.btnAfficherMetro = new System.Windows.Forms.Button();
             this.btnRetourMenu = new System.Windows.Forms.Button();
+            this.btnclienttrialpha = new System.Windows.Forms.Button();
+            this.btnclientparrue = new System.Windows.Forms.Button();
+            this.btnClientparachat = new System.Windows.Forms.Button();
+            this.labelClientrep = new System.Windows.Forms.Label();
+            this.textBoxclientrep = new System.Windows.Forms.TextBox();
+            this.btnClientAjoutClient = new System.Windows.Forms.Button();
+            this.btnClientModifclient = new System.Windows.Forms.Button();
+            this.btnClientSuppClient = new System.Windows.Forms.Button();
+            this.btnstatlivparcuisinier = new System.Windows.Forms.Button();
+            this.btnstatcomparper = new System.Windows.Forms.Button();
+            this.btnstatmoyenneprix = new System.Windows.Forms.Button();
+            this.btnstatmoyennecompteclient = new System.Windows.Forms.Button();
+            this.btnstatcomdpartype = new System.Windows.Forms.Button();
+            this.textBoxstatrep = new System.Windows.Forms.TextBox();
+            this.labelstatrep = new System.Windows.Forms.Label();
+            this.dateTimePickerstatdebut = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerstatFin = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelstatdatefin = new System.Windows.Forms.Label();
             this.tabModule.SuspendLayout();
+            this.tabModuleClient.SuspendLayout();
+            this.tabModuleStatistiques.SuspendLayout();
             this.tabModuleGraphe.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,12 +106,21 @@ namespace LivrableV3
             // tabModuleClient
             // 
             this.tabModuleClient.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.tabModuleClient.Controls.Add(this.btnClientSuppClient);
+            this.tabModuleClient.Controls.Add(this.btnClientModifclient);
+            this.tabModuleClient.Controls.Add(this.btnClientAjoutClient);
+            this.tabModuleClient.Controls.Add(this.textBoxclientrep);
+            this.tabModuleClient.Controls.Add(this.labelClientrep);
+            this.tabModuleClient.Controls.Add(this.btnClientparachat);
+            this.tabModuleClient.Controls.Add(this.btnclientparrue);
+            this.tabModuleClient.Controls.Add(this.btnclienttrialpha);
             this.tabModuleClient.Location = new System.Drawing.Point(4, 25);
             this.tabModuleClient.Name = "tabModuleClient";
             this.tabModuleClient.Padding = new System.Windows.Forms.Padding(3);
             this.tabModuleClient.Size = new System.Drawing.Size(702, 582);
             this.tabModuleClient.TabIndex = 0;
             this.tabModuleClient.Text = "moduleClient";
+            this.tabModuleClient.Click += new System.EventHandler(this.tabModuleClient_Click);
             // 
             // tabModuleCuisinier
             // 
@@ -88,12 +145,24 @@ namespace LivrableV3
             // tabModuleStatistiques
             // 
             this.tabModuleStatistiques.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.tabModuleStatistiques.Controls.Add(this.labelstatdatefin);
+            this.tabModuleStatistiques.Controls.Add(this.label1);
+            this.tabModuleStatistiques.Controls.Add(this.dateTimePickerstatFin);
+            this.tabModuleStatistiques.Controls.Add(this.dateTimePickerstatdebut);
+            this.tabModuleStatistiques.Controls.Add(this.labelstatrep);
+            this.tabModuleStatistiques.Controls.Add(this.textBoxstatrep);
+            this.tabModuleStatistiques.Controls.Add(this.btnstatcomdpartype);
+            this.tabModuleStatistiques.Controls.Add(this.btnstatmoyennecompteclient);
+            this.tabModuleStatistiques.Controls.Add(this.btnstatmoyenneprix);
+            this.tabModuleStatistiques.Controls.Add(this.btnstatcomparper);
+            this.tabModuleStatistiques.Controls.Add(this.btnstatlivparcuisinier);
             this.tabModuleStatistiques.Location = new System.Drawing.Point(4, 25);
             this.tabModuleStatistiques.Name = "tabModuleStatistiques";
             this.tabModuleStatistiques.Padding = new System.Windows.Forms.Padding(3);
             this.tabModuleStatistiques.Size = new System.Drawing.Size(702, 582);
             this.tabModuleStatistiques.TabIndex = 3;
             this.tabModuleStatistiques.Text = "tabModuleStatistiques";
+            this.tabModuleStatistiques.Click += new System.EventHandler(this.tabModuleStatistiques_Click);
             // 
             // tabModuleGraphe
             // 
@@ -140,6 +209,186 @@ namespace LivrableV3
             this.btnRetourMenu.UseVisualStyleBackColor = true;
             this.btnRetourMenu.Click += new System.EventHandler(this.btnRetourMenu_Click);
             // 
+            // btnclienttrialpha
+            // 
+            this.btnclienttrialpha.Location = new System.Drawing.Point(37, 283);
+            this.btnclienttrialpha.Name = "btnclienttrialpha";
+            this.btnclienttrialpha.Size = new System.Drawing.Size(128, 67);
+            this.btnclienttrialpha.TabIndex = 0;
+            this.btnclienttrialpha.Text = "Afficher les clients par ordre alphabetique";
+            this.btnclienttrialpha.UseVisualStyleBackColor = true;
+            this.btnclienttrialpha.Click += new System.EventHandler(this.btnclienttrialpha_Click);
+            // 
+            // btnclientparrue
+            // 
+            this.btnclientparrue.Location = new System.Drawing.Point(37, 390);
+            this.btnclientparrue.Name = "btnclientparrue";
+            this.btnclientparrue.Size = new System.Drawing.Size(128, 74);
+            this.btnclientparrue.TabIndex = 1;
+            this.btnclientparrue.Text = "Afficher les clients par rue";
+            this.btnclientparrue.UseVisualStyleBackColor = true;
+            this.btnclientparrue.Click += new System.EventHandler(this.btnclientparrue_Click);
+            // 
+            // btnClientparachat
+            // 
+            this.btnClientparachat.Location = new System.Drawing.Point(37, 494);
+            this.btnClientparachat.Name = "btnClientparachat";
+            this.btnClientparachat.Size = new System.Drawing.Size(124, 64);
+            this.btnClientparachat.TabIndex = 2;
+            this.btnClientparachat.Text = "Afficher les clients par montant des achats";
+            this.btnClientparachat.UseVisualStyleBackColor = true;
+            this.btnClientparachat.Click += new System.EventHandler(this.btnClientparachat_Click);
+            // 
+            // labelClientrep
+            // 
+            this.labelClientrep.AutoSize = true;
+            this.labelClientrep.Location = new System.Drawing.Point(195, 283);
+            this.labelClientrep.Name = "labelClientrep";
+            this.labelClientrep.Size = new System.Drawing.Size(128, 16);
+            this.labelClientrep.TabIndex = 3;
+            this.labelClientrep.Text = "Affichage Réponse :";
+            this.labelClientrep.Click += new System.EventHandler(this.labelClientrep_Click);
+            // 
+            // textBoxclientrep
+            // 
+            this.textBoxclientrep.Location = new System.Drawing.Point(198, 316);
+            this.textBoxclientrep.Multiline = true;
+            this.textBoxclientrep.Name = "textBoxclientrep";
+            this.textBoxclientrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxclientrep.Size = new System.Drawing.Size(448, 242);
+            this.textBoxclientrep.TabIndex = 4;
+            // 
+            // btnClientAjoutClient
+            // 
+            this.btnClientAjoutClient.Location = new System.Drawing.Point(46, 52);
+            this.btnClientAjoutClient.Name = "btnClientAjoutClient";
+            this.btnClientAjoutClient.Size = new System.Drawing.Size(137, 49);
+            this.btnClientAjoutClient.TabIndex = 5;
+            this.btnClientAjoutClient.Text = "Ajouter un client";
+            this.btnClientAjoutClient.UseVisualStyleBackColor = true;
+            this.btnClientAjoutClient.Click += new System.EventHandler(this.btnClientAjoutClient_Click);
+            // 
+            // btnClientModifclient
+            // 
+            this.btnClientModifclient.Location = new System.Drawing.Point(46, 166);
+            this.btnClientModifclient.Name = "btnClientModifclient";
+            this.btnClientModifclient.Size = new System.Drawing.Size(132, 48);
+            this.btnClientModifclient.TabIndex = 6;
+            this.btnClientModifclient.Text = "Modifier un client";
+            this.btnClientModifclient.UseVisualStyleBackColor = true;
+            this.btnClientModifclient.Click += new System.EventHandler(this.btnClientModifclient_Click);
+            // 
+            // btnClientSuppClient
+            // 
+            this.btnClientSuppClient.Location = new System.Drawing.Point(303, 102);
+            this.btnClientSuppClient.Name = "btnClientSuppClient";
+            this.btnClientSuppClient.Size = new System.Drawing.Size(146, 60);
+            this.btnClientSuppClient.TabIndex = 7;
+            this.btnClientSuppClient.Text = "Supprimer un client";
+            this.btnClientSuppClient.UseVisualStyleBackColor = true;
+            this.btnClientSuppClient.Click += new System.EventHandler(this.btnClientSuppClient_Click);
+            // 
+            // btnstatlivparcuisinier
+            // 
+            this.btnstatlivparcuisinier.Location = new System.Drawing.Point(30, 150);
+            this.btnstatlivparcuisinier.Name = "btnstatlivparcuisinier";
+            this.btnstatlivparcuisinier.Size = new System.Drawing.Size(147, 67);
+            this.btnstatlivparcuisinier.TabIndex = 0;
+            this.btnstatlivparcuisinier.Text = "Afficher les livraisons par cuisinier";
+            this.btnstatlivparcuisinier.UseVisualStyleBackColor = true;
+            this.btnstatlivparcuisinier.Click += new System.EventHandler(this.btnstatlivparcuisinier_Click);
+            // 
+            // btnstatcomparper
+            // 
+            this.btnstatcomparper.Location = new System.Drawing.Point(30, 383);
+            this.btnstatcomparper.Name = "btnstatcomparper";
+            this.btnstatcomparper.Size = new System.Drawing.Size(147, 63);
+            this.btnstatcomparper.TabIndex = 1;
+            this.btnstatcomparper.Text = "Afficher les commandes par periode";
+            this.btnstatcomparper.UseVisualStyleBackColor = true;
+            this.btnstatcomparper.Click += new System.EventHandler(this.btnstatcomparper_Click);
+            // 
+            // btnstatmoyenneprix
+            // 
+            this.btnstatmoyenneprix.Location = new System.Drawing.Point(30, 268);
+            this.btnstatmoyenneprix.Name = "btnstatmoyenneprix";
+            this.btnstatmoyenneprix.Size = new System.Drawing.Size(147, 63);
+            this.btnstatmoyenneprix.TabIndex = 2;
+            this.btnstatmoyenneprix.Text = "Afficher la moyenne des prix des commandes";
+            this.btnstatmoyenneprix.UseVisualStyleBackColor = true;
+            this.btnstatmoyenneprix.Click += new System.EventHandler(this.btnstatmoyenneprix_Click);
+            // 
+            // btnstatmoyennecompteclient
+            // 
+            this.btnstatmoyennecompteclient.Location = new System.Drawing.Point(30, 42);
+            this.btnstatmoyennecompteclient.Name = "btnstatmoyennecompteclient";
+            this.btnstatmoyennecompteclient.Size = new System.Drawing.Size(147, 68);
+            this.btnstatmoyennecompteclient.TabIndex = 3;
+            this.btnstatmoyennecompteclient.Text = "Afficher la moyenne des comptes clients";
+            this.btnstatmoyennecompteclient.UseVisualStyleBackColor = true;
+            this.btnstatmoyennecompteclient.Click += new System.EventHandler(this.btnstatmoyennecompteclient_Click);
+            // 
+            // btnstatcomdpartype
+            // 
+            this.btnstatcomdpartype.Location = new System.Drawing.Point(30, 479);
+            this.btnstatcomdpartype.Name = "btnstatcomdpartype";
+            this.btnstatcomdpartype.Size = new System.Drawing.Size(147, 65);
+            this.btnstatcomdpartype.TabIndex = 4;
+            this.btnstatcomdpartype.Text = "Afficher les commandes par type de plat";
+            this.btnstatcomdpartype.UseVisualStyleBackColor = true;
+            this.btnstatcomdpartype.Click += new System.EventHandler(this.btnstatcomdpartype_Click);
+            // 
+            // textBoxstatrep
+            // 
+            this.textBoxstatrep.Location = new System.Drawing.Point(198, 42);
+            this.textBoxstatrep.Multiline = true;
+            this.textBoxstatrep.Name = "textBoxstatrep";
+            this.textBoxstatrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxstatrep.Size = new System.Drawing.Size(480, 328);
+            this.textBoxstatrep.TabIndex = 5;
+            // 
+            // labelstatrep
+            // 
+            this.labelstatrep.AutoSize = true;
+            this.labelstatrep.Location = new System.Drawing.Point(195, 21);
+            this.labelstatrep.Name = "labelstatrep";
+            this.labelstatrep.Size = new System.Drawing.Size(148, 16);
+            this.labelstatrep.TabIndex = 6;
+            this.labelstatrep.Text = "Affichage des resultats :";
+            // 
+            // dateTimePickerstatdebut
+            // 
+            this.dateTimePickerstatdebut.Location = new System.Drawing.Point(237, 468);
+            this.dateTimePickerstatdebut.Name = "dateTimePickerstatdebut";
+            this.dateTimePickerstatdebut.Size = new System.Drawing.Size(170, 22);
+            this.dateTimePickerstatdebut.TabIndex = 7;
+            // 
+            // dateTimePickerstatFin
+            // 
+            this.dateTimePickerstatFin.Location = new System.Drawing.Point(488, 468);
+            this.dateTimePickerstatFin.Name = "dateTimePickerstatFin";
+            this.dateTimePickerstatFin.Size = new System.Drawing.Size(171, 22);
+            this.dateTimePickerstatFin.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(274, 417);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 16);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Date de début";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // labelstatdatefin
+            // 
+            this.labelstatdatefin.AutoSize = true;
+            this.labelstatdatefin.Location = new System.Drawing.Point(533, 417);
+            this.labelstatdatefin.Name = "labelstatdatefin";
+            this.labelstatdatefin.Size = new System.Drawing.Size(76, 16);
+            this.labelstatdatefin.TabIndex = 10;
+            this.labelstatdatefin.Text = "Date de Fin";
+            // 
             // FormModules
             // 
             this.BackColor = System.Drawing.Color.IndianRed;
@@ -150,6 +399,10 @@ namespace LivrableV3
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FormModules_Load);
             this.tabModule.ResumeLayout(false);
+            this.tabModuleClient.ResumeLayout(false);
+            this.tabModuleClient.PerformLayout();
+            this.tabModuleStatistiques.ResumeLayout(false);
+            this.tabModuleStatistiques.PerformLayout();
             this.tabModuleGraphe.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -166,7 +419,7 @@ namespace LivrableV3
             main.Show();
             
         }
-
+        #region Graphe
         private void btnAfficherMetro_Click(object sender, EventArgs e)
         {
             
@@ -188,12 +441,347 @@ namespace LivrableV3
         {
 
         }
-
         private void btnitineraire_Click(object sender, EventArgs e)
         {
-            FormAfficherItineraire formAfficherItineraire = new FormAfficherItineraire(this,grapheMetro);
+            FormAfficherItineraire formAfficherItineraire = new FormAfficherItineraire(this, grapheMetro);
             this.Hide();
             formAfficherItineraire.Show();
+        }
+
+        #endregion
+
+        #region Client
+
+        private void btnclienttrialpha_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.nom ASC, u.prénom ASC";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+
+                MySqlDataReader reader = commande.ExecuteReader();
+
+                string rep = "Liste des clients par ordre alphabetique :\r\n";
+                rep += "----------------------------------------\r\n";
+
+                while (reader.Read())
+                {
+                    rep += "ID : " + reader["id_utilisateur"] + "\r\n";
+                    rep += "Nom : " + reader["nom"] + "\r\n";
+                    rep += "Prenom : " + reader["prénom"] + "\r\n";
+                    rep += "Adresse : " + reader["adresse"] + "\r\n";
+                    rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
+                    rep += "\r\n"; 
+                }
+
+                textBoxclientrep.Text = rep;
+
+                reader.Close();
+                commande.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de l'affichage des clients : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void tabModuleClient_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelClientrep_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnclientparrue_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.adresse ASC";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+
+                MySqlDataReader reader = commande.ExecuteReader();
+
+                string rep = "Liste des clients par rue :\r\n";
+                rep += "----------------------------------------\r\n";
+
+                while (reader.Read())
+                {
+                    rep += "ID : " + reader["id_utilisateur"] + "\r\n";
+                    rep += "Nom : " + reader["nom"] + "\r\n";
+                    rep += "Prenom : " + reader["prénom"] + "\r\n";
+                    rep += "Adresse : " + reader["adresse"] + "\r\n";
+                    rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
+                    rep += "\r\n";
+                }
+                textBoxclientrep.Text = rep;
+
+                reader.Close();
+                commande.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de l'affichage des clients : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void btnClientparachat_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro, SUM(co.prix_total) as total FROM utilisateur u, client c, Commande_ co WHERE u.id_utilisateur = c.id_utilisateur AND c.id_client = co.id_client GROUP BY u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro ORDER BY total DESC";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+
+                MySqlDataReader reader = commande.ExecuteReader();
+
+                string rep = "Liste des clients par montant des achats :\r\n";
+
+                rep += "----------------------------------------\r\n";
+                while (reader.Read())
+                {
+                    rep += "ID : " + reader["id_utilisateur"] + "\r\n";
+                    rep += "Nom : " + reader["nom"] + "\r\n";
+                    rep += "Prenom : " + reader["prénom"] + "\r\n";
+                    rep += "Adresse : " + reader["adresse"] + "\r\n";
+                    rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
+                    rep += "Total des achats : " + reader["total"] + " euros\r\n";
+                    rep += "\r\n";
+                }
+                textBoxclientrep.Text = rep;
+                reader.Close();
+                commande.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de l'affichage des clients : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnClientAjoutClient_Click(object sender, EventArgs e)
+        {
+            // a faire
+        }
+
+        private void btnClientModifclient_Click(object sender, EventArgs e)
+        {
+            // a faire
+        }
+
+        private void btnClientSuppClient_Click(object sender, EventArgs e)
+        {
+            // a faire
+        }
+
+        #endregion
+
+        #region Statistiques
+        private void btnstatlivparcuisinier_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // on fait une requete pour avoir les livraisons par cuisinier
+                string requete = "SELECT nom, prénom, nombre_livraisons FROM cuisinier, utilisateur " +
+                               "WHERE cuisinier.id_utilisateur = utilisateur.id_utilisateur";
+
+                MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande0.CommandText = requete;
+
+                MySqlDataReader reader = commande0.ExecuteReader();
+
+                string rep = "Liste des cuisiniers et leurs livraisons :\r\n";
+                rep += "----------------------------------\r\n";
+
+                // on affiche chaque cuisinier avec son nombre de livraisons
+                while (reader.Read())
+                {
+                    string nom = reader["nom"].ToString();
+
+                    string prenom = reader["prénom"].ToString();
+                    string nbLivraisons = reader["nombre_livraisons"].ToString();
+                    rep += "Cuisinier : " + prenom + " " + nom + "\r\n";
+                    rep+= "\r\n";
+                }
+                textBoxstatrep.Text = rep;
+                reader.Close();
+                commande0.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+            }
+        }
+        private void btnstatcomparper_Click(object sender, EventArgs e)
+        {
+
+            string dateDebut = dateTimePickerstatdebut.Value.ToString("yyyy-MM-dd");
+            string dateFin = dateTimePickerstatFin.Value.ToString("yyyy-MM-dd");
+
+            
+            try
+            {
+                // on fait une requete pour avoir les commandes entre les deux dates
+                string requete = "SELECT id_commande, date_commande, prix_total FROM Commande_ " +
+                               "WHERE date_commande >= '" + dateDebut + "' " +
+                               "AND date_commande <= '" + dateFin + "'";
+
+                MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande0.CommandText = requete;
+
+                MySqlDataReader reader = commande0.ExecuteReader();
+                string rep = "\nvoici les commande entre " + dateDebut + " et " + dateFin + "\r\n";
+                
+                rep+= "--------------------------------\r\n";
+
+                // on affiche chaque commande avec ses infos
+                while (reader.Read())
+                {
+                    string idCommande = reader["id_commande"].ToString();
+                    string date = reader["date_commande"].ToString();
+                    string prix = reader["prix_total"].ToString();
+                    rep += "commande numero " + idCommande + " faite le " + date + " pour " + prix + " euro\r\n";
+                }
+                rep += "----------------------------------\r\n";
+                textBoxstatrep.Text = rep;
+                reader.Close();
+                commande0.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+            }
+
+
+        }
+
+        private void btnstatmoyenneprix_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // on fait une requete pour avoir la moyenne des prix
+                string requete = "SELECT AVG(prix_total) as moyenne FROM Commande_";
+
+                MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande0.CommandText = requete;
+
+                MySqlDataReader reader = commande0.ExecuteReader();
+                string rep = "";
+                // on affiche la moyenne arrondie a 2 chiffres
+                while (reader.Read())
+                {
+                    double moyenne = Convert.ToDouble(reader["moyenne"]);
+                    // on arrondi a 2 chiffres apres la virgule
+                    moyenne = Math.Round(moyenne, 2);
+                    rep = "La moyenne des prix des commandes est de : " + moyenne + " euros\r\n";
+                }
+                textBoxstatrep.Text = rep;
+
+                reader.Close();
+                commande0.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+            }
+        }
+
+        private void btnstatmoyennecompteclient_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // on fait une requete pour avoir le total depense par client
+                string requete = "SELECT nom, prénom, SUM(montant) as total FROM Transaction_, Commande_, client, utilisateur " +
+                               "WHERE Transaction_.id_commande = Commande_.id_commande " +
+                               "AND Commande_.id_client = client.id_client " +
+                               "AND client.id_utilisateur = utilisateur.id_utilisateur " +
+                               "GROUP BY nom, prénom";
+
+                MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande0.CommandText = requete;
+
+                MySqlDataReader reader = commande0.ExecuteReader();
+                string rep = "\nvoila combien les client on depense";
+                rep += "\r\n----------------------------------\r\n";
+
+                while (reader.Read())
+                {
+                    string nom = reader["nom"].ToString();
+                    string prenom = reader["prénom"].ToString();
+                    double total = Convert.ToDouble(reader["total"]);
+                    total = Math.Round(total, 2);
+                    rep += "Client : " + prenom + " " + nom + "\r\n";
+                    rep += "Total depense : " + total + " euros\r\n";
+                    rep += "\r\n";
+                }
+                rep += "----------------------------------\r\n";
+                textBoxstatrep.Text = rep;
+
+                reader.Close();
+                commande0.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+            }
+        }
+
+        private void btnstatcomdpartype_Click(object sender, EventArgs e)
+        {
+            /*
+
+            try
+            {
+                // on fait une requete pour avoir le nombre de commandes par type de plat
+                string requete = "SELECT type as type_plat, COUNT(*) as nombre FROM Plat_, Commande_ " +
+                               "WHERE Plat_.id_plat = Commande_.id_plat " +
+                               "AND date_commande >= '" + dateDebut.ToString("yyyy-MM-dd") + "' " +
+                               "AND date_commande <= '" + dateFin.ToString("yyyy-MM-dd") + "' " +
+                               "GROUP BY type";
+
+                MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande0.CommandText = requete;
+
+                MySqlDataReader reader = commande0.ExecuteReader();
+
+                Console.WriteLine("\nvoici les commande par type");
+                Console.WriteLine("----------------------------------");
+
+                // on affiche chaque type de plat avec son nombre de commandes
+                while (reader.Read())
+                {
+                    string type = reader["type_plat"].ToString();
+                    string nombre = reader["nombre"].ToString();
+                    Console.WriteLine("ya eu " + nombre + " commande de " + type);
+                }
+                Console.WriteLine("----------------------------------");
+
+                reader.Close();
+                commande0.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("oups ya une erreur : " + ex.Message);
+            }
+            */
+        }
+
+
+
+        #endregion
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabModuleStatistiques_Click(object sender, EventArgs e)
+        {
+
         }
     }
 } 
