@@ -30,7 +30,8 @@
         {
             this.btnRetour = new System.Windows.Forms.Button();
             this.pictureBoxCarte = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnsatelite = new System.Windows.Forms.Button();
+            this.btnbasic = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCarte)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,21 +50,31 @@
             // 
             this.pictureBoxCarte.Location = new System.Drawing.Point(28, 94);
             this.pictureBoxCarte.Name = "pictureBoxCarte";
-            this.pictureBoxCarte.Size = new System.Drawing.Size(725, 415);
+            this.pictureBoxCarte.Size = new System.Drawing.Size(725, 615);
             this.pictureBoxCarte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxCarte.TabIndex = 1;
             this.pictureBoxCarte.TabStop = false;
             this.pictureBoxCarte.Click += new System.EventHandler(this.pictureBoxCarte_Click);
             // 
-            // button1
+            // btnsatelite
             // 
-            this.button1.Location = new System.Drawing.Point(534, 35);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(185, 42);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnsatelite.Location = new System.Drawing.Point(609, 33);
+            this.btnsatelite.Name = "btnsatelite";
+            this.btnsatelite.Size = new System.Drawing.Size(144, 45);
+            this.btnsatelite.TabIndex = 2;
+            this.btnsatelite.Text = "Satelite";
+            this.btnsatelite.UseVisualStyleBackColor = true;
+            this.btnsatelite.Click += new System.EventHandler(this.btnsatelite_Click);
+            // 
+            // btnbasic
+            // 
+            this.btnbasic.Location = new System.Drawing.Point(459, 33);
+            this.btnbasic.Name = "btnbasic";
+            this.btnbasic.Size = new System.Drawing.Size(144, 45);
+            this.btnbasic.TabIndex = 3;
+            this.btnbasic.Text = "Basic";
+            this.btnbasic.UseVisualStyleBackColor = true;
+            this.btnbasic.Click += new System.EventHandler(this.btnbasic_Click);
             // 
             // FormAffichierCarte
             // 
@@ -71,7 +82,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(782, 753);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnbasic);
+            this.Controls.Add(this.btnsatelite);
             this.Controls.Add(this.pictureBoxCarte);
             this.Controls.Add(this.btnRetour);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -88,7 +100,8 @@
         #endregion
 
         private System.Windows.Forms.Button btnRetour;
-        private System.Windows.Forms.Button button1;
         public System.Windows.Forms.PictureBox pictureBoxCarte;
+        private System.Windows.Forms.Button btnsatelite;
+        private System.Windows.Forms.Button btnbasic;
     }
 }

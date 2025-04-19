@@ -98,8 +98,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AfficherGraphe.cs" />
-    <Compile Include="AfficherItineraire.cs" />
+    <Compile Include="Visualtisations\VisualisationGraphe.cs" />
+    <Compile Include="Visualtisations\AfficherGraphesat.cs" />
+    <Compile Include="Visualtisations\AfficherItineraire.cs" />
     <Compile Include="Connexion\Authentification.cs" />
     <Compile Include="Données\ChargerFichiers.cs" />
     <Compile Include="Connexion\ConnexionBDD.cs" />
@@ -138,10 +139,10 @@
     <Compile Include="Affichages\FormAfficherItineraire.Designer.cs">
       <DependentUpon>FormAfficherItineraire.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormCommande.cs">
+    <Compile Include="Affichages\FormCommande.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormCommande.Designer.cs">
+    <Compile Include="Affichages\FormCommande.Designer.cs">
       <DependentUpon>FormCommande.cs</DependentUpon>
     </Compile>
     <Compile Include="Graphe\GestionnaireItineraire.cs" />
@@ -180,7 +181,7 @@
     <EmbeddedResource Include="Affichages\FormAfficherItineraire.resx">
       <DependentUpon>FormAfficherItineraire.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormCommande.resx">
+    <EmbeddedResource Include="Affichages\FormCommande.resx">
       <DependentUpon>FormCommande.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -213,6 +214,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Affichages\Modules\" />
     <Folder Include="bin\Debug\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>

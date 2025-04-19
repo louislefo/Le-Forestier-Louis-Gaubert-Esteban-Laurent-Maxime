@@ -606,7 +606,7 @@
             this.pictureBoxItineraire.Location = new System.Drawing.Point(42, 170);
             this.pictureBoxItineraire.Name = "pictureBoxItineraire";
             this.pictureBoxItineraire.Size = new System.Drawing.Size(700, 380);
-            this.pictureBoxItineraire.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxItineraire.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxItineraire.TabIndex = 9;
             this.pictureBoxItineraire.TabStop = false;
             this.pictureBoxItineraire.Click += new System.EventHandler(this.pictureBoxItineraire_Click);
