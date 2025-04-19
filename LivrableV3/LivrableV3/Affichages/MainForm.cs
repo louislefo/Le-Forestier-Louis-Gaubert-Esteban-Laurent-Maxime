@@ -58,8 +58,9 @@ namespace LivrableV3
 
         private void btnConnection_Click(object sender, EventArgs e)
         {
-            FormConnexion formConnexion = new FormConnexion(authentification);
+            FormConnexion formConnexion = new FormConnexion(authentification,this);
             formConnexion.Show();
+            this.Hide();
 
         }
 
@@ -71,14 +72,16 @@ namespace LivrableV3
         private void btnModule_Click(object sender, EventArgs e)
         {
             //Ajouter mdp
-            FormModules formModules = new FormModules(connexionBDD,grapheMetro);
+            FormModules formModules = new FormModules(connexionBDD,grapheMetro,this);
             formModules.Show();
+            this.Hide();
         }
 
         private void btninscription_Click(object sender, EventArgs e)
         {
-            FormInscription formInscription = new FormInscription(authentification,connexionBDD,grapheMetro);
+            FormInscription formInscription = new FormInscription(authentification,connexionBDD,grapheMetro,this);
             formInscription.Show();
+            this.Hide();    
 
         }
 

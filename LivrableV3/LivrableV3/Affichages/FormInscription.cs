@@ -26,17 +26,18 @@ namespace LivrableV3
         private ListBox listBoxStation;
         private Button btnRetourMenu;
         private Authentification authentification;
-        private ConnexionBDD connexionBDD = new ConnexionBDD();
-        private Graphe<int> grapheMetro; /// graphe du metro
-
+        private ConnexionBDD connexionBDD;
+        private Graphe<int> grapheMetro; 
+        private MainForm mainForm;
 
         /// constructeur du formulaire d inscription
-        public FormInscription(Authentification auth, ConnexionBDD connexionBDD,Graphe<int> graphemetro)
+        public FormInscription(Authentification auth, ConnexionBDD connexionBDD,Graphe<int> graphemetro, MainForm mainForm)
         {
             InitializeComponent();
             authentification = auth;
             this.connexionBDD = connexionBDD;
             this.grapheMetro = graphemetro;
+            this.mainForm = mainForm;
         }
 
 
@@ -589,6 +590,7 @@ namespace LivrableV3
         private void btnRetourMenu_Click(object sender, EventArgs e)
         {
             this.Close();
+            mainForm.Show();
         }
 
         private void btninscription_Click(object sender, EventArgs e)
@@ -665,6 +667,18 @@ namespace LivrableV3
 
                         /// creation compte acces BDD client
                         CreerCompteBDDClient(nomUtilisateur, motDePasse);
+                        try
+                        {
+                            ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(idUtilisateur, motDePasse);
+                            FormClient formClient = new FormClient(connexionBDDClient, authentification, grapheMetro, mainForm);
+                            this.Close();
+                            formClient.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
+                        }
+
                         break;
 
                     case 1: /// cuisinier
@@ -676,6 +690,19 @@ namespace LivrableV3
 
                         /// creation compte acces BDD cuisinier
                         CreerCompteBDDCuisinier(nomUtilisateur, motDePasse);
+                        try
+                        {
+                            ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(idUtilisateur, motDePasse);
+                            FormCuisinier formCuisinier = new FormCuisinier(connexionBDDCuisinier, authentification, grapheMetro,mainForm);
+                            this.Close();
+                            formCuisinier.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
+                        }
+                        
+
                         break;
 
                     case 2: /// les deux
@@ -694,6 +721,32 @@ namespace LivrableV3
                         /// creation compte acces BDD
                         CreerCompteBDDClient(nomUtilisateur, motDePasse);
                         CreerCompteBDDCuisinier(nomUtilisateur, motDePasse);
+
+                        // demander ou aller
+                        try
+                        {
+                            ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(idUtilisateur, motDePasse);
+                            FormCuisinier formCuisinier = new FormCuisinier(connexionBDDCuisinier, authentification, grapheMetro, mainForm);
+                            this.Close();
+                            formCuisinier.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
+                        }
+
+                        try
+                        {
+                            ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(idUtilisateur, motDePasse);
+                            FormClient formClient = new FormClient(connexionBDDClient, authentification, grapheMetro, mainForm);
+                            this.Close();
+                            formClient.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
+                        }
+
                         break;
                 }
 
@@ -722,7 +775,7 @@ namespace LivrableV3
             }
             catch (MySqlException e)
             {
-                MessageBox.Show("erreur lors de la creation du compte acces BDD : " + e.Message);
+                MessageBox.Show("erreur lors de la creation du compte acces BDD client : " + e.Message);
             }
         }
         private void CreerCompteBDDCuisinier(string nomUtilisateur, string motDePasse)
@@ -743,7 +796,7 @@ namespace LivrableV3
             }
             catch (MySqlException e)
             {
-                MessageBox.Show("erreur lors de la creation du compte acces BDD : " + e.Message);
+                MessageBox.Show("erreur lors de la creation du compte acces BDD cuisinier : " + e.Message);
             }
         }
     }

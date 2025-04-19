@@ -15,12 +15,14 @@ namespace LivrableV3
         private TabPage tabModuleGraphe;
         private Button btnAfficherMetro;
         private Graphe<int> grapheMetro;
+        private MainForm main;
 
-        public FormModules(ConnexionBDD connexion, Graphe<int> graphe)
+        public FormModules(ConnexionBDD connexion, Graphe<int> graphe, MainForm main)
         {
             InitializeComponent();
             connexionBDD = connexion;
             grapheMetro = graphe;
+            this.main = main;
         }
 
         private void InitializeComponent()
@@ -146,6 +148,8 @@ namespace LivrableV3
         private void btnRetourMenu_Click(object sender, EventArgs e)
         {
             this.Close();
+            main.Show();
+            
         }
 
         private void btnAfficherMetro_Click(object sender, EventArgs e)

@@ -12,16 +12,18 @@ namespace LivrableV3
         private Button BtnDeconnexion;
         private Label labelNom;
         private Graphe<int> grapheMetro;
+        private MainForm mainForm;
         
 
         /// constructeur du formulaire client
-        public FormClient(ConnexionBDDClient connexion, Authentification auth, Graphe<int> graphe)
+        public FormClient(ConnexionBDDClient connexion, Authentification auth, Graphe<int> graphe, MainForm main)
         {
             InitializeComponent();
             connexionBDDClient = connexion;
             authentification = auth;
             grapheMetro = graphe;
-            labelNom.Text = "Bonjour " + authentification.nom;
+            labelNom.Text = "Bonjour " + authentification.nom+ " "+ authentification.prenom;
+            this.mainForm = main;   
         }
 
         private void InitializeComponent()
@@ -80,6 +82,7 @@ namespace LivrableV3
         private void BtnDeconnexion_Click(object sender, EventArgs e)
         {
             this.Close();
+            mainForm.Show();
         }
 
         private void labelTitre_Click(object sender, EventArgs e)

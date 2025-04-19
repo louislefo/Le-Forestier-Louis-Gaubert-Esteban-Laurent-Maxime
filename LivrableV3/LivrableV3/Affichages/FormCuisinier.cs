@@ -15,14 +15,16 @@ namespace LivrableV3
         private Label labelTitre;
         private Label labelNom;
         private TabPage tabProfil;
+        private MainForm mainForm;
 
         /// constructeur du formulaire cuisinier
-        public FormCuisinier(ConnexionBDDCuisinier connexion, Authentification auth, Graphe<int> graphe)
+        public FormCuisinier(ConnexionBDDCuisinier connexion, Authentification auth, Graphe<int> graphe,MainForm main)
         {
             InitializeComponent();
             connexionBDDCuisinier = connexion;
             authentification = auth;
             grapheMetro = graphe;
+            this.mainForm = main;
         }
 
        
@@ -41,6 +43,7 @@ namespace LivrableV3
             this.btnDeconnexion.TabIndex = 0;
             this.btnDeconnexion.Text = "Deconnexion";
             this.btnDeconnexion.UseVisualStyleBackColor = true;
+            this.btnDeconnexion.Click += new System.EventHandler(this.btnDeconnexion_Click);
             // 
             // labelTitre
             // 
@@ -82,5 +85,10 @@ namespace LivrableV3
 
         }
 
+        private void btnDeconnexion_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            mainForm.Show();
+        }
     }
 } 

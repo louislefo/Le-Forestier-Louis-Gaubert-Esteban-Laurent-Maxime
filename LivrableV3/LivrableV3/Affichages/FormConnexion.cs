@@ -14,12 +14,14 @@ namespace LivrableV3
         private TextBox textBoxMotDePasse;
         private Button btnConnexion;
         private Authentification authentification;
+        private MainForm mainForm;
 
         /// constructeur du formulaire de connexion
-        public FormConnexion(Authentification auth)
+        public FormConnexion(Authentification auth,MainForm main)
         {
             InitializeComponent();
             authentification = auth;
+            this.mainForm = main;
         }
 
        
@@ -188,11 +190,20 @@ namespace LivrableV3
                             commandeClient.Dispose();
 
                             /// redirection vers le form client
-                            ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(authentification.nomUtilisateur, authentification.motDePasse);
-                            FormClient formClient = new FormClient(connexionBDDClient, authentification, authentification.GrapheMetro);
-                            this.Hide();
-                            formClient.ShowDialog();
-                            this.Close();
+                            try
+                            {
+                                ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(authentification.idUtilisateur, authentification.motDePasse);
+                                FormClient formClient = new FormClient(connexionBDDClient, authentification, authentification.GrapheMetro, mainForm);
+                                this.Hide();
+                                formClient.ShowDialog();
+                                this.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.ToString());
+                            }
+                            
+                           
                         }
                         else
                         {
@@ -213,12 +224,22 @@ namespace LivrableV3
                                 readerCuisinier.Close();
                                 commandeCuisinier.Dispose();
 
-                                /// redirection vers le form cuisinier
-                                ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(authentification.nomUtilisateur, authentification.motDePasse);
-                                FormCuisinier formCuisinier = new FormCuisinier(connexionBDDCuisinier, authentification, authentification.GrapheMetro);
-                                this.Hide();
-                                formCuisinier.ShowDialog();
-                                this.Close();
+                                try
+                                {
+                                    /// redirection vers le form cuisinier
+                                    ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(authentification.idUtilisateur, authentification.motDePasse);
+                                    FormCuisinier formCuisinier = new FormCuisinier(connexionBDDCuisinier, authentification, authentification.GrapheMetro, mainForm);
+                                    this.Hide();
+                                    formCuisinier.ShowDialog();
+                                    this.Close();
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.ToString());
+                                }
+
+
                             }
                         }
                     }
