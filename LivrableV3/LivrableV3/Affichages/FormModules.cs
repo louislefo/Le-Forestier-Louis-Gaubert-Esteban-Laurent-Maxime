@@ -42,6 +42,10 @@ namespace LivrableV3
         private DateTimePicker dateTimePickerstatFin;
         private DateTimePicker dateTimePickerstatdebut;
         private Label labelstatdatefin;
+        private Button btncommandecreer;
+        private Button btncommandeitineraire;
+        private Button btncommandeprix;
+        private Button btncommandemodif;
         private MainForm main;
 
         #endregion
@@ -84,8 +88,13 @@ namespace LivrableV3
             this.dateTimePickerstatFin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.labelstatdatefin = new System.Windows.Forms.Label();
+            this.btncommandecreer = new System.Windows.Forms.Button();
+            this.btncommandemodif = new System.Windows.Forms.Button();
+            this.btncommandeprix = new System.Windows.Forms.Button();
+            this.btncommandeitineraire = new System.Windows.Forms.Button();
             this.tabModule.SuspendLayout();
             this.tabModuleClient.SuspendLayout();
+            this.tabModuleCommande.SuspendLayout();
             this.tabModuleStatistiques.SuspendLayout();
             this.tabModuleGraphe.SuspendLayout();
             this.SuspendLayout();
@@ -135,12 +144,17 @@ namespace LivrableV3
             // tabModuleCommande
             // 
             this.tabModuleCommande.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.tabModuleCommande.Controls.Add(this.btncommandeitineraire);
+            this.tabModuleCommande.Controls.Add(this.btncommandeprix);
+            this.tabModuleCommande.Controls.Add(this.btncommandemodif);
+            this.tabModuleCommande.Controls.Add(this.btncommandecreer);
             this.tabModuleCommande.Location = new System.Drawing.Point(4, 25);
             this.tabModuleCommande.Name = "tabModuleCommande";
             this.tabModuleCommande.Padding = new System.Windows.Forms.Padding(3);
             this.tabModuleCommande.Size = new System.Drawing.Size(702, 582);
             this.tabModuleCommande.TabIndex = 2;
             this.tabModuleCommande.Text = "ModuleCommande";
+            this.tabModuleCommande.Click += new System.EventHandler(this.tabModuleCommande_Click);
             // 
             // tabModuleStatistiques
             // 
@@ -389,6 +403,46 @@ namespace LivrableV3
             this.labelstatdatefin.TabIndex = 10;
             this.labelstatdatefin.Text = "Date de Fin";
             // 
+            // btncommandecreer
+            // 
+            this.btncommandecreer.Location = new System.Drawing.Point(38, 87);
+            this.btncommandecreer.Name = "btncommandecreer";
+            this.btncommandecreer.Size = new System.Drawing.Size(152, 65);
+            this.btncommandecreer.TabIndex = 0;
+            this.btncommandecreer.Text = "Créer une commande";
+            this.btncommandecreer.UseVisualStyleBackColor = true;
+            this.btncommandecreer.Click += new System.EventHandler(this.btncommandecreer_Click);
+            // 
+            // btncommandemodif
+            // 
+            this.btncommandemodif.Location = new System.Drawing.Point(38, 192);
+            this.btncommandemodif.Name = "btncommandemodif";
+            this.btncommandemodif.Size = new System.Drawing.Size(152, 65);
+            this.btncommandemodif.TabIndex = 1;
+            this.btncommandemodif.Text = "Modifier une commande";
+            this.btncommandemodif.UseVisualStyleBackColor = true;
+            this.btncommandemodif.Click += new System.EventHandler(this.btncommandemodif_Click);
+            // 
+            // btncommandeprix
+            // 
+            this.btncommandeprix.Location = new System.Drawing.Point(38, 308);
+            this.btncommandeprix.Name = "btncommandeprix";
+            this.btncommandeprix.Size = new System.Drawing.Size(152, 65);
+            this.btncommandeprix.TabIndex = 2;
+            this.btncommandeprix.Text = "Calculer le prix d\'une commande";
+            this.btncommandeprix.UseVisualStyleBackColor = true;
+            this.btncommandeprix.Click += new System.EventHandler(this.btncommandeprix_Click);
+            // 
+            // btncommandeitineraire
+            // 
+            this.btncommandeitineraire.Location = new System.Drawing.Point(38, 435);
+            this.btncommandeitineraire.Name = "btncommandeitineraire";
+            this.btncommandeitineraire.Size = new System.Drawing.Size(152, 65);
+            this.btncommandeitineraire.TabIndex = 3;
+            this.btncommandeitineraire.Text = "Determiner le chemin de livraison";
+            this.btncommandeitineraire.UseVisualStyleBackColor = true;
+            this.btncommandeitineraire.Click += new System.EventHandler(this.btncommandeitineraire_Click);
+            // 
             // FormModules
             // 
             this.BackColor = System.Drawing.Color.IndianRed;
@@ -401,6 +455,7 @@ namespace LivrableV3
             this.tabModule.ResumeLayout(false);
             this.tabModuleClient.ResumeLayout(false);
             this.tabModuleClient.PerformLayout();
+            this.tabModuleCommande.ResumeLayout(false);
             this.tabModuleStatistiques.ResumeLayout(false);
             this.tabModuleStatistiques.PerformLayout();
             this.tabModuleGraphe.ResumeLayout(false);
@@ -419,6 +474,7 @@ namespace LivrableV3
             main.Show();
             
         }
+
         #region Graphe
         private void btnAfficherMetro_Click(object sender, EventArgs e)
         {
@@ -566,16 +622,19 @@ namespace LivrableV3
         private void btnClientAjoutClient_Click(object sender, EventArgs e)
         {
             // a faire
+            MessageBox.Show("Ajout d'un client à faire");
         }
 
         private void btnClientModifclient_Click(object sender, EventArgs e)
         {
             // a faire
+            MessageBox.Show("Modification d'un client à faire");
         }
 
         private void btnClientSuppClient_Click(object sender, EventArgs e)
         {
             // a faire
+            MessageBox.Show("Suppression d'un client à faire");
         }
 
         #endregion
@@ -732,47 +791,47 @@ namespace LivrableV3
 
         private void btnstatcomdpartype_Click(object sender, EventArgs e)
         {
-            /*
+
+
+            string dateDebut = dateTimePickerstatdebut.Value.ToString("yyyy-MM-dd");
+            string dateFin = dateTimePickerstatFin.Value.ToString("yyyy-MM-dd");
+            
 
             try
             {
                 // on fait une requete pour avoir le nombre de commandes par type de plat
                 string requete = "SELECT type as type_plat, COUNT(*) as nombre FROM Plat_, Commande_ " +
                                "WHERE Plat_.id_plat = Commande_.id_plat " +
-                               "AND date_commande >= '" + dateDebut.ToString("yyyy-MM-dd") + "' " +
-                               "AND date_commande <= '" + dateFin.ToString("yyyy-MM-dd") + "' " +
+                               "AND date_commande >= '" + dateDebut + "' " +
+                               "AND date_commande <= '" + dateFin + "' " +
                                "GROUP BY type";
 
                 MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande0.CommandText = requete;
 
                 MySqlDataReader reader = commande0.ExecuteReader();
-
-                Console.WriteLine("\nvoici les commande par type");
-                Console.WriteLine("----------------------------------");
+                string rep = "\nvoici les commande entre " + dateDebut + " et " + dateFin + "\r\n";
+                rep += "----------------------------------\r\n";
 
                 // on affiche chaque type de plat avec son nombre de commandes
                 while (reader.Read())
                 {
                     string type = reader["type_plat"].ToString();
                     string nombre = reader["nombre"].ToString();
-                    Console.WriteLine("ya eu " + nombre + " commande de " + type);
+                    rep += "Type de plat : " + type + "\r\n";
+                    rep+= "\r\n";
                 }
-                Console.WriteLine("----------------------------------");
-
+                rep += "----------------------------------\r\n";
+                textBoxstatrep.Text = rep;
                 reader.Close();
                 commande0.Dispose();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("oups ya une erreur : " + ex.Message);
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
             }
-            */
+            
         }
-
-
-
-        #endregion
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -783,5 +842,38 @@ namespace LivrableV3
         {
 
         }
+
+
+
+        #endregion
+
+        #region Commandes
+        private void btncommandecreer_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
+
+        private void tabModuleCommande_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btncommandeitineraire_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btncommandemodif_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btncommandeprix_Click(object sender, EventArgs e)
+        {
+
+        }
     }
-} 
+#endregion
+}
