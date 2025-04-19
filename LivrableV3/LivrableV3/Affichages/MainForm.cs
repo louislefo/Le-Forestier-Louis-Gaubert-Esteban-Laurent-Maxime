@@ -71,10 +71,16 @@ namespace LivrableV3
 
         private void btnModule_Click(object sender, EventArgs e)
         {
-            //Ajouter mdp
-            FormModules formModules = new FormModules(connexionBDD,grapheMetro,this);
-            formModules.Show();
-            this.Hide();
+            bool demanderMotDePasse = DemanderMotDePasseAdmin(); 
+            
+            if (demanderMotDePasse)
+            {
+                FormModules formModules = new FormModules(connexionBDD, grapheMetro, this);
+                formModules.Show();
+                this.Hide();
+
+            }
+            
         }
 
         private void btninscription_Click(object sender, EventArgs e)
@@ -88,6 +94,43 @@ namespace LivrableV3
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+        public static bool DemanderMotDePasseAdmin()
+        {
+            Form prompt = new Form()
+            {
+                Width = 350,
+                Height = 160,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = "Mot de passe requis",
+                StartPosition = FormStartPosition.CenterScreen
+            };
+
+            Label label = new Label() { Left = 20, Top = 20, Text = "Entrez le mot de passe :", Width = 280 };
+            TextBox inputBox = new TextBox() { Left = 20, Top = 50, Width = 280, PasswordChar = '*' };
+
+            Button btnOK = new Button() { Text = "Valider", Left = 200, Width = 100, Top = 85, DialogResult = DialogResult.OK };
+            btnOK.Click += (sender, e) => { prompt.Close(); };
+
+            prompt.Controls.Add(label);
+            prompt.Controls.Add(inputBox);
+            prompt.Controls.Add(btnOK);
+            prompt.AcceptButton = btnOK;
+
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                if (inputBox.Text == "Admin")
+                {
+                    return true; 
+                }
+                else
+                {
+                    MessageBox.Show("Mot de passe incorrect !", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+
+            return false; 
         }
     }
 }

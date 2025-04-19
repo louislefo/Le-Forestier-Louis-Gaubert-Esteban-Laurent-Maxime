@@ -138,11 +138,18 @@
     <Compile Include="Affichages\FormAfficherItineraire.Designer.cs">
       <DependentUpon>FormAfficherItineraire.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormCommande.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCommande.Designer.cs">
+      <DependentUpon>FormCommande.cs</DependentUpon>
+    </Compile>
     <Compile Include="Graphe\GestionnaireItineraire.cs" />
     <Compile Include="Graphe\Graphe.cs" />
     <Compile Include="Graphe\lien.cs" />
     <Compile Include="Graphe\Noeud.cs" />
     <Compile Include="Graphe\PlusCourtChemin.cs" />
+    <Compile Include="Modules\ModuleCommande.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Affichages\FormAfficherItineraire.resx">
       <DependentUpon>FormAfficherItineraire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCommande.resx">
+      <DependentUpon>FormCommande.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -204,7 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\" />
-    <Folder Include="Modules\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
