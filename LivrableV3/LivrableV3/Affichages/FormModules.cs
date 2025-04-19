@@ -16,6 +16,7 @@ namespace LivrableV3
         private TabPage tabModuleGraphe;
         private Button btnAfficherMetro;
         private Graphe<int> grapheMetro;
+        private Button btnitineraire;
         private MainForm main;
 
         public FormModules(ConnexionBDD connexion, Graphe<int> graphe, MainForm main)
@@ -34,6 +35,7 @@ namespace LivrableV3
             this.tabModuleCommande = new System.Windows.Forms.TabPage();
             this.tabModuleStatistiques = new System.Windows.Forms.TabPage();
             this.tabModuleGraphe = new System.Windows.Forms.TabPage();
+            this.btnitineraire = new System.Windows.Forms.Button();
             this.btnAfficherMetro = new System.Windows.Forms.Button();
             this.btnRetourMenu = new System.Windows.Forms.Button();
             this.tabModule.SuspendLayout();
@@ -47,7 +49,7 @@ namespace LivrableV3
             this.tabModule.Controls.Add(this.tabModuleCommande);
             this.tabModule.Controls.Add(this.tabModuleStatistiques);
             this.tabModule.Controls.Add(this.tabModuleGraphe);
-            this.tabModule.Location = new System.Drawing.Point(53, 55);
+            this.tabModule.Location = new System.Drawing.Point(39, 64);
             this.tabModule.Name = "tabModule";
             this.tabModule.SelectedIndex = 0;
             this.tabModule.Size = new System.Drawing.Size(710, 611);
@@ -96,6 +98,7 @@ namespace LivrableV3
             // tabModuleGraphe
             // 
             this.tabModuleGraphe.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.tabModuleGraphe.Controls.Add(this.btnitineraire);
             this.tabModuleGraphe.Controls.Add(this.btnAfficherMetro);
             this.tabModuleGraphe.Location = new System.Drawing.Point(4, 25);
             this.tabModuleGraphe.Name = "tabModuleGraphe";
@@ -104,6 +107,16 @@ namespace LivrableV3
             this.tabModuleGraphe.TabIndex = 4;
             this.tabModuleGraphe.Text = "tabModuleGraphe";
             this.tabModuleGraphe.Click += new System.EventHandler(this.tabModuleGraphe_Click);
+            // 
+            // btnitineraire
+            // 
+            this.btnitineraire.Location = new System.Drawing.Point(39, 106);
+            this.btnitineraire.Name = "btnitineraire";
+            this.btnitineraire.Size = new System.Drawing.Size(128, 43);
+            this.btnitineraire.TabIndex = 1;
+            this.btnitineraire.Text = "Afficher Itineraire";
+            this.btnitineraire.UseVisualStyleBackColor = true;
+            this.btnitineraire.Click += new System.EventHandler(this.btnitineraire_Click);
             // 
             // btnAfficherMetro
             // 
@@ -119,11 +132,11 @@ namespace LivrableV3
             // 
             // btnRetourMenu
             // 
-            this.btnRetourMenu.Location = new System.Drawing.Point(53, 682);
+            this.btnRetourMenu.Location = new System.Drawing.Point(12, 8);
             this.btnRetourMenu.Name = "btnRetourMenu";
-            this.btnRetourMenu.Size = new System.Drawing.Size(710, 42);
+            this.btnRetourMenu.Size = new System.Drawing.Size(98, 41);
             this.btnRetourMenu.TabIndex = 1;
-            this.btnRetourMenu.Text = "RETOUR AU MENU";
+            this.btnRetourMenu.Text = "Retour";
             this.btnRetourMenu.UseVisualStyleBackColor = true;
             this.btnRetourMenu.Click += new System.EventHandler(this.btnRetourMenu_Click);
             // 
@@ -174,6 +187,13 @@ namespace LivrableV3
         private void tabModuleGraphe_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnitineraire_Click(object sender, EventArgs e)
+        {
+            FormAfficherItineraire formAfficherItineraire = new FormAfficherItineraire(this,grapheMetro);
+            this.Hide();
+            formAfficherItineraire.Show();
         }
     }
 } 

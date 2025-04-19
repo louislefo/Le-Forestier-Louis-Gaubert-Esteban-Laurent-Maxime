@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LivrableV3
 {
@@ -11,6 +12,7 @@ namespace LivrableV3
         // Champs privés pour stocker les données
         private Dictionary<T, Noeud<T>> noeuds;
         private List<Lien<T>> liens;
+        public string Nom;
 
         /// <summary>
         /// recupere ou modifie la liste des noeuds du graphe
@@ -112,5 +114,40 @@ namespace LivrableV3
             }
             Console.WriteLine();
         }
+        /// cherche un noeud avec le nom donne
+        public int TrouverIdParNom(string nomRecherche)
+        {
+            // on met -1 si on trouve pas
+            int idTrouve = -1;
+
+            // on met le nom en minuscule pour comparer
+            string nomEnMinuscule = nomRecherche.ToLower();
+
+            // on fait un tableau avec les noeuds pour utiliser for
+            Noeud<T>[] tableauNoeuds = new Noeud<T>[Noeuds.Count];
+            Noeuds.Values.CopyTo(tableauNoeuds, 0);
+
+            // on regarde tous les noeuds un par un
+            for (int i = 0; i < tableauNoeuds.Length; i++)
+            {
+                // on regarde si le nom du noeud est pareil
+                if (tableauNoeuds[i].NomStation.ToLower() == nomEnMinuscule)
+                {
+                    // on a trouve le noeud on prend son id
+                    idTrouve = (int)Convert.ChangeType(tableauNoeuds[i].Id, typeof(int));
+                    break;  // on arrete de chercher
+                }
+            }
+
+            // on dit si on a pas trouve
+            if (idTrouve == -1)
+            {
+                MessageBox.Show("pas trouve la station : " + nomRecherche, "erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return idTrouve;
+        }
+
+
     }
 }

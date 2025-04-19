@@ -129,6 +129,7 @@ namespace LivrableV3
         private void btnRetour_Click(object sender, EventArgs e)
         {
             this.Close();
+            mainForm.Show();
         }
 
         private void labelEmail_Click(object sender, EventArgs e)

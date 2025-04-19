@@ -35,5 +35,10 @@ namespace LivrableV3
         {
             pictureBoxCarte.Image = Image.FromFile("metro.png");
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

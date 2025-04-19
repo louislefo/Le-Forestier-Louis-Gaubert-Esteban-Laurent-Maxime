@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace LivrableV3
+{
+    public partial class FormAfficherItineraire : Form
+    {
+        FormModules module ;
+        Graphe<int> graphe;
+        GestionnaireItineraire<int> gestionnaireItineraire;
+
+        public FormAfficherItineraire(FormModules module, Graphe<int> graphe)
+        {
+            InitializeComponent();
+            this.module = module;
+            this.graphe = graphe;
+            this.gestionnaireItineraire = new GestionnaireItineraire<int>(graphe);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRetour_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            module.Show();
+        }
+
+        private void listBoxDepart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormAfficherItineraire_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRechercher_Click(object sender, EventArgs e)
+        {
+            // on recupere les noms des stations
+            string nomDepart = comboBoxDepart.Text;
+            string nomArrivee = comboBoxArrivee.Text;
+
+            // on cherche les id des stations
+            int idDepart = graphe.TrouverIdParNom(nomDepart);
+            int idArrivee = graphe.TrouverIdParNom(nomArrivee);
+
+            // on verifie que les stations existent
+            if (idDepart == -1 || idArrivee == -1)
+            {
+                MessageBox.Show("station pas trouvee", "erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // on cherche l itineraire avec le gestionnaire
+            List<Noeud<int>> itineraire = gestionnaireItineraire.RechercherItineraire(idDepart.ToString(), idArrivee.ToString());
+
+            // si on a trouve un itineraire on cree l image
+            if (itineraire != null && itineraire.Count > 0)
+            {
+                VisualisationItineraire visItineraire = new VisualisationItineraire(1200, 800);
+                string texteItineraire = "Itineraire de " + itineraire[0].ToString() + " a " + itineraire[itineraire.Count - 1].ToString();
+                visItineraire.DessinerItineraire(graphe, itineraire, texteItineraire);
+                visItineraire.SauvegarderImage("itineraire.png");
+                pictureBoxItineraire.Image = Image.FromFile("itineraire.png");
+            }
+            else
+            {
+                MessageBox.Show("pas de chemin trouve", "erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            labelitineraire.Text = "Itineraire de " + nomDepart + " a " + nomArrivee;
+
+        }
+
+        private void comboBoxDepart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxArrivee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBoxItineraire_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelitineraire_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
