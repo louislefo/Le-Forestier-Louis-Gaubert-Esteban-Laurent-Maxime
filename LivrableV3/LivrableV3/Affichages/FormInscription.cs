@@ -6,19 +6,20 @@ namespace LivrableV3
 {
     public partial class FormInscription : Form
     {
+        #region Variables
         private Label labelInscription;
-        private TextBox textBoxNom;
+        public TextBox textBoxNom;
         private Label labelNom;
         private Label labelPrenom;
-        private TextBox textBoxPrenom;
+        public TextBox textBoxPrenom;
         private Label labelemail;
-        private TextBox textBoxEmail;
+        public TextBox textBoxEmail;
         private Label labelTelephone;
         private TextBox textBoxTel;
         private Label labelAdresse;
         private TextBox textBoxAdresse;
         private Label labelMotDePasse;
-        private TextBox textBox1;
+        private TextBox textBoxMotdepasse;
         private Button btninscription;
         private ListBox listBoxType;
         private Label labelType;
@@ -29,6 +30,7 @@ namespace LivrableV3
         private ConnexionBDD connexionBDD;
         private Graphe<int> grapheMetro; 
         private MainForm mainForm;
+        #endregion
 
         /// constructeur du formulaire d inscription
         public FormInscription(Authentification auth, ConnexionBDD connexionBDD,Graphe<int> graphemetro, MainForm mainForm)
@@ -56,7 +58,7 @@ namespace LivrableV3
             this.labelAdresse = new System.Windows.Forms.Label();
             this.textBoxAdresse = new System.Windows.Forms.TextBox();
             this.labelMotDePasse = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxMotdepasse = new System.Windows.Forms.TextBox();
             this.btninscription = new System.Windows.Forms.Button();
             this.listBoxType = new System.Windows.Forms.ListBox();
             this.labelType = new System.Windows.Forms.Label();
@@ -166,12 +168,12 @@ namespace LivrableV3
             this.labelMotDePasse.Text = "Mot De Passe";
             this.labelMotDePasse.Click += new System.EventHandler(this.labelMotDePasse_Click);
             // 
-            // textBox1
+            // textBoxMotdepasse
             // 
-            this.textBox1.Location = new System.Drawing.Point(376, 365);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(166, 30);
-            this.textBox1.TabIndex = 12;
+            this.textBoxMotdepasse.Location = new System.Drawing.Point(376, 365);
+            this.textBoxMotdepasse.Name = "textBoxMotdepasse";
+            this.textBoxMotdepasse.Size = new System.Drawing.Size(166, 30);
+            this.textBoxMotdepasse.TabIndex = 12;
             // 
             // btninscription
             // 
@@ -492,7 +494,7 @@ namespace LivrableV3
             this.Controls.Add(this.labelType);
             this.Controls.Add(this.listBoxType);
             this.Controls.Add(this.btninscription);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxMotdepasse);
             this.Controls.Add(this.labelMotDePasse);
             this.Controls.Add(this.textBoxAdresse);
             this.Controls.Add(this.labelAdresse);
@@ -599,14 +601,23 @@ namespace LivrableV3
             {
                 ValidationRequette validation = new ValidationRequette(grapheMetro);
 
-                string nomUtilisateur = validation.DemanderNom(textBoxNom.Text);
-                string prenom = validation.DemanderPrenom(textBoxPrenom.Text);
-                string email = validation.DemanderEmail(textBoxEmail.Text);
-                string telephone = validation.DemanderTelephone(textBoxTel.Text);
-                string adresse = validation.DemanderAdresse(textBoxAdresse.Text);
-                string motDePasse = validation.DemanderMotDePasse(textBox1.Text);
+                string nomUtilisateur = textBoxNom.Text;
+                string prenom = textBoxPrenom.Text;
+                string email = textBoxEmail.Text;
+                string telephone = textBoxTel.Text;
+                string adresse = textBoxAdresse.Text;
+                string motDePasse = textBoxMotdepasse.Text;
 
                 string stationMetro = listBoxStation.SelectedItem?.ToString();
+
+                 nomUtilisateur = validation.DemanderNom(nomUtilisateur);
+                 prenom = validation.DemanderPrenom(prenom);
+                 email = validation.DemanderEmail(email);
+                 telephone = validation.DemanderTelephone(telephone);
+                 adresse = validation.DemanderAdresse(adresse);
+                 motDePasse = validation.DemanderMotDePasse(motDePasse);
+
+                stationMetro = listBoxStation.SelectedItem?.ToString();
                 if (string.IsNullOrEmpty(stationMetro))
                 {
                     MessageBox.Show("Veuillez selectionner une station de metro");

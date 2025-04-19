@@ -449,7 +449,7 @@ namespace LivrableV3
                 if (string.IsNullOrEmpty(email))
                 {
                     MessageBox.Show("l'email ne peut pas etre vide");
-                    continue;
+                    break;
                 }
 
                 if (!email.Contains("@"))

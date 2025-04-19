@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace LivrableV3
@@ -102,6 +103,7 @@ namespace LivrableV3
             this.tabModuleGraphe.Size = new System.Drawing.Size(702, 582);
             this.tabModuleGraphe.TabIndex = 4;
             this.tabModuleGraphe.Text = "tabModuleGraphe";
+            this.tabModuleGraphe.Click += new System.EventHandler(this.tabModuleGraphe_Click);
             // 
             // btnAfficherMetro
             // 
@@ -153,6 +155,23 @@ namespace LivrableV3
         }
 
         private void btnAfficherMetro_Click(object sender, EventArgs e)
+        {
+            
+
+            // Make 'pictureBoxCarte' accessible by modifying its access level in 'FormAffichierCarte'  
+            VisualisationCarte visMetro = new VisualisationCarte(1200, 800);
+            visMetro.DessinerGraphe(grapheMetro);
+            visMetro.SauvegarderImage("metro.png");
+
+            FormAffichierCarte formAffichage = new FormAffichierCarte(this);
+
+            // Access the 'pictureBoxCarte' property  
+            formAffichage.pictureBoxCarte.Image = Image.FromFile("metro.png");
+            this.Hide();
+            formAffichage.Show();
+        }
+
+        private void tabModuleGraphe_Click(object sender, EventArgs e)
         {
 
         }
