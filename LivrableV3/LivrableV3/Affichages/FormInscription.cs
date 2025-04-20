@@ -403,12 +403,14 @@ namespace LivrableV3
                 stationMetro = validation.DemanderStationMetro(stationMetro);
                 if (stationMetro == "") return;
 
+                authentification.stationMetro = stationMetro;
+
                 if (listBoxType.SelectedIndex == -1)
                 {
                     MessageBox.Show("Veuillez selectionner un type d'utilisateur");
                     return;
                 }
-
+                
                 /// verifier si l'email existe deja
                 string sqlVerifEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = '" + email + "'";
                 MySqlCommand cmdVerifEmail = new MySqlCommand(sqlVerifEmail, authentification.connexionBDD.maConnexion);

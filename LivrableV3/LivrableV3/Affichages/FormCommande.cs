@@ -45,6 +45,7 @@ namespace LivrableV3
             {
                 string plat = comboBoxchoixplat.SelectedItem.ToString();
                 string nombre = comboBoxnombre.Text;
+                double nombreint = Convert.ToDouble(comboBoxnombre.Text);
                 string nomcuisto = sqlCommander.ConnaitreCuisinier(plat);
                 string idPlat = sqlCommander.GetIdPlat(plat);
 
@@ -56,7 +57,8 @@ namespace LivrableV3
                 if (readerPlat.Read())
                 {
                     string idCuisinier = readerPlat["id_cuisinier"].ToString();
-                    double prix = Convert.ToDouble(readerPlat["prix_par_personne"]);
+                    double prix = Convert.ToDouble(readerPlat["prix_par_personne"])*nombreint;
+                    
                     readerPlat.Close();
                     commandePlat.Dispose();
 
@@ -147,10 +149,10 @@ namespace LivrableV3
 
             string platSelectionne = comboBoxchoixplat.SelectedItem.ToString();
 
-            stationArrivée = authentification.stationMetro;
-            stationDepart = sqlCommander.ConnaitreStationCuisinier(platSelectionne);
+            this.stationArrivée = authentification.stationMetro;
+            this.stationDepart = sqlCommander.ConnaitreStationCuisinier(platSelectionne);
 
-            textBoxprix.Text = "  " + sqlCommander.ConnaitrePrix(platSelectionne) + " € ";
+            textBoxprix.Text = "  " + sqlCommander.ConnaitrePrix(platSelectionne)+ " € ";
             double temps = gestionnaireItineraire.tempsTotal;
             textBoxtemps.Text = " " + temps + " min ";
             textBoxcuisinier.Text = sqlCommander.ConnaitreCuisinier(platSelectionne);
@@ -189,18 +191,8 @@ namespace LivrableV3
         private void btnvoiritineraire_Click(object sender, EventArgs e)
         {
 
-            
-            try
-            {
-                this.Chemin = gestionnaireItineraire.RechercherItineraire(stationDepart, stationArrivée);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("oups ya une erreur : " + ex.Message);
-            }
-
             FormAfficheritineraire formAfficheritineraire = new FormAfficheritineraire(this, gestionnaireItineraire);
-            // on cherche les id des stations
+
             int idArrivee = grapheMetro.TrouverIdParNom(stationDepart);
             int idDepart = grapheMetro.TrouverIdParNom(stationArrivée);
             
@@ -240,6 +232,11 @@ namespace LivrableV3
             formClient.Show();
         }
 
-        
+        private void comboBoxnombre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            double nombre = Convert.ToDouble(comboBoxnombre.Text);
+            string platSelectionne = comboBoxchoixplat.SelectedItem.ToString();
+            textBoxprix.Text = "  " + sqlCommander.ConnaitrePrix(platSelectionne) * nombre + " € ";
+        }
     }
 }

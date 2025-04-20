@@ -184,6 +184,7 @@
             this.comboBoxnombre.Name = "comboBoxnombre";
             this.comboBoxnombre.Size = new System.Drawing.Size(187, 33);
             this.comboBoxnombre.TabIndex = 15;
+            this.comboBoxnombre.SelectedIndexChanged += new System.EventHandler(this.comboBoxnombre_SelectedIndexChanged);
             // 
             // FormCommande
             // 

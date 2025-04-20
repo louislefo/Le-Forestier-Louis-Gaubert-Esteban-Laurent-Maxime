@@ -214,7 +214,7 @@ namespace LivrableV3
             }
             catch (Exception ex)
             {
-                MessageBox.Show("oups ya une erreur : " + ex.Message);
+                MessageBox.Show("oups ya une erreur je ne trouve pas la station cuisto: " + ex.Message);
                 return null;
             }
         }

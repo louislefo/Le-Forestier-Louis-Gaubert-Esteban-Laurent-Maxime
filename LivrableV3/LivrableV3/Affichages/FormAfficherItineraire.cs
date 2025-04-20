@@ -19,14 +19,18 @@ namespace LivrableV3
         public FormAfficheritineraire(FormCommande formCommande, GestionnaireItineraire<int> gestionnaireItineraire)
         {
             InitializeComponent();
-            this.Formcom = formCommande;  
+            this.gestionnaireItineraire = gestionnaireItineraire;
+
+            this.Formcom = formCommande;
+
+            textBoxrep.Text = gestionnaireItineraire.detail;
 
             using (var stream = new MemoryStream(File.ReadAllBytes("itineraire.png")))
             {
                 pictureBoxitineraire.Image = Image.FromStream(stream);
             }
 
-            textBoxrep.Text = gestionnaireItineraire.detail;
+            
 
 
         }
