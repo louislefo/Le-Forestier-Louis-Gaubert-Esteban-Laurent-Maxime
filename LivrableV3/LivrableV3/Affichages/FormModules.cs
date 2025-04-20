@@ -53,9 +53,20 @@ namespace LivrableV3
         private Button btnGrapheinfometro;
         private TextBox textBoxGrapheRep;
         private ComboBox comboBoxgrapheligne;
-        private ComboBox comboBoxcommandes;
+        private ComboBox comboBoxcommande;
         private MainForm main;
+        private TextBox textBoxModulerep;
+        private Button btncuisiniermodif;
+        private Button btnCuisinierSupp;
+        private Button btnCuisinierAjout;
+        private Button btncuisinierPlatjour;
+        private Button btncuisinierplatfreq;
+        private Button btnCuisinierservis;
+        private TextBox textBoxCuisinierrep;
+        private ComboBox comboBoxchoixcuisinier;
+        private Label label2;
         private ModuleCommande moduleCommande;
+        private ModuleCuisinier moduleCuisinier;
 
         #endregion
 
@@ -65,7 +76,10 @@ namespace LivrableV3
             connexionBDD = connexion;
             grapheMetro = graphe;
             this.main = main;
-            moduleCommande = new ModuleCommande(connexionBDD,grapheMetro);
+            moduleCommande = new ModuleCommande(connexionBDD, grapheMetro);
+            moduleCuisinier = new ModuleCuisinier(connexionBDD, grapheMetro);
+            ChargerComboBoxCommande();
+            ChargerComboBoxCuisinier();
         }
 
         private void InitializeComponent()
@@ -106,9 +120,20 @@ namespace LivrableV3
             this.btnitineraire = new System.Windows.Forms.Button();
             this.btnAfficherMetro = new System.Windows.Forms.Button();
             this.btnRetourMenu = new System.Windows.Forms.Button();
-            this.comboBoxcommandes = new System.Windows.Forms.ComboBox();
+            this.comboBoxcommande = new System.Windows.Forms.ComboBox();
+            this.textBoxModulerep = new System.Windows.Forms.TextBox();
+            this.btnCuisinierAjout = new System.Windows.Forms.Button();
+            this.btnCuisinierSupp = new System.Windows.Forms.Button();
+            this.btncuisiniermodif = new System.Windows.Forms.Button();
+            this.btnCuisinierservis = new System.Windows.Forms.Button();
+            this.btncuisinierplatfreq = new System.Windows.Forms.Button();
+            this.btncuisinierPlatjour = new System.Windows.Forms.Button();
+            this.comboBoxchoixcuisinier = new System.Windows.Forms.ComboBox();
+            this.textBoxCuisinierrep = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabModule.SuspendLayout();
             this.tabModuleClient.SuspendLayout();
+            this.tabModuleCuisinier.SuspendLayout();
             this.tabModuleCommande.SuspendLayout();
             this.tabModuleStatistiques.SuspendLayout();
             this.tabModuleGraphe.SuspendLayout();
@@ -228,6 +253,15 @@ namespace LivrableV3
             // tabModuleCuisinier
             // 
             this.tabModuleCuisinier.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.tabModuleCuisinier.Controls.Add(this.label2);
+            this.tabModuleCuisinier.Controls.Add(this.textBoxCuisinierrep);
+            this.tabModuleCuisinier.Controls.Add(this.comboBoxchoixcuisinier);
+            this.tabModuleCuisinier.Controls.Add(this.btncuisinierPlatjour);
+            this.tabModuleCuisinier.Controls.Add(this.btncuisinierplatfreq);
+            this.tabModuleCuisinier.Controls.Add(this.btnCuisinierservis);
+            this.tabModuleCuisinier.Controls.Add(this.btncuisiniermodif);
+            this.tabModuleCuisinier.Controls.Add(this.btnCuisinierSupp);
+            this.tabModuleCuisinier.Controls.Add(this.btnCuisinierAjout);
             this.tabModuleCuisinier.Location = new System.Drawing.Point(4, 25);
             this.tabModuleCuisinier.Name = "tabModuleCuisinier";
             this.tabModuleCuisinier.Padding = new System.Windows.Forms.Padding(3);
@@ -238,7 +272,8 @@ namespace LivrableV3
             // tabModuleCommande
             // 
             this.tabModuleCommande.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.tabModuleCommande.Controls.Add(this.comboBoxcommandes);
+            this.tabModuleCommande.Controls.Add(this.textBoxModulerep);
+            this.tabModuleCommande.Controls.Add(this.comboBoxcommande);
             this.tabModuleCommande.Controls.Add(this.btncommandeitineraire);
             this.tabModuleCommande.Controls.Add(this.btncommandeprix);
             this.tabModuleCommande.Controls.Add(this.btncommandemodif);
@@ -517,13 +552,112 @@ namespace LivrableV3
             this.btnRetourMenu.UseVisualStyleBackColor = true;
             this.btnRetourMenu.Click += new System.EventHandler(this.btnRetourMenu_Click);
             // 
-            // comboBoxcommandes
+            // comboBoxcommande
             // 
-            this.comboBoxcommandes.FormattingEnabled = true;
-            this.comboBoxcommandes.Location = new System.Drawing.Point(507, 291);
-            this.comboBoxcommandes.Name = "comboBoxcommandes";
-            this.comboBoxcommandes.Size = new System.Drawing.Size(149, 24);
-            this.comboBoxcommandes.TabIndex = 4;
+            this.comboBoxcommande.FormattingEnabled = true;
+            this.comboBoxcommande.Location = new System.Drawing.Point(507, 291);
+            this.comboBoxcommande.Name = "comboBoxcommande";
+            this.comboBoxcommande.Size = new System.Drawing.Size(149, 24);
+            this.comboBoxcommande.TabIndex = 4;
+            // 
+            // textBoxModulerep
+            // 
+            this.textBoxModulerep.Location = new System.Drawing.Point(498, 353);
+            this.textBoxModulerep.Multiline = true;
+            this.textBoxModulerep.Name = "textBoxModulerep";
+            this.textBoxModulerep.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxModulerep.Size = new System.Drawing.Size(172, 86);
+            this.textBoxModulerep.TabIndex = 5;
+            // 
+            // btnCuisinierAjout
+            // 
+            this.btnCuisinierAjout.Location = new System.Drawing.Point(45, 56);
+            this.btnCuisinierAjout.Name = "btnCuisinierAjout";
+            this.btnCuisinierAjout.Size = new System.Drawing.Size(135, 66);
+            this.btnCuisinierAjout.TabIndex = 0;
+            this.btnCuisinierAjout.Text = "Ajouter un nouveau cuisinier";
+            this.btnCuisinierAjout.UseVisualStyleBackColor = true;
+            this.btnCuisinierAjout.Click += new System.EventHandler(this.btnCuisinierAjout_Click);
+            // 
+            // btnCuisinierSupp
+            // 
+            this.btnCuisinierSupp.Location = new System.Drawing.Point(50, 154);
+            this.btnCuisinierSupp.Name = "btnCuisinierSupp";
+            this.btnCuisinierSupp.Size = new System.Drawing.Size(129, 54);
+            this.btnCuisinierSupp.TabIndex = 1;
+            this.btnCuisinierSupp.Text = "Supprimer un cuisinier";
+            this.btnCuisinierSupp.UseVisualStyleBackColor = true;
+            this.btnCuisinierSupp.Click += new System.EventHandler(this.btnCuisinierSupp_Click);
+            // 
+            // btncuisiniermodif
+            // 
+            this.btncuisiniermodif.Location = new System.Drawing.Point(54, 242);
+            this.btncuisiniermodif.Name = "btncuisiniermodif";
+            this.btncuisiniermodif.Size = new System.Drawing.Size(125, 54);
+            this.btncuisiniermodif.TabIndex = 2;
+            this.btncuisiniermodif.Text = "Modifier un cuisinier";
+            this.btncuisiniermodif.UseVisualStyleBackColor = true;
+            this.btncuisiniermodif.Click += new System.EventHandler(this.btncuisiniermodif_Click);
+            // 
+            // btnCuisinierservis
+            // 
+            this.btnCuisinierservis.Location = new System.Drawing.Point(56, 319);
+            this.btnCuisinierservis.Name = "btnCuisinierservis";
+            this.btnCuisinierservis.Size = new System.Drawing.Size(122, 59);
+            this.btnCuisinierservis.TabIndex = 3;
+            this.btnCuisinierservis.Text = "Afficher les clients servis";
+            this.btnCuisinierservis.UseVisualStyleBackColor = true;
+            this.btnCuisinierservis.Click += new System.EventHandler(this.btnCuisinierservis_Click);
+            // 
+            // btncuisinierplatfreq
+            // 
+            this.btncuisinierplatfreq.Location = new System.Drawing.Point(64, 409);
+            this.btncuisinierplatfreq.Name = "btncuisinierplatfreq";
+            this.btncuisinierplatfreq.Size = new System.Drawing.Size(113, 58);
+            this.btncuisinierplatfreq.TabIndex = 4;
+            this.btncuisinierplatfreq.Text = "Afficher les plats realises par frequence";
+            this.btncuisinierplatfreq.UseVisualStyleBackColor = true;
+            this.btncuisinierplatfreq.Click += new System.EventHandler(this.btncuisinierplatfreq_Click);
+            // 
+            // btncuisinierPlatjour
+            // 
+            this.btncuisinierPlatjour.Location = new System.Drawing.Point(65, 490);
+            this.btncuisinierPlatjour.Name = "btncuisinierPlatjour";
+            this.btncuisinierPlatjour.Size = new System.Drawing.Size(111, 46);
+            this.btncuisinierPlatjour.TabIndex = 5;
+            this.btncuisinierPlatjour.Text = "Afficher le plat du jour";
+            this.btncuisinierPlatjour.UseVisualStyleBackColor = true;
+            this.btncuisinierPlatjour.Click += new System.EventHandler(this.btncuisinierPlatjour_Click);
+            // 
+            // comboBoxchoixcuisinier
+            // 
+            this.comboBoxchoixcuisinier.FormattingEnabled = true;
+            this.comboBoxchoixcuisinier.Location = new System.Drawing.Point(262, 51);
+            this.comboBoxchoixcuisinier.Name = "comboBoxchoixcuisinier";
+            this.comboBoxchoixcuisinier.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxchoixcuisinier.TabIndex = 6;
+            this.comboBoxchoixcuisinier.SelectedIndexChanged += new System.EventHandler(this.comboBoxchoixcuisinier_SelectedIndexChanged);
+            // 
+            // textBoxCuisinierrep
+            // 
+            this.textBoxCuisinierrep.Location = new System.Drawing.Point(234, 326);
+            this.textBoxCuisinierrep.Multiline = true;
+            this.textBoxCuisinierrep.Name = "textBoxCuisinierrep";
+            this.textBoxCuisinierrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxCuisinierrep.Size = new System.Drawing.Size(433, 209);
+            this.textBoxCuisinierrep.TabIndex = 7;
+            this.textBoxCuisinierrep.Text = "Réponses :";
+            this.textBoxCuisinierrep.TextChanged += new System.EventHandler(this.textBoxCuisinierrep_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(257, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Cuisinier :";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // FormModules
             // 
@@ -537,7 +671,10 @@ namespace LivrableV3
             this.tabModule.ResumeLayout(false);
             this.tabModuleClient.ResumeLayout(false);
             this.tabModuleClient.PerformLayout();
+            this.tabModuleCuisinier.ResumeLayout(false);
+            this.tabModuleCuisinier.PerformLayout();
             this.tabModuleCommande.ResumeLayout(false);
+            this.tabModuleCommande.PerformLayout();
             this.tabModuleStatistiques.ResumeLayout(false);
             this.tabModuleStatistiques.PerformLayout();
             this.tabModuleGraphe.ResumeLayout(false);
@@ -546,16 +683,7 @@ namespace LivrableV3
 
         }
 
-        public void ChargerComboBoxCommandes()
-        {
-            comboBoxcommandes.Items.Clear(); 
-            List<string> commandes = moduleCommande.ListeCommandes();
-            for (int i = 0; i < commandes.Count; i++)
-            {
-                comboBoxcommandes.Items.Add(commandes[i]);
-            }
-            
-        }
+
         private void FormModules_Load(object sender, EventArgs e)
         {
 
@@ -565,7 +693,7 @@ namespace LivrableV3
         {
             this.Close();
             main.Show();
-            
+
         }
 
         #region Graphe
@@ -580,7 +708,7 @@ namespace LivrableV3
             visMetro.DessinerGraphe(grapheMetro);
             visMetro.SauvegarderImage("metro.png");
 
-            
+
 
             using (var stream = new MemoryStream(File.ReadAllBytes("metro.png")))
             {
@@ -714,7 +842,7 @@ namespace LivrableV3
                     rep += "Prenom : " + reader["prénom"] + "\r\n";
                     rep += "Adresse : " + reader["adresse"] + "\r\n";
                     rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
-                    rep += "\r\n"; 
+                    rep += "\r\n";
                 }
 
                 textBoxclientrep.Text = rep;
@@ -850,7 +978,7 @@ namespace LivrableV3
                     string prenom = reader["prénom"].ToString();
                     string nbLivraisons = reader["nombre_livraisons"].ToString();
                     rep += "Cuisinier : " + prenom + " " + nom + "\r\n";
-                    rep+= "\r\n";
+                    rep += "\r\n";
                 }
                 textBoxstatrep.Text = rep;
                 reader.Close();
@@ -867,7 +995,7 @@ namespace LivrableV3
             string dateDebut = dateTimePickerstatdebut.Value.ToString("yyyy-MM-dd");
             string dateFin = dateTimePickerstatFin.Value.ToString("yyyy-MM-dd");
 
-            
+
             try
             {
                 // on fait une requete pour avoir les commandes entre les deux dates
@@ -880,8 +1008,8 @@ namespace LivrableV3
 
                 MySqlDataReader reader = commande0.ExecuteReader();
                 string rep = "\nvoici les commande entre " + dateDebut + " et " + dateFin + "\r\n";
-                
-                rep+= "--------------------------------\r\n";
+
+                rep += "--------------------------------\r\n";
 
                 // on affiche chaque commande avec ses infos
                 while (reader.Read())
@@ -981,7 +1109,7 @@ namespace LivrableV3
 
             string dateDebut = dateTimePickerstatdebut.Value.ToString("yyyy-MM-dd");
             string dateFin = dateTimePickerstatFin.Value.ToString("yyyy-MM-dd");
-            
+
 
             try
             {
@@ -1005,7 +1133,7 @@ namespace LivrableV3
                     string type = reader["type_plat"].ToString();
                     string nombre = reader["nombre"].ToString();
                     rep += "Type de plat : " + type + "\r\n";
-                    rep+= "\r\n";
+                    rep += "\r\n";
                 }
                 rep += "----------------------------------\r\n";
                 textBoxstatrep.Text = rep;
@@ -1016,7 +1144,7 @@ namespace LivrableV3
             {
                 MessageBox.Show("oups ya une erreur : " + ex.Message);
             }
-            
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -1039,7 +1167,7 @@ namespace LivrableV3
 
         }
 
-        
+
 
         private void tabModuleCommande_Click(object sender, EventArgs e)
         {
@@ -1058,10 +1186,85 @@ namespace LivrableV3
 
         private void btncommandeprix_Click(object sender, EventArgs e)
         {
+            string commandeChoisie = comboBoxcommande.Text;
+            textBoxModulerep.Text = "" + moduleCommande.CalculerPrixCommande(commandeChoisie);
+        }
+        public void ChargerComboBoxCommande()
+        {
+            comboBoxcommande.Items.Clear();
+            List<string> commandes = moduleCommande.ListeCommandes();
+            for (int i = 0; i < commandes.Count; i++)
+            {
+                comboBoxcommande.Items.Add(commandes[i]);
+            }
 
         }
 
-        
+
+
+        #endregion
+
+        # region Cuisinier
+
+        public void ChargerComboBoxCuisinier()
+        {
+            comboBoxchoixcuisinier.Items.Clear();
+            List<string> cuisiniers = moduleCuisinier.ListeCuisiniers();
+            for (int i = 0; i < cuisiniers.Count; i++)
+            {
+                comboBoxchoixcuisinier.Items.Add(cuisiniers[i]);
+            }
+        }
+        private void btnCuisinierAjout_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCuisinierSupp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btncuisiniermodif_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCuisinierservis_Click(object sender, EventArgs e)
+        {
+            string cuisinierChoisi = comboBoxchoixcuisinier.Text;
+            textBoxCuisinierrep.Text = moduleCuisinier.AfficherClientsServis(cuisinierChoisi);
+        }
+
+        private void btncuisinierplatfreq_Click(object sender, EventArgs e)
+        {
+            string cuisinierChoisi = comboBoxchoixcuisinier.Text;
+            textBoxCuisinierrep.Text = moduleCuisinier.AfficherPlatsRealises(cuisinierChoisi);
+        }
+
+        private void btncuisinierPlatjour_Click(object sender, EventArgs e)
+        {
+            string cuisinierChoisi = comboBoxchoixcuisinier.Text;
+            textBoxCuisinierrep.Text = moduleCuisinier.AfficherPlatDuJour(cuisinierChoisi);
+        }
+
+        private void textBoxCuisinierrep_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxchoixcuisinier_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
     }
-#endregion
+
+
 }

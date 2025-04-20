@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Windows.Forms;
 
 namespace LivrableV3
 {
@@ -149,8 +151,9 @@ namespace LivrableV3
         /// elle recupere le prix dans la base et le retourne
         /// </summary>
         
-        public double CalculerPrixCommande(string idCommande)
+        public string CalculerPrixCommande(string idCommande)
         {
+
             try
             {
                 string requete = "SELECT prix_total FROM Commande_ WHERE id_commande = '" + idCommande + "'";
@@ -171,14 +174,14 @@ namespace LivrableV3
                 }
                 lecteur.Close();
                 commande.Dispose();
-
-                Console.WriteLine("prix de la commande " + idCommande + ": " + prix + " euros");
-                return prix;
+                
+                string rep = "prix de la commande " + idCommande + ": " + prix + " euros";
+                return rep;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("erreur lors du calcul du prix de la commande : " + ex.Message);
-                return 0;
+                MessageBox.Show("erreur lors du calcul du prix de la commande : " + ex.Message);
+                return null;
             }
         }
 
@@ -317,6 +320,30 @@ namespace LivrableV3
                 Console.WriteLine("erreur lors de la détermination du chemin de livraison : " + ex.Message);
                 return (null, null);
             }
+        }
+
+        public List<string> ListeCommandes()
+        {
+            List<string> listeCommandes = new List<string>();
+            try
+            {
+                string requete = "SELECT id_commande FROM Commande_";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
+                commande.CommandText = requete;
+                MySqlDataReader lecteur = commande.ExecuteReader();
+                while (lecteur.Read())
+                {
+                    listeCommandes.Add(lecteur["id_commande"].ToString());
+                }
+                lecteur.Close();
+                commande.Dispose();
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("erreur lors de la récupération des commandes : " + ex.Message);
+            }
+            return listeCommandes;
         }
 
 

@@ -104,6 +104,7 @@
     <Compile Include="Affichages\FormAfficheritineraire.Designer.cs">
       <DependentUpon>FormAfficheritineraire.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Modulecuisinier.cs" />
     <Compile Include="SqlCommander.cs" />
     <Compile Include="Visualtisations\VisualisationGraphe.cs" />
     <Compile Include="Visualtisations\AfficherGraphesat.cs" />
