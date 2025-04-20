@@ -1,3 +1,4 @@
+using LivrableV3.Affichages;
 using System;
 using System.Windows.Forms;
 
@@ -11,16 +12,17 @@ namespace LivrableV3
         private Label labelTitre;
         private Button BtnDeconnexion;
         private Label labelNom;
-        private Graphe<int> grapheMetro;
+        public Graphe<int> grapheMetro;
         private Button btncommander;
         private Button btnVoircomandes;
-        private Button btnvoiritineraire;
+        private Button btnnoterplat;
         private Button btnhistorique;
         private TextBox textBoxrep;
         private Button btnvoircuisiniers;
         private MainForm mainForm;
         private Button btnvoirplats;
         private SqlClient sqlClient;
+        private FormNoterPlat formNoterPlat;
 
 
         /// constructeur du formulaire client
@@ -42,7 +44,7 @@ namespace LivrableV3
             this.labelNom = new System.Windows.Forms.Label();
             this.btncommander = new System.Windows.Forms.Button();
             this.btnVoircomandes = new System.Windows.Forms.Button();
-            this.btnvoiritineraire = new System.Windows.Forms.Button();
+            this.btnnoterplat = new System.Windows.Forms.Button();
             this.btnhistorique = new System.Windows.Forms.Button();
             this.textBoxrep = new System.Windows.Forms.TextBox();
             this.btnvoircuisiniers = new System.Windows.Forms.Button();
@@ -100,14 +102,15 @@ namespace LivrableV3
             this.btnVoircomandes.UseVisualStyleBackColor = true;
             this.btnVoircomandes.Click += new System.EventHandler(this.btnVoircomandes_Click);
             // 
-            // btnvoiritineraire
+            // btnnoterplat
             // 
-            this.btnvoiritineraire.Location = new System.Drawing.Point(39, 474);
-            this.btnvoiritineraire.Name = "btnvoiritineraire";
-            this.btnvoiritineraire.Size = new System.Drawing.Size(144, 66);
-            this.btnvoiritineraire.TabIndex = 5;
-            this.btnvoiritineraire.Text = "Voir l\'itinéraire";
-            this.btnvoiritineraire.UseVisualStyleBackColor = true;
+            this.btnnoterplat.Location = new System.Drawing.Point(39, 474);
+            this.btnnoterplat.Name = "btnnoterplat";
+            this.btnnoterplat.Size = new System.Drawing.Size(144, 66);
+            this.btnnoterplat.TabIndex = 5;
+            this.btnnoterplat.Text = "Noter le plat";
+            this.btnnoterplat.UseVisualStyleBackColor = true;
+            this.btnnoterplat.Click += new System.EventHandler(this.btnnoterplat_Click);
             // 
             // btnhistorique
             // 
@@ -156,7 +159,7 @@ namespace LivrableV3
             this.Controls.Add(this.btnvoircuisiniers);
             this.Controls.Add(this.textBoxrep);
             this.Controls.Add(this.btnhistorique);
-            this.Controls.Add(this.btnvoiritineraire);
+            this.Controls.Add(this.btnnoterplat);
             this.Controls.Add(this.btnVoircomandes);
             this.Controls.Add(this.btncommander);
             this.Controls.Add(this.labelNom);
@@ -217,6 +220,14 @@ namespace LivrableV3
             FormCommande formCommande = new FormCommande(connexionBDDClient, authentification, grapheMetro, this);
             formCommande.Show();
             this.Hide();
+        }
+
+        private void btnnoterplat_Click(object sender, EventArgs e)
+        {
+            FormNoterPlat formNoterPlat = new FormNoterPlat(connexionBDDClient, authentification, this);
+            formNoterPlat.Show();
+            this.Hide();
+
         }
     }
 } 

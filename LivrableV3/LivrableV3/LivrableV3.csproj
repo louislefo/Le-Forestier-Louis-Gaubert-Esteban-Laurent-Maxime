@@ -104,6 +104,12 @@
     <Compile Include="Affichages\FormAfficheritineraire.Designer.cs">
       <DependentUpon>FormAfficheritineraire.cs</DependentUpon>
     </Compile>
+    <Compile Include="Affichages\FormNoterPlat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Affichages\FormNoterPlat.Designer.cs">
+      <DependentUpon>FormNoterPlat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Modulecuisinier.cs" />
     <Compile Include="SqlCommander.cs" />
     <Compile Include="Visualtisations\VisualisationGraphe.cs" />
@@ -171,6 +177,9 @@
     <EmbeddedResource Include="Affichages\FormAffichierCarte.resx">
       <DependentUpon>FormAffichierCarte.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Affichages\FormNoterPlat.resx">
+      <DependentUpon>FormNoterPlat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Affichages\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +212,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Données\MetroParis.xlsx" />
     <None Include="Données\MetroParisArcs.csv" />
@@ -228,6 +238,14 @@
     <Folder Include="Affichages\Modules\" />
     <Folder Include="bin\Debug\" />
     <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\BoeufBourguignon.jpg" />
+    <Content Include="Images\curry.jpg" />
+    <Content Include="Images\Paella.jpg" />
+    <Content Include="Images\resto.jpeg" />
+    <Content Include="Images\Risotto.jpg" />
+    <Content Include="Images\tarte.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

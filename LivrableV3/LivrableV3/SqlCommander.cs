@@ -60,7 +60,7 @@ namespace LivrableV3
         
 
         /// trouve lid du plat avec son nom
-        private string GetIdPlat(string plat)
+        public string GetIdPlat(string plat)
         {
             try
             {
@@ -86,6 +86,101 @@ namespace LivrableV3
                 return null;
             }
         }
+
+        public string ConnaitreCuisinier(string platSelectionne)
+        {
+            try
+            {
+                string cuisinier = null;
+                string idplat = GetIdPlat(platSelectionne);
+
+                if (idplat != null)
+                {
+                    string requete = "SELECT u.nom, u.prénom " +
+                                     "FROM Plat_ p " +
+                                     "JOIN cuisinier c ON p.id_cuisinier = c.id_cuisinier " +
+                                     "JOIN utilisateur u ON c.id_utilisateur = u.id_utilisateur " +
+                                     "WHERE p.id_plat = '" + idplat + "';";
+
+                    MySqlCommand commande = new MySqlCommand(requete, connexionBDDClient.maConnexionClient);
+                    MySqlDataReader reader = commande.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        string nom = reader["nom"].ToString();
+                        string prenom = reader["prénom"].ToString();
+                        cuisinier = nom + " " + prenom;
+                    }
+
+                    reader.Close();
+                    commande.Dispose();
+                }
+
+                return cuisinier;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Oups, une erreur est survenue : " + ex.Message);
+                return null;
+            }
+
+        }
+
+        public string ConnaitreIdCuisinier(string platSelectionne)
+        {
+            try
+            {
+                string idplat = GetIdPlat(platSelectionne);
+                if (idplat == null)
+                {
+                    return null;
+                }
+                string requete = "SELECT id_cuisinier FROM Plat_ WHERE id_plat = '" + idplat + "'";
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDDClient.maConnexionClient);
+                commande.CommandText = requete;
+                MySqlDataReader reader = commande.ExecuteReader();
+                string idCuisinier = null;
+                if (reader.Read())
+                {
+                    idCuisinier = reader["id_cuisinier"].ToString();
+                }
+                reader.Close();
+                commande.Dispose();
+                return idCuisinier;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+                return null;
+            }
+        }
+        public string GetIdClientFromUtilisateur(string idUtilisateur)
+        {
+            try
+            {
+                string requete = "SELECT id_client FROM client WHERE id_utilisateur = '" + idUtilisateur + "'";
+                MySqlCommand cmd = new MySqlCommand(requete, connexionBDDClient.maConnexionClient);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                string idClient = null;
+
+                if (reader.Read())
+                {
+                    idClient = reader["id_client"].ToString();
+                }
+
+                reader.Close();
+                cmd.Dispose();
+
+                return idClient;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de la récupération de l'identifiant client : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
         /// trouve la station du cuisinier qui fait le plat
         public string ConnaitreStationCuisinier(string platSelectionne)
         {

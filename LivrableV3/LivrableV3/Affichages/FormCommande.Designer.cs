@@ -38,6 +38,12 @@
             this.textBoxtemps = new System.Windows.Forms.TextBox();
             this.labeltemps = new System.Windows.Forms.Label();
             this.btnvoiritineraire = new System.Windows.Forms.Button();
+            this.labelnombre = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxcuisinier = new System.Windows.Forms.TextBox();
+            this.pictureBoxphotoplat = new System.Windows.Forms.PictureBox();
+            this.comboBoxnombre = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxphotoplat)).BeginInit();
             this.SuspendLayout();
             // 
             // btnRetour
@@ -62,7 +68,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(63, 136);
+            this.label1.Location = new System.Drawing.Point(177, 118);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 25);
             this.label1.TabIndex = 2;
@@ -71,7 +77,7 @@
             // comboBoxchoixplat
             // 
             this.comboBoxchoixplat.FormattingEnabled = true;
-            this.comboBoxchoixplat.Location = new System.Drawing.Point(133, 133);
+            this.comboBoxchoixplat.Location = new System.Drawing.Point(285, 115);
             this.comboBoxchoixplat.Name = "comboBoxchoixplat";
             this.comboBoxchoixplat.Size = new System.Drawing.Size(187, 33);
             this.comboBoxchoixplat.TabIndex = 3;
@@ -113,7 +119,7 @@
             // labeltemps
             // 
             this.labeltemps.AutoSize = true;
-            this.labeltemps.Location = new System.Drawing.Point(92, 543);
+            this.labeltemps.Location = new System.Drawing.Point(89, 540);
             this.labeltemps.Name = "labeltemps";
             this.labeltemps.Size = new System.Drawing.Size(187, 25);
             this.labeltemps.TabIndex = 8;
@@ -129,12 +135,67 @@
             this.btnvoiritineraire.UseVisualStyleBackColor = true;
             this.btnvoiritineraire.Click += new System.EventHandler(this.btnvoiritineraire_Click);
             // 
+            // labelnombre
+            // 
+            this.labelnombre.AutoSize = true;
+            this.labelnombre.Location = new System.Drawing.Point(151, 184);
+            this.labelnombre.Name = "labelnombre";
+            this.labelnombre.Size = new System.Drawing.Size(81, 25);
+            this.labelnombre.TabIndex = 10;
+            this.labelnombre.Text = "Nombre";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(177, 489);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(99, 25);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Cuisinier :";
+            // 
+            // textBoxcuisinier
+            // 
+            this.textBoxcuisinier.Location = new System.Drawing.Point(285, 491);
+            this.textBoxcuisinier.Name = "textBoxcuisinier";
+            this.textBoxcuisinier.Size = new System.Drawing.Size(204, 30);
+            this.textBoxcuisinier.TabIndex = 13;
+            // 
+            // pictureBoxphotoplat
+            // 
+            this.pictureBoxphotoplat.Image = global::LivrableV3.Properties.Resources.resto;
+            this.pictureBoxphotoplat.Location = new System.Drawing.Point(142, 243);
+            this.pictureBoxphotoplat.Name = "pictureBoxphotoplat";
+            this.pictureBoxphotoplat.Size = new System.Drawing.Size(506, 208);
+            this.pictureBoxphotoplat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxphotoplat.TabIndex = 14;
+            this.pictureBoxphotoplat.TabStop = false;
+            // 
+            // comboBoxnombre
+            // 
+            this.comboBoxnombre.FormattingEnabled = true;
+            this.comboBoxnombre.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.comboBoxnombre.Location = new System.Drawing.Point(285, 176);
+            this.comboBoxnombre.Name = "comboBoxnombre";
+            this.comboBoxnombre.Size = new System.Drawing.Size(187, 33);
+            this.comboBoxnombre.TabIndex = 15;
+            // 
             // FormCommande
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(782, 753);
+            this.Controls.Add(this.comboBoxnombre);
+            this.Controls.Add(this.pictureBoxphotoplat);
+            this.Controls.Add(this.textBoxcuisinier);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.labelnombre);
             this.Controls.Add(this.btnvoiritineraire);
             this.Controls.Add(this.labeltemps);
             this.Controls.Add(this.textBoxtemps);
@@ -151,6 +212,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormCommande";
             this.Load += new System.EventHandler(this.FormCommande_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxphotoplat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,5 +230,10 @@
         private System.Windows.Forms.TextBox textBoxtemps;
         private System.Windows.Forms.Label labeltemps;
         private System.Windows.Forms.Button btnvoiritineraire;
+        private System.Windows.Forms.Label labelnombre;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxcuisinier;
+        private System.Windows.Forms.PictureBox pictureBoxphotoplat;
+        private System.Windows.Forms.ComboBox comboBoxnombre;
     }
 }

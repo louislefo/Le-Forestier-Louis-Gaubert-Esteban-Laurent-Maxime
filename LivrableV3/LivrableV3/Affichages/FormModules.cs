@@ -95,7 +95,18 @@ namespace LivrableV3
             this.btnclientparrue = new System.Windows.Forms.Button();
             this.btnclienttrialpha = new System.Windows.Forms.Button();
             this.tabModuleCuisinier = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxCuisinierrep = new System.Windows.Forms.TextBox();
+            this.comboBoxchoixcuisinier = new System.Windows.Forms.ComboBox();
+            this.btncuisinierPlatjour = new System.Windows.Forms.Button();
+            this.btncuisinierplatfreq = new System.Windows.Forms.Button();
+            this.btnCuisinierservis = new System.Windows.Forms.Button();
+            this.btncuisiniermodif = new System.Windows.Forms.Button();
+            this.btnCuisinierSupp = new System.Windows.Forms.Button();
+            this.btnCuisinierAjout = new System.Windows.Forms.Button();
             this.tabModuleCommande = new System.Windows.Forms.TabPage();
+            this.textBoxModulerep = new System.Windows.Forms.TextBox();
+            this.comboBoxcommande = new System.Windows.Forms.ComboBox();
             this.btncommandeitineraire = new System.Windows.Forms.Button();
             this.btncommandeprix = new System.Windows.Forms.Button();
             this.btncommandemodif = new System.Windows.Forms.Button();
@@ -120,17 +131,6 @@ namespace LivrableV3
             this.btnitineraire = new System.Windows.Forms.Button();
             this.btnAfficherMetro = new System.Windows.Forms.Button();
             this.btnRetourMenu = new System.Windows.Forms.Button();
-            this.comboBoxcommande = new System.Windows.Forms.ComboBox();
-            this.textBoxModulerep = new System.Windows.Forms.TextBox();
-            this.btnCuisinierAjout = new System.Windows.Forms.Button();
-            this.btnCuisinierSupp = new System.Windows.Forms.Button();
-            this.btncuisiniermodif = new System.Windows.Forms.Button();
-            this.btnCuisinierservis = new System.Windows.Forms.Button();
-            this.btncuisinierplatfreq = new System.Windows.Forms.Button();
-            this.btncuisinierPlatjour = new System.Windows.Forms.Button();
-            this.comboBoxchoixcuisinier = new System.Windows.Forms.ComboBox();
-            this.textBoxCuisinierrep = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.tabModule.SuspendLayout();
             this.tabModuleClient.SuspendLayout();
             this.tabModuleCuisinier.SuspendLayout();
@@ -269,6 +269,96 @@ namespace LivrableV3
             this.tabModuleCuisinier.TabIndex = 1;
             this.tabModuleCuisinier.Text = "ModuleCuisinier";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(257, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 16);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Cuisinier :";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // textBoxCuisinierrep
+            // 
+            this.textBoxCuisinierrep.Location = new System.Drawing.Point(234, 326);
+            this.textBoxCuisinierrep.Multiline = true;
+            this.textBoxCuisinierrep.Name = "textBoxCuisinierrep";
+            this.textBoxCuisinierrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxCuisinierrep.Size = new System.Drawing.Size(433, 209);
+            this.textBoxCuisinierrep.TabIndex = 7;
+            this.textBoxCuisinierrep.Text = "Réponses :";
+            this.textBoxCuisinierrep.TextChanged += new System.EventHandler(this.textBoxCuisinierrep_TextChanged);
+            // 
+            // comboBoxchoixcuisinier
+            // 
+            this.comboBoxchoixcuisinier.FormattingEnabled = true;
+            this.comboBoxchoixcuisinier.Location = new System.Drawing.Point(262, 51);
+            this.comboBoxchoixcuisinier.Name = "comboBoxchoixcuisinier";
+            this.comboBoxchoixcuisinier.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxchoixcuisinier.TabIndex = 6;
+            this.comboBoxchoixcuisinier.SelectedIndexChanged += new System.EventHandler(this.comboBoxchoixcuisinier_SelectedIndexChanged);
+            // 
+            // btncuisinierPlatjour
+            // 
+            this.btncuisinierPlatjour.Location = new System.Drawing.Point(65, 490);
+            this.btncuisinierPlatjour.Name = "btncuisinierPlatjour";
+            this.btncuisinierPlatjour.Size = new System.Drawing.Size(111, 46);
+            this.btncuisinierPlatjour.TabIndex = 5;
+            this.btncuisinierPlatjour.Text = "Afficher le plat du jour";
+            this.btncuisinierPlatjour.UseVisualStyleBackColor = true;
+            this.btncuisinierPlatjour.Click += new System.EventHandler(this.btncuisinierPlatjour_Click);
+            // 
+            // btncuisinierplatfreq
+            // 
+            this.btncuisinierplatfreq.Location = new System.Drawing.Point(64, 409);
+            this.btncuisinierplatfreq.Name = "btncuisinierplatfreq";
+            this.btncuisinierplatfreq.Size = new System.Drawing.Size(113, 58);
+            this.btncuisinierplatfreq.TabIndex = 4;
+            this.btncuisinierplatfreq.Text = "Afficher les plats realises par frequence";
+            this.btncuisinierplatfreq.UseVisualStyleBackColor = true;
+            this.btncuisinierplatfreq.Click += new System.EventHandler(this.btncuisinierplatfreq_Click);
+            // 
+            // btnCuisinierservis
+            // 
+            this.btnCuisinierservis.Location = new System.Drawing.Point(56, 319);
+            this.btnCuisinierservis.Name = "btnCuisinierservis";
+            this.btnCuisinierservis.Size = new System.Drawing.Size(122, 59);
+            this.btnCuisinierservis.TabIndex = 3;
+            this.btnCuisinierservis.Text = "Afficher les clients servis";
+            this.btnCuisinierservis.UseVisualStyleBackColor = true;
+            this.btnCuisinierservis.Click += new System.EventHandler(this.btnCuisinierservis_Click);
+            // 
+            // btncuisiniermodif
+            // 
+            this.btncuisiniermodif.Location = new System.Drawing.Point(54, 242);
+            this.btncuisiniermodif.Name = "btncuisiniermodif";
+            this.btncuisiniermodif.Size = new System.Drawing.Size(125, 54);
+            this.btncuisiniermodif.TabIndex = 2;
+            this.btncuisiniermodif.Text = "Modifier un cuisinier";
+            this.btncuisiniermodif.UseVisualStyleBackColor = true;
+            this.btncuisiniermodif.Click += new System.EventHandler(this.btncuisiniermodif_Click);
+            // 
+            // btnCuisinierSupp
+            // 
+            this.btnCuisinierSupp.Location = new System.Drawing.Point(50, 154);
+            this.btnCuisinierSupp.Name = "btnCuisinierSupp";
+            this.btnCuisinierSupp.Size = new System.Drawing.Size(129, 54);
+            this.btnCuisinierSupp.TabIndex = 1;
+            this.btnCuisinierSupp.Text = "Supprimer un cuisinier";
+            this.btnCuisinierSupp.UseVisualStyleBackColor = true;
+            this.btnCuisinierSupp.Click += new System.EventHandler(this.btnCuisinierSupp_Click);
+            // 
+            // btnCuisinierAjout
+            // 
+            this.btnCuisinierAjout.Location = new System.Drawing.Point(45, 56);
+            this.btnCuisinierAjout.Name = "btnCuisinierAjout";
+            this.btnCuisinierAjout.Size = new System.Drawing.Size(135, 66);
+            this.btnCuisinierAjout.TabIndex = 0;
+            this.btnCuisinierAjout.Text = "Ajouter un nouveau cuisinier";
+            this.btnCuisinierAjout.UseVisualStyleBackColor = true;
+            this.btnCuisinierAjout.Click += new System.EventHandler(this.btnCuisinierAjout_Click);
+            // 
             // tabModuleCommande
             // 
             this.tabModuleCommande.BackColor = System.Drawing.SystemColors.ScrollBar;
@@ -285,6 +375,23 @@ namespace LivrableV3
             this.tabModuleCommande.TabIndex = 2;
             this.tabModuleCommande.Text = "ModuleCommande";
             this.tabModuleCommande.Click += new System.EventHandler(this.tabModuleCommande_Click);
+            // 
+            // textBoxModulerep
+            // 
+            this.textBoxModulerep.Location = new System.Drawing.Point(498, 353);
+            this.textBoxModulerep.Multiline = true;
+            this.textBoxModulerep.Name = "textBoxModulerep";
+            this.textBoxModulerep.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxModulerep.Size = new System.Drawing.Size(172, 86);
+            this.textBoxModulerep.TabIndex = 5;
+            // 
+            // comboBoxcommande
+            // 
+            this.comboBoxcommande.FormattingEnabled = true;
+            this.comboBoxcommande.Location = new System.Drawing.Point(507, 291);
+            this.comboBoxcommande.Name = "comboBoxcommande";
+            this.comboBoxcommande.Size = new System.Drawing.Size(149, 24);
+            this.comboBoxcommande.TabIndex = 4;
             // 
             // btncommandeitineraire
             // 
@@ -493,11 +600,11 @@ namespace LivrableV3
             // 
             // textBoxGrapheRep
             // 
-            this.textBoxGrapheRep.Location = new System.Drawing.Point(194, 373);
+            this.textBoxGrapheRep.Location = new System.Drawing.Point(194, 223);
             this.textBoxGrapheRep.Multiline = true;
             this.textBoxGrapheRep.Name = "textBoxGrapheRep";
             this.textBoxGrapheRep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxGrapheRep.Size = new System.Drawing.Size(490, 192);
+            this.textBoxGrapheRep.Size = new System.Drawing.Size(490, 342);
             this.textBoxGrapheRep.TabIndex = 4;
             // 
             // btngrapheinfoligne
@@ -551,113 +658,6 @@ namespace LivrableV3
             this.btnRetourMenu.Text = "Retour";
             this.btnRetourMenu.UseVisualStyleBackColor = true;
             this.btnRetourMenu.Click += new System.EventHandler(this.btnRetourMenu_Click);
-            // 
-            // comboBoxcommande
-            // 
-            this.comboBoxcommande.FormattingEnabled = true;
-            this.comboBoxcommande.Location = new System.Drawing.Point(507, 291);
-            this.comboBoxcommande.Name = "comboBoxcommande";
-            this.comboBoxcommande.Size = new System.Drawing.Size(149, 24);
-            this.comboBoxcommande.TabIndex = 4;
-            // 
-            // textBoxModulerep
-            // 
-            this.textBoxModulerep.Location = new System.Drawing.Point(498, 353);
-            this.textBoxModulerep.Multiline = true;
-            this.textBoxModulerep.Name = "textBoxModulerep";
-            this.textBoxModulerep.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxModulerep.Size = new System.Drawing.Size(172, 86);
-            this.textBoxModulerep.TabIndex = 5;
-            // 
-            // btnCuisinierAjout
-            // 
-            this.btnCuisinierAjout.Location = new System.Drawing.Point(45, 56);
-            this.btnCuisinierAjout.Name = "btnCuisinierAjout";
-            this.btnCuisinierAjout.Size = new System.Drawing.Size(135, 66);
-            this.btnCuisinierAjout.TabIndex = 0;
-            this.btnCuisinierAjout.Text = "Ajouter un nouveau cuisinier";
-            this.btnCuisinierAjout.UseVisualStyleBackColor = true;
-            this.btnCuisinierAjout.Click += new System.EventHandler(this.btnCuisinierAjout_Click);
-            // 
-            // btnCuisinierSupp
-            // 
-            this.btnCuisinierSupp.Location = new System.Drawing.Point(50, 154);
-            this.btnCuisinierSupp.Name = "btnCuisinierSupp";
-            this.btnCuisinierSupp.Size = new System.Drawing.Size(129, 54);
-            this.btnCuisinierSupp.TabIndex = 1;
-            this.btnCuisinierSupp.Text = "Supprimer un cuisinier";
-            this.btnCuisinierSupp.UseVisualStyleBackColor = true;
-            this.btnCuisinierSupp.Click += new System.EventHandler(this.btnCuisinierSupp_Click);
-            // 
-            // btncuisiniermodif
-            // 
-            this.btncuisiniermodif.Location = new System.Drawing.Point(54, 242);
-            this.btncuisiniermodif.Name = "btncuisiniermodif";
-            this.btncuisiniermodif.Size = new System.Drawing.Size(125, 54);
-            this.btncuisiniermodif.TabIndex = 2;
-            this.btncuisiniermodif.Text = "Modifier un cuisinier";
-            this.btncuisiniermodif.UseVisualStyleBackColor = true;
-            this.btncuisiniermodif.Click += new System.EventHandler(this.btncuisiniermodif_Click);
-            // 
-            // btnCuisinierservis
-            // 
-            this.btnCuisinierservis.Location = new System.Drawing.Point(56, 319);
-            this.btnCuisinierservis.Name = "btnCuisinierservis";
-            this.btnCuisinierservis.Size = new System.Drawing.Size(122, 59);
-            this.btnCuisinierservis.TabIndex = 3;
-            this.btnCuisinierservis.Text = "Afficher les clients servis";
-            this.btnCuisinierservis.UseVisualStyleBackColor = true;
-            this.btnCuisinierservis.Click += new System.EventHandler(this.btnCuisinierservis_Click);
-            // 
-            // btncuisinierplatfreq
-            // 
-            this.btncuisinierplatfreq.Location = new System.Drawing.Point(64, 409);
-            this.btncuisinierplatfreq.Name = "btncuisinierplatfreq";
-            this.btncuisinierplatfreq.Size = new System.Drawing.Size(113, 58);
-            this.btncuisinierplatfreq.TabIndex = 4;
-            this.btncuisinierplatfreq.Text = "Afficher les plats realises par frequence";
-            this.btncuisinierplatfreq.UseVisualStyleBackColor = true;
-            this.btncuisinierplatfreq.Click += new System.EventHandler(this.btncuisinierplatfreq_Click);
-            // 
-            // btncuisinierPlatjour
-            // 
-            this.btncuisinierPlatjour.Location = new System.Drawing.Point(65, 490);
-            this.btncuisinierPlatjour.Name = "btncuisinierPlatjour";
-            this.btncuisinierPlatjour.Size = new System.Drawing.Size(111, 46);
-            this.btncuisinierPlatjour.TabIndex = 5;
-            this.btncuisinierPlatjour.Text = "Afficher le plat du jour";
-            this.btncuisinierPlatjour.UseVisualStyleBackColor = true;
-            this.btncuisinierPlatjour.Click += new System.EventHandler(this.btncuisinierPlatjour_Click);
-            // 
-            // comboBoxchoixcuisinier
-            // 
-            this.comboBoxchoixcuisinier.FormattingEnabled = true;
-            this.comboBoxchoixcuisinier.Location = new System.Drawing.Point(262, 51);
-            this.comboBoxchoixcuisinier.Name = "comboBoxchoixcuisinier";
-            this.comboBoxchoixcuisinier.Size = new System.Drawing.Size(157, 24);
-            this.comboBoxchoixcuisinier.TabIndex = 6;
-            this.comboBoxchoixcuisinier.SelectedIndexChanged += new System.EventHandler(this.comboBoxchoixcuisinier_SelectedIndexChanged);
-            // 
-            // textBoxCuisinierrep
-            // 
-            this.textBoxCuisinierrep.Location = new System.Drawing.Point(234, 326);
-            this.textBoxCuisinierrep.Multiline = true;
-            this.textBoxCuisinierrep.Name = "textBoxCuisinierrep";
-            this.textBoxCuisinierrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxCuisinierrep.Size = new System.Drawing.Size(433, 209);
-            this.textBoxCuisinierrep.TabIndex = 7;
-            this.textBoxCuisinierrep.Text = "Réponses :";
-            this.textBoxCuisinierrep.TextChanged += new System.EventHandler(this.textBoxCuisinierrep_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(257, 18);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 20);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Cuisinier :";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // FormModules
             // 

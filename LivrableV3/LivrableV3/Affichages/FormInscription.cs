@@ -374,7 +374,7 @@ namespace LivrableV3
                 string adresse = textBoxAdresse.Text;
                 string motDePasse = textBoxMotdepasse.Text;
 
-                string stationMetro = comboBoxstation.ToString();
+                string stationMetro = comboBoxstation.Text;
 
                 // on valide les donnees
                 nomUtilisateur = validation.DemanderNom(nomUtilisateur);
@@ -458,7 +458,7 @@ namespace LivrableV3
                         CreerCompteBDDClient(nomUtilisateur, motDePasse);
                         try
                         {
-                            ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(idUtilisateur, motDePasse);
+                            ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(nomUtilisateur, motDePasse);
                             FormClient formClient = new FormClient(connexionBDDClient, authentification, grapheMetro, mainForm);
                             this.Close();
                             formClient.Show();
@@ -481,7 +481,7 @@ namespace LivrableV3
                         CreerCompteBDDCuisinier(nomUtilisateur, motDePasse);
                         try
                         {
-                            ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(idUtilisateur, motDePasse);
+                            ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(nomUtilisateur, motDePasse);
                             FormCuisinier formCuisinier = new FormCuisinier(connexionBDDCuisinier, authentification, grapheMetro,mainForm);
                             this.Close();
                             formCuisinier.Show();
@@ -514,7 +514,7 @@ namespace LivrableV3
                         // demander ou aller
                         try
                         {
-                            ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(idUtilisateur, motDePasse);
+                            ConnexionBDDCuisinier connexionBDDCuisinier = new ConnexionBDDCuisinier(nomUtilisateur, motDePasse);
                             FormCuisinier formCuisinier = new FormCuisinier(connexionBDDCuisinier, authentification, grapheMetro, mainForm);
                             this.Close();
                             formCuisinier.Show();
@@ -526,7 +526,7 @@ namespace LivrableV3
 
                         try
                         {
-                            ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(idUtilisateur, motDePasse);
+                            ConnexionBDDClient connexionBDDClient = new ConnexionBDDClient(nomUtilisateur, motDePasse);
                             FormClient formClient = new FormClient(connexionBDDClient, authentification, grapheMetro, mainForm);
                             this.Close();
                             formClient.Show();

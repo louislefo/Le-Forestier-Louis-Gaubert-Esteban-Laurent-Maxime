@@ -166,6 +166,7 @@ namespace LivrableV3
 
                 // on met en minuscule pour comparer
                 station = station.ToLower();
+                station.Trim();
 
                 // on verifie si la station existe dans le metro
                 bool stationExiste = false;
