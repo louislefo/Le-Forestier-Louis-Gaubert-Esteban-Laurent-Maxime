@@ -25,7 +25,6 @@ namespace LivrableV3
         private ListBox listBoxType;
         private Label labelType;
         private Label labelStationdeMetro;
-        private ListBox listBoxStation;
         private Button btnRetourMenu;
         private Authentification authentification;
         private ConnexionBDD connexionBDD;
@@ -68,7 +67,6 @@ namespace LivrableV3
             this.listBoxType = new System.Windows.Forms.ListBox();
             this.labelType = new System.Windows.Forms.Label();
             this.labelStationdeMetro = new System.Windows.Forms.Label();
-            this.listBoxStation = new System.Windows.Forms.ListBox();
             this.btnRetourMenu = new System.Windows.Forms.Button();
             this.comboBoxstation = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
@@ -224,262 +222,6 @@ namespace LivrableV3
             this.labelStationdeMetro.Text = "Station de metro";
             this.labelStationdeMetro.Click += new System.EventHandler(this.labelStationdeMetro_Click);
             // 
-            // listBoxStation
-            // 
-            this.listBoxStation.FormattingEnabled = true;
-            this.listBoxStation.ItemHeight = 25;
-            this.listBoxStation.Items.AddRange(new object[] {
-            "Abbesses",
-            "Al�sia",
-            "Alexandre Dumas",
-            "Alma - Marceau",
-            "Anvers",
-            "Argentine",
-            "Arts et M�tiers",
-            "Assembl�e Nationale",
-            "Avenue Emile Zola",
-            "Avron",
-            "Balard",
-            "Barb�s - Rochechouart",
-            "Bastille",
-            "Bel-Air",
-            "Belleville",
-            "Bercy",
-            "Biblioth�que Fran�ois Mitterrand",
-            "Bir-Hakeim",
-            "Blanche",
-            "Boissi�re",
-            "Bolivar",
-            "Bonne Nouvelle",
-            "Botzaris",
-            "Boucicaut",
-            "Bourse",
-            "Br�guet-Sabin",
-            "Brochant",
-            "Buttes Chaumont",
-            "Buzenval",
-            "Cadet",
-            "Cambronne",
-            "Campo-Formio",
-            "Cardinal Lemoine",
-            "Censier - Daubenton",
-            "Champs-Elys�es - Clemenceau",
-            "Chardon Lagache",
-            "Charles de Gaulle - Etoile",
-            "Charles Michels",
-            "Charonne",
-            "Ch�teau de Vincennes",
-            "Ch�teau d\'Eau",
-            "Ch�teau Landon",
-            "Ch�teau Rouge",
-            "Ch�telet",
-            "Chauss�e d\'Antin - La Fayette",
-            "Chemin Vert",
-            "Chevaleret",
-            "Cit�",
-            "Cluny - La Sorbonne",
-            "Colonel Fabien",
-            "Commerce",
-            "Concorde",
-            "Convention",
-            "Corentin Cariou",
-            "Corvisart",
-            "Cour Saint-Emilion",
-            "Courcelles",
-            "Couronnes",
-            "Crim�e",
-            "Danube",
-            "Daumesnil",
-            "Denfert-Rochereau",
-            "Dugommier",
-            "Dupleix",
-            "Duroc",
-            "Ecole Militaire",
-            "Edgar Quinet",
-            "Eglise d\'Auteuil",
-            "Etienne Marcel",
-            "Europe",
-            "Exelmans",
-            "Faidherbe - Chaligny",
-            "Falgui�re",
-            "F�lix Faure",
-            "Filles du Calvaire",
-            "Franklin D. Roosevelt",
-            "Ga�t�",
-            "Gambetta",
-            "Gare d\'Austerlitz",
-            "Gare de l\'Est",
-            "Gare de Lyon",
-            "Gare du Nord",
-            "George V",
-            "Glaci�re",
-            "Goncourt",
-            "Grands Boulevards",
-            "Guy M�quet",
-            "Havre-Caumartin",
-            "H�tel de Ville",
-            "I�na",
-            "Invalides",
-            "Jacques Bonsergent",
-            "Jasmin",
-            "Jaur�s",
-            "Javel - Andr� Citro�n",
-            "Jourdain",
-            "Jules Joffrin",
-            "Jussieu",
-            "Kl�ber",
-            "La Chapelle",
-            "La Fourche",
-            "La Motte-Picquet - Grenelle",
-            "La Muette",
-            "La Tour-Maubourg",
-            "Lamarck - Caulaincourt",
-            "Laumi�re",
-            "Le Peletier",
-            "Ledru-Rollin",
-            "Les Gobelins",
-            "Les Halles",
-            "Li�ge",
-            "Louis Blanc",
-            "Lourmel",
-            "Louvre - Rivoli",
-            "Mabillon",
-            "Madeleine",
-            "Maison Blanche",
-            "Malesherbes",
-            "Mara�chers",
-            "Marcadet - Poissonniers",
-            "Marx Dormoy",
-            "Maubert - Mutualit�",
-            "M�nilmontant",
-            "Michel Bizot",
-            "Michel-Ange - Auteuil",
-            "Michel-Ange - Molitor",
-            "Mirabeau",
-            "Miromesnil",
-            "Monceau",
-            "Montgallet",
-            "Montparnasse Bienvenue",
-            "Mouton-Duvernet",
-            "Nation",
-            "Nationale",
-            "Notre-Dame des Champs",
-            "Notre-Dame-de-Lorette",
-            "Oberkampf",
-            "Od�on",
-            "Olympiades",
-            "Op�ra",
-            "Ourcq",
-            "Palais Royal - Mus�e du Louvre",
-            "Parmentier",
-            "Passy",
-            "Pasteur",
-            "Pelleport",
-            "P�re Lachaise",
-            "Pereire",
-            "Pernety",
-            "Philippe Auguste",
-            "Picpus",
-            "Pigalle",
-            "Place de Clichy",
-            "Place des Fêtes",
-            "Place des F�tes",
-            "Place d\'Italie",
-            "Place Monge",
-            "Plaisance",
-            "Poissonni�re",
-            "Pont Cardinet",
-            "Pont Marie (Cit� des Arts)",
-            "Pont Neuf",
-            "Porte Dauphine",
-            "Porte d\'Auteuil",
-            "Porte de Bagnolet",
-            "Porte de Champerret",
-            "Porte de Charenton",
-            "Porte de Choisy",
-            "Porte de Clichy",
-            "Porte de Clignancourt",
-            "Porte de la Chapelle",
-            "Porte de la Villette",
-            "Porte de Montreuil",
-            "Porte de Pantin",
-            "Porte de Saint-Cloud",
-            "Porte de Saint-Ouen",
-            "Porte de Vanves",
-            "Porte de Versailles",
-            "Porte de Vincennes",
-            "Porte des Lilas",
-            "Porte d\'Italie",
-            "Porte d\'Ivry",
-            "Porte Dor�e",
-            "Porte d\'Orl�ans",
-            "Porte Maillot",
-            "Pr�-Saint-Gervais",
-            "Pyramides",
-            "Pyr�n�es",
-            "Quai de la Gare",
-            "Quai de la Rap�e",
-            "Quatre Septembre",
-            "Rambuteau",
-            "Ranelagh",
-            "Raspail",
-            "R�aumur - S�bastopol",
-            "Rennes",
-            "R�publique",
-            "Reuilly - Diderot",
-            "Richard-Lenoir",
-            "Richelieu - Drouot",
-            "Riquet",
-            "Rome",
-            "Rue de la Pompe",
-            "Rue des Boulets",
-            "Rue du Bac",
-            "Rue Saint-Maur",
-            "Saint-Ambroise",
-            "Saint-Augustin",
-            "Saint-Fargeau",
-            "Saint-Fran�ois-Xavier",
-            "Saint-Georges",
-            "Saint-Germain-des-Pr�s",
-            "Saint-Jacques",
-            "Saint-Lazare",
-            "Saint-Marcel",
-            "Saint-Michel",
-            "Saint-Paul (Le Marais)",
-            "Saint-Philippe du Roule",
-            "Saint-Placide",
-            "Saint-S�bastien - Froissart",
-            "Saint-Sulpice",
-            "S�gur",
-            "Sentier",
-            "S�vres - Babylone",
-            "S�vres-Lecourbe",
-            "Simplon",
-            "Solf�rino",
-            "Stalingrad",
-            "Strasbourg - Saint-Denis",
-            "Sully - Morland",
-            "T�l�graphe",
-            "Temple",
-            "Ternes",
-            "Tolbiac",
-            "Trinit� - d\'Estienne d\'Orves",
-            "Trocad�ro",
-            "Tuileries",
-            "Vaneau",
-            "Varenne",
-            "Vaugirard",
-            "Vavin",
-            "Victor Hugo",
-            "Villiers",
-            "Volontaires",
-            "Voltaire",
-            "Wagram"});
-            this.listBoxStation.Location = new System.Drawing.Point(374, 477);
-            this.listBoxStation.Name = "listBoxStation";
-            this.listBoxStation.Size = new System.Drawing.Size(168, 29);
-            this.listBoxStation.TabIndex = 17;
-            // 
             // btnRetourMenu
             // 
             this.btnRetourMenu.Location = new System.Drawing.Point(19, 15);
@@ -493,9 +235,9 @@ namespace LivrableV3
             // comboBoxstation
             // 
             this.comboBoxstation.FormattingEnabled = true;
-            this.comboBoxstation.Location = new System.Drawing.Point(375, 535);
+            this.comboBoxstation.Location = new System.Drawing.Point(374, 481);
             this.comboBoxstation.Name = "comboBoxstation";
-            this.comboBoxstation.Size = new System.Drawing.Size(166, 33);
+            this.comboBoxstation.Size = new System.Drawing.Size(168, 33);
             this.comboBoxstation.TabIndex = 19;
             // 
             // FormInscription
@@ -505,7 +247,6 @@ namespace LivrableV3
             this.ClientSize = new System.Drawing.Size(785, 762);
             this.Controls.Add(this.comboBoxstation);
             this.Controls.Add(this.btnRetourMenu);
-            this.Controls.Add(this.listBoxStation);
             this.Controls.Add(this.labelStationdeMetro);
             this.Controls.Add(this.labelType);
             this.Controls.Add(this.listBoxType);
@@ -633,7 +374,7 @@ namespace LivrableV3
                 string adresse = textBoxAdresse.Text;
                 string motDePasse = textBoxMotdepasse.Text;
 
-                string stationMetro = listBoxStation.SelectedItem?.ToString();
+                string stationMetro = comboBoxstation.ToString();
 
                 // on valide les donnees
                 nomUtilisateur = validation.DemanderNom(nomUtilisateur);

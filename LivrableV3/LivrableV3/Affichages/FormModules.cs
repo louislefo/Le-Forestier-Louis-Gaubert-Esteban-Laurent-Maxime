@@ -53,7 +53,9 @@ namespace LivrableV3
         private Button btnGrapheinfometro;
         private TextBox textBoxGrapheRep;
         private ComboBox comboBoxgrapheligne;
+        private ComboBox comboBoxcommandes;
         private MainForm main;
+        private ModuleCommande moduleCommande;
 
         #endregion
 
@@ -63,6 +65,7 @@ namespace LivrableV3
             connexionBDD = connexion;
             grapheMetro = graphe;
             this.main = main;
+            moduleCommande = new ModuleCommande(connexionBDD,grapheMetro);
         }
 
         private void InitializeComponent()
@@ -96,13 +99,14 @@ namespace LivrableV3
             this.btnstatcomparper = new System.Windows.Forms.Button();
             this.btnstatlivparcuisinier = new System.Windows.Forms.Button();
             this.tabModuleGraphe = new System.Windows.Forms.TabPage();
+            this.comboBoxgrapheligne = new System.Windows.Forms.ComboBox();
+            this.textBoxGrapheRep = new System.Windows.Forms.TextBox();
+            this.btngrapheinfoligne = new System.Windows.Forms.Button();
+            this.btnGrapheinfometro = new System.Windows.Forms.Button();
             this.btnitineraire = new System.Windows.Forms.Button();
             this.btnAfficherMetro = new System.Windows.Forms.Button();
             this.btnRetourMenu = new System.Windows.Forms.Button();
-            this.btnGrapheinfometro = new System.Windows.Forms.Button();
-            this.btngrapheinfoligne = new System.Windows.Forms.Button();
-            this.textBoxGrapheRep = new System.Windows.Forms.TextBox();
-            this.comboBoxgrapheligne = new System.Windows.Forms.ComboBox();
+            this.comboBoxcommandes = new System.Windows.Forms.ComboBox();
             this.tabModule.SuspendLayout();
             this.tabModuleClient.SuspendLayout();
             this.tabModuleCommande.SuspendLayout();
@@ -234,6 +238,7 @@ namespace LivrableV3
             // tabModuleCommande
             // 
             this.tabModuleCommande.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.tabModuleCommande.Controls.Add(this.comboBoxcommandes);
             this.tabModuleCommande.Controls.Add(this.btncommandeitineraire);
             this.tabModuleCommande.Controls.Add(this.btncommandeprix);
             this.tabModuleCommande.Controls.Add(this.btncommandemodif);
@@ -248,7 +253,7 @@ namespace LivrableV3
             // 
             // btncommandeitineraire
             // 
-            this.btncommandeitineraire.Location = new System.Drawing.Point(38, 435);
+            this.btncommandeitineraire.Location = new System.Drawing.Point(38, 186);
             this.btncommandeitineraire.Name = "btncommandeitineraire";
             this.btncommandeitineraire.Size = new System.Drawing.Size(152, 65);
             this.btncommandeitineraire.TabIndex = 3;
@@ -258,7 +263,7 @@ namespace LivrableV3
             // 
             // btncommandeprix
             // 
-            this.btncommandeprix.Location = new System.Drawing.Point(38, 308);
+            this.btncommandeprix.Location = new System.Drawing.Point(505, 186);
             this.btncommandeprix.Name = "btncommandeprix";
             this.btncommandeprix.Size = new System.Drawing.Size(152, 65);
             this.btncommandeprix.TabIndex = 2;
@@ -268,7 +273,7 @@ namespace LivrableV3
             // 
             // btncommandemodif
             // 
-            this.btncommandemodif.Location = new System.Drawing.Point(38, 192);
+            this.btncommandemodif.Location = new System.Drawing.Point(505, 87);
             this.btncommandemodif.Name = "btncommandemodif";
             this.btncommandemodif.Size = new System.Drawing.Size(152, 65);
             this.btncommandemodif.TabIndex = 1;
@@ -426,6 +431,60 @@ namespace LivrableV3
             this.tabModuleGraphe.Text = "tabModuleGraphe";
             this.tabModuleGraphe.Click += new System.EventHandler(this.tabModuleGraphe_Click);
             // 
+            // comboBoxgrapheligne
+            // 
+            this.comboBoxgrapheligne.FormattingEnabled = true;
+            this.comboBoxgrapheligne.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "3bis",
+            "4",
+            "5",
+            "6",
+            "7",
+            "7bis",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14"});
+            this.comboBoxgrapheligne.Location = new System.Drawing.Point(30, 532);
+            this.comboBoxgrapheligne.Name = "comboBoxgrapheligne";
+            this.comboBoxgrapheligne.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxgrapheligne.TabIndex = 5;
+            // 
+            // textBoxGrapheRep
+            // 
+            this.textBoxGrapheRep.Location = new System.Drawing.Point(194, 373);
+            this.textBoxGrapheRep.Multiline = true;
+            this.textBoxGrapheRep.Name = "textBoxGrapheRep";
+            this.textBoxGrapheRep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxGrapheRep.Size = new System.Drawing.Size(490, 192);
+            this.textBoxGrapheRep.TabIndex = 4;
+            // 
+            // btngrapheinfoligne
+            // 
+            this.btngrapheinfoligne.Location = new System.Drawing.Point(24, 452);
+            this.btngrapheinfoligne.Name = "btngrapheinfoligne";
+            this.btngrapheinfoligne.Size = new System.Drawing.Size(128, 61);
+            this.btngrapheinfoligne.TabIndex = 3;
+            this.btngrapheinfoligne.Text = "Afficher les stations d\'une ligne de metro";
+            this.btngrapheinfoligne.UseVisualStyleBackColor = true;
+            this.btngrapheinfoligne.Click += new System.EventHandler(this.btngrapheinfoligne_Click);
+            // 
+            // btnGrapheinfometro
+            // 
+            this.btnGrapheinfometro.Location = new System.Drawing.Point(24, 371);
+            this.btnGrapheinfometro.Name = "btnGrapheinfometro";
+            this.btnGrapheinfometro.Size = new System.Drawing.Size(128, 61);
+            this.btnGrapheinfometro.TabIndex = 2;
+            this.btnGrapheinfometro.Text = "Afficher les informations du metro";
+            this.btnGrapheinfometro.UseVisualStyleBackColor = true;
+            this.btnGrapheinfometro.Click += new System.EventHandler(this.btnGrapheinfometro_Click);
+            // 
             // btnitineraire
             // 
             this.btnitineraire.Location = new System.Drawing.Point(198, 39);
@@ -458,59 +517,13 @@ namespace LivrableV3
             this.btnRetourMenu.UseVisualStyleBackColor = true;
             this.btnRetourMenu.Click += new System.EventHandler(this.btnRetourMenu_Click);
             // 
-            // btnGrapheinfometro
+            // comboBoxcommandes
             // 
-            this.btnGrapheinfometro.Location = new System.Drawing.Point(24, 371);
-            this.btnGrapheinfometro.Name = "btnGrapheinfometro";
-            this.btnGrapheinfometro.Size = new System.Drawing.Size(128, 61);
-            this.btnGrapheinfometro.TabIndex = 2;
-            this.btnGrapheinfometro.Text = "Afficher les informations du metro";
-            this.btnGrapheinfometro.UseVisualStyleBackColor = true;
-            this.btnGrapheinfometro.Click += new System.EventHandler(this.btnGrapheinfometro_Click);
-            // 
-            // btngrapheinfoligne
-            // 
-            this.btngrapheinfoligne.Location = new System.Drawing.Point(24, 452);
-            this.btngrapheinfoligne.Name = "btngrapheinfoligne";
-            this.btngrapheinfoligne.Size = new System.Drawing.Size(128, 61);
-            this.btngrapheinfoligne.TabIndex = 3;
-            this.btngrapheinfoligne.Text = "Afficher les stations d\'une ligne de metro";
-            this.btngrapheinfoligne.UseVisualStyleBackColor = true;
-            this.btngrapheinfoligne.Click += new System.EventHandler(this.btngrapheinfoligne_Click);
-            // 
-            // textBoxGrapheRep
-            // 
-            this.textBoxGrapheRep.Location = new System.Drawing.Point(194, 373);
-            this.textBoxGrapheRep.Multiline = true;
-            this.textBoxGrapheRep.Name = "textBoxGrapheRep";
-            this.textBoxGrapheRep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxGrapheRep.Size = new System.Drawing.Size(490, 192);
-            this.textBoxGrapheRep.TabIndex = 4;
-            // 
-            // comboBoxgrapheligne
-            // 
-            this.comboBoxgrapheligne.FormattingEnabled = true;
-            this.comboBoxgrapheligne.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "3bis",
-            "4",
-            "5",
-            "6",
-            "7",
-            "7bis",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14"});
-            this.comboBoxgrapheligne.Location = new System.Drawing.Point(30, 532);
-            this.comboBoxgrapheligne.Name = "comboBoxgrapheligne";
-            this.comboBoxgrapheligne.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxgrapheligne.TabIndex = 5;
+            this.comboBoxcommandes.FormattingEnabled = true;
+            this.comboBoxcommandes.Location = new System.Drawing.Point(507, 291);
+            this.comboBoxcommandes.Name = "comboBoxcommandes";
+            this.comboBoxcommandes.Size = new System.Drawing.Size(149, 24);
+            this.comboBoxcommandes.TabIndex = 4;
             // 
             // FormModules
             // 
@@ -533,6 +546,16 @@ namespace LivrableV3
 
         }
 
+        public void ChargerComboBoxCommandes()
+        {
+            comboBoxcommandes.Items.Clear(); 
+            List<string> commandes = moduleCommande.ListeCommandes();
+            for (int i = 0; i < commandes.Count; i++)
+            {
+                comboBoxcommandes.Items.Add(commandes[i]);
+            }
+            
+        }
         private void FormModules_Load(object sender, EventArgs e)
         {
 
