@@ -88,6 +88,7 @@ namespace LivrableV3
             this.btncommander.TabIndex = 3;
             this.btncommander.Text = "Commander";
             this.btncommander.UseVisualStyleBackColor = true;
+            this.btncommander.Click += new System.EventHandler(this.btncommander_Click);
             // 
             // btnVoircomandes
             // 
@@ -135,6 +136,7 @@ namespace LivrableV3
             this.btnvoircuisiniers.TabIndex = 8;
             this.btnvoircuisiniers.Text = "Voir les cuisiniers";
             this.btnvoircuisiniers.UseVisualStyleBackColor = true;
+            this.btnvoircuisiniers.Click += new System.EventHandler(this.btnvoircuisiniers_Click);
             // 
             // btnvoirplats
             // 
@@ -192,18 +194,29 @@ namespace LivrableV3
 
         private void btnhistorique_Click(object sender, EventArgs e)
         {
-
+            textBoxrep.Text = sqlClient.VoirHistoriqueClient(authentification.idUtilisateur);
         }
 
         private void btnVoircomandes_Click(object sender, EventArgs e)
         {
-            
-
+            textBoxrep.Text = sqlClient.VoirCommandesClient(authentification.idUtilisateur);
         }
 
         private void btnvoirplats_Click(object sender, EventArgs e)
         {
            textBoxrep.Text =  sqlClient.VoirPlatsDisponibles();
+        }
+
+        private void btnvoircuisiniers_Click(object sender, EventArgs e)
+        {
+            textBoxrep.Text = sqlClient.VoirCuisiniersDisponibles();
+        }
+
+        private void btncommander_Click(object sender, EventArgs e)
+        {
+            FormCommande formCommande = new FormCommande(connexionBDDClient, authentification, grapheMetro, this);
+            formCommande.Show();
+            this.Hide();
         }
     }
 } 

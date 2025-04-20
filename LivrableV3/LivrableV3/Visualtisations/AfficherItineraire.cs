@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -222,10 +224,14 @@ namespace LivrableV3
             
         }
 
-
         public void SauvegarderImage(string chemin)
         {
-            image.Save(chemin);
+            if (File.Exists(chemin))
+            {
+                File.Delete(chemin);
+            }
+
+            image.Save(chemin, ImageFormat.Png); 
         }
     }
 }

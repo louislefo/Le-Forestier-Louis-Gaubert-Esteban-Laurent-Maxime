@@ -573,7 +573,7 @@ namespace LivrableV3
         }
         private void btnitineraire_Click(object sender, EventArgs e)
         {
-            FormAfficherItineraire formAfficherItineraire = new FormAfficherItineraire(this, grapheMetro);
+            FormAfficherItineraireModule formAfficherItineraire = new FormAfficherItineraireModule(this, grapheMetro);
             this.Hide();
             formAfficherItineraire.Show();
         }

@@ -98,6 +98,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Affichages\FormAfficheritineraire.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Affichages\FormAfficheritineraire.Designer.cs">
+      <DependentUpon>FormAfficheritineraire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlCommander.cs" />
     <Compile Include="Visualtisations\VisualisationGraphe.cs" />
     <Compile Include="Visualtisations\AfficherGraphesat.cs" />
     <Compile Include="Visualtisations\AfficherItineraire.cs" />
@@ -133,11 +140,11 @@
     <Compile Include="Affichages\FormAffichierCarte.Designer.cs">
       <DependentUpon>FormAffichierCarte.cs</DependentUpon>
     </Compile>
-    <Compile Include="Affichages\FormAfficherItineraire.cs">
+    <Compile Include="Affichages\FormAfficherItineraireModule.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Affichages\FormAfficherItineraire.Designer.cs">
-      <DependentUpon>FormAfficherItineraire.cs</DependentUpon>
+    <Compile Include="Affichages\FormAfficherItineraireModule.Designer.cs">
+      <DependentUpon>FormAfficherItineraireModule.cs</DependentUpon>
     </Compile>
     <Compile Include="Affichages\FormCommande.cs">
       <SubType>Form</SubType>
@@ -157,6 +164,9 @@
     <Compile Include="SqlClient.cs" />
     <Compile Include="SqlCuisinier.cs" />
     <Compile Include="ValidationRequette.cs" />
+    <EmbeddedResource Include="Affichages\FormAfficheritineraire.resx">
+      <DependentUpon>FormAfficheritineraire.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Affichages\FormAffichierCarte.resx">
       <DependentUpon>FormAffichierCarte.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,8 +188,8 @@
     <EmbeddedResource Include="Affichages\FormModules.resx">
       <DependentUpon>FormModules.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Affichages\FormAfficherItineraire.resx">
-      <DependentUpon>FormAfficherItineraire.cs</DependentUpon>
+    <EmbeddedResource Include="Affichages\FormAfficherItineraireModule.resx">
+      <DependentUpon>FormAfficherItineraireModule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Affichages\FormCommande.resx">
       <DependentUpon>FormCommande.cs</DependentUpon>

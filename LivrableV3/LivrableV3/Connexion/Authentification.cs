@@ -23,6 +23,8 @@ namespace LivrableV3
         public bool estConnecte;
         public ConnexionBDD connexionBDD;
         public string idUtilisateur;
+        public string stationMetroCuisinier;
+        public string stationMetroClient;
 
         public ValidationRequette ValidationRequette;
         public Graphe<int> GrapheMetro;
@@ -299,7 +301,7 @@ namespace LivrableV3
                 {
                     case 1: // cuisinier
                         Console.WriteLine("\n=== Création du compte cuisinier ===");
-                        string stationMetroCuisinier = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
+                       this.stationMetroCuisinier = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
                         Console.WriteLine("Entrez les zones de livraison (séparées par des virgules) : ");
                         string zonesLivraison = Console.ReadLine();
                         
@@ -345,7 +347,7 @@ namespace LivrableV3
 
                     case 2: // compte client 
                         Console.WriteLine("\n=== Création du compte client ===");
-                        string stationMetroClient = validation.DemanderStationMetro("Entrez la station metro du client : ");
+                        this.stationMetroClient = validation.DemanderStationMetro("Entrez la station metro du client : ");
                         int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
                         
                         string entrepriseNom = null;

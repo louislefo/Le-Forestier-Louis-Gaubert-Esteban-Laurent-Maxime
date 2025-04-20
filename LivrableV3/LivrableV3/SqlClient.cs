@@ -171,6 +171,114 @@ namespace LivrableV3
                 Console.WriteLine("oups ya une erreur : " + ex.Message);
             }
         }
+        public string VoirCuisiniersDisponibles()
+        {
+            try
+            {
+                string requete = "SELECT cuisinier.id_cuisinier, utilisateur.nom, utilisateur.prénom, cuisinier.StationMetro, Plat_.nom as nom_plat, Plat_.prix_par_personne " +
+                                "FROM cuisinier, utilisateur, Plat_ " +
+                                "WHERE cuisinier.id_utilisateur = utilisateur.id_utilisateur " +
+                                "AND Plat_.id_cuisinier = cuisinier.id_cuisinier";
 
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDDClient.maConnexionClient);
+                commande.CommandText = requete;
+
+                MySqlDataReader reader = commande.ExecuteReader();
+                string rep = "\nvoici les cuisiniers disponibles\r\n";
+                Console.WriteLine("----------------------------------");
+                rep += "--------------------------------\r\n";
+
+                while (reader.Read())
+                {
+                    string idCuisinier = reader["id_cuisinier"].ToString();
+                    string nom = reader["nom"].ToString();
+                    string prenom = reader["prénom"].ToString();
+                    string station = reader["StationMetro"].ToString();
+                    string nomPlat = reader["nom_plat"].ToString();
+                    string prix = reader["prix_par_personne"].ToString();
+
+                    rep += "Cuisinier numero " + idCuisinier + "\r\n";
+                    Console.WriteLine("Cuisinier numero " + idCuisinier);
+                    rep += "Nom: " + prenom + " " + nom + "\r\n";
+                    Console.WriteLine("Nom: " + prenom + " " + nom);
+                    rep += "Station de metro: " + station + "\r\n";
+                    Console.WriteLine("Station de metro: " + station);
+                    rep += "Plat propose: " + nomPlat + "\r\n";
+                    Console.WriteLine("Plat propose: " + nomPlat);
+                    rep += "Prix: " + prix + " euros\r\n";
+                    Console.WriteLine("Prix: " + prix + " euros");
+                    rep += "--------------------------------\r\n";
+                    Console.WriteLine("----------------------------------");
+                }
+
+                reader.Close();
+                commande.Dispose();
+                return rep;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+                return null;
+            }
+        }
+
+        public string VoirHistoriqueClient(string idUtilisateur)
+        {
+            try
+            {
+                string requete = "SELECT Commande_.id_commande, Commande_.date_commande, Commande_.prix_total, Commande_.statut, " +
+                               "Plat_.nom as nom_plat, utilisateur.nom as nom_cuisinier, utilisateur.prénom as prenom_cuisinier " +
+                               "FROM Commande_, client, Plat_, cuisinier, utilisateur " +
+                               "WHERE client.id_utilisateur = '" + idUtilisateur + "' " +
+                               "AND Commande_.id_client = client.id_client " +
+                               "AND Commande_.id_plat = Plat_.id_plat " +
+                               "AND Commande_.id_cuisinier = cuisinier.id_cuisinier " +
+                               "AND cuisinier.id_utilisateur = utilisateur.id_utilisateur " +
+                               "ORDER BY Commande_.date_commande DESC";
+
+                MySqlCommand commande = new MySqlCommand(requete, connexionBDDClient.maConnexionClient);
+                commande.CommandText = requete;
+
+                MySqlDataReader reader = commande.ExecuteReader();
+                string rep = "\nvoici votre historique de commandes\r\n";
+                Console.WriteLine("----------------------------------");
+                rep += "--------------------------------\r\n";
+
+                while (reader.Read())
+                {
+                    string idCommande = reader["id_commande"].ToString();
+                    string date = reader["date_commande"].ToString();
+                    string prix = reader["prix_total"].ToString();
+                    string statut = reader["statut"].ToString();
+                    string nomPlat = reader["nom_plat"].ToString();
+                    string nomCuisinier = reader["nom_cuisinier"].ToString();
+                    string prenomCuisinier = reader["prenom_cuisinier"].ToString();
+
+                    rep += "Commande numero " + idCommande + "\r\n";
+                    Console.WriteLine("Commande numero " + idCommande);
+                    rep += "Date: " + date + "\r\n";
+                    Console.WriteLine("Date: " + date);
+                    rep += "Plat: " + nomPlat + "\r\n";
+                    Console.WriteLine("Plat: " + nomPlat);
+                    rep += "Cuisinier: " + prenomCuisinier + " " + nomCuisinier + "\r\n";
+                    Console.WriteLine("Cuisinier: " + prenomCuisinier + " " + nomCuisinier);
+                    rep += "Prix: " + prix + " euros\r\n";
+                    Console.WriteLine("Prix: " + prix + " euros");
+                    rep += "Statut: " + statut + "\r\n";
+                    Console.WriteLine("Statut: " + statut);
+                    rep += "--------------------------------\r\n";
+                    Console.WriteLine("----------------------------------");
+                }
+
+                reader.Close();
+                commande.Dispose();
+                return rep;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("oups ya une erreur : " + ex.Message);
+                return null;
+            }
+        }
     }
 }
