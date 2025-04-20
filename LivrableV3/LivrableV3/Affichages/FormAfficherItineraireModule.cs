@@ -17,13 +17,29 @@ namespace LivrableV3
         FormModules module ;
         Graphe<int> graphe;
         GestionnaireItineraire<int> gestionnaireItineraire;
+        ChargerFichiers chargerFichiers;
 
         public FormAfficherItineraireModule(FormModules module, Graphe<int> graphe)
         {
             InitializeComponent();
+            this.chargerFichiers = new ChargerFichiers();
             this.module = module;
             this.graphe = graphe;
             this.gestionnaireItineraire = new GestionnaireItineraire<int>(graphe);
+            Chargerstations();
+        }
+
+        private void Chargerstations()
+        {
+            comboBoxArrivee.Items.Clear();
+            comboBoxDepart.Items.Clear();
+            List<string> stations = chargerFichiers.ChargerStation();
+
+            for (int i = 0; i < stations.Count; i++)
+            {
+                comboBoxDepart.Items.Add(stations[i].ToString());
+                comboBoxArrivee.Items.Add(stations[i].ToString());
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace LivrableV3
@@ -28,18 +29,22 @@ namespace LivrableV3
         private Button btnRetourMenu;
         private Authentification authentification;
         private ConnexionBDD connexionBDD;
-        private Graphe<int> grapheMetro; 
+        private Graphe<int> grapheMetro;
+        private ComboBox comboBoxstation;
         private MainForm mainForm;
+        private ChargerFichiers chargerFichiers;
         #endregion
 
         /// constructeur du formulaire d inscription
         public FormInscription(Authentification auth, ConnexionBDD connexionBDD,Graphe<int> graphemetro, MainForm mainForm)
         {
+            this.chargerFichiers = new ChargerFichiers();
             InitializeComponent();
             authentification = auth;
             this.connexionBDD = connexionBDD;
             this.grapheMetro = graphemetro;
             this.mainForm = mainForm;
+            Chargerstations();
         }
 
 
@@ -65,6 +70,7 @@ namespace LivrableV3
             this.labelStationdeMetro = new System.Windows.Forms.Label();
             this.listBoxStation = new System.Windows.Forms.ListBox();
             this.btnRetourMenu = new System.Windows.Forms.Button();
+            this.comboBoxstation = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // labelInscription
@@ -484,11 +490,20 @@ namespace LivrableV3
             this.btnRetourMenu.UseVisualStyleBackColor = true;
             this.btnRetourMenu.Click += new System.EventHandler(this.btnRetourMenu_Click);
             // 
+            // comboBoxstation
+            // 
+            this.comboBoxstation.FormattingEnabled = true;
+            this.comboBoxstation.Location = new System.Drawing.Point(375, 535);
+            this.comboBoxstation.Name = "comboBoxstation";
+            this.comboBoxstation.Size = new System.Drawing.Size(166, 33);
+            this.comboBoxstation.TabIndex = 19;
+            // 
             // FormInscription
             // 
             this.AcceptButton = this.btninscription;
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(785, 762);
+            this.Controls.Add(this.comboBoxstation);
             this.Controls.Add(this.btnRetourMenu);
             this.Controls.Add(this.listBoxStation);
             this.Controls.Add(this.labelStationdeMetro);
@@ -517,6 +532,15 @@ namespace LivrableV3
 
         }
 
+        private void Chargerstations()
+        {
+            List<string> stations = chargerFichiers.ChargerStation();
+
+            for (int i = 0; i < stations.Count; i++)
+            {
+                comboBoxstation.Items.Add(stations[i].ToString());
+            }
+        }
         private string GenererIdCuisinier()
         {
             try

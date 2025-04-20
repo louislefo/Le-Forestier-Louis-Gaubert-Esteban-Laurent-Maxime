@@ -9,19 +9,22 @@ using System.Windows.Forms;
 
 namespace LivrableV3
 {
-   
+
     public class ChargerFichiers
     {
+
         /// <summary>
         /// charge les noeuds du metro
         /// </summary>
+        /// 
+
         public Dictionary<int, Noeud<int>> ChargerNoeudsMetro(string cheminFichierMetro)
         {
             Dictionary<int, Noeud<int>> noeudsMetro = new Dictionary<int, Noeud<int>>();
 
             try
             {
-                
+
                 using (StreamReader sr = new StreamReader(cheminFichierMetro))
                 {
                     string ligneEnTete = sr.ReadLine();
@@ -35,7 +38,7 @@ namespace LivrableV3
                             int id = int.Parse(colonnes[0]);
                             string numeroLigne = colonnes[1];
                             string nomStation = colonnes[2];
-                            double longitude = double.Parse(colonnes[3], CultureInfo.InvariantCulture); 
+                            double longitude = double.Parse(colonnes[3], CultureInfo.InvariantCulture);
                             double latitude = double.Parse(colonnes[4], CultureInfo.InvariantCulture);
                             string couleurLigne = colonnes[7];
 
@@ -73,7 +76,7 @@ namespace LivrableV3
                             int idStation = int.Parse(colonnes[0]);
                             int idPrecedent = int.Parse(colonnes[2]);
                             int idSuivant = int.Parse(colonnes[3]);
-                            double poids = double.Parse(colonnes[4]); 
+                            double poids = double.Parse(colonnes[4]);
                             int tempsCorrespondance = int.Parse(colonnes[5]);
 
                             // Met à jour le temps de correspondance de la station
@@ -101,6 +104,53 @@ namespace LivrableV3
             {
                 MessageBox.Show("Erreur lors de la lecture du fichier des arcs : " + e.Message);
             }
+        }
+
+        public List<string> ChargerStation()
+        {
+            string cheminfichier = @"../../Données/MetroParisNoeuds.csv";
+            List<string> stations = new List<string>();
+
+            try
+            {
+
+                using (StreamReader sr = new StreamReader(cheminfichier))
+                {
+                    string ligneEnTete = sr.ReadLine(); 
+
+                    string ligne;
+                    while ((ligne = sr.ReadLine()) != null)
+                    {
+                        string[] colonnes = ligne.Split(';');
+                        if (colonnes.Length >= 8)
+                        {
+                            string nomStation = colonnes[2];
+                            stations.Add(nomStation);
+                        }
+                    }
+
+                    stations = stations.Distinct().ToList(); 
+                    stations.Sort(); 
+
+                    if(stations == null)
+                    {
+                        MessageBox.Show("Aucune station trouvée dans le fichier.");
+                        List<string> stationstes = new List<string>
+                        {
+                            "Châtelet",
+                            "République",
+                            "Nation"
+                        };
+                        return stationstes;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Erreur lors de la lecture du fichier des stations : " + e.Message);
+            }
+
+            return stations;
         }
     }
 }
