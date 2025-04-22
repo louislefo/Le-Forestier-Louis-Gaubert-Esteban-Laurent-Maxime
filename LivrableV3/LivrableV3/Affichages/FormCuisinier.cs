@@ -1,4 +1,6 @@
+using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace LivrableV3
@@ -21,17 +23,25 @@ namespace LivrableV3
         private Button btnvoiritineraire;
         private TextBox textBoxrep;
         private Button btnvoirnotes;
+        private ComboBox comboBoxnumcommande;
+        private Label label1;
         private MainForm mainForm;
+        private FormAjoutplat formAjouterPlat;
+        private SqlCuisinier sqlCuisinier;
+        private SqlCommander sqlCommander;
+        private GestionnaireItineraire<int> gestionnaireItineraire;
 
-        /// constructeur du formulaire cuisinier
         public FormCuisinier(ConnexionBDDCuisinier connexion, Authentification auth, Graphe<int> graphe,MainForm main)
         {
             InitializeComponent();
             connexionBDDCuisinier = connexion;
             authentification = auth;
             grapheMetro = graphe;
+            this.gestionnaireItineraire = new GestionnaireItineraire<int>(grapheMetro);
             labelNom.Text = "Bonjour " + authentification.nom + " " + authentification.prenom;
             this.mainForm = main;
+            SqlCuisinier sqlCuisinier = new SqlCuisinier(connexionBDDCuisinier,authentification);
+            RemplirBox(sqlCuisinier.VoiridCommandes(sqlCuisinier.GetIdCuisinierFromUtilisateur(authentification.idUtilisateur)));
         }
 
        
@@ -46,6 +56,8 @@ namespace LivrableV3
             this.btnvoiritineraire = new System.Windows.Forms.Button();
             this.textBoxrep = new System.Windows.Forms.TextBox();
             this.btnvoirnotes = new System.Windows.Forms.Button();
+            this.comboBoxnumcommande = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnDeconnexion
@@ -80,7 +92,7 @@ namespace LivrableV3
             // 
             // btnvoircommandes
             // 
-            this.btnvoircommandes.Location = new System.Drawing.Point(43, 338);
+            this.btnvoircommandes.Location = new System.Drawing.Point(43, 265);
             this.btnvoircommandes.Name = "btnvoircommandes";
             this.btnvoircommandes.Size = new System.Drawing.Size(179, 73);
             this.btnvoircommandes.TabIndex = 3;
@@ -90,7 +102,7 @@ namespace LivrableV3
             // 
             // btnvoirmenu
             // 
-            this.btnvoirmenu.Location = new System.Drawing.Point(43, 448);
+            this.btnvoirmenu.Location = new System.Drawing.Point(43, 547);
             this.btnvoirmenu.Name = "btnvoirmenu";
             this.btnvoirmenu.Size = new System.Drawing.Size(179, 66);
             this.btnvoirmenu.TabIndex = 4;
@@ -100,7 +112,7 @@ namespace LivrableV3
             // 
             // btnajouterplat
             // 
-            this.btnajouterplat.Location = new System.Drawing.Point(289, 155);
+            this.btnajouterplat.Location = new System.Drawing.Point(284, 114);
             this.btnajouterplat.Name = "btnajouterplat";
             this.btnajouterplat.Size = new System.Drawing.Size(179, 65);
             this.btnajouterplat.TabIndex = 5;
@@ -110,7 +122,7 @@ namespace LivrableV3
             // 
             // btnvoiritineraire
             // 
-            this.btnvoiritineraire.Location = new System.Drawing.Point(43, 544);
+            this.btnvoiritineraire.Location = new System.Drawing.Point(43, 445);
             this.btnvoiritineraire.Name = "btnvoiritineraire";
             this.btnvoiritineraire.Size = new System.Drawing.Size(179, 71);
             this.btnvoiritineraire.TabIndex = 6;
@@ -120,11 +132,11 @@ namespace LivrableV3
             // 
             // textBoxrep
             // 
-            this.textBoxrep.Location = new System.Drawing.Point(257, 338);
+            this.textBoxrep.Location = new System.Drawing.Point(257, 265);
             this.textBoxrep.Multiline = true;
             this.textBoxrep.Name = "textBoxrep";
             this.textBoxrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxrep.Size = new System.Drawing.Size(497, 375);
+            this.textBoxrep.Size = new System.Drawing.Size(497, 448);
             this.textBoxrep.TabIndex = 7;
             // 
             // btnvoirnotes
@@ -135,11 +147,31 @@ namespace LivrableV3
             this.btnvoirnotes.TabIndex = 8;
             this.btnvoirnotes.Text = "Voir mes notes";
             this.btnvoirnotes.UseVisualStyleBackColor = true;
+            this.btnvoirnotes.Click += new System.EventHandler(this.btnvoirnotes_Click);
+            // 
+            // comboBoxnumcommande
+            // 
+            this.comboBoxnumcommande.FormattingEnabled = true;
+            this.comboBoxnumcommande.Location = new System.Drawing.Point(43, 391);
+            this.comboBoxnumcommande.Name = "comboBoxnumcommande";
+            this.comboBoxnumcommande.Size = new System.Drawing.Size(178, 33);
+            this.comboBoxnumcommande.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(38, 357);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(120, 25);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "commande :";
             // 
             // FormCuisinier
             // 
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(785, 762);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBoxnumcommande);
             this.Controls.Add(this.btnvoirnotes);
             this.Controls.Add(this.textBoxrep);
             this.Controls.Add(this.btnvoiritineraire);
@@ -162,6 +194,23 @@ namespace LivrableV3
         {
 
         }
+        private void RemplirBox(List<string> listecommande)
+        {
+            comboBoxnumcommande.Items.Clear();
+            if (listecommande == null || listecommande.Count == 0)
+            {
+                textBoxrep.Text = "pas de commande en cours";
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < listecommande.Count; i++)
+                {
+                    comboBoxnumcommande.Items.Add(listecommande[i]);
+                }
+            }
+            
+        }
 
         private void btnDeconnexion_Click(object sender, EventArgs e)
         {
@@ -171,21 +220,62 @@ namespace LivrableV3
 
         private void btnvoircommandes_Click(object sender, EventArgs e)
         {
-
+            string idcuisto = sqlCuisinier.GetIdCuisinierFromUtilisateur( authentification.idUtilisateur );
+            textBoxrep.Text = sqlCuisinier.VoirCommandesEnCours(idcuisto);
         }
+        
 
         private void btnvoirmenu_Click(object sender, EventArgs e)
         {
-
+            textBoxrep.Text = sqlCuisinier.VoirMesPlats(sqlCuisinier.GetIdCuisinierFromUtilisateur(authentification.idUtilisateur));
         }
 
         private void btnvoiritineraire_Click(object sender, EventArgs e)
         {
 
+            FormItineraireCuisinier formAfficheritineraire = new FormItineraireCuisinier(this , gestionnaireItineraire);
+
+
+            string stationDepart = authentification.stationMetro;
+            string sationArrivée = sqlCuisinier.ConnaitreStationClient(comboBoxnumcommande.Text);
+
+            int idArrivee = grapheMetro.TrouverIdParNom(stationDepart);
+            int idDepart = grapheMetro.TrouverIdParNom(sationArrivée);
+
+
+            // on verifie que les stations existent
+            if (idDepart == -1 || idArrivee == -1)
+            {
+                MessageBox.Show("station pas trouvee", "erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // on cherche l itineraire avec le gestionnaire
+            List<Noeud<int>> itineraire = gestionnaireItineraire.RechercherItineraire(idDepart.ToString(), idArrivee.ToString());
+
+            // si on a trouve un itineraire on cree l image
+            if (itineraire != null && itineraire.Count > 0)
+            {
+                VisualisationItineraire visItineraire = new VisualisationItineraire(1200, 800);
+                string texteItineraire = "Itineraire de " + itineraire[0].ToString() + " a " + itineraire[itineraire.Count - 1].ToString();
+                visItineraire.DessinerItineraire(grapheMetro, itineraire, texteItineraire);
+                visItineraire.SauvegarderImage("itinerairecuisinier.png");
+
+            }
+            else
+            {
+                MessageBox.Show("pas de chemin trouve", "erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            formAfficheritineraire.Show();
+            this.Hide();
         }
 
         private void btnajouterplat_Click(object sender, EventArgs e)
         {
+            FormAjoutplat formAjouterPlat = new FormAjoutplat(connexionBDDCuisinier, authentification, this);
+            formAjouterPlat.Show();
+            this.Hide();
 
         }
 
@@ -193,5 +283,11 @@ namespace LivrableV3
         {
 
         }
+
+        private void btnvoirnotes_Click(object sender, EventArgs e)
+        {
+            textBoxrep.Text = sqlCuisinier.Voirmesnotes(sqlCuisinier.GetIdCuisinierFromUtilisateur(authentification.idUtilisateur));
+        }
+
     }
 } 

@@ -30,9 +30,6 @@ namespace LivrableV3
                 pictureBoxitineraire.Image = Image.FromStream(stream);
             }
 
-            
-
-
         }
 
         private void FormAfficheritineraire_Load(object sender, EventArgs e)

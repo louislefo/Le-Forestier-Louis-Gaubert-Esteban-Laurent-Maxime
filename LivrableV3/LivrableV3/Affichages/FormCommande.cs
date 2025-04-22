@@ -152,8 +152,15 @@ namespace LivrableV3
             this.stationArrivée = authentification.stationMetro;
             this.stationDepart = sqlCommander.ConnaitreStationCuisinier(platSelectionne);
 
+            int idArrivee = grapheMetro.TrouverIdParNom(stationDepart);
+            int idDepart = grapheMetro.TrouverIdParNom(stationArrivée);
+
+            List<Noeud<int>> itineraire = gestionnaireItineraire.RechercherItineraire(idDepart.ToString(), idArrivee.ToString());
+
             textBoxprix.Text = "  " + sqlCommander.ConnaitrePrix(platSelectionne)+ " € ";
+
             double temps = gestionnaireItineraire.tempsTotal;
+
             textBoxtemps.Text = " " + temps + " min ";
             textBoxcuisinier.Text = sqlCommander.ConnaitreCuisinier(platSelectionne);
 

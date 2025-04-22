@@ -110,6 +110,18 @@
     <Compile Include="Affichages\FormNoterPlat.Designer.cs">
       <DependentUpon>FormNoterPlat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Affichages\FormAjoutplat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Affichages\FormAjoutplat.Designer.cs">
+      <DependentUpon>FormAjoutplat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Affichages\FormItineraireCuisinier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Affichages\FormItineraireCuisinier.Designer.cs">
+      <DependentUpon>FormItineraireCuisinier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Modulecuisinier.cs" />
     <Compile Include="SqlCommander.cs" />
     <Compile Include="Visualtisations\VisualisationGraphe.cs" />
@@ -177,6 +189,9 @@
     <EmbeddedResource Include="Affichages\FormAffichierCarte.resx">
       <DependentUpon>FormAffichierCarte.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Affichages\FormAjoutplat.resx">
+      <DependentUpon>FormAjoutplat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Affichages\FormNoterPlat.resx">
       <DependentUpon>FormNoterPlat.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Affichages\FormCommande.resx">
       <DependentUpon>FormCommande.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Affichages\FormItineraireCuisinier.resx">
+      <DependentUpon>FormItineraireCuisinier.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
