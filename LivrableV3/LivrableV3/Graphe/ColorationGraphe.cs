@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
@@ -56,15 +56,15 @@ namespace LivrableV3
             for (int i = 0; i < listeNoeuds.Count; i++)
             {
                 Noeud<T> noeud = listeNoeuds[i];
-                
+
                 // on cherche la plus petite couleur disponible
                 bool couleurTrouvee = false;
                 int couleurTestee = 1;
-                
+
                 while (!couleurTrouvee)
                 {
                     couleurTrouvee = true;
-                    
+
                     // on verifie tous les voisins
                     for (int j = 0; j < noeud.Voisins.Count; j++)
                     {
@@ -80,7 +80,7 @@ namespace LivrableV3
 
                 // on colorie le noeud avec la couleur trouvee
                 couleursNoeuds[noeud] = couleurTestee;
-                
+
                 // on met a jour le nombre de couleurs si necessaire
                 if (couleurTestee > couleurActuelle)
                 {
@@ -284,4 +284,4 @@ namespace LivrableV3
             AfficherGrapheMetroColore();
         }
     }
-} 
+}

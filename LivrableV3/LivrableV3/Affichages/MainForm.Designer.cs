@@ -35,6 +35,7 @@
             this.btnConnection = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btncolo = new System.Windows.Forms.Button();
             this.btnColoration = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -52,7 +53,7 @@
             // btnModule
             // 
             this.btnModule.AutoSize = true;
-            this.btnModule.Location = new System.Drawing.Point(274, 423);
+            this.btnModule.Location = new System.Drawing.Point(274, 429);
             this.btnModule.Name = "btnModule";
             this.btnModule.Size = new System.Drawing.Size(250, 63);
             this.btnModule.TabIndex = 2;
@@ -101,11 +102,21 @@
             this.label2.Text = "Projet de Maxime, Esteban et Louis";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
+            // btncolo
+            // 
+            this.btncolo.Location = new System.Drawing.Point(331, 623);
+            this.btncolo.Name = "btncolo";
+            this.btncolo.Size = new System.Drawing.Size(148, 48);
+            this.btncolo.TabIndex = 7;
+            this.btncolo.Text = "colo";
+            this.btncolo.UseVisualStyleBackColor = true;
+            this.btncolo.Click += new System.EventHandler(this.btncolo_Click);
+            // 
             // btnColoration
             // 
             this.btnColoration.Location = new System.Drawing.Point(20, 250);
             this.btnColoration.Name = "btnColoration";
-            this.btnColoration.Size = new System.Drawing.Size(200, 40);
+            this.btnColoration.Size = new System.Drawing.Size(200, 116);
             this.btnColoration.TabIndex = 5;
             this.btnColoration.Text = "Tester Coloration de Graphe";
             this.btnColoration.UseVisualStyleBackColor = true;
@@ -118,6 +129,7 @@
             this.BackColor = System.Drawing.Color.IndianRed;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(782, 759);
+            this.Controls.Add(this.btncolo);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnConnection);
@@ -144,6 +156,7 @@
         private System.Windows.Forms.Button btnConnection;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btncolo;
         private System.Windows.Forms.Button btnColoration;
     }
 }
