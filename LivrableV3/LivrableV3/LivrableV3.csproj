@@ -122,8 +122,8 @@
     <Compile Include="Affichages\FormItineraireCuisinier.Designer.cs">
       <DependentUpon>FormItineraireCuisinier.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Modulecuisinier.cs" />
-    <Compile Include="SqlCommander.cs" />
+    <Compile Include="Requettes\Modulecuisinier.cs" />
+    <Compile Include="Requettes\SqlCommander.cs" />
     <Compile Include="Visualtisations\VisualisationGraphe.cs" />
     <Compile Include="Visualtisations\AfficherGraphesat.cs" />
     <Compile Include="Visualtisations\AfficherItineraire.cs" />
@@ -176,13 +176,13 @@
     <Compile Include="Graphe\lien.cs" />
     <Compile Include="Graphe\Noeud.cs" />
     <Compile Include="Graphe\PlusCourtChemin.cs" />
-    <Compile Include="Modules\ModuleCommande.cs" />
+    <Compile Include="Requettes\ModuleCommande.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlClient.cs" />
-    <Compile Include="SqlCuisinier.cs" />
-    <Compile Include="ValidationRequette.cs" />
+    <Compile Include="Requettes\SqlClient.cs" />
+    <Compile Include="Requettes\SqlCuisinier.cs" />
+    <Compile Include="Requettes\ValidationRequette.cs" />
     <EmbeddedResource Include="Affichages\FormAfficheritineraire.resx">
       <DependentUpon>FormAfficheritineraire.cs</DependentUpon>
     </EmbeddedResource>

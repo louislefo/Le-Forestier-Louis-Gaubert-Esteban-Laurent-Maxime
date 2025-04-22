@@ -21,6 +21,8 @@ namespace LivrableV3
             this.grapheMetro = grapheMetro;
         }
 
+        /*
+
         /// <summary>
         /// cette methode sert a creer une nouvelle commande
         /// elle verifie que le client et le plat existent
@@ -349,7 +351,7 @@ namespace LivrableV3
 
 
 
-
+        */
 
 
     }
