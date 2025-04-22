@@ -35,6 +35,7 @@
             this.btnConnection = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnColoration = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btninscription
@@ -100,6 +101,16 @@
             this.label2.Text = "Projet de Maxime, Esteban et Louis";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
+            // btnColoration
+            // 
+            this.btnColoration.Location = new System.Drawing.Point(20, 250);
+            this.btnColoration.Name = "btnColoration";
+            this.btnColoration.Size = new System.Drawing.Size(200, 40);
+            this.btnColoration.TabIndex = 5;
+            this.btnColoration.Text = "Tester Coloration de Graphe";
+            this.btnColoration.UseVisualStyleBackColor = true;
+            this.btnColoration.Click += new System.EventHandler(this.btnColoration_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 30F);
@@ -113,6 +124,7 @@
             this.Controls.Add(this.btnquitter);
             this.Controls.Add(this.btnModule);
             this.Controls.Add(this.btninscription);
+            this.Controls.Add(this.btnColoration);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
@@ -132,6 +144,7 @@
         private System.Windows.Forms.Button btnConnection;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnColoration;
     }
 }
 

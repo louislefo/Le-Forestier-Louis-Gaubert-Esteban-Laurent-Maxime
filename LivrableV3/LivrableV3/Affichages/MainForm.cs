@@ -95,6 +95,24 @@ namespace LivrableV3
         {
 
         }
+
+        private void btnColoration_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // on teste la coloration sur le graphe du metro
+                ColorationGraphe<int> coloration = new ColorationGraphe<int>();
+                coloration.AppliquerWelshPowell(grapheMetro);
+                
+                // on affiche le graphe colore
+                coloration.AfficherGrapheMetroColore();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de l'affichage du graphe : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         public static bool DemanderMotDePasseAdmin()
         {
             Form prompt = new Form()
