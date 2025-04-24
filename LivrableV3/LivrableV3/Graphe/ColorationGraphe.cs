@@ -150,14 +150,9 @@ namespace LivrableV3
             // on cree un tableau de couleurs pour les noeuds
             Color[] couleurs = new Color[]
             {
-                Color.Red,
-                Color.Green,
-                Color.Blue,
-                Color.Yellow,
-                Color.Magenta,
-                Color.Cyan,
-                Color.Orange,
-                Color.Purple
+                Color.Red,    // pour les cuisiniers
+                Color.Blue,   // pour les clients
+                Color.Gray    // pour les autres stations
             };
 
             // on recupere les groupes de noeuds
@@ -202,7 +197,7 @@ namespace LivrableV3
                 }
             }
 
-            // on dessine les liens entre les noeuds
+            // on dessine les liens entre les noeuds en gris
             foreach (var groupe in groupes)
             {
                 foreach (var noeud in groupe)
@@ -211,7 +206,7 @@ namespace LivrableV3
                     {
                         if (positions.ContainsKey(voisin))
                         {
-                            g.DrawLine(Pens.Gray, positions[noeud], positions[voisin]);
+                            g.DrawLine(new Pen(Color.LightGray, 1), positions[noeud], positions[voisin]);
                         }
                     }
                 }
@@ -227,7 +222,19 @@ namespace LivrableV3
                     {
                         Point pos = positions[noeud];
                         g.FillEllipse(new SolidBrush(couleurActuelle), pos.X - rayon, pos.Y - rayon, 2 * rayon, 2 * rayon);
-                        g.DrawString(noeud.NomStation, new Font("Arial", 8), Brushes.Black, pos.X + rayon + 2, pos.Y - 8);
+                        
+                        // on affiche le nom du client ou du cuisinier
+                        string nomAffiche = noeud.NomStation;
+                        if (i == 0) // premier groupe = cuisiniers
+                        {
+                            nomAffiche = "Cuisinier: " + nomAffiche;
+                        }
+                        else if (i == 1) // deuxième groupe = clients
+                        {
+                            nomAffiche = "Client: " + nomAffiche;
+                        }
+                        
+                        g.DrawString(nomAffiche, new Font("Arial", 8), Brushes.Black, pos.X + rayon + 2, pos.Y - 8);
                     }
                 }
             }
@@ -244,12 +251,16 @@ namespace LivrableV3
             legendeY += 80;
 
             // Légende des couleurs
-            for (int i = 0; i < groupes.Count; i++)
-            {
-                g.FillRectangle(new SolidBrush(couleurs[i % couleurs.Length]), legendeX, legendeY, 10, 10);
-                g.DrawString("Groupe " + (i + 1), new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
-                legendeY += 20;
-            }
+            g.FillRectangle(new SolidBrush(couleurs[0]), legendeX, legendeY, 10, 10);
+            g.DrawString("Cuisiniers", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
+            legendeY += 20;
+
+            g.FillRectangle(new SolidBrush(couleurs[1]), legendeX, legendeY, 10, 10);
+            g.DrawString("Clients", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
+            legendeY += 20;
+
+            g.FillRectangle(new SolidBrush(couleurs[2]), legendeX, legendeY, 10, 10);
+            g.DrawString("Stations", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
         }
 
         /// affiche les resultats de la coloration
