@@ -14,6 +14,7 @@ namespace LivrableV3
         /// le nombre de couleurs utilisees
         public int NombreCouleurs { get; private set; }
 
+        /// constructeur de la classe
         public ColorationGraphe()
         {
             couleursNoeuds = new Dictionary<Noeud<T>, int>();
@@ -125,28 +126,28 @@ namespace LivrableV3
             return groupes;
         }
 
-        /// affiche le graphe du metro colore
-        public void AfficherGrapheMetroColore()
+        /// affiche le graphe des clients et cuisiniers colore
+        public void AfficherGrapheColore()
         {
             // on cree une nouvelle fenetre pour afficher le graphe
             Form fenetreGraphe = new Form();
-            fenetreGraphe.Text = "Graphe du Metro Colore";
+            fenetreGraphe.Text = "Graphe des Clients et Cuisiniers Colore";
             fenetreGraphe.Size = new Size(800, 600);
 
             // on cree un panel pour dessiner le graphe
             Panel panelGraphe = new Panel();
             panelGraphe.Dock = DockStyle.Fill;
-            panelGraphe.Paint += (sender, e) => DessinerGrapheMetro(e.Graphics);
+            panelGraphe.Paint += (sender, e) => DessinerGraphe(e.Graphics);
             fenetreGraphe.Controls.Add(panelGraphe);
 
             // on affiche la fenetre
             fenetreGraphe.ShowDialog();
         }
 
-        /// dessine le graphe du metro
-        private void DessinerGrapheMetro(Graphics g)
+        /// dessine le graphe des clients et cuisiniers
+        private void DessinerGraphe(Graphics g)
         {
-            // on cree un tableau de couleurs pour les stations
+            // on cree un tableau de couleurs pour les noeuds
             Color[] couleurs = new Color[]
             {
                 Color.Red,
@@ -159,74 +160,56 @@ namespace LivrableV3
                 Color.Purple
             };
 
-            // on recupere les groupes de stations
+            // on recupere les groupes de noeuds
             var groupes = TrouverGroupesIndependants();
 
-            // on calcule les limites du graphe
-            double minLongitude = double.MaxValue;
-            double maxLongitude = double.MinValue;
-            double minLatitude = double.MaxValue;
-            double maxLatitude = double.MinValue;
-
-            foreach (var groupe in groupes)
-            {
-                foreach (var station in groupe)
-                {
-                    minLongitude = Math.Min(minLongitude, station.Longitude);
-                    maxLongitude = Math.Max(maxLongitude, station.Longitude);
-                    minLatitude = Math.Min(minLatitude, station.Latitude);
-                    maxLatitude = Math.Max(maxLatitude, station.Latitude);
-                }
-            }
-
-            // on ajoute une marge
-            double marge = 0.01;
-            minLongitude -= marge;
-            maxLongitude += marge;
-            minLatitude -= marge;
-            maxLatitude += marge;
-
-            // on calcule la position de chaque station
+            // on calcule les positions des noeuds
             Dictionary<Noeud<T>, Point> positions = new Dictionary<Noeud<T>, Point>();
-            int rayon = 5; // taille des points reduite
+            int rayon = 10;
+            int espacement = 100;
 
-            // on convertit les coordonnees geographiques en coordonnees d'ecran
-            foreach (var groupe in groupes)
+            // on place les noeuds en cercle
+            int centreX = 400;
+            int centreY = 300;
+            int rayonCercle = 200;
+
+            for (int i = 0; i < groupes.Count; i++)
             {
-                foreach (var station in groupe)
+                for (int j = 0; j < groupes[i].Count; j++)
                 {
-                    int x = (int)((station.Longitude - minLongitude) / (maxLongitude - minLongitude) * 700 + 50);
-                    int y = (int)((maxLatitude - station.Latitude) / (maxLatitude - minLatitude) * 500 + 50);
-                    positions[station] = new Point(x, y);
+                    double angle = 2 * Math.PI * j / groupes[i].Count;
+                    int x = centreX + (int)(rayonCercle * Math.Cos(angle));
+                    int y = centreY + (int)(rayonCercle * Math.Sin(angle));
+                    positions[groupes[i][j]] = new Point(x, y);
                 }
             }
 
-            // on dessine les liens entre les stations
+            // on dessine les liens entre les noeuds
             foreach (var groupe in groupes)
             {
-                foreach (var station in groupe)
+                foreach (var noeud in groupe)
                 {
-                    foreach (var voisin in station.Voisins)
+                    foreach (var voisin in noeud.Voisins)
                     {
                         if (positions.ContainsKey(voisin))
                         {
-                            g.DrawLine(Pens.Gray, positions[station], positions[voisin]);
+                            g.DrawLine(Pens.Gray, positions[noeud], positions[voisin]);
                         }
                     }
                 }
             }
 
-            // on dessine les stations avec leurs couleurs
+            // on dessine les noeuds avec leurs couleurs
             for (int i = 0; i < groupes.Count; i++)
             {
                 Color couleurActuelle = couleurs[i % couleurs.Length];
-                foreach (var station in groupes[i])
+                foreach (var noeud in groupes[i])
                 {
-                    if (positions.ContainsKey(station))
+                    if (positions.ContainsKey(noeud))
                     {
-                        Point pos = positions[station];
+                        Point pos = positions[noeud];
                         g.FillEllipse(new SolidBrush(couleurActuelle), pos.X - rayon, pos.Y - rayon, 2 * rayon, 2 * rayon);
-                        g.DrawString(station.NomStation, new Font("Arial", 6), Brushes.Black, pos.X + rayon + 2, pos.Y - 6);
+                        g.DrawString(noeud.NomStation, new Font("Arial", 8), Brushes.Black, pos.X + rayon + 2, pos.Y - 8);
                     }
                 }
             }
@@ -254,11 +237,11 @@ namespace LivrableV3
         /// affiche les resultats de la coloration
         public void AfficherResultats()
         {
-            Console.WriteLine("Resultats de la coloration du metro :");
+            Console.WriteLine("Resultats de la coloration des clients et cuisiniers :");
             Console.WriteLine("Nombre de couleurs utilisees : " + NombreCouleurs);
             Console.WriteLine();
 
-            Console.WriteLine("Le graphe du metro est-il biparti ? " + (EstBiparti() ? "Oui" : "Non"));
+            Console.WriteLine("Le graphe est-il biparti ? " + (EstBiparti() ? "Oui" : "Non"));
             if (EstBiparti())
             {
                 Console.WriteLine("car on peut le colorier avec 2 couleurs");
@@ -269,7 +252,7 @@ namespace LivrableV3
             }
             Console.WriteLine();
 
-            Console.WriteLine("Le graphe du metro est-il planaire ? " + (EstPlanaire() ? "Oui" : "Non"));
+            Console.WriteLine("Le graphe est-il planaire ? " + (EstPlanaire() ? "Oui" : "Non"));
             if (EstPlanaire())
             {
                 Console.WriteLine("car on peut le colorier avec 4 couleurs ou moins");
@@ -281,7 +264,7 @@ namespace LivrableV3
             Console.WriteLine();
 
             // on affiche le graphe colore
-            AfficherGrapheMetroColore();
+            AfficherGrapheColore();
         }
     }
 }

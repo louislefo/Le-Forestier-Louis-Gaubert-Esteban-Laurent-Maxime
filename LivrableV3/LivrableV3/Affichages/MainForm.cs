@@ -105,7 +105,7 @@ namespace LivrableV3
                 coloration.AppliquerWelshPowell(grapheMetro);
                 
                 // on affiche le graphe colore
-                coloration.AfficherGrapheMetroColore();
+                coloration.AfficherGrapheColore();
             }
             catch (Exception ex)
             {
@@ -160,7 +160,7 @@ namespace LivrableV3
                 coloration.AppliquerWelshPowell(grapheMetro);
 
                 // on affiche le graphe colore
-                coloration.AfficherGrapheMetroColore();
+                coloration.AfficherGrapheColore();
             }
             catch (Exception ex)
             {
