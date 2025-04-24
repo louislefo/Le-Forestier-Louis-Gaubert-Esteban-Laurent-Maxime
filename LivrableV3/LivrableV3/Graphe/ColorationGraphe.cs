@@ -232,8 +232,8 @@ namespace LivrableV3
 
             // on calcule la position de chaque noeud
             Dictionary<Noeud<int>, Point> positions = new Dictionary<Noeud<int>, Point>();
-            int rayonStation = 3;  // taille des stations
-            int rayonPersonne = 4; // taille des clients/cuisiniers
+            int rayonStation = 4;  // taille des stations
+            int rayonPersonne = 6; // taille des clients/cuisiniers
 
             // on convertit les coordonnees geographiques en coordonnees d'ecran
             foreach (var noeud in grapheMetro.Noeuds.Values)
