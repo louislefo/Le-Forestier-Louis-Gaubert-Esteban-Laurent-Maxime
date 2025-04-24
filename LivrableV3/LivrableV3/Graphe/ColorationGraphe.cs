@@ -187,7 +187,7 @@ namespace LivrableV3
                     }
                 }
                 // on dessine les clients et cuisiniers par-dessus
-                DessinerGraphe(e.Graphics, grapheMetro);
+                DessinerGraphe(e.Graphics, grapheMetro, visMetro);
             };
             fenetreGraphe.Controls.Add(panelGraphe);
 
@@ -196,7 +196,7 @@ namespace LivrableV3
         }
 
         /// dessine le graphe des clients et cuisiniers
-        private void DessinerGraphe(Graphics g, Graphe<int> grapheMetro)
+        private void DessinerGraphe(Graphics g, Graphe<int> grapheMetro, VisualisationCarte visMetro)
         {
             // on cree un tableau de couleurs pour les noeuds
             Color[] couleurs = new Color[]
@@ -208,40 +208,6 @@ namespace LivrableV3
 
             // on recupere les groupes de noeuds
             var groupes = TrouverGroupesIndependants();
-
-            // on calcule les limites du graphe
-            double minLongitude = double.MaxValue;
-            double maxLongitude = double.MinValue;
-            double minLatitude = double.MaxValue;
-            double maxLatitude = double.MinValue;
-
-            foreach (var noeud in grapheMetro.Noeuds.Values)
-            {
-                minLongitude = Math.Min(minLongitude, noeud.Longitude);
-                maxLongitude = Math.Max(maxLongitude, noeud.Longitude);
-                minLatitude = Math.Min(minLatitude, noeud.Latitude);
-                maxLatitude = Math.Max(maxLatitude, noeud.Latitude);
-            }
-
-            // on ajoute une marge
-            double marge = 0.01;
-            minLongitude -= marge;
-            maxLongitude += marge;
-            minLatitude -= marge;
-            maxLatitude += marge;
-
-            // on calcule la position de chaque noeud
-            Dictionary<Noeud<int>, Point> positions = new Dictionary<Noeud<int>, Point>();
-            int rayonStation = 4;  // taille des stations
-            int rayonPersonne = 6; // taille des clients/cuisiniers
-
-            // on convertit les coordonnees geographiques en coordonnees d'ecran
-            foreach (var noeud in grapheMetro.Noeuds.Values)
-            {
-                int x = (int)((noeud.Longitude - minLongitude) / (maxLongitude - minLongitude) * 700 + 50);
-                int y = (int)((maxLatitude - noeud.Latitude) / (maxLatitude - minLatitude) * 500 + 50);
-                positions[noeud] = new Point(x, y);
-            }
 
             // on dessine les clients et cuisiniers
             for (int i = 0; i < groupes.Count; i++)
@@ -260,12 +226,34 @@ namespace LivrableV3
                         }
                     }
 
-                    if (stationMetro != null && positions.ContainsKey(stationMetro))
+                    if (stationMetro != null)
                     {
-                        Point pos = positions[stationMetro];
+                        // on calcule la position de la station
+                        double minLong = double.MaxValue, maxLong = double.MinValue;
+                        double minLat = double.MaxValue, maxLat = double.MinValue;
+
+                        foreach (var n in grapheMetro.Noeuds.Values)
+                        {
+                            minLong = Math.Min(minLong, n.Longitude);
+                            maxLong = Math.Max(maxLong, n.Longitude);
+                            minLat = Math.Min(minLat, n.Latitude);
+                            maxLat = Math.Max(maxLat, n.Latitude);
+                        }
+
+                        double marge = 0.01;
+                        minLong -= marge;
+                        maxLong += marge;
+                        minLat -= marge;
+                        maxLat += marge;
+
+                        double echelleLong = (800 - 2 * 50) / (maxLong - minLong);
+                        double echelleLat = (600 - 2 * 50) / (maxLat - minLat);
+
+                        int x = (int)((stationMetro.Longitude - minLong) * echelleLong) + 50;
+                        int y = 600 - ((int)((stationMetro.Latitude - minLat) * echelleLat) + 50);
                         
                         // on dessine un point plus gros pour le client/cuisinier
-                        g.FillEllipse(new SolidBrush(couleurActuelle), pos.X - rayonPersonne, pos.Y - rayonPersonne, 2 * rayonPersonne, 2 * rayonPersonne);
+                        g.FillEllipse(new SolidBrush(couleurActuelle), x - 6, y - 6, 12, 12);
                         
                         // on affiche le nom de la station et de la personne
                         string texteStation = noeud.NomStation;
@@ -273,13 +261,13 @@ namespace LivrableV3
                         
                         if (i == 0) // premier groupe = cuisiniers
                         {
-                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y - 8);
-                            g.DrawString("Cuisinier: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y + 2);
+                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, x + 8, y - 8);
+                            g.DrawString("Cuisinier: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, x + 8, y + 2);
                         }
                         else if (i == 1) // deuxième groupe = clients
                         {
-                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y - 8);
-                            g.DrawString("Client: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y + 2);
+                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, x + 8, y - 8);
+                            g.DrawString("Client: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, x + 8, y + 2);
                         }
                     }
                 }
