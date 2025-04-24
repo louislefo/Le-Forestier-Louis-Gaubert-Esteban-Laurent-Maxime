@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace LivrableV3
 {
@@ -162,6 +163,11 @@ namespace LivrableV3
         /// affiche le graphe des clients et cuisiniers colore
         public void AfficherGrapheColore(Graphe<int> grapheMetro)
         {
+            // on cree d'abord l'image du metro
+            VisualisationCarte visMetro = new VisualisationCarte(800, 600);
+            visMetro.DessinerGraphe(grapheMetro);
+            visMetro.SauvegarderImage("metro.png");
+
             // on cree une nouvelle fenetre pour afficher le graphe
             Form fenetreGraphe = new Form();
             fenetreGraphe.Text = "Graphe des Clients et Cuisiniers Colore";
@@ -170,7 +176,19 @@ namespace LivrableV3
             // on cree un panel pour dessiner le graphe
             Panel panelGraphe = new Panel();
             panelGraphe.Dock = DockStyle.Fill;
-            panelGraphe.Paint += (sender, e) => DessinerGraphe(e.Graphics, grapheMetro);
+            panelGraphe.Paint += (sender, e) =>
+            {
+                // on charge l'image du metro
+                if (File.Exists("metro.png"))
+                {
+                    using (var image = Image.FromFile("metro.png"))
+                    {
+                        e.Graphics.DrawImage(image, 0, 0, panelGraphe.Width, panelGraphe.Height);
+                    }
+                }
+                // on dessine les clients et cuisiniers par-dessus
+                DessinerGraphe(e.Graphics, grapheMetro);
+            };
             fenetreGraphe.Controls.Add(panelGraphe);
 
             // on affiche la fenetre
@@ -225,45 +243,6 @@ namespace LivrableV3
                 positions[noeud] = new Point(x, y);
             }
 
-            // on dessine les liens entre les stations du metro
-            foreach (var lien in grapheMetro.Liens)
-            {
-                if (positions.ContainsKey(lien.Noeud1) && positions.ContainsKey(lien.Noeud2))
-                {
-                    g.DrawLine(new Pen(Color.LightGray, 1), positions[lien.Noeud1], positions[lien.Noeud2]);
-                }
-            }
-
-            // on dessine les stations du metro
-            foreach (var station in grapheMetro.Noeuds.Values)
-            {
-                if (positions.ContainsKey(station))
-                {
-                    Point pos = positions[station];
-                    g.FillEllipse(new SolidBrush(couleurs[2]), pos.X - rayonStation, pos.Y - rayonStation, 2 * rayonStation, 2 * rayonStation);
-                    
-                    // on affiche le nom de la station seulement si elle a un client ou un cuisinier
-                    bool aClientOuCuisinier = false;
-                    foreach (var groupe in groupes)
-                    {
-                        foreach (var noeud in groupe)
-                        {
-                            if (noeud.NomStation == station.NomStation)
-                            {
-                                aClientOuCuisinier = true;
-                                break;
-                            }
-                        }
-                        if (aClientOuCuisinier) break;
-                    }
-                    
-                    if (aClientOuCuisinier)
-                    {
-                        g.DrawString(station.NomStation, new Font("Arial", 6), Brushes.Black, pos.X + rayonStation + 2, pos.Y - 8);
-                    }
-                }
-            }
-
             // on dessine les clients et cuisiniers
             for (int i = 0; i < groupes.Count; i++)
             {
@@ -294,11 +273,13 @@ namespace LivrableV3
                         
                         if (i == 0) // premier groupe = cuisiniers
                         {
-                            g.DrawString("Cuisinier: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y - 8);
+                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y - 8);
+                            g.DrawString("Cuisinier: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y + 2);
                         }
                         else if (i == 1) // deuxième groupe = clients
                         {
-                            g.DrawString("Client: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y - 8);
+                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y - 8);
+                            g.DrawString("Client: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, pos.X + rayonPersonne + 2, pos.Y + 2);
                         }
                     }
                 }
