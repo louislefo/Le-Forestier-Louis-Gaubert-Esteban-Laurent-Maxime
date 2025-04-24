@@ -100,12 +100,8 @@ namespace LivrableV3
         {
             try
             {
-                // on teste la coloration sur le graphe du metro
-                ColorationGraphe<int> coloration = new ColorationGraphe<int>();
-                coloration.AppliquerWelshPowell(grapheMetro);
-                
-                // on affiche le graphe colore
-                coloration.AfficherGrapheColore();
+                // on teste la coloration sur le graphe des clients et cuisiniers avec les données de la base
+                TestColorationClientsMetro.TesterColorationClientsMetro(connexionBDD);
             }
             catch (Exception ex)
             {
@@ -155,12 +151,8 @@ namespace LivrableV3
         {
             try
             {
-                // on teste la coloration sur le graphe du metro
-                ColorationGraphe<int> coloration = new ColorationGraphe<int>();
-                coloration.AppliquerWelshPowell(grapheMetro);
-
-                // on affiche le graphe colore
-                coloration.AfficherGrapheColore();
+                // on teste la coloration sur le graphe des clients et cuisiniers
+                TestColorationClientsMetro.TesterColorationClientsMetro(connexionBDD);
             }
             catch (Exception ex)
             {
