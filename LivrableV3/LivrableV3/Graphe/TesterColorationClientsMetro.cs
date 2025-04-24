@@ -47,6 +47,7 @@ namespace LivrableV3
                         noeudClient.NomStation = station;
                         noeudClient.Longitude = stationMetro.Longitude;
                         noeudClient.Latitude = stationMetro.Latitude;
+                        noeudClient.Nom = prenom + " " + nom; // on stocke le nom complet
                         grapheTest.Noeuds[idClient] = noeudClient;
                     }
                 }
@@ -85,6 +86,7 @@ namespace LivrableV3
                         noeudCuisinier.NomStation = station;
                         noeudCuisinier.Longitude = stationMetro.Longitude;
                         noeudCuisinier.Latitude = stationMetro.Latitude;
+                        noeudCuisinier.Nom = prenom + " " + nom; // on stocke le nom complet
                         grapheTest.Noeuds[idCuisinier] = noeudCuisinier;
                     }
                 }

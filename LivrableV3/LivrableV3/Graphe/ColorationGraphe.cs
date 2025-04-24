@@ -223,18 +223,24 @@ namespace LivrableV3
                         Point pos = positions[noeud];
                         g.FillEllipse(new SolidBrush(couleurActuelle), pos.X - rayon, pos.Y - rayon, 2 * rayon, 2 * rayon);
                         
-                        // on affiche le nom du client ou du cuisinier
-                        string nomAffiche = noeud.NomStation;
+                        // on affiche le nom de la station et de la personne
+                        string texteStation = noeud.NomStation;
+                        string textePersonne = noeud.Nom;
+                        
                         if (i == 0) // premier groupe = cuisiniers
                         {
-                            nomAffiche = "Cuisinier: " + nomAffiche;
+                            g.DrawString("Station: " + texteStation, new Font("Arial", 8), Brushes.Black, pos.X + rayon + 2, pos.Y - 20);
+                            g.DrawString("Cuisinier: " + textePersonne, new Font("Arial", 8, FontStyle.Bold), Brushes.Black, pos.X + rayon + 2, pos.Y - 8);
                         }
                         else if (i == 1) // deuxième groupe = clients
                         {
-                            nomAffiche = "Client: " + nomAffiche;
+                            g.DrawString("Station: " + texteStation, new Font("Arial", 8), Brushes.Black, pos.X + rayon + 2, pos.Y - 20);
+                            g.DrawString("Client: " + textePersonne, new Font("Arial", 8, FontStyle.Bold), Brushes.Black, pos.X + rayon + 2, pos.Y - 8);
                         }
-                        
-                        g.DrawString(nomAffiche, new Font("Arial", 8), Brushes.Black, pos.X + rayon + 2, pos.Y - 8);
+                        else
+                        {
+                            g.DrawString(texteStation, new Font("Arial", 8), Brushes.Black, pos.X + rayon + 2, pos.Y - 8);
+                        }
                     }
                 }
             }

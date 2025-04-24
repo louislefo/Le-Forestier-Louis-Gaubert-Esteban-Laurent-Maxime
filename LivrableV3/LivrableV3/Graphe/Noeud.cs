@@ -17,6 +17,7 @@ namespace LivrableV3
         private string numeroLigne;
         private string couleurLigne;
         private int tempsCorrespondance;
+        public string Nom;
 
         /// <summary>
         /// recupere ou modifie lidentifiant du noeud
