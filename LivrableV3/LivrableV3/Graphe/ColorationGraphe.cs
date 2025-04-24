@@ -163,24 +163,42 @@ namespace LivrableV3
             // on recupere les groupes de noeuds
             var groupes = TrouverGroupesIndependants();
 
-            // on calcule les positions des noeuds
-            Dictionary<Noeud<T>, Point> positions = new Dictionary<Noeud<T>, Point>();
-            int rayon = 10;
-            int espacement = 100;
+            // on calcule les limites du graphe
+            double minLongitude = double.MaxValue;
+            double maxLongitude = double.MinValue;
+            double minLatitude = double.MaxValue;
+            double maxLatitude = double.MinValue;
 
-            // on place les noeuds en cercle
-            int centreX = 400;
-            int centreY = 300;
-            int rayonCercle = 200;
-
-            for (int i = 0; i < groupes.Count; i++)
+            foreach (var groupe in groupes)
             {
-                for (int j = 0; j < groupes[i].Count; j++)
+                foreach (var noeud in groupe)
                 {
-                    double angle = 2 * Math.PI * j / groupes[i].Count;
-                    int x = centreX + (int)(rayonCercle * Math.Cos(angle));
-                    int y = centreY + (int)(rayonCercle * Math.Sin(angle));
-                    positions[groupes[i][j]] = new Point(x, y);
+                    minLongitude = Math.Min(minLongitude, noeud.Longitude);
+                    maxLongitude = Math.Max(maxLongitude, noeud.Longitude);
+                    minLatitude = Math.Min(minLatitude, noeud.Latitude);
+                    maxLatitude = Math.Max(maxLatitude, noeud.Latitude);
+                }
+            }
+
+            // on ajoute une marge
+            double marge = 0.01;
+            minLongitude -= marge;
+            maxLongitude += marge;
+            minLatitude -= marge;
+            maxLatitude += marge;
+
+            // on calcule la position de chaque noeud
+            Dictionary<Noeud<T>, Point> positions = new Dictionary<Noeud<T>, Point>();
+            int rayon = 8;
+
+            // on convertit les coordonnees geographiques en coordonnees d'ecran
+            foreach (var groupe in groupes)
+            {
+                foreach (var noeud in groupe)
+                {
+                    int x = (int)((noeud.Longitude - minLongitude) / (maxLongitude - minLongitude) * 700 + 50);
+                    int y = (int)((maxLatitude - noeud.Latitude) / (maxLatitude - minLatitude) * 500 + 50);
+                    positions[noeud] = new Point(x, y);
                 }
             }
 
