@@ -1176,7 +1176,9 @@ namespace LivrableV3
 
         private void btncommandeitineraire_Click(object sender, EventArgs e)
         {
-
+            FormAfficherItineraireModule formAfficherItineraireModule = new FormAfficherItineraireModule(this, grapheMetro);
+            this.Hide();
+            formAfficherItineraireModule.Show();
         }
 
         private void btncommandemodif_Click(object sender, EventArgs e)
