@@ -7,7 +7,7 @@ namespace LivrableV3
     public class TestColorationClientsMetro
     {
         /// teste la coloration de graphe avec les stations de metro des clients et cuisiniers
-        public static void TesterColorationClientsMetro(ConnexionBDD connexionBDD)
+        public static void TesterColorationClientsMetro(ConnexionBDD connexionBDD, Graphe<int> grapheMetro)
         {
             try
             {
@@ -29,10 +29,26 @@ namespace LivrableV3
                     string prenom = readerClients["prénom"].ToString();
                     string station = readerClients["StationMetro"].ToString();
 
-                    // on cree un noeud pour le client
-                    Noeud<string> noeudClient = new Noeud<string>(idClient);
-                    noeudClient.NomStation = station;
-                    grapheTest.Noeuds[idClient] = noeudClient;
+                    // on cherche la station dans le graphe du metro
+                    Noeud<int> stationMetro = null;
+                    foreach (var noeud in grapheMetro.Noeuds.Values)
+                    {
+                        if (noeud.NomStation == station)
+                        {
+                            stationMetro = noeud;
+                            break;
+                        }
+                    }
+
+                    if (stationMetro != null)
+                    {
+                        // on cree un noeud pour le client avec les coordonnees de la station
+                        Noeud<string> noeudClient = new Noeud<string>(idClient);
+                        noeudClient.NomStation = station;
+                        noeudClient.Longitude = stationMetro.Longitude;
+                        noeudClient.Latitude = stationMetro.Latitude;
+                        grapheTest.Noeuds[idClient] = noeudClient;
+                    }
                 }
                 readerClients.Close();
 
@@ -51,10 +67,26 @@ namespace LivrableV3
                     string prenom = readerCuisiniers["prénom"].ToString();
                     string station = readerCuisiniers["StationMetro"].ToString();
 
-                    // on cree un noeud pour le cuisinier
-                    Noeud<string> noeudCuisinier = new Noeud<string>(idCuisinier);
-                    noeudCuisinier.NomStation = station;
-                    grapheTest.Noeuds[idCuisinier] = noeudCuisinier;
+                    // on cherche la station dans le graphe du metro
+                    Noeud<int> stationMetro = null;
+                    foreach (var noeud in grapheMetro.Noeuds.Values)
+                    {
+                        if (noeud.NomStation == station)
+                        {
+                            stationMetro = noeud;
+                            break;
+                        }
+                    }
+
+                    if (stationMetro != null)
+                    {
+                        // on cree un noeud pour le cuisinier avec les coordonnees de la station
+                        Noeud<string> noeudCuisinier = new Noeud<string>(idCuisinier);
+                        noeudCuisinier.NomStation = station;
+                        noeudCuisinier.Longitude = stationMetro.Longitude;
+                        noeudCuisinier.Latitude = stationMetro.Latitude;
+                        grapheTest.Noeuds[idCuisinier] = noeudCuisinier;
+                    }
                 }
                 readerCuisiniers.Close();
 

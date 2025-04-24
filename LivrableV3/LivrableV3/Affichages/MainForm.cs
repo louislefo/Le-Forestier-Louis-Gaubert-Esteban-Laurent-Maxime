@@ -101,7 +101,7 @@ namespace LivrableV3
             try
             {
                 // on teste la coloration sur le graphe des clients et cuisiniers avec les données de la base
-                TestColorationClientsMetro.TesterColorationClientsMetro(connexionBDD);
+                TestColorationClientsMetro.TesterColorationClientsMetro(connexionBDD, grapheMetro);
             }
             catch (Exception ex)
             {
@@ -152,7 +152,7 @@ namespace LivrableV3
             try
             {
                 // on teste la coloration sur le graphe des clients et cuisiniers
-                TestColorationClientsMetro.TesterColorationClientsMetro(connexionBDD);
+                TestColorationClientsMetro.TesterColorationClientsMetro(connexionBDD, grapheMetro);
             }
             catch (Exception ex)
             {
