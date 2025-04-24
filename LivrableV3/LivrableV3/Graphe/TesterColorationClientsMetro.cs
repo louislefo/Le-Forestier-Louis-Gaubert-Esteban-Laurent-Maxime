@@ -117,7 +117,7 @@ namespace LivrableV3
                 coloration.AppliquerWelshPowell(grapheTest);
 
                 // on affiche les resultats
-                coloration.AfficherResultats();
+                coloration.AfficherResultats(grapheMetro);
 
                 Console.WriteLine();
                 Console.WriteLine("Appuyez sur une touche pour continuer...");
