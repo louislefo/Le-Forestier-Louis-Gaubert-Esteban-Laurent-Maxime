@@ -19,11 +19,12 @@ INSERT INTO client (id_client, id_utilisateur, StationMetro, entreprise_nom, ref
 
 -- Insertion des cuisiniers
 INSERT INTO cuisinier (id_cuisinier, id_utilisateur, StationMetro, zones_livraison, note_moyenne, nombre_livraisons) VALUES
-('CUI001', 'USR001', 'Châtelet', '1er, 2e, 3e, 4e arrondissement', 4.7, 42),
-('CUI002', 'USR002', 'Franklin D. Roosevelt', '8e, 16e arrondissement', 4.3, 28),
-('CUI003', 'USR003', 'Opéra', '2e, 9e, 10e arrondissement', 4.9, 57),
-('CUI004', 'USR004', 'Bastille', '4e, 11e, 12e arrondissement', 4.1, 31),
-('CUI005', 'USR005', 'Concorde', '1er, 8e arrondissement', 4.6, 39);
+('CUI001', 'USR001', 'Porte Maillot', '1er, 2e, 3e, 4e arrondissement', 4.7, 42),
+('CUI002', 'USR002', 'Gare de Lyon', '8e, 16e arrondissement', 4.3, 28),
+('CUI003', 'USR003', 'Pelleport', '2e, 9e, 10e arrondissement', 4.9, 57),
+('CUI004', 'USR004', 'Republique', '4e, 11e, 12e arrondissement', 4.1, 31),
+('CUI005', 'USR005', 'Bir-Hakeim', '1er, 8e arrondissement', 4.6, 39);
+('CUI006', 'USR007', 'Nation', '1er, 8e arrondissement', 4.6, 39);
 
 -- Insertion des recettes
 INSERT INTO Recette_ (id_recette, nom, description, origine) VALUES
