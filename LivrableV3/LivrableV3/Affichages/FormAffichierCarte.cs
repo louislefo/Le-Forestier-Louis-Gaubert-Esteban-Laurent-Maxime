@@ -44,7 +44,7 @@ namespace LivrableV3
         {
             int largeur = pictureBoxCarte.Width;
             int hauteur = pictureBoxCarte.Height;
-            AfficherCarteOSM visMetro2 = new AfficherCarteOSM(largeur, hauteur);
+            AfficherCarteOSM visMetro2 = new AfficherCarteOSM(1200, 800);
             visMetro2.DessinerGraphe(graphe);
             visMetro2.SauvegarderImage("satelite.png");
 

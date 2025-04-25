@@ -701,10 +701,8 @@ namespace LivrableV3
         {
             FormAffichierCarte formAffichage = new FormAffichierCarte(this, grapheMetro);
 
-            int largeur = formAffichage.pictureBoxCarte.Width;
-            int hauteur = formAffichage.pictureBoxCarte.Height;
 
-            VisualisationCarte visMetro = new VisualisationCarte(largeur, hauteur);
+            VisualisationCarte visMetro = new VisualisationCarte(1200, 800);
             visMetro.DessinerGraphe(grapheMetro);
             visMetro.SauvegarderImage("metro.png");
 
