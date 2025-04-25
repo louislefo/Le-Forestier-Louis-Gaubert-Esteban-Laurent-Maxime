@@ -36,22 +36,39 @@ namespace LivrableV3
 
         public void pictureBoxCarte_Click(object sender, EventArgs e)
         {
-            pictureBoxCarte.Image = Image.FromFile("metro.png");
+            
         }
 
 
         private void btnsatelite_Click(object sender, EventArgs e)
         {
-            int largeur = pictureBoxCarte.Width;
-            int hauteur = pictureBoxCarte.Height;
-            AfficherCarteOSM visMetro2 = new AfficherCarteOSM(largeur, hauteur);
-            visMetro2.DessinerGraphe(graphe);
-            visMetro2.SauvegarderImage("satelite.png");
 
-            using (var stream = new MemoryStream(File.ReadAllBytes("satelite.png")))
+
+            if (File.Exists("satelite.png"))
             {
-                pictureBoxCarte.Image = Image.FromStream(stream);
+                
+                using (var stream = new MemoryStream(File.ReadAllBytes("satelite.png")))
+                {
+                    pictureBoxCarte.Image = Image.FromStream(stream);
+                }
+                return;
             }
+            else
+            {
+                
+                AfficherCarteOSM visMetro2 = new AfficherCarteOSM(1200, 800);
+                visMetro2.DessinerGraphe(graphe);
+                visMetro2.SauvegarderImage("satelite.png");
+
+                using (var stream = new MemoryStream(File.ReadAllBytes("satelite.png")))
+                {
+                    pictureBoxCarte.Image = Image.FromStream(stream);
+                }
+
+            }
+            
+
+            
 
         }
 

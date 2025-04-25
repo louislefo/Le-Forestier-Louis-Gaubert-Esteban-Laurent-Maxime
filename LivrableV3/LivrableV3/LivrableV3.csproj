@@ -122,7 +122,7 @@
     <Compile Include="Affichages\FormItineraireCuisinier.Designer.cs">
       <DependentUpon>FormItineraireCuisinier.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graphe\TesterColorationClientsMetro.cs" />
+    <Compile Include="Graphe\TestColorationClientsMetro.cs" />
     <Compile Include="Graphe\ColorationGraphe.cs" />
     <Compile Include="Requettes\Modulecuisinier.cs" />
     <Compile Include="Requettes\SqlCommander.cs" />

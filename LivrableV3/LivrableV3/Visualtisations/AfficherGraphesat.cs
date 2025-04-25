@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 
 namespace LivrableV3
 {
-    /// Affiche le graphe du métro sur une carte OpenStreetMap classique
+    /// affiche le graphe du metro sur une carte osm pas ouf
     public class AfficherCarteOSM
     {
         private Bitmap imageCarte;
@@ -31,7 +31,16 @@ namespace LivrableV3
             this.nbLignesParStation = new Dictionary<string, int>();
         }
 
-        private (int, int) LatLonEnTuile(double lat, double lon, int zoom)
+        /// convertit lat lon en position sur la tuile
+        private (double pixelX, double pixelY) ConvertirLatLonEnPixels(double lat, double lon, double minLat, double maxLat, double minLon, double maxLon)
+        {
+            double x = (lon - minLon) / (maxLon - minLon) * (largeur - 2 * marge) + marge;
+            double y = hauteur - ((lat - minLat) / (maxLat - minLat) * (hauteur - 2 * marge) + marge);
+            return (x, y);
+        }
+
+        /// convertit lat lon en numero de tuile osm
+        private (int x, int y) LatLonEnTuile(double lat, double lon, int zoom)
         {
             int x = (int)((lon + 180.0) / 360.0 * (1 << zoom));
             double latRad = lat * Math.PI / 180.0;
@@ -43,9 +52,23 @@ namespace LivrableV3
         {
             try
             {
-                int zoom = 14;
-                var (x1, y1) = LatLonEnTuile(minLat, minLon, zoom);
-                var (x2, y2) = LatLonEnTuile(maxLat, maxLon, zoom);
+                int zoom = 13;  // zoom plus petit pour voir plus large
+                (int x1, int y1) = LatLonEnTuile(maxLat, minLon, zoom);  // inverser maxLat et minLat
+                (int x2, int y2) = LatLonEnTuile(minLat, maxLon, zoom);
+
+                int nbTuilesX = x2 - x1 + 1;
+                int nbTuilesY = y2 - y1 + 1;
+
+                int largeurTotale = nbTuilesX * 256;
+                int hauteurTotale = nbTuilesY * 256;
+
+                double facteurEchelle = Math.Min((double)largeur / largeurTotale, (double)hauteur / hauteurTotale);
+                
+                int nouvelleLargeur = (int)(largeurTotale * facteurEchelle);
+                int nouvelleHauteur = (int)(hauteurTotale * facteurEchelle);
+
+                Bitmap carteComplete = new Bitmap(largeurTotale, hauteurTotale);
+                Graphics g = Graphics.FromImage(carteComplete);
 
                 for (int x = x1; x <= x2; x++)
                 {
@@ -61,15 +84,17 @@ namespace LivrableV3
                             using (MemoryStream ms = new MemoryStream(imageData))
                             {
                                 Bitmap tuile = new Bitmap(ms);
-                                int posX = (x - x1) * 256;
-                                int posY = (y - y1) * 256;
-                                dessin.DrawImage(tuile, posX, posY);
+                                g.DrawImage(tuile, (x - x1) * 256, (y - y1) * 256);
                             }
                         }
-
                         System.Threading.Thread.Sleep(200);
                     }
                 }
+
+                g.Dispose();
+                dessin.Clear(Color.White);
+                dessin.DrawImage(carteComplete, 0, 0, largeur, hauteur);
+                carteComplete.Dispose();
             }
             catch (Exception ex)
             {
@@ -97,9 +122,6 @@ namespace LivrableV3
 
             ChargerImageCarte(minLat, maxLat, minLon, maxLon);
 
-            double echelleLon = (largeur - 2 * marge) / (maxLon - minLon);
-            double echelleLat = (hauteur - 2 * marge) / (maxLat - minLat);
-
             foreach (var noeud in graphe.Noeuds.Values)
             {
                 if (!nbLignesParStation.ContainsKey(noeud.NomStation))
@@ -113,44 +135,41 @@ namespace LivrableV3
                 var s1 = lien.Noeud1;
                 var s2 = lien.Noeud2;
 
-                int x1 = (int)((s1.Longitude - minLon) * echelleLon + marge);
-                int y1 = hauteur - (int)((s1.Latitude - minLat) * echelleLat + marge);
-                int x2 = (int)((s2.Longitude - minLon) * echelleLon + marge);
-                int y2 = hauteur - (int)((s2.Latitude - minLat) * echelleLat + marge);
+                (double x1, double y1) = ConvertirLatLonEnPixels(s1.Latitude, s1.Longitude, minLat, maxLat, minLon, maxLon);
+                (double x2, double y2) = ConvertirLatLonEnPixels(s2.Latitude, s2.Longitude, minLat, maxLat, minLon, maxLon);
 
                 try
                 {
                     Color couleur = ColorTranslator.FromHtml(s1.CouleurLigne);
                     using (Pen crayon = new Pen(couleur, 3))
                     {
-                        dessin.DrawLine(crayon, x1, y1, x2, y2);
+                        dessin.DrawLine(crayon, (int)x1, (int)y1, (int)x2, (int)y2);
                     }
                 }
                 catch
                 {
                     using (Pen crayon = new Pen(Color.White, 3))
                     {
-                        dessin.DrawLine(crayon, x1, y1, x2, y2);
+                        dessin.DrawLine(crayon, (int)x1, (int)y1, (int)x2, (int)y2);
                     }
                 }
             }
 
             foreach (var noeud in graphe.Noeuds.Values)
             {
-                int x = (int)Math.Round((noeud.Longitude - minLon) * echelleLon + marge);
-                int y = hauteur - (int)Math.Round((noeud.Latitude - minLat) * echelleLat + marge);
-                positionsStations[noeud.Id] = new Point(x, y);
+                (double x, double y) = ConvertirLatLonEnPixels(noeud.Latitude, noeud.Longitude, minLat, maxLat, minLon, maxLon);
+                positionsStations[noeud.Id] = new Point((int)x, (int)y);
 
                 int taille = nbLignesParStation[noeud.NomStation] > 1 ? 8 : 5;
 
                 using (SolidBrush blanc = new SolidBrush(Color.White))
                 {
-                    dessin.FillEllipse(blanc, x - taille, y - taille, taille * 2, taille * 2);
+                    dessin.FillEllipse(blanc, (int)x - taille, (int)y - taille, taille * 2, taille * 2);
                 }
 
                 using (Pen contour = new Pen(Color.Black, nbLignesParStation[noeud.NomStation] > 1 ? 2 : 1))
                 {
-                    dessin.DrawEllipse(contour, x - taille, y - taille, taille * 2, taille * 2);
+                    dessin.DrawEllipse(contour, (int)x - taille, (int)y - taille, taille * 2, taille * 2);
                 }
 
                 if (nbLignesParStation[noeud.NomStation] > 1)
@@ -160,11 +179,11 @@ namespace LivrableV3
                         SizeF tailleTexte = dessin.MeasureString(noeud.NomStation, police);
                         using (SolidBrush fond = new SolidBrush(Color.White))
                         {
-                            dessin.FillRectangle(fond, x + 10, y - 10, tailleTexte.Width, tailleTexte.Height);
+                            dessin.FillRectangle(fond, (int)x + 10, (int)y - 10, tailleTexte.Width, tailleTexte.Height);
                         }
                         using (SolidBrush texte = new SolidBrush(Color.Black))
                         {
-                            dessin.DrawString(noeud.NomStation, police, texte, x + 10, y - 10);
+                            dessin.DrawString(noeud.NomStation, police, texte, (int)x + 10, (int)y - 10);
                         }
                     }
                 }
