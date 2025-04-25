@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace LivrableV3
 {
