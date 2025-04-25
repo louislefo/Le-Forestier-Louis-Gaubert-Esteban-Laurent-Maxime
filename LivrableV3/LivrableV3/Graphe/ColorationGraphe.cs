@@ -163,11 +163,6 @@ namespace LivrableV3
         /// affiche le graphe des clients et cuisiniers colore
         public void AfficherGrapheColore(Graphe<int> grapheMetro, Dictionary<T, Noeud<int>> correspondanceStations)
         {
-            // on cree d'abord l'image du metro
-            VisualisationCarte visMetro = new VisualisationCarte(800, 600);
-            visMetro.DessinerGraphe(grapheMetro);
-            visMetro.SauvegarderImage("metro.png");
-
             // on cree une nouvelle fenetre pour afficher le graphe
             Form fenetreGraphe = new Form();
             fenetreGraphe.Text = "Graphe des Clients et Cuisiniers Colore";
@@ -178,14 +173,14 @@ namespace LivrableV3
             panelGraphe.Dock = DockStyle.Fill;
             panelGraphe.Paint += (sender, e) =>
             {
-                // on dessine d'abord le metro
-                if (File.Exists("metro.png"))
-                {
-                    using (var image = Image.FromFile("metro.png"))
-                    {
-                        e.Graphics.DrawImage(image, 0, 0, panelGraphe.Width, panelGraphe.Height);
-                    }
-                }
+                // on cree une nouvelle instance de visualisation carte
+                VisualisationCarte visMetro = new VisualisationCarte(panelGraphe.Width, panelGraphe.Height);
+                
+                // on dessine le metro directement sur le graphics du panel
+                visMetro.DessinerGraphe(grapheMetro);
+                
+                // on dessine l'image du metro
+                e.Graphics.DrawImage(visMetro.GetImage(), 0, 0, panelGraphe.Width, panelGraphe.Height);
 
                 // on dessine les clients et cuisiniers
                 DessinerClientsCuisiniers(e.Graphics, grapheMetro, correspondanceStations);

@@ -140,5 +140,11 @@ namespace LivrableV3
 
             image.Save(chemin, ImageFormat.Png); // Sauvegarde l'image
         }
+
+        /// retourne l'image du graphe
+        public Bitmap GetImage()
+        {
+            return image;
+        }
     }
 }
