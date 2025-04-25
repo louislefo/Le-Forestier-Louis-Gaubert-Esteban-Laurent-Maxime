@@ -1164,7 +1164,10 @@ namespace LivrableV3
         #region Commandes
         private void btncommandecreer_Click(object sender, EventArgs e)
         {
-
+            FormAdmincommande formAdmincommande = new FormAdmincommande(this, connexionBDD);
+            
+            formAdmincommande.Show();
+            this.Hide();
         }
 
 
@@ -1183,7 +1186,10 @@ namespace LivrableV3
 
         private void btncommandemodif_Click(object sender, EventArgs e)
         {
-
+            FormAdmincommande formAdmincommande = new FormAdmincommande(this, connexionBDD);
+            formAdmincommande.Show();
+            this.Hide();
+            
         }
 
         private void btncommandeprix_Click(object sender, EventArgs e)

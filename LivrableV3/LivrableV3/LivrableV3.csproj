@@ -122,6 +122,12 @@
     <Compile Include="Affichages\FormItineraireCuisinier.Designer.cs">
       <DependentUpon>FormItineraireCuisinier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Affichages\FormAdmincommande.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Affichages\FormAdmincommande.Designer.cs">
+      <DependentUpon>FormAdmincommande.cs</DependentUpon>
+    </Compile>
     <Compile Include="Graphe\TestColorationClientsMetro.cs" />
     <Compile Include="Graphe\ColorationGraphe.cs" />
     <Compile Include="Requettes\Modulecuisinier.cs" />
@@ -185,6 +191,9 @@
     <Compile Include="Requettes\SqlClient.cs" />
     <Compile Include="Requettes\SqlCuisinier.cs" />
     <Compile Include="Requettes\ValidationRequette.cs" />
+    <EmbeddedResource Include="Affichages\FormAdmincommande.resx">
+      <DependentUpon>FormAdmincommande.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Affichages\FormAfficheritineraire.resx">
       <DependentUpon>FormAfficheritineraire.cs</DependentUpon>
     </EmbeddedResource>
