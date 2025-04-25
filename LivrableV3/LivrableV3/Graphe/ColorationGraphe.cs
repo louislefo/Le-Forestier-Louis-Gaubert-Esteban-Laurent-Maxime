@@ -173,8 +173,8 @@ namespace LivrableV3
             panelGraphe.Dock = DockStyle.Fill;
             panelGraphe.Paint += (sender, e) =>
             {
-                // on cree une nouvelle instance de visualisation carte
-                VisualisationCarte visMetro = new VisualisationCarte(panelGraphe.Width, panelGraphe.Height);
+                // on cree une nouvelle instance de visualisation carte osm
+                AfficherCarteOSM visMetro = new AfficherCarteOSM(panelGraphe.Width, panelGraphe.Height);
                 
                 // on dessine le metro directement sur le graphics du panel
                 visMetro.DessinerGraphe(grapheMetro);

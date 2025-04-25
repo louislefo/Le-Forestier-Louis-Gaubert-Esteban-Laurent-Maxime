@@ -197,5 +197,11 @@ namespace LivrableV3
 
             imageCarte.Save(chemin, ImageFormat.Png);
         }
+
+        /// retourne l'image du graphe
+        public Bitmap GetImage()
+        {
+            return imageCarte;
+        }
     }
 }
