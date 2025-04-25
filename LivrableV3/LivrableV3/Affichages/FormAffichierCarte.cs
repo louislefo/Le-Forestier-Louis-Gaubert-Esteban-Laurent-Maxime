@@ -15,11 +15,13 @@ namespace LivrableV3
     {
         private FormModules formModules;
         private Graphe<int> graphe;
-        public FormAffichierCarte(FormModules formModules,Graphe<int> graphe)
+        private ConnexionBDD connexion;
+        public FormAffichierCarte(FormModules formModules,Graphe<int> graphe, ConnexionBDD connexion)
         {
             InitializeComponent();
             this.formModules = formModules;
             this.graphe = graphe;
+            this.connexion = connexion;
         }
 
 
@@ -75,6 +77,13 @@ namespace LivrableV3
         private void btnbasic_Click(object sender, EventArgs e)
         {
             pictureBoxCarte.Image = Image.FromFile("metro.png");
+        }
+
+        private void btnmap_Click(object sender, EventArgs e)
+        {
+            Formmap formMap = new Formmap(this, connexion );
+            formMap.Show();
+            this.Hide();
         }
     }
 }

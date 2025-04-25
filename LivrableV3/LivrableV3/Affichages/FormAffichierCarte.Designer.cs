@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.btnRetour = new System.Windows.Forms.Button();
-            this.pictureBoxCarte = new System.Windows.Forms.PictureBox();
             this.btnsatelite = new System.Windows.Forms.Button();
             this.btnbasic = new System.Windows.Forms.Button();
+            this.pictureBoxCarte = new System.Windows.Forms.PictureBox();
+            this.btnmap = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCarte)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,16 +46,6 @@
             this.btnRetour.Text = "Retour";
             this.btnRetour.UseVisualStyleBackColor = true;
             this.btnRetour.Click += new System.EventHandler(this.btnRetour_Click);
-            // 
-            // pictureBoxCarte
-            // 
-            this.pictureBoxCarte.Location = new System.Drawing.Point(28, 94);
-            this.pictureBoxCarte.Name = "pictureBoxCarte";
-            this.pictureBoxCarte.Size = new System.Drawing.Size(725, 615);
-            this.pictureBoxCarte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCarte.TabIndex = 1;
-            this.pictureBoxCarte.TabStop = false;
-            this.pictureBoxCarte.Click += new System.EventHandler(this.pictureBoxCarte_Click);
             // 
             // btnsatelite
             // 
@@ -76,12 +67,33 @@
             this.btnbasic.UseVisualStyleBackColor = true;
             this.btnbasic.Click += new System.EventHandler(this.btnbasic_Click);
             // 
+            // pictureBoxCarte
+            // 
+            this.pictureBoxCarte.Location = new System.Drawing.Point(28, 94);
+            this.pictureBoxCarte.Name = "pictureBoxCarte";
+            this.pictureBoxCarte.Size = new System.Drawing.Size(725, 615);
+            this.pictureBoxCarte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCarte.TabIndex = 1;
+            this.pictureBoxCarte.TabStop = false;
+            this.pictureBoxCarte.Click += new System.EventHandler(this.pictureBoxCarte_Click);
+            // 
+            // btnmap
+            // 
+            this.btnmap.Location = new System.Drawing.Point(243, 37);
+            this.btnmap.Name = "btnmap";
+            this.btnmap.Size = new System.Drawing.Size(141, 40);
+            this.btnmap.TabIndex = 4;
+            this.btnmap.Text = "Test";
+            this.btnmap.UseVisualStyleBackColor = true;
+            this.btnmap.Click += new System.EventHandler(this.btnmap_Click);
+            // 
             // FormAffichierCarte
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(782, 753);
+            this.Controls.Add(this.btnmap);
             this.Controls.Add(this.btnbasic);
             this.Controls.Add(this.btnsatelite);
             this.Controls.Add(this.pictureBoxCarte);
@@ -103,5 +115,6 @@
         public System.Windows.Forms.PictureBox pictureBoxCarte;
         private System.Windows.Forms.Button btnsatelite;
         private System.Windows.Forms.Button btnbasic;
+        private System.Windows.Forms.Button btnmap;
     }
 }

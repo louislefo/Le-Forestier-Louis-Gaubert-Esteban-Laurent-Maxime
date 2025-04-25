@@ -701,7 +701,7 @@ namespace LivrableV3
         #region Graphe
         private void btnAfficherMetro_Click(object sender, EventArgs e)
         {
-            FormAffichierCarte formAffichage = new FormAffichierCarte(this, grapheMetro);
+            FormAffichierCarte formAffichage = new FormAffichierCarte(this, grapheMetro, connexionBDD);
 
 
             VisualisationCarte visMetro = new VisualisationCarte(1200, 800);
