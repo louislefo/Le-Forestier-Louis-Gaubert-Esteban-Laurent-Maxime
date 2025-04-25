@@ -178,7 +178,7 @@ namespace LivrableV3
             panelGraphe.Dock = DockStyle.Fill;
             panelGraphe.Paint += (sender, e) =>
             {
-                // on charge l'image du metro
+                // on dessine d'abord le metro
                 if (File.Exists("metro.png"))
                 {
                     using (var image = Image.FromFile("metro.png"))

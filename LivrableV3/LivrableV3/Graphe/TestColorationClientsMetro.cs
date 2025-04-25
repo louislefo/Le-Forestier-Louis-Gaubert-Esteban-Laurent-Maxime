@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
 
 namespace LivrableV3
 {
@@ -129,131 +128,6 @@ namespace LivrableV3
             {
                 Console.WriteLine("Erreur lors de la coloration du graphe : " + ex.Message);
             }
-        }
-
-        /// affiche les resultats de la coloration
-        private static void AfficherResultatsColoration(Graphe<int> grapheMetro, Graphe<string> grapheTest, ColorationGraphe<string> coloration)
-        {
-            // on cree d'abord l'image du metro
-            VisualisationCarte visMetro = new VisualisationCarte(800, 600);
-            visMetro.DessinerGraphe(grapheMetro);
-
-            // on cree une nouvelle fenetre pour afficher le graphe
-            Form fenetreGraphe = new Form();
-            fenetreGraphe.Text = "Graphe des Clients et Cuisiniers Colore";
-            fenetreGraphe.Size = new Size(800, 600);
-
-            // on cree un panel pour dessiner le graphe
-            Panel panelGraphe = new Panel();
-            panelGraphe.Dock = DockStyle.Fill;
-            panelGraphe.Paint += (sender, e) =>
-            {
-                // on dessine d'abord le metro
-                if (File.Exists("metro.png"))
-                {
-                    using (var image = Image.FromFile("metro.png"))
-                    {
-                        e.Graphics.DrawImage(image, 0, 0, panelGraphe.Width, panelGraphe.Height);
-                    }
-                }
-
-                // on dessine les clients et cuisiniers
-                DessinerClientsCuisiniers(e.Graphics, grapheMetro, grapheTest, coloration);
-            };
-            fenetreGraphe.Controls.Add(panelGraphe);
-
-            // on affiche la fenetre
-            fenetreGraphe.ShowDialog();
-        }
-
-        /// dessine les clients et cuisiniers sur la carte
-        private static void DessinerClientsCuisiniers(Graphics g, Graphe<int> grapheMetro, Graphe<string> grapheTest, ColorationGraphe<string> coloration)
-        {
-            // on recupere les groupes de noeuds
-            var groupes = coloration.TrouverGroupesIndependants();
-
-            // on dessine les clients et cuisiniers
-            for (int i = 0; i < groupes.Count; i++)
-            {
-                Color couleur = i == 0 ? Color.Red : Color.Blue;
-                foreach (var noeud in groupes[i])
-                {
-                    // on cherche la station correspondante dans le graphe du metro
-                    Noeud<int> stationMetro = null;
-                    foreach (var station in grapheMetro.Noeuds.Values)
-                    {
-                        if (station.NomStation == noeud.NomStation)
-                        {
-                            stationMetro = station;
-                            break;
-                        }
-                    }
-
-                    if (stationMetro != null)
-                    {
-                        // on calcule la position de la station
-                        double minLong = double.MaxValue, maxLong = double.MinValue;
-                        double minLat = double.MaxValue, maxLat = double.MinValue;
-
-                        foreach (var n in grapheMetro.Noeuds.Values)
-                        {
-                            minLong = Math.Min(minLong, n.Longitude);
-                            maxLong = Math.Max(maxLong, n.Longitude);
-                            minLat = Math.Min(minLat, n.Latitude);
-                            maxLat = Math.Max(maxLat, n.Latitude);
-                        }
-
-                        double marge = 0.01;
-                        minLong -= marge;
-                        maxLong += marge;
-                        minLat -= marge;
-                        maxLat += marge;
-
-                        double echelleLong = (800 - 2 * 50) / (maxLong - minLong);
-                        double echelleLat = (600 - 2 * 50) / (maxLat - minLat);
-
-                        int x = (int)((stationMetro.Longitude - minLong) * echelleLong) + 50;
-                        int y = 600 - ((int)((stationMetro.Latitude - minLat) * echelleLat) + 50);
-
-                        // on dessine un point plus gros pour le client/cuisinier
-                        g.FillEllipse(new SolidBrush(couleur), x - 6, y - 6, 12, 12);
-
-                        // on affiche le nom de la station et de la personne
-                        string texteStation = noeud.NomStation;
-                        string textePersonne = noeud.Nom;
-
-                        if (i == 0) // premier groupe = cuisiniers
-                        {
-                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, x + 8, y - 8);
-                            g.DrawString("Cuisinier: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, x + 8, y + 2);
-                        }
-                        else // deuxième groupe = clients
-                        {
-                            g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, x + 8, y - 8);
-                            g.DrawString("Client: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, x + 8, y + 2);
-                        }
-                    }
-                }
-            }
-
-            // on ajoute une legende
-            int legendeX = 20;
-            int legendeY = 20;
-
-            // Informations sur le graphe
-            string infoGraphe = "Nombre de couleurs : " + coloration.NombreCouleurs + "\n" +
-                               "Graphe biparti : " + (coloration.EstBiparti() ? "Oui" : "Non") + "\n" +
-                               "Graphe planaire : " + (coloration.EstPlanaire() ? "Oui" : "Non");
-            g.DrawString(infoGraphe, new Font("Arial", 10, FontStyle.Bold), Brushes.Black, legendeX, legendeY);
-            legendeY += 80;
-
-            // Légende des couleurs
-            g.FillRectangle(new SolidBrush(Color.Red), legendeX, legendeY, 10, 10);
-            g.DrawString("Cuisiniers", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
-            legendeY += 20;
-
-            g.FillRectangle(new SolidBrush(Color.Blue), legendeX, legendeY, 10, 10);
-            g.DrawString("Clients", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
         }
     }
 } 
