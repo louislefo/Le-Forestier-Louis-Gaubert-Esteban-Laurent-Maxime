@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Drawing;
@@ -130,4 +130,4 @@ namespace LivrableV3
             }
         }
     }
-} 
+}

@@ -131,7 +131,6 @@ namespace LivrableV3
             }
         }
 
-
         public void SauvegarderImage(string chemin)
         {
             if (File.Exists(chemin))
@@ -139,7 +138,7 @@ namespace LivrableV3
                 File.Delete(chemin); 
             }
 
-            image.Save(chemin, ImageFormat.Png); // Sauvegarde l’image
+            image.Save(chemin, ImageFormat.Png); // Sauvegarde l'image
         }
     }
 }

@@ -128,7 +128,7 @@ namespace LivrableV3
         }
 
         /// affiche les resultats de la coloration
-        public void AfficherResultats(Graphe<int> grapheMetro)
+        public void AfficherResultats(Graphe<int> grapheMetro, Dictionary<T, Noeud<int>> correspondanceStations)
         {
             Console.WriteLine("Resultats de la coloration des clients et cuisiniers :");
             Console.WriteLine("Nombre de couleurs utilisees : " + NombreCouleurs);
@@ -157,11 +157,11 @@ namespace LivrableV3
             Console.WriteLine();
 
             // on affiche le graphe colore
-            AfficherGrapheColore(grapheMetro);
+            AfficherGrapheColore(grapheMetro, correspondanceStations);
         }
 
         /// affiche le graphe des clients et cuisiniers colore
-        public void AfficherGrapheColore(Graphe<int> grapheMetro)
+        public void AfficherGrapheColore(Graphe<int> grapheMetro, Dictionary<T, Noeud<int>> correspondanceStations)
         {
             // on cree d'abord l'image du metro
             VisualisationCarte visMetro = new VisualisationCarte(800, 600);
@@ -178,7 +178,7 @@ namespace LivrableV3
             panelGraphe.Dock = DockStyle.Fill;
             panelGraphe.Paint += (sender, e) =>
             {
-                // on charge l'image du metro
+                // on dessine d'abord le metro
                 if (File.Exists("metro.png"))
                 {
                     using (var image = Image.FromFile("metro.png"))
@@ -186,8 +186,9 @@ namespace LivrableV3
                         e.Graphics.DrawImage(image, 0, 0, panelGraphe.Width, panelGraphe.Height);
                     }
                 }
-                // on dessine les clients et cuisiniers par-dessus
-                DessinerGraphe(e.Graphics, grapheMetro, visMetro);
+
+                // on dessine les clients et cuisiniers
+                DessinerClientsCuisiniers(e.Graphics, grapheMetro, correspondanceStations);
             };
             fenetreGraphe.Controls.Add(panelGraphe);
 
@@ -195,76 +196,58 @@ namespace LivrableV3
             fenetreGraphe.ShowDialog();
         }
 
-        /// dessine le graphe des clients et cuisiniers
-        private void DessinerGraphe(Graphics g, Graphe<int> grapheMetro, VisualisationCarte visMetro)
+        /// dessine les clients et cuisiniers sur la carte
+        private void DessinerClientsCuisiniers(Graphics g, Graphe<int> grapheMetro, Dictionary<T, Noeud<int>> correspondanceStations)
         {
-            // on cree un tableau de couleurs pour les noeuds
-            Color[] couleurs = new Color[]
-            {
-                Color.Red,    // pour les cuisiniers
-                Color.Blue,   // pour les clients
-                Color.Gray    // pour les autres stations
-            };
-
             // on recupere les groupes de noeuds
             var groupes = TrouverGroupesIndependants();
+
+            // on calcule les limites de la carte
+            double minLong = double.MaxValue, maxLong = double.MinValue;
+            double minLat = double.MaxValue, maxLat = double.MinValue;
+
+            foreach (var noeud in grapheMetro.Noeuds.Values)
+            {
+                minLong = Math.Min(minLong, noeud.Longitude);
+                maxLong = Math.Max(maxLong, noeud.Longitude);
+                minLat = Math.Min(minLat, noeud.Latitude);
+                maxLat = Math.Max(maxLat, noeud.Latitude);
+            }
+
+            double marge = 0.01;
+            minLong -= marge;
+            maxLong += marge;
+            minLat -= marge;
+            maxLat += marge;
+
+            double echelleLong = (800 - 2 * 50) / (maxLong - minLong);
+            double echelleLat = (600 - 2 * 50) / (maxLat - minLat);
 
             // on dessine les clients et cuisiniers
             for (int i = 0; i < groupes.Count; i++)
             {
-                Color couleurActuelle = couleurs[i % couleurs.Length];
+                Color couleur = i == 0 ? Color.Red : Color.Blue;
                 foreach (var noeud in groupes[i])
                 {
-                    // on cherche la station correspondante dans le graphe du metro
-                    Noeud<int> stationMetro = null;
-                    foreach (var station in grapheMetro.Noeuds.Values)
+                    if (correspondanceStations.ContainsKey(noeud.Id))
                     {
-                        if (station.NomStation == noeud.NomStation)
-                        {
-                            stationMetro = station;
-                            break;
-                        }
-                    }
-
-                    if (stationMetro != null)
-                    {
-                        // on calcule la position de la station
-                        double minLong = double.MaxValue, maxLong = double.MinValue;
-                        double minLat = double.MaxValue, maxLat = double.MinValue;
-
-                        foreach (var n in grapheMetro.Noeuds.Values)
-                        {
-                            minLong = Math.Min(minLong, n.Longitude);
-                            maxLong = Math.Max(maxLong, n.Longitude);
-                            minLat = Math.Min(minLat, n.Latitude);
-                            maxLat = Math.Max(maxLat, n.Latitude);
-                        }
-
-                        double marge = 0.01;
-                        minLong -= marge;
-                        maxLong += marge;
-                        minLat -= marge;
-                        maxLat += marge;
-
-                        double echelleLong = (800 - 2 * 50) / (maxLong - minLong);
-                        double echelleLat = (600 - 2 * 50) / (maxLat - minLat);
-
+                        var stationMetro = correspondanceStations[noeud.Id];
                         int x = (int)((stationMetro.Longitude - minLong) * echelleLong) + 50;
                         int y = 600 - ((int)((stationMetro.Latitude - minLat) * echelleLat) + 50);
-                        
+
                         // on dessine un point plus gros pour le client/cuisinier
-                        g.FillEllipse(new SolidBrush(couleurActuelle), x - 6, y - 6, 12, 12);
-                        
+                        g.FillEllipse(new SolidBrush(couleur), x - 6, y - 6, 12, 12);
+
                         // on affiche le nom de la station et de la personne
                         string texteStation = noeud.NomStation;
                         string textePersonne = noeud.Nom;
-                        
+
                         if (i == 0) // premier groupe = cuisiniers
                         {
                             g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, x + 8, y - 8);
                             g.DrawString("Cuisinier: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, x + 8, y + 2);
                         }
-                        else if (i == 1) // deuxième groupe = clients
+                        else // deuxième groupe = clients
                         {
                             g.DrawString(texteStation, new Font("Arial", 6), Brushes.Black, x + 8, y - 8);
                             g.DrawString("Client: " + textePersonne, new Font("Arial", 6, FontStyle.Bold), Brushes.Black, x + 8, y + 2);
@@ -285,16 +268,12 @@ namespace LivrableV3
             legendeY += 80;
 
             // Légende des couleurs
-            g.FillRectangle(new SolidBrush(couleurs[0]), legendeX, legendeY, 10, 10);
+            g.FillRectangle(new SolidBrush(Color.Red), legendeX, legendeY, 10, 10);
             g.DrawString("Cuisiniers", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
             legendeY += 20;
 
-            g.FillRectangle(new SolidBrush(couleurs[1]), legendeX, legendeY, 10, 10);
+            g.FillRectangle(new SolidBrush(Color.Blue), legendeX, legendeY, 10, 10);
             g.DrawString("Clients", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
-            legendeY += 20;
-
-            g.FillRectangle(new SolidBrush(couleurs[2]), legendeX, legendeY, 10, 10);
-            g.DrawString("Stations", new Font("Arial", 8), Brushes.Black, legendeX + 15, legendeY);
         }
     }
 }
