@@ -84,6 +84,7 @@ namespace LivrableV3
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormModules));
             this.tabModule = new System.Windows.Forms.TabControl();
             this.tabModuleClient = new System.Windows.Forms.TabPage();
             this.btnClientSuppClient = new System.Windows.Forms.Button();
@@ -665,6 +666,7 @@ namespace LivrableV3
             this.ClientSize = new System.Drawing.Size(785, 762);
             this.Controls.Add(this.btnRetourMenu);
             this.Controls.Add(this.tabModule);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormModules";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FormModules_Load);
