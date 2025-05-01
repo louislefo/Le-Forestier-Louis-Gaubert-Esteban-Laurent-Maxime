@@ -218,7 +218,7 @@ namespace LivrableV3
             this.labelClientrep.Name = "labelClientrep";
             this.labelClientrep.Size = new System.Drawing.Size(128, 16);
             this.labelClientrep.TabIndex = 3;
-            this.labelClientrep.Text = "Affichage Réponse :";
+            this.labelClientrep.Text = "Affichage Rï¿½ponse :";
             this.labelClientrep.Click += new System.EventHandler(this.labelClientrep_Click);
             // 
             // btnClientparachat
@@ -288,7 +288,7 @@ namespace LivrableV3
             this.textBoxCuisinierrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxCuisinierrep.Size = new System.Drawing.Size(433, 209);
             this.textBoxCuisinierrep.TabIndex = 7;
-            this.textBoxCuisinierrep.Text = "Réponses :";
+            this.textBoxCuisinierrep.Text = "Rï¿½ponses :";
             this.textBoxCuisinierrep.TextChanged += new System.EventHandler(this.textBoxCuisinierrep_TextChanged);
             // 
             // comboBoxchoixcuisinier
@@ -430,7 +430,7 @@ namespace LivrableV3
             this.btncommandecreer.Name = "btncommandecreer";
             this.btncommandecreer.Size = new System.Drawing.Size(152, 65);
             this.btncommandecreer.TabIndex = 0;
-            this.btncommandecreer.Text = "Créer une commande";
+            this.btncommandecreer.Text = "Crï¿½er une commande";
             this.btncommandecreer.UseVisualStyleBackColor = true;
             this.btncommandecreer.Click += new System.EventHandler(this.btncommandecreer_Click);
             // 
@@ -472,7 +472,7 @@ namespace LivrableV3
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 16);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Date de début";
+            this.label1.Text = "Date de dï¿½but";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // dateTimePickerstatFin
@@ -646,7 +646,7 @@ namespace LivrableV3
             this.btnAfficherMetro.Name = "btnAfficherMetro";
             this.btnAfficherMetro.Size = new System.Drawing.Size(128, 61);
             this.btnAfficherMetro.TabIndex = 0;
-            this.btnAfficherMetro.Text = "Afficher Métro";
+            this.btnAfficherMetro.Text = "Afficher Mï¿½tro";
             this.btnAfficherMetro.UseVisualStyleBackColor = false;
             this.btnAfficherMetro.Click += new System.EventHandler(this.btnAfficherMetro_Click);
             // 
@@ -790,7 +790,7 @@ namespace LivrableV3
 
             if (string.IsNullOrEmpty(ligneChoisie))
             {
-                MessageBox.Show("Veuillez sélectionner une ligne de métro.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Veuillez selectionner une ligne de metro.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -826,7 +826,7 @@ namespace LivrableV3
         {
             try
             {
-                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.nom ASC, u.prénom ASC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.nom ASC, u.prï¿½nom ASC";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -839,7 +839,7 @@ namespace LivrableV3
                 {
                     rep += "ID : " + reader["id_utilisateur"] + "\r\n";
                     rep += "Nom : " + reader["nom"] + "\r\n";
-                    rep += "Prenom : " + reader["prénom"] + "\r\n";
+                    rep += "Prenom : " + reader["prenom"] + "\r\n";
                     rep += "Adresse : " + reader["adresse"] + "\r\n";
                     rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
                     rep += "\r\n";
@@ -870,7 +870,7 @@ namespace LivrableV3
         {
             try
             {
-                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.adresse ASC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prï¿½nom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.adresse ASC";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -883,7 +883,7 @@ namespace LivrableV3
                 {
                     rep += "ID : " + reader["id_utilisateur"] + "\r\n";
                     rep += "Nom : " + reader["nom"] + "\r\n";
-                    rep += "Prenom : " + reader["prénom"] + "\r\n";
+                    rep += "Prenom : " + reader["prï¿½nom"] + "\r\n";
                     rep += "Adresse : " + reader["adresse"] + "\r\n";
                     rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
                     rep += "\r\n";
@@ -904,7 +904,7 @@ namespace LivrableV3
         {
             try
             {
-                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro, SUM(co.prix_total) as total FROM utilisateur u, client c, Commande_ co WHERE u.id_utilisateur = c.id_utilisateur AND c.id_client = co.id_client GROUP BY u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro ORDER BY total DESC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prï¿½nom, u.adresse, c.StationMetro, SUM(co.prix_total) as total FROM utilisateur u, client c, Commande_ co WHERE u.id_utilisateur = c.id_utilisateur AND c.id_client = co.id_client GROUP BY u.id_utilisateur, u.nom, u.prï¿½nom, u.adresse, c.StationMetro ORDER BY total DESC";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -917,7 +917,7 @@ namespace LivrableV3
                 {
                     rep += "ID : " + reader["id_utilisateur"] + "\r\n";
                     rep += "Nom : " + reader["nom"] + "\r\n";
-                    rep += "Prenom : " + reader["prénom"] + "\r\n";
+                    rep += "Prenom : " + reader["prï¿½nom"] + "\r\n";
                     rep += "Adresse : " + reader["adresse"] + "\r\n";
                     rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
                     rep += "Total des achats : " + reader["total"] + " euros\r\n";
@@ -936,19 +936,19 @@ namespace LivrableV3
         private void btnClientAjoutClient_Click(object sender, EventArgs e)
         {
             // a faire
-            MessageBox.Show("Ajout d'un client à faire");
+            MessageBox.Show("Ajout d'un client ï¿½ faire");
         }
 
         private void btnClientModifclient_Click(object sender, EventArgs e)
         {
             // a faire
-            MessageBox.Show("Modification d'un client à faire");
+            MessageBox.Show("Modification d'un client ï¿½ faire");
         }
 
         private void btnClientSuppClient_Click(object sender, EventArgs e)
         {
             // a faire
-            MessageBox.Show("Suppression d'un client à faire");
+            MessageBox.Show("Suppression d'un client ï¿½ faire");
         }
 
         #endregion
@@ -959,8 +959,8 @@ namespace LivrableV3
             try
             {
                 // on fait une requete pour avoir les livraisons par cuisinier
-                string requete = "SELECT nom, prénom, nombre_livraisons FROM cuisinier, utilisateur " +
-                               "WHERE cuisinier.id_utilisateur = utilisateur.id_utilisateur";
+                string requete = "SELECT nom, prÃ©nom, nombre_livraisons FROM cuisinier c, utilisateur u" +
+                               "WHERE c.id_utilisateur = u.id_utilisateur";
 
                 MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande0.CommandText = requete;
@@ -975,7 +975,7 @@ namespace LivrableV3
                 {
                     string nom = reader["nom"].ToString();
 
-                    string prenom = reader["prénom"].ToString();
+                    string prenom = reader["prÃ©nom"].ToString();
                     string nbLivraisons = reader["nombre_livraisons"].ToString();
                     rep += "Cuisinier : " + prenom + " " + nom + "\r\n";
                     rep += "\r\n";
@@ -1068,11 +1068,11 @@ namespace LivrableV3
             try
             {
                 // on fait une requete pour avoir le total depense par client
-                string requete = "SELECT nom, prénom, SUM(montant) as total FROM Transaction_, Commande_, client, utilisateur " +
+                string requete = "SELECT nom, prÃ©nom, SUM(montant) as total FROM Transaction_, Commande_, client, utilisateur " +
                                "WHERE Transaction_.id_commande = Commande_.id_commande " +
                                "AND Commande_.id_client = client.id_client " +
                                "AND client.id_utilisateur = utilisateur.id_utilisateur " +
-                               "GROUP BY nom, prénom";
+                               "GROUP BY nom, prÃ©nom";
 
                 MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande0.CommandText = requete;
@@ -1084,7 +1084,7 @@ namespace LivrableV3
                 while (reader.Read())
                 {
                     string nom = reader["nom"].ToString();
-                    string prenom = reader["prénom"].ToString();
+                    string prenom = reader["prÃ©nom"].ToString();
                     double total = Convert.ToDouble(reader["total"]);
                     total = Math.Round(total, 2);
                     rep += "Client : " + prenom + " " + nom + "\r\n";
