@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<baseDeDonnees>
+	<utilisateurs>
+		<utilisateur>
+			<id_utilisateur>USR001</id_utilisateur>
+			<nom>Dupont</nom>
+			<prenom>Jean</prenom>
+			<email>jean.dupont@gmail.com</email>
+			<adresse>12 rue du Faubourg, Paris</adresse>
+			<telephone>0678451236</telephone>
+			<mot_de_passe>MotDePasse123</mot_de_passe>
+		</utilisateur>
+	</utilisateurs>
+
+	<clients>
+		<client>
+			<id_client>CLI001</id_client>
+			<id_utilisateur>USR001</id_utilisateur>
+			<StationMetro>Châtelet</StationMetro>
+			<entreprise_nom xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+			<referent xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+		</client>
+	</clients>
+
+	<cuisiniers>
+		<cuisinier>
+			<id_cuisinier>CUI001</id_cuisinier>
+			<id_utilisateur>USR001</id_utilisateur>
+			<StationMetro>Châtelet</StationMetro>
+			<zones_livraison>1er, 2e, 3e, 4e arrondissement</zones_livraison>
+			<note_moyenne>4.7</note_moyenne>
+			<nombre_livraisons>42</nombre_livraisons>
+		</cuisinier>
+	</cuisiniers>
+
+	<commandes>
+		<commande>
+			<id_commande>COM001</id_commande>
+			<id_client>CLI001</id_client>
+			<id_cuisinier>CUI003</id_cuisinier>
+			<id_plat>PLA003</id_plat>
+			<date_commande>2024-04-02 18:15:00</date_commande>
+			<prix_total>52.00</prix_total>
+			<statut>En préparation</statut>
+		</commande>
+	</commandes>
+
+	<livraisons>
+		<livraison>
+			<id_livraison>LIV001</id_livraison>
+			<id_commande>COM001</id_commande>
+			<date_livraison>2024-04-02 19:45:00</date_livraison>
+			<trajet>Opéra -> Châtelet</trajet>
+		</livraison>
+	</livraisons>
+</baseDeDonnees>
+
