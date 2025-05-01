@@ -112,7 +112,7 @@ namespace LivrableV3
             // 
             // btnajouterplat
             // 
-            this.btnajouterplat.Location = new System.Drawing.Point(284, 114);
+            this.btnajouterplat.Location = new System.Drawing.Point(162, 122);
             this.btnajouterplat.Name = "btnajouterplat";
             this.btnajouterplat.Size = new System.Drawing.Size(179, 65);
             this.btnajouterplat.TabIndex = 5;
