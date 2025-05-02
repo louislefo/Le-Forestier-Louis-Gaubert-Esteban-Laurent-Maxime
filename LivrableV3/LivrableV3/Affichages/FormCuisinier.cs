@@ -29,6 +29,11 @@ namespace LivrableV3
         private FormAjoutplat formAjouterPlat;
         private SqlCuisinier sqlCuisinier;
         private SqlCommander sqlCommander;
+        private Button btnvalider;
+        private ComboBox comboBoxcomandes;
+        private ComboBox comboBoxstatut;
+        private Label label2;
+        private Label label3;
         private GestionnaireItineraire<int> gestionnaireItineraire;
 
         public FormCuisinier(ConnexionBDDCuisinier connexion, Authentification auth, Graphe<int> graphe,MainForm main)
@@ -40,7 +45,7 @@ namespace LivrableV3
             this.gestionnaireItineraire = new GestionnaireItineraire<int>(grapheMetro);
             labelNom.Text = "Bonjour " + authentification.nom + " " + authentification.prenom;
             this.mainForm = main;
-            SqlCuisinier sqlCuisinier = new SqlCuisinier(connexionBDDCuisinier,authentification);
+            this.sqlCuisinier = new SqlCuisinier(connexionBDDCuisinier,authentification);
             RemplirBox(sqlCuisinier.VoiridCommandes(sqlCuisinier.GetIdCuisinierFromUtilisateur(authentification.idUtilisateur)));
         }
 
@@ -58,6 +63,11 @@ namespace LivrableV3
             this.btnvoirnotes = new System.Windows.Forms.Button();
             this.comboBoxnumcommande = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnvalider = new System.Windows.Forms.Button();
+            this.comboBoxcomandes = new System.Windows.Forms.ComboBox();
+            this.comboBoxstatut = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnDeconnexion
@@ -112,7 +122,7 @@ namespace LivrableV3
             // 
             // btnajouterplat
             // 
-            this.btnajouterplat.Location = new System.Drawing.Point(162, 122);
+            this.btnajouterplat.Location = new System.Drawing.Point(42, 168);
             this.btnajouterplat.Name = "btnajouterplat";
             this.btnajouterplat.Size = new System.Drawing.Size(179, 65);
             this.btnajouterplat.TabIndex = 5;
@@ -166,10 +176,68 @@ namespace LivrableV3
             this.label1.TabIndex = 10;
             this.label1.Text = "commande :";
             // 
+            // btnvalider
+            // 
+            this.btnvalider.Location = new System.Drawing.Point(584, 128);
+            this.btnvalider.Name = "btnvalider";
+            this.btnvalider.Size = new System.Drawing.Size(180, 65);
+            this.btnvalider.TabIndex = 11;
+            this.btnvalider.Text = "valider";
+            this.btnvalider.UseVisualStyleBackColor = true;
+            this.btnvalider.Click += new System.EventHandler(this.btnvalider_Click);
+            // 
+            // comboBoxcomandes
+            // 
+            this.comboBoxcomandes.FormattingEnabled = true;
+            this.comboBoxcomandes.Location = new System.Drawing.Point(353, 128);
+            this.comboBoxcomandes.Name = "comboBoxcomandes";
+            this.comboBoxcomandes.Size = new System.Drawing.Size(198, 33);
+            this.comboBoxcomandes.TabIndex = 12;
+            this.comboBoxcomandes.SelectedIndexChanged += new System.EventHandler(this.comboBoxcomandes_SelectedIndexChanged);
+            // 
+            // comboBoxstatut
+            // 
+            this.comboBoxstatut.FormattingEnabled = true;
+            this.comboBoxstatut.Items.AddRange(new object[] {
+            "En attente",
+            "Validé",
+            "En préparation",
+            "livrée",
+            "Annulée"});
+            this.comboBoxstatut.Location = new System.Drawing.Point(352, 167);
+            this.comboBoxstatut.Name = "comboBoxstatut";
+            this.comboBoxstatut.Size = new System.Drawing.Size(199, 33);
+            this.comboBoxstatut.TabIndex = 13;
+            this.comboBoxstatut.SelectedIndexChanged += new System.EventHandler(this.comboBoxstatut_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(219, 128);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(130, 25);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "commandes :";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(279, 168);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 25);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "statut :";
+            // 
             // FormCuisinier
             // 
             this.BackColor = System.Drawing.Color.IndianRed;
             this.ClientSize = new System.Drawing.Size(785, 762);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.comboBoxstatut);
+            this.Controls.Add(this.comboBoxcomandes);
+            this.Controls.Add(this.btnvalider);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxnumcommande);
             this.Controls.Add(this.btnvoirnotes);
@@ -197,6 +265,7 @@ namespace LivrableV3
         private void RemplirBox(List<string> listecommande)
         {
             comboBoxnumcommande.Items.Clear();
+            comboBoxcomandes.Items.Clear();
             if (listecommande == null || listecommande.Count == 0)
             {
                 textBoxrep.Text = "pas de commande en cours";
@@ -207,6 +276,7 @@ namespace LivrableV3
                 for (int i = 0; i < listecommande.Count; i++)
                 {
                     comboBoxnumcommande.Items.Add(listecommande[i]);
+                    comboBoxcomandes.Items.Add(listecommande[i]);
                 }
             }
             
@@ -289,5 +359,39 @@ namespace LivrableV3
             textBoxrep.Text = sqlCuisinier.Voirmesnotes(sqlCuisinier.GetIdCuisinierFromUtilisateur(authentification.idUtilisateur));
         }
 
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxcomandes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnvalider_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string idcommande = comboBoxcomandes.Text;
+                string statut = comboBoxstatut.Text;
+                if (string.IsNullOrEmpty(idcommande) || string.IsNullOrEmpty(statut))
+                {
+                    MessageBox.Show("Veuillez sélectionner une commande et un statut.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                sqlCuisinier.ModifierStatutCommande(idcommande, statut);
+                MessageBox.Show("Statut de la commande modifié avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de la modification du statut : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void comboBoxstatut_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 } 

@@ -29,48 +29,60 @@ namespace LivrableV3
 
         private void btnAjouter_Click(object sender, EventArgs e)
         {
-
             try
             {
+                // Récupération de l'id_cuisinier à partir de l'id_utilisateur connecté
+                string idCuisinier = "";
+                string requeteId = "SELECT id_cuisinier FROM cuisinier WHERE id_utilisateur = '" + authentification.idUtilisateur + "'";
+                MySqlCommand cmdId = new MySqlCommand(requeteId, connexionBDD.maConnexionCuisinier);
+                MySqlDataReader reader = cmdId.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    idCuisinier = reader["id_cuisinier"].ToString();
+                }
+
+                reader.Close();
+                cmdId.Dispose();
+
+                if (idCuisinier == "")
+                {
+                    MessageBox.Show("Erreur : cuisinier introuvable pour cet utilisateur.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Récupération des données du formulaire
                 string nomPlat = textBoxnomplat.Text;
-
-
                 string typePlat = comboBoxtype.Text;
-
                 string portions = comboBoxportion.Text;
-
-                string dateFabricationString = dateTimePickerfabrication.Value.ToString("yyyy-MM-dd");
-
-                string datePeremptionString = dateTimePickerPeremption.Value.ToString("yyyy-MM-dd");
 
                 DateTime dateFabrication = dateTimePickerfabrication.Value;
                 DateTime datePeremption = dateTimePickerPeremption.Value;
 
-                if (dateFabrication < datePeremption)
+                if (dateFabrication > datePeremption)
                 {
                     MessageBox.Show("La date de fabrication doit être antérieure à la date de péremption.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
+                string dateFabricationString = dateFabrication.ToString("yyyy-MM-dd");
+                string datePeremptionString = datePeremption.ToString("yyyy-MM-dd");
+
                 double prixParPersonne = Convert.ToDouble(textBoxprix.Text);
-
                 string nationalite = textBoxNationalite.Text;
-
                 string regime = comboBoxregime.Text;
-
                 string photo = this.nomimage;
-
                 string idPlat = "PLT" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                string requete = "INSERT INTO Plat_ VALUES ('" + idPlat + "', '" + authentification.idUtilisateur + "', '" +
-                               nomPlat + "', '" + typePlat + "', '" + portions + "', '" +
-                               dateFabricationString + "', '" +
-                               datePeremptionString + "', " +
-                               prixParPersonne.ToString().Replace(',', '.') + ", '" +
-                               nationalite + "', '" + regime + "', '" + photo + "')";
+                // Requête d'insertion avec l'id_cuisinier
+                string requete = "INSERT INTO Plat_ VALUES ('" + idPlat + "', '" + idCuisinier + "', '" +
+                                 nomPlat + "', '" + typePlat + "', '" + portions + "', '" +
+                                 dateFabricationString + "', '" +
+                                 datePeremptionString + "', " +
+                                 prixParPersonne.ToString().Replace(',', '.') + ", '" +
+                                 nationalite + "', '" + regime + "', '" + photo + "')";
 
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexionCuisinier);
-                commande.CommandText = requete;
                 commande.ExecuteNonQuery();
                 commande.Dispose();
 
@@ -81,8 +93,8 @@ namespace LivrableV3
             {
                 MessageBox.Show("Erreur lors de l'ajout du plat : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
+
 
         private void btnimage_Click(object sender, EventArgs e)
         {

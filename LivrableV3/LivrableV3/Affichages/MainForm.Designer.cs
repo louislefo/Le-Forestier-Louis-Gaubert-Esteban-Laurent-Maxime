@@ -36,7 +36,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btncolo = new System.Windows.Forms.Button();
-            this.btnColoration = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btninscription
@@ -108,19 +107,9 @@
             this.btncolo.Name = "btncolo";
             this.btncolo.Size = new System.Drawing.Size(148, 48);
             this.btncolo.TabIndex = 7;
-            this.btncolo.Text = "colo";
+            this.btncolo.Text = "coloration";
             this.btncolo.UseVisualStyleBackColor = true;
             this.btncolo.Click += new System.EventHandler(this.btncolo_Click);
-            // 
-            // btnColoration
-            // 
-            this.btnColoration.Location = new System.Drawing.Point(20, 250);
-            this.btnColoration.Name = "btnColoration";
-            this.btnColoration.Size = new System.Drawing.Size(200, 116);
-            this.btnColoration.TabIndex = 5;
-            this.btnColoration.Text = "Tester Coloration de Graphe";
-            this.btnColoration.UseVisualStyleBackColor = true;
-            this.btnColoration.Click += new System.EventHandler(this.btnColoration_Click);
             // 
             // MainForm
             // 
@@ -136,7 +125,6 @@
             this.Controls.Add(this.btnquitter);
             this.Controls.Add(this.btnModule);
             this.Controls.Add(this.btninscription);
-            this.Controls.Add(this.btnColoration);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -158,7 +146,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btncolo;
-        private System.Windows.Forms.Button btnColoration;
     }
 }
 

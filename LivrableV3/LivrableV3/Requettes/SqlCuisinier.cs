@@ -115,20 +115,19 @@ namespace LivrableV3
         {
             try
             {
+                List<string> listecommande = new List<string>();
+
                 string requete = "SELECT c.id_commande, c.date_commande, c.prix_total, c.statut, " +
-                               "p.nom as nom_plat, u.nom as nom_client, u.prénom as prenom_client " +
-                               "FROM Commande_ c " +
-                               "JOIN Plat_ p ON c.id_plat = p.id_plat " +
-                               "JOIN client cl ON c.id_client = cl.id_client " +
-                               "JOIN utilisateur u ON cl.id_utilisateur = u.id_utilisateur " +
-                               "WHERE c.id_cuisinier = '" + idCuisinier + "' " +
-                               "AND c.statut != 'Terminée'";
+                                 "p.nom as nom_plat, u.nom as nom_client, u.prénom as prenom_client " +
+                                 "FROM Commande_ c " +
+                                 "JOIN Plat_ p ON c.id_plat = p.id_plat " +
+                                 "JOIN client cl ON c.id_client = cl.id_client " +
+                                 "JOIN utilisateur u ON cl.id_utilisateur = u.id_utilisateur " +
+                                 "WHERE c.id_cuisinier = '" + idCuisinier + "' " +
+                                 "AND c.statut != 'Terminée'";
 
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexionCuisinier);
-                commande.CommandText = requete;
-
                 MySqlDataReader reader = commande.ExecuteReader();
-
 
                 while (reader.Read())
                 {
@@ -147,7 +146,8 @@ namespace LivrableV3
                     Console.WriteLine("Prix : " + prix + " euros");
                     Console.WriteLine("Statut : " + statut);
                     Console.WriteLine("----------------------------------");
-                    this.listecommande.Add(idCommande);
+
+                    listecommande.Add(idCommande);
                 }
 
                 reader.Close();
@@ -221,6 +221,32 @@ namespace LivrableV3
                 return null;
             }
         }
+        public string ModifierStatutCommande(string idcommande, string statut)
+        {
+            try
+            {
+                string requete = "UPDATE Commande_ SET statut = '" + statut + "' WHERE id_commande = '" + idcommande + "'";
+
+                MySqlCommand cmd = new MySqlCommand(requete, connexionBDD.maConnexionCuisinier);
+                int lignesAffectees = cmd.ExecuteNonQuery();
+                cmd.Dispose();
+
+                if (lignesAffectees > 0)
+                {
+                    return "Statut de la commande modifié avec succès.";
+                }
+                else
+                {
+                    return "Aucune commande trouvée avec cet identifiant.";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de la modification du statut : " + ex.Message);
+                return null;
+            }
+        }
+
 
         public string Voirmesnotes(string idcuisinier)
         {
