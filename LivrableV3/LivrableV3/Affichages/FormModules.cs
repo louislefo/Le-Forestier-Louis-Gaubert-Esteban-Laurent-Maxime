@@ -26,6 +26,7 @@ namespace LivrableV3
         private Button btnAfficherMetro;
         private Graphe<int> grapheMetro;
         private Button btnitineraire;
+        private Button btnColorationMetro;
         private Label labelClientrep;
         private Button btnClientparachat;
         private Button btnclientparrue;
