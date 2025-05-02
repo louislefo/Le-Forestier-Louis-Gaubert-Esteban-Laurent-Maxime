@@ -9,15 +9,17 @@ using System.Windows.Forms;
 
 namespace LivrableV3
 {
-
+    /// <summary>
+    /// cette classe gere le chargement des fichiers du metro
+    /// elle charge les noeuds et les arcs du metro depuis les fichiers csv
+    /// </summary>
     public class ChargerFichiers
     {
-
         /// <summary>
-        /// charge les noeuds du metro
+        /// cette methode charge les noeuds du metro depuis un fichier csv
+        /// elle lit chaque ligne du fichier et cree un noeud pour chaque station
+        /// elle gere les erreurs de lecture du fichier
         /// </summary>
-        /// 
-
         public Dictionary<int, Noeud<int>> ChargerNoeudsMetro(string cheminFichierMetro)
         {
             Dictionary<int, Noeud<int>> noeudsMetro = new Dictionary<int, Noeud<int>>();
@@ -57,7 +59,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// charge les arcs du metro
+        /// cette methode charge les arcs du metro depuis un fichier csv
+        /// elle lit chaque ligne du fichier et cree les liens entre les stations
+        /// elle met a jour les temps de correspondance des stations
         /// </summary>
         public void ChargerArcsMetro(Graphe<int> grapheMetro, string cheminFichierArcs)
         {
@@ -106,6 +110,11 @@ namespace LivrableV3
             }
         }
 
+        /// <summary>
+        /// cette methode charge la liste des stations depuis le fichier csv
+        /// elle lit chaque ligne du fichier et extrait les noms des stations
+        /// elle supprime les doublons et trie la liste
+        /// </summary>
         public List<string> ChargerStation()
         {
             string cheminfichier = @"../../Données/MetroParisNoeuds.csv";
