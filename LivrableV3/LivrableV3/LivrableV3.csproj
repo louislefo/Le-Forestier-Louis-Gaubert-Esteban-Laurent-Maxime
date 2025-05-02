@@ -162,6 +162,7 @@
     <Compile Include="Données\ImportJson.cs" />
     <Compile Include="Graphe\TestColorationClientsMetro.cs" />
     <Compile Include="Graphe\ColorationGraphe.cs" />
+    <Compile Include="Données\Modeles.cs" />
     <Compile Include="Requettes\Modulecuisinier.cs" />
     <Compile Include="Requettes\SqlCommander.cs" />
     <Compile Include="Visualtisations\VisualisationGraphe.cs" />
@@ -302,7 +303,9 @@
   <ItemGroup>
     <Folder Include="Affichages\Modules\" />
     <Folder Include="bin\Debug\" />
+    <Folder Include="Modules\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="Visualisations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Données\Données.Xml" />
