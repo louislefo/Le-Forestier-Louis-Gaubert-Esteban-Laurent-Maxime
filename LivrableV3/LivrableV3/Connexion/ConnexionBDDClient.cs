@@ -9,6 +9,9 @@ using MySql.Data.MySqlClient;
 namespace LivrableV3
 {
     
+    /// <summary>
+    /// cette classe gere la connexion a la BDD client
+    /// </summary>
     public class ConnexionBDDClient
     {
         
@@ -30,6 +33,10 @@ namespace LivrableV3
         }
 
         
+        /// <summary>
+        /// cette methode sert a fermer la connexion du client
+        /// elle affiche un message de confirmation ou d'erreur
+        /// </summary>
         public void FermerConnexionClient()
         {
             try

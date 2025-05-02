@@ -7,6 +7,9 @@ using MySql.Data.MySqlClient;
 
 namespace LivrableV3
 {
+    /// <summary>
+    /// cette classe gere la connexion a la BDD princiale,
+    /// </summary>
     public class ConnexionBDD
     {
         public MySqlConnection maConnexion;
@@ -20,7 +23,10 @@ namespace LivrableV3
             OuvrirConnexion();
         }
 
-        /// ouverture de la connexion
+        /// <summary>
+        /// ouvre la connexion a la BDD avecles parametres definis dans le constructeur
+        /// elle lance une exception si la connexion echoue
+        /// </summary>
         protected void OuvrirConnexion()
         {
             try
@@ -33,7 +39,11 @@ namespace LivrableV3
             }
         }
 
-        /// fermeture de la connexion
+        /// <summary>
+        /// cette methode sert a fermer la connexion a la base de donnees
+        /// elle verifie d'abord si la connexion est ouverte
+        /// elle lance une exception si la fermeture echoue
+        /// </summary>
         public void FermerConnexion()
         {
             try

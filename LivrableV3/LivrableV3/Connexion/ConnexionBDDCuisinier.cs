@@ -8,7 +8,9 @@ using MySql.Data.MySqlClient;
 
 namespace LivrableV3
 {
-   
+    /// <summary>
+    /// cette classe permet d'ouvrir et fermer la connexion avec les droits cuisinier
+    /// </summary>
     public class ConnexionBDDCuisinier
     {
         public MySqlConnection maConnexionCuisinier;

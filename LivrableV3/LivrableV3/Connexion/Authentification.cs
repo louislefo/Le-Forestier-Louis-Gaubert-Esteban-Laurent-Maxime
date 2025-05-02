@@ -8,6 +8,11 @@ using System.Data;
 
 namespace LivrableV3
 {
+    /// <summary>
+    /// cette classe gere l'authentification des utilisateurs dans l'application
+    /// elle permet de se connecter, s'inscrire et gerer les differents types d'utilisateurs
+    /// c'est une classe importante car elle verifie l'identite des utilisateurs
+    /// </summary>
     public class Authentification
     {
         public string nomUtilisateur;
@@ -50,7 +55,9 @@ namespace LivrableV3
         }
 
          /// <summary>
-        /// genere un id unique pour un utilisateur
+        /// cette methode sert a generer un id unique pour un utilisateur
+        /// elle regarde le dernier id dans la base et ajoute 1
+        /// si y a pas d'id elle commence a 1
         /// </summary>
         private string GenererIdUtilisateur()
         {
@@ -82,7 +89,8 @@ namespace LivrableV3
         }
         
         /// <summary>
-        /// genere un id unique pour un cuisinier
+        /// cette methode sert a generer un id unique pour un cuisinier
+        /// elle fait pareil que pour l'utilisateur mais avec CUI au lieu de USR
         /// </summary>
         private string GenererIdCuisinier()
         {
@@ -114,7 +122,8 @@ namespace LivrableV3
         }
         
         /// <summary>
-        /// genere un id unique pour un client
+        /// cette methode sert a generer un id unique pour un client
+        /// elle fait pareil que pour l'utilisateur mais avec CLI au lieu de USR
         /// </summary>
         private string GenererIdClient()
         {
@@ -143,9 +152,10 @@ namespace LivrableV3
         }
         
         /// <summary>
-        /// methode pour se connecter avec l'email et le mdp
+        /// cette methode permet a un utilisateur de se connecter
+        /// elle verifie l'email et le mot de passe dans la BDD
+        /// elle met a jour les informations de l'utilisateur si la connexion reussit
         /// </summary>
-        /// <returns></returns>
         public bool SeConnecter()
         {
             Console.WriteLine("=== Connexion ===");
@@ -243,7 +253,9 @@ namespace LivrableV3
        
 
         /// <summary>
-        /// methode pour s'inscrire
+        /// cette methode permet a un utilisateur de s'inscrire
+        /// elle cree un compte utilisateur et peut creer un compte cuisinier et/ou client dans la BDD
+        /// elle gere aussi la creation des comptes d'acces a la base de donnees
         /// </summary>
         public bool SInscrire()
         {
@@ -514,7 +526,8 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// methode pour se deconnecter
+        /// cette methode permet de se deconnecter
+        /// elle reinitialise toutes les variables de l'utilisateur
         /// </summary>
         public void SeDeconnecter()
         {
@@ -532,9 +545,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// methode pour savoir si l'utilisateur est un client ou un cuisinier
+        /// cette methode permet de savoir quel type d'utilisateur est connecte
+        /// elle retourne 1 pour client, 2 pour cuisinier, 3 pour les deux et 0 pour aucun
         /// </summary>
-        /// <returns></returns>
         public int Qui()
         {
             if (estClient)
