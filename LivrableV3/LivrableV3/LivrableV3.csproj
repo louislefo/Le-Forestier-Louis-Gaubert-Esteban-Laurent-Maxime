@@ -157,6 +157,7 @@
     <Compile Include="Affichages\Formmap.Designer.cs">
       <DependentUpon>Formmap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Graphe\ColorationMetro.cs" />
     <Compile Include="Données\ImportXml.cs" />
     <Compile Include="Données\ImportJson.cs" />
     <Compile Include="Graphe\TestColorationClientsMetro.cs" />

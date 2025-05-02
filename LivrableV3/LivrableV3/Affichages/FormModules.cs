@@ -66,6 +66,7 @@ namespace LivrableV3
         private ComboBox comboBoxchoixcuisinier;
         private Label label2;
         private ModuleCommande moduleCommande;
+        private Button button1;
         private ModuleCuisinier moduleCuisinier;
 
         #endregion
@@ -132,6 +133,7 @@ namespace LivrableV3
             this.btnitineraire = new System.Windows.Forms.Button();
             this.btnAfficherMetro = new System.Windows.Forms.Button();
             this.btnRetourMenu = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabModule.SuspendLayout();
             this.tabModuleClient.SuspendLayout();
             this.tabModuleCuisinier.SuspendLayout();
@@ -164,10 +166,10 @@ namespace LivrableV3
             this.tabModuleClient.Controls.Add(this.btnClientparachat);
             this.tabModuleClient.Controls.Add(this.btnclientparrue);
             this.tabModuleClient.Controls.Add(this.btnclienttrialpha);
-            this.tabModuleClient.Location = new System.Drawing.Point(4, 25);
+            this.tabModuleClient.Location = new System.Drawing.Point(8, 39);
             this.tabModuleClient.Name = "tabModuleClient";
             this.tabModuleClient.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModuleClient.Size = new System.Drawing.Size(702, 582);
+            this.tabModuleClient.Size = new System.Drawing.Size(694, 564);
             this.tabModuleClient.TabIndex = 0;
             this.tabModuleClient.Text = "moduleClient";
             this.tabModuleClient.Click += new System.EventHandler(this.tabModuleClient_Click);
@@ -216,9 +218,9 @@ namespace LivrableV3
             this.labelClientrep.AutoSize = true;
             this.labelClientrep.Location = new System.Drawing.Point(195, 283);
             this.labelClientrep.Name = "labelClientrep";
-            this.labelClientrep.Size = new System.Drawing.Size(128, 16);
+            this.labelClientrep.Size = new System.Drawing.Size(206, 25);
             this.labelClientrep.TabIndex = 3;
-            this.labelClientrep.Text = "Affichage R�ponse :";
+            this.labelClientrep.Text = "Affichage Réponse :";
             this.labelClientrep.Click += new System.EventHandler(this.labelClientrep_Click);
             // 
             // btnClientparachat
@@ -263,10 +265,10 @@ namespace LivrableV3
             this.tabModuleCuisinier.Controls.Add(this.btncuisiniermodif);
             this.tabModuleCuisinier.Controls.Add(this.btnCuisinierSupp);
             this.tabModuleCuisinier.Controls.Add(this.btnCuisinierAjout);
-            this.tabModuleCuisinier.Location = new System.Drawing.Point(4, 25);
+            this.tabModuleCuisinier.Location = new System.Drawing.Point(8, 39);
             this.tabModuleCuisinier.Name = "tabModuleCuisinier";
             this.tabModuleCuisinier.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModuleCuisinier.Size = new System.Drawing.Size(702, 582);
+            this.tabModuleCuisinier.Size = new System.Drawing.Size(694, 564);
             this.tabModuleCuisinier.TabIndex = 1;
             this.tabModuleCuisinier.Text = "ModuleCuisinier";
             // 
@@ -275,7 +277,7 @@ namespace LivrableV3
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(257, 18);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 16);
+            this.label2.Size = new System.Drawing.Size(108, 25);
             this.label2.TabIndex = 8;
             this.label2.Text = "Cuisinier :";
             this.label2.Click += new System.EventHandler(this.label2_Click);
@@ -288,7 +290,7 @@ namespace LivrableV3
             this.textBoxCuisinierrep.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxCuisinierrep.Size = new System.Drawing.Size(433, 209);
             this.textBoxCuisinierrep.TabIndex = 7;
-            this.textBoxCuisinierrep.Text = "R�ponses :";
+            this.textBoxCuisinierrep.Text = "Réponses :";
             this.textBoxCuisinierrep.TextChanged += new System.EventHandler(this.textBoxCuisinierrep_TextChanged);
             // 
             // comboBoxchoixcuisinier
@@ -296,7 +298,7 @@ namespace LivrableV3
             this.comboBoxchoixcuisinier.FormattingEnabled = true;
             this.comboBoxchoixcuisinier.Location = new System.Drawing.Point(262, 51);
             this.comboBoxchoixcuisinier.Name = "comboBoxchoixcuisinier";
-            this.comboBoxchoixcuisinier.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxchoixcuisinier.Size = new System.Drawing.Size(157, 33);
             this.comboBoxchoixcuisinier.TabIndex = 6;
             this.comboBoxchoixcuisinier.SelectedIndexChanged += new System.EventHandler(this.comboBoxchoixcuisinier_SelectedIndexChanged);
             // 
@@ -369,10 +371,10 @@ namespace LivrableV3
             this.tabModuleCommande.Controls.Add(this.btncommandeprix);
             this.tabModuleCommande.Controls.Add(this.btncommandemodif);
             this.tabModuleCommande.Controls.Add(this.btncommandecreer);
-            this.tabModuleCommande.Location = new System.Drawing.Point(4, 25);
+            this.tabModuleCommande.Location = new System.Drawing.Point(8, 39);
             this.tabModuleCommande.Name = "tabModuleCommande";
             this.tabModuleCommande.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModuleCommande.Size = new System.Drawing.Size(702, 582);
+            this.tabModuleCommande.Size = new System.Drawing.Size(694, 564);
             this.tabModuleCommande.TabIndex = 2;
             this.tabModuleCommande.Text = "ModuleCommande";
             this.tabModuleCommande.Click += new System.EventHandler(this.tabModuleCommande_Click);
@@ -391,7 +393,7 @@ namespace LivrableV3
             this.comboBoxcommande.FormattingEnabled = true;
             this.comboBoxcommande.Location = new System.Drawing.Point(507, 291);
             this.comboBoxcommande.Name = "comboBoxcommande";
-            this.comboBoxcommande.Size = new System.Drawing.Size(149, 24);
+            this.comboBoxcommande.Size = new System.Drawing.Size(149, 33);
             this.comboBoxcommande.TabIndex = 4;
             // 
             // btncommandeitineraire
@@ -430,7 +432,7 @@ namespace LivrableV3
             this.btncommandecreer.Name = "btncommandecreer";
             this.btncommandecreer.Size = new System.Drawing.Size(152, 65);
             this.btncommandecreer.TabIndex = 0;
-            this.btncommandecreer.Text = "Cr�er une commande";
+            this.btncommandecreer.Text = "Créer une commande";
             this.btncommandecreer.UseVisualStyleBackColor = true;
             this.btncommandecreer.Click += new System.EventHandler(this.btncommandecreer_Click);
             // 
@@ -448,10 +450,10 @@ namespace LivrableV3
             this.tabModuleStatistiques.Controls.Add(this.btnstatmoyenneprix);
             this.tabModuleStatistiques.Controls.Add(this.btnstatcomparper);
             this.tabModuleStatistiques.Controls.Add(this.btnstatlivparcuisinier);
-            this.tabModuleStatistiques.Location = new System.Drawing.Point(4, 25);
+            this.tabModuleStatistiques.Location = new System.Drawing.Point(8, 39);
             this.tabModuleStatistiques.Name = "tabModuleStatistiques";
             this.tabModuleStatistiques.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModuleStatistiques.Size = new System.Drawing.Size(702, 582);
+            this.tabModuleStatistiques.Size = new System.Drawing.Size(694, 564);
             this.tabModuleStatistiques.TabIndex = 3;
             this.tabModuleStatistiques.Text = "tabModuleStatistiques";
             this.tabModuleStatistiques.Click += new System.EventHandler(this.tabModuleStatistiques_Click);
@@ -461,7 +463,7 @@ namespace LivrableV3
             this.labelstatdatefin.AutoSize = true;
             this.labelstatdatefin.Location = new System.Drawing.Point(533, 417);
             this.labelstatdatefin.Name = "labelstatdatefin";
-            this.labelstatdatefin.Size = new System.Drawing.Size(76, 16);
+            this.labelstatdatefin.Size = new System.Drawing.Size(123, 25);
             this.labelstatdatefin.TabIndex = 10;
             this.labelstatdatefin.Text = "Date de Fin";
             // 
@@ -470,23 +472,23 @@ namespace LivrableV3
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(274, 417);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 16);
+            this.label1.Size = new System.Drawing.Size(147, 25);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Date de d�but";
+            this.label1.Text = "Date de début";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // dateTimePickerstatFin
             // 
             this.dateTimePickerstatFin.Location = new System.Drawing.Point(488, 468);
             this.dateTimePickerstatFin.Name = "dateTimePickerstatFin";
-            this.dateTimePickerstatFin.Size = new System.Drawing.Size(171, 22);
+            this.dateTimePickerstatFin.Size = new System.Drawing.Size(171, 31);
             this.dateTimePickerstatFin.TabIndex = 8;
             // 
             // dateTimePickerstatdebut
             // 
             this.dateTimePickerstatdebut.Location = new System.Drawing.Point(237, 468);
             this.dateTimePickerstatdebut.Name = "dateTimePickerstatdebut";
-            this.dateTimePickerstatdebut.Size = new System.Drawing.Size(170, 22);
+            this.dateTimePickerstatdebut.Size = new System.Drawing.Size(170, 31);
             this.dateTimePickerstatdebut.TabIndex = 7;
             // 
             // labelstatrep
@@ -494,7 +496,7 @@ namespace LivrableV3
             this.labelstatrep.AutoSize = true;
             this.labelstatrep.Location = new System.Drawing.Point(195, 21);
             this.labelstatrep.Name = "labelstatrep";
-            this.labelstatrep.Size = new System.Drawing.Size(148, 16);
+            this.labelstatrep.Size = new System.Drawing.Size(243, 25);
             this.labelstatrep.TabIndex = 6;
             this.labelstatrep.Text = "Affichage des resultats :";
             // 
@@ -560,16 +562,17 @@ namespace LivrableV3
             // tabModuleGraphe
             // 
             this.tabModuleGraphe.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.tabModuleGraphe.Controls.Add(this.button1);
             this.tabModuleGraphe.Controls.Add(this.comboBoxgrapheligne);
             this.tabModuleGraphe.Controls.Add(this.textBoxGrapheRep);
             this.tabModuleGraphe.Controls.Add(this.btngrapheinfoligne);
             this.tabModuleGraphe.Controls.Add(this.btnGrapheinfometro);
             this.tabModuleGraphe.Controls.Add(this.btnitineraire);
             this.tabModuleGraphe.Controls.Add(this.btnAfficherMetro);
-            this.tabModuleGraphe.Location = new System.Drawing.Point(4, 25);
+            this.tabModuleGraphe.Location = new System.Drawing.Point(8, 39);
             this.tabModuleGraphe.Name = "tabModuleGraphe";
             this.tabModuleGraphe.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModuleGraphe.Size = new System.Drawing.Size(702, 582);
+            this.tabModuleGraphe.Size = new System.Drawing.Size(694, 564);
             this.tabModuleGraphe.TabIndex = 4;
             this.tabModuleGraphe.Text = "tabModuleGraphe";
             this.tabModuleGraphe.Click += new System.EventHandler(this.tabModuleGraphe_Click);
@@ -596,7 +599,7 @@ namespace LivrableV3
             "14"});
             this.comboBoxgrapheligne.Location = new System.Drawing.Point(30, 532);
             this.comboBoxgrapheligne.Name = "comboBoxgrapheligne";
-            this.comboBoxgrapheligne.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxgrapheligne.Size = new System.Drawing.Size(121, 33);
             this.comboBoxgrapheligne.TabIndex = 5;
             // 
             // textBoxGrapheRep
@@ -646,7 +649,7 @@ namespace LivrableV3
             this.btnAfficherMetro.Name = "btnAfficherMetro";
             this.btnAfficherMetro.Size = new System.Drawing.Size(128, 61);
             this.btnAfficherMetro.TabIndex = 0;
-            this.btnAfficherMetro.Text = "Afficher M�tro";
+            this.btnAfficherMetro.Text = "Afficher Metro";
             this.btnAfficherMetro.UseVisualStyleBackColor = false;
             this.btnAfficherMetro.Click += new System.EventHandler(this.btnAfficherMetro_Click);
             // 
@@ -659,6 +662,16 @@ namespace LivrableV3
             this.btnRetourMenu.Text = "Retour";
             this.btnRetourMenu.UseVisualStyleBackColor = true;
             this.btnRetourMenu.Click += new System.EventHandler(this.btnRetourMenu_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(347, 39);
+            this.button1.Name = "btnColorationMetro";
+            this.button1.Size = new System.Drawing.Size(128, 61);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Coloration du graphe du Metro";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnColorationMetro_Click);
             // 
             // FormModules
             // 
@@ -716,6 +729,13 @@ namespace LivrableV3
             }
             this.Hide();
             formAffichage.Show();
+        }
+
+        private void btnColorationMetro_Click(object sender, EventArgs e)
+        {
+            ColorationMetro coloration = new ColorationMetro(grapheMetro);
+            coloration.AppliquerWelshPowell();
+            coloration.AfficherGrapheColore();
         }
 
         private void tabModuleGraphe_Click(object sender, EventArgs e)
@@ -781,8 +801,8 @@ namespace LivrableV3
                 rep += "Ligne " + ligne.Key + " : " + ligne.Value + " stations\r\n";
             }
             textBoxGrapheRep.Text = rep;
-
         }
+
         private void btngrapheinfoligne_Click(object sender, EventArgs e)
         {
             // Corrected the issue by using SelectedItem or SelectedValue instead of Value  
@@ -826,7 +846,7 @@ namespace LivrableV3
         {
             try
             {
-                string requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.nom ASC, u.pr�nom ASC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prenom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.nom ASC, u.prénom ASC";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -870,7 +890,7 @@ namespace LivrableV3
         {
             try
             {
-                string requete = "SELECT u.id_utilisateur, u.nom, u.pr�nom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.adresse ASC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro FROM utilisateur u, client c WHERE u.id_utilisateur = c.id_utilisateur ORDER BY u.adresse ASC";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -883,7 +903,7 @@ namespace LivrableV3
                 {
                     rep += "ID : " + reader["id_utilisateur"] + "\r\n";
                     rep += "Nom : " + reader["nom"] + "\r\n";
-                    rep += "Prenom : " + reader["pr�nom"] + "\r\n";
+                    rep += "Prenom : " + reader["prénom"] + "\r\n";
                     rep += "Adresse : " + reader["adresse"] + "\r\n";
                     rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
                     rep += "\r\n";
@@ -904,7 +924,7 @@ namespace LivrableV3
         {
             try
             {
-                string requete = "SELECT u.id_utilisateur, u.nom, u.pr�nom, u.adresse, c.StationMetro, SUM(co.prix_total) as total FROM utilisateur u, client c, Commande_ co WHERE u.id_utilisateur = c.id_utilisateur AND c.id_client = co.id_client GROUP BY u.id_utilisateur, u.nom, u.pr�nom, u.adresse, c.StationMetro ORDER BY total DESC";
+                string requete = "SELECT u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro, SUM(co.prix_total) as total FROM utilisateur u, client c, Commande_ co WHERE u.id_utilisateur = c.id_utilisateur AND c.id_client = co.id_client GROUP BY u.id_utilisateur, u.nom, u.prénom, u.adresse, c.StationMetro ORDER BY total DESC";
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDD.maConnexion);
                 commande.CommandText = requete;
 
@@ -917,7 +937,7 @@ namespace LivrableV3
                 {
                     rep += "ID : " + reader["id_utilisateur"] + "\r\n";
                     rep += "Nom : " + reader["nom"] + "\r\n";
-                    rep += "Prenom : " + reader["pr�nom"] + "\r\n";
+                    rep += "Prenom : " + reader["prénom"] + "\r\n";
                     rep += "Adresse : " + reader["adresse"] + "\r\n";
                     rep += "Station Metro : " + reader["StationMetro"] + "\r\n";
                     rep += "Total des achats : " + reader["total"] + " euros\r\n";
@@ -936,19 +956,19 @@ namespace LivrableV3
         private void btnClientAjoutClient_Click(object sender, EventArgs e)
         {
             // a faire
-            MessageBox.Show("Ajout d'un client � faire");
+            MessageBox.Show("Ajout d'un client à faire");
         }
 
         private void btnClientModifclient_Click(object sender, EventArgs e)
         {
             // a faire
-            MessageBox.Show("Modification d'un client � faire");
+            MessageBox.Show("Modification d'un client à faire");
         }
 
         private void btnClientSuppClient_Click(object sender, EventArgs e)
         {
             // a faire
-            MessageBox.Show("Suppression d'un client � faire");
+            MessageBox.Show("Suppression d'un client à faire");
         }
 
         #endregion
@@ -1272,6 +1292,8 @@ namespace LivrableV3
         }
 
         #endregion
+
+        
     }
 
 
