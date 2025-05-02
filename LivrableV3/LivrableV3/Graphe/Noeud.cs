@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace LivrableV3
 {
+    /// <summary>
+    /// cette classe represente une station de metro dans le graphe
+    /// elle stocke toutes les informations sur la station comme son nom et sa position
+    /// elle garde aussi la liste des stations directement connectees
+    /// elle est utilisee pour representer chaque station du metro de paris
+    /// </summary>
     public class Noeud<T>
     {
         // Champs privés pour stocker les données
@@ -20,7 +26,9 @@ namespace LivrableV3
         public string Nom; // pour la coloration 
 
         /// <summary>
-        /// recupere ou modifie lidentifiant du noeud
+        /// recupere ou modifie le numero de la station
+        /// ce numero sert a identifier la station dans le metro
+        /// il est unique pour chaque station
         /// </summary>
         public T Id
         {
@@ -29,7 +37,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// recupere ou modifie la liste des voisins du noeud
+        /// recupere ou modifie la liste des stations connectees
+        /// ces stations sont directement accessibles depuis cette station
+        /// on peut aller dans les deux sens entre ces stations
         /// </summary>
         public List<Noeud<T>> Voisins
         {
@@ -39,6 +49,8 @@ namespace LivrableV3
 
         /// <summary>
         /// recupere ou modifie le nom de la station
+        /// ce nom est affiche sur les plans du metro
+        /// il permet aux voyageurs d'identifier la station
         /// </summary>
         public string NomStation
         {
@@ -48,6 +60,8 @@ namespace LivrableV3
 
         /// <summary>
         /// recupere ou modifie la longitude de la station
+        /// cette valeur sert a positionner la station sur la carte
+        /// elle est en degres decimaux
         /// </summary>
         public double Longitude
         {
@@ -57,6 +71,8 @@ namespace LivrableV3
 
         /// <summary>
         /// recupere ou modifie la latitude de la station
+        /// cette valeur sert a positionner la station sur la carte
+        /// elle est en degres decimaux
         /// </summary>
         public double Latitude
         {
@@ -65,7 +81,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// recupere ou modifie le numero de la ligne
+        /// recupere ou modifie le numero de la ligne de metro
+        /// ce numero indique a quelle ligne appartient la station
+        /// il peut y avoir plusieurs lignes a une meme station
         /// </summary>
         public string NumeroLigne
         {
@@ -74,7 +92,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// recupere ou modifie la couleur de la ligne
+        /// recupere ou modifie la couleur de la ligne de metro
+        /// cette couleur est utilisee pour afficher la ligne sur les plans
+        /// elle aide a identifier facilement la ligne
         /// </summary>
         public string CouleurLigne
         {
@@ -84,6 +104,8 @@ namespace LivrableV3
 
         /// <summary>
         /// recupere ou modifie le temps de correspondance de la station
+        /// ce temps est en minutes et represente le temps pour changer de ligne
+        /// il est plus long dans les grandes stations avec beaucoup de correspondances
         /// </summary>
         public int TempsCorrespondance
         {
@@ -92,7 +114,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// cree un nouveau noeud avec un identifiant
+        /// cree une nouvelle station avec un numero donne
+        /// initialise la liste des stations connectees vide
+        /// le temps de correspondance est mis a zero par defaut
         /// </summary>
         public Noeud(T id)
         {
@@ -102,7 +126,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// cree un nouveau noeud metro
+        /// cree une nouvelle station avec toutes ses informations
+        /// initialise le nom, la position, la ligne et sa couleur
+        /// la liste des stations connectees est vide au debut
         /// </summary>
         public Noeud(T id, string nomStation, double longitude, double latitude, string numeroLigne, string couleurLigne)
         {
@@ -117,7 +143,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// ajoute un voisin a la liste des voisins du noeud
+        /// ajoute une station a la liste des stations connectees
+        /// ajoute aussi cette station comme connectee a l'autre station
+        /// car on peut aller dans les deux sens dans le metro
         /// </summary>
         public void AjouterVoisin(Noeud<T> voisin)
         {

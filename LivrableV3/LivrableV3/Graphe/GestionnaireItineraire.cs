@@ -4,7 +4,10 @@ using System.Collections.Generic;
 namespace LivrableV3
 {
     /// <summary>
-    /// classe qui gere les itineraires du metro
+    /// cette classe gere les trajets dans le metro
+    /// elle permet de trouver le meilleur chemin entre deux stations
+    /// elle utilise les algorithmes de plus court chemin comme dijkstra
+    /// elle calcule aussi les temps de trajet et les correspondances
     /// </summary>
     public class GestionnaireItineraire<T> where T : IComparable<T>
     {
@@ -14,7 +17,9 @@ namespace LivrableV3
         public string detail;
 
         /// <summary>
-        /// constructeur de la classe
+        /// cree un nouveau gestionnaire de trajets
+        /// initialise le graphe du metro et l'algorithme de plus court chemin
+        /// le graphe doit contenir toutes les stations et leurs connexions
         /// </summary>
         public GestionnaireItineraire(Graphe<T> graphe)
         {
@@ -23,7 +28,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// affiche la liste des stations disponibles
+        /// affiche la liste de toutes les stations du metro
+        /// montre le numero, le nom et la ligne de chaque station
+        /// utile pour choisir une station de depart ou d'arrivee
         /// </summary>
         public void AfficherListeStations()
         {
@@ -35,7 +42,10 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// recherche un itineraire entre deux stations
+        /// cherche un trajet entre deux stations
+        /// utilise les numeros des stations pour les trouver
+        /// retourne la liste des stations a parcourir dans l'ordre
+        /// calcule aussi le temps total du trajet
         /// </summary>
         public List<Noeud<T>> RechercherItineraire(string idDepart, string idArrivee)
         {
@@ -72,96 +82,59 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// affiche un itineraire
+        /// affiche un trajet de facon detaillee
+        /// montre chaque station et les changements de ligne
+        /// indique les temps de trajet et de correspondance
+        /// calcule le temps total du trajet en minutes
         /// </summary>
         public string AfficherItineraire(List<Noeud<T>> chemin)
         {
             string rep = " Itineraire trouve :\r\n";
             Console.WriteLine("\nItineraire trouve :");
 
-            for (int i = 0; i < chemin.Count; i++)
+            if (chemin.Count == 0)
             {
-                rep += " "+chemin[i].NomStation+" ";
-                Console.Write(chemin[i].NomStation);
-                if (i < chemin.Count - 1)
-                {
-                    rep += " -> ";
-                    Console.Write(" -> ");
-                    // affiche la ligne de metro si on change de ligne
-                    if (chemin[i].NumeroLigne != chemin[i + 1].NumeroLigne)
-                    {
-                        rep += "[Correspondance Ligne " + chemin[i + 1].NumeroLigne + "] -> ";
-                        Console.Write("[Correspondance Ligne " + chemin[i + 1].NumeroLigne + "] -> ");
-                    }
-                }
+                rep += "Aucun chemin trouve.\r\n";
+                return rep;
             }
-            rep += "\n";
-            Console.WriteLine("\n");
-            List<Noeud<T>> chemin2 = new List<Noeud<T>>(chemin);
-            rep += AfficherDetailsTrajet(chemin2);
-
-            return rep;
-        }
-
-        /// <summary>
-        /// affiche les details du trajet
-        /// </summary>
-        private string AfficherDetailsTrajet(List<Noeud<T>> chemin)
-        {
-            string rep = "Details du trajet :\r\n";
-            Console.WriteLine("Details du trajet :");
-            rep+= "--------------------\r\n";
-            Console.WriteLine("-------------------");
 
             string ligneActuelle = chemin[0].NumeroLigne;
-            rep += "Départ : " + chemin[0].NomStation + " (Ligne " + ligneActuelle + ")\r\n";
-            Console.WriteLine("\nDépart : " + chemin[0].NomStation + " (Ligne " + ligneActuelle + ")");
-
             double tempsTotal = 0;
-            int nombreCorrespondances = 0;
+
+            rep += "Depart : " + chemin[0].NomStation + " (Ligne " + ligneActuelle + ")\r\n";
 
             for (int i = 1; i < chemin.Count; i++)
             {
-                if (chemin[i].NumeroLigne != ligneActuelle)
+                Noeud<T> station = chemin[i];
+                Noeud<T> stationPrecedente = chemin[i - 1];
+
+                // si on change de ligne
+                if (station.NumeroLigne != ligneActuelle)
                 {
-                    rep += "\nCorrespondance à " + chemin[i].NomStation + "\r\n";
-                    Console.WriteLine("\nCorrespondance à " + chemin[i].NomStation);
-                    rep += "Prendre la Ligne " + chemin[i].NumeroLigne + "\r\n";
-                    Console.WriteLine("Prendre la Ligne " + chemin[i].NumeroLigne);
-                    rep += "Temps de correspondance : " + chemin[i].TempsCorrespondance + " minutes\r\n";
-                    Console.WriteLine("Temps de correspondance : " + chemin[i].TempsCorrespondance + " minutes");
-                    rep += "\r\n";
-                    ligneActuelle = chemin[i].NumeroLigne;
-                    nombreCorrespondances++;
-                    tempsTotal += chemin[i].TempsCorrespondance;
+                    rep += "Correspondance a " + station.NomStation + " :\r\n";
+                    rep += "  - Ligne " + ligneActuelle + " -> Ligne " + station.NumeroLigne + "\r\n";
+                    rep += "  - Temps de correspondance : " + station.TempsCorrespondance + " minutes\r\n";
+                    tempsTotal += station.TempsCorrespondance;
+                    ligneActuelle = station.NumeroLigne;
                 }
-                else
+
+                // on ajoute le temps de trajet entre les stations
+                foreach (Lien<T> lien in grapheMetro.Liens)
                 {
-                    rep += "\nStation suivante : " + chemin[i].NomStation + "\r\n";
-                    Console.WriteLine("Station suivante : " + chemin[i].NomStation);
-                    rep+= "\r\n";
-                    // ajoute le temps entre les stations
-                    foreach (Lien<T> lien in grapheMetro.Liens)
+                    if ((lien.Noeud1 == stationPrecedente && lien.Noeud2 == station) ||
+                        (lien.Noeud1 == station && lien.Noeud2 == stationPrecedente))
                     {
-                        if ((lien.Noeud1 == chemin[i-1] && lien.Noeud2 == chemin[i]) ||
-                            (lien.Noeud2 == chemin[i-1] && lien.Noeud1 == chemin[i]))
-                        {
-                            tempsTotal += lien.Poids;
-                            break;
-                        }
+                        tempsTotal += lien.Poids;
+                        break;
                     }
                 }
+
+                rep += "  " + station.NomStation + " (Ligne " + station.NumeroLigne + ")\r\n";
             }
 
-            rep += "\nArrivée : " + chemin[chemin.Count - 1].NomStation + "\r\n";
-            Console.WriteLine("\nArrivée : " + chemin[chemin.Count - 1].NomStation);
-            rep += "Temps total estimé : " + tempsTotal + " minutes\r\n";
-            Console.WriteLine("Nombre total de stations : " + chemin.Count);
-            rep += "Nombre total de stations : " + chemin.Count + "\r\n";
-            Console.WriteLine("Nombre de correspondances : " + nombreCorrespondances);
-            rep += "Nombre de correspondances : " + nombreCorrespondances + "\r\n";
-            Console.WriteLine("Temps total estimé : " + tempsTotal + " minutes");
+            rep += "\r\nTemps total du trajet : " + tempsTotal + " minutes\r\n";
             this.tempsTotal = tempsTotal;
+
             return rep;
         }
     }

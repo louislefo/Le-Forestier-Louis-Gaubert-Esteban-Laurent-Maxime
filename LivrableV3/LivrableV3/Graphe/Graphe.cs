@@ -7,6 +7,12 @@ using System.Windows.Forms;
 
 namespace LivrableV3
 {
+    /// <summary>
+    /// cette classe represente un graphe qui peut contenir n'importe quel type de donnees
+    /// elle stocke les stations et les connexions entre elles
+    /// elle permet de faire des operations comme ajouter des connexions ou chercher des chemins
+    /// elle est utilisee pour representer le metro de paris
+    /// </summary>
     public class Graphe<T>
     {
         // Champs privés pour stocker les données
@@ -15,7 +21,9 @@ namespace LivrableV3
         public string Nom;
 
         /// <summary>
-        /// recupere ou modifie la liste des noeuds du graphe
+        /// recupere ou modifie la liste des stations du metro
+        /// chaque station est stockee avec son numero comme cle
+        /// les stations contiennent les informations comme le nom et la position
         /// </summary>
         public Dictionary<T, Noeud<T>> Noeuds
         {
@@ -24,7 +32,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// recupere ou modifie la liste des liens du graphe
+        /// recupere ou modifie la liste des connexions entre les stations
+        /// chaque connexion represente un trajet possible entre deux stations
+        /// les connexions contiennent le temps de trajet entre les stations
         /// </summary>
         public List<Lien<T>> Liens
         {
@@ -33,7 +43,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// cree un nouveau graphe vide
+        /// cree un nouveau graphe vide pour le metro
+        /// initialise les listes pour stocker les stations et les connexions
+        /// le graphe est vide au debut et sera rempli avec les donnees du metro
         /// </summary>
         public Graphe()
         {
@@ -42,7 +54,10 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// ajoute un lien entre deux noeuds
+        /// ajoute une connexion entre deux stations avec un temps de trajet
+        /// cree les stations si elles n'existent pas encore
+        /// ajoute la connexion dans les deux sens car on peut aller dans les deux sens
+        /// le temps de trajet est en minutes
         /// </summary>
         public void AjouterLien(T id1, T id2, double poids)
         {
@@ -63,7 +78,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// donne le premier noeud du graphe
+        /// donne la premiere station du metro
+        /// utile pour commencer a chercher un chemin
+        /// retourne rien si le metro est vide
         /// </summary>
         public Noeud<T> ObtenirPremierNoeud()
         {
@@ -75,7 +92,10 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// fait un parcours en largeur du graphe ello
+        /// fait un parcours en largeur du metro a partir d'une station
+        /// visite toutes les stations accessibles en passant par les connexions
+        /// affiche les stations dans l'ordre ou on les visite
+        /// utile pour voir toutes les stations qu'on peut atteindre
         /// </summary>
         public void ParcoursLargeur(Noeud<T> depart)
         {
@@ -114,7 +134,12 @@ namespace LivrableV3
             }
             Console.WriteLine();
         }
-        /// cherche un noeud avec le nom donne
+
+        /// <summary>
+        /// cherche une station dans le metro a partir de son nom
+        /// retourne le numero de la station trouvee ou -1 si pas trouvee
+        /// la recherche ne fait pas la difference entre majuscules et minuscules
+        /// </summary>
         public int TrouverIdParNom(string nomRecherche)
         {
             // on met -1 si on trouve pas
@@ -123,31 +148,17 @@ namespace LivrableV3
             // on met le nom en minuscule pour comparer
             string nomEnMinuscule = nomRecherche.ToLower();
 
-            // on fait un tableau avec les noeuds pour utiliser for
-            Noeud<T>[] tableauNoeuds = new Noeud<T>[Noeuds.Count];
-            Noeuds.Values.CopyTo(tableauNoeuds, 0);
-
-            // on regarde tous les noeuds un par un
-            for (int i = 0; i < tableauNoeuds.Length; i++)
+            // on cherche dans tous les noeuds
+            foreach (var noeud in Noeuds.Values)
             {
-                // on regarde si le nom du noeud est pareil
-                if (tableauNoeuds[i].NomStation.ToLower() == nomEnMinuscule)
+                if (noeud.NomStation.ToLower() == nomEnMinuscule)
                 {
-                    // on a trouve le noeud on prend son id
-                    idTrouve = (int)Convert.ChangeType(tableauNoeuds[i].Id, typeof(int));
-                    break;  // on arrete de chercher
+                    idTrouve = Convert.ToInt32(noeud.Id);
+                    break;
                 }
-            }
-
-            // on dit si on a pas trouve
-            if (idTrouve == -1)
-            {
-                MessageBox.Show("pas trouve la station : " + nomRecherche, "erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return idTrouve;
         }
-
-
     }
 }

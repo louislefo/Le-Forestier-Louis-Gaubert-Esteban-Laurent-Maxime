@@ -5,14 +5,22 @@ using System.Windows.Forms;
 
 namespace LivrableV3
 {
-    /// classe qui applique l'algorithme de welsh powell sur le metro
+    /// <summary>
+    /// cette classe permet de colorer le metro avec l'algorithme de welsh powell
+    /// elle attribue des couleurs aux stations pour que deux stations voisines n'ai pas la meme couleur
+    /// elle utilise les coordonnees des stations pour les afficher sur une carte
+    /// </summary>
     public class ColorationMetro
     {
         private Graphe<int> grapheMetro;
         private Dictionary<int, int> couleursStations;
         private List<Color> listeCouleurs;
 
-        /// constructeur de la classe
+        /// <summary>
+        /// cree une nouvelle coloration pour le metro
+        /// initialise le graphe et prepare les couleurs pour colorer les stations
+        /// les couleurs sont stockees dans une liste pour etre utilisees plus tard
+        /// </summary>
         public ColorationMetro(Graphe<int> graphe)
         {
             grapheMetro = graphe;
@@ -32,7 +40,12 @@ namespace LivrableV3
             };
         }
 
-        /// applique l'algorithme de welsh powell
+        /// <summary>
+        /// applique l'algorithme de welsh powell sur le metro
+        /// trie les stations par nombre de voisins
+        /// attribue les couleurs en verifiant que les stations voisines ont des couleurs differentes
+        /// utilise le moins de couleurs possible pour colorer tout le metro
+        /// </summary>
         public void AppliquerWelshPowell()
         {
             // on trie les stations par degre decroissant
@@ -96,7 +109,12 @@ namespace LivrableV3
             }
         }
 
-        /// affiche le graphe colore
+        /// <summary>
+        /// affiche le metro colore dans une fenetre
+        /// dessine les stations avec leurs couleurs attribuees
+        /// affiche les noms des stations et les liens entre elles
+        /// utilise les coordonnees gps pour positionner les stations sur la carte
+        /// </summary>
         public void AfficherGrapheColore()
         {
             // on cree une nouvelle fenetre

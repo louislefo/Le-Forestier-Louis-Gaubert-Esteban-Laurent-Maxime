@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace LivrableV3
 {
+    /// <summary>
+    /// cette classe represente une connexion entre deux stations de metro
+    /// elle stocke les deux stations et le temps de trajet entre elles
+    /// elle est utilisee pour representer les trajets possibles dans le metro
+    /// le temps de trajet est en minutes
+    /// </summary>
     public class Lien<T>
     {
         // Champs privés pour stocker les données
@@ -14,7 +20,9 @@ namespace LivrableV3
         private double poids;
 
         /// <summary>
-        /// recupere ou modifie le premier noeud du lien
+        /// recupere ou modifie la premiere station de la connexion
+        /// c'est la station de depart du trajet
+        /// elle contient toutes les informations sur la station
         /// </summary>
         public Noeud<T> Noeud1
         {
@@ -23,7 +31,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// recupere ou modifie le deuxieme noeud du lien
+        /// recupere ou modifie la deuxieme station de la connexion
+        /// c'est la station d'arrivee du trajet
+        /// elle contient toutes les informations sur la station
         /// </summary>
         public Noeud<T> Noeud2
         {
@@ -32,7 +42,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// recupere ou modifie le poids du lien
+        /// recupere ou modifie le temps de trajet entre les stations
+        /// ce temps est en minutes
+        /// il represente le temps moyen pour aller d'une station a l'autre
         /// </summary>
         public double Poids
         {
@@ -41,7 +53,9 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// cree un nouveau lien entre deux noeuds
+        /// cree une nouvelle connexion entre deux stations
+        /// initialise le temps de trajet a 1 minute par defaut
+        /// les deux stations doivent exister dans le metro
         /// </summary>
         public Lien(Noeud<T> n1, Noeud<T> n2, double poids = 1.0)
         {
