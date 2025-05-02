@@ -5,11 +5,9 @@ using System.Diagnostics;
 namespace LivrableV3  
 {
     /// <summary>
-    /// cette classe sert a trouver le plus court chemin dans le metro
-    /// elle utilise plusieurs algorithmes comme Dijkstra et Bellman-Ford
-    /// c'est utile pour trouver le meilleur trajet pour les livraisons
+    /// cette classe sert a trouver le plus court chemin dans le metro (Djikstra / Bellma-nFord)
     /// </summary>
-    public class PlusCourtChemin<T>  // where T : IComparable<T>  // element de la documentation Csharp qui permet de garder l'element T 
+    public class PlusCourtChemin<T> 
     {
         /// <summary>
         /// cette methode sert a trouver les stations ou on peut changer de ligne
@@ -20,7 +18,7 @@ namespace LivrableV3
             List<Noeud<T>> stationsCorrespondance = new List<Noeud<T>>();
             Dictionary<string, List<string>> stationsParNom = new Dictionary<string, List<string>>();
 
-            // on met toutes les stations dans un dictionnaire par nom
+            // met toutes les stations dans un dictionnaire par nom
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
                 if (!stationsParNom.ContainsKey(noeud.NomStation))
@@ -30,18 +28,18 @@ namespace LivrableV3
                 stationsParNom[noeud.NomStation].Add(noeud.NumeroLigne);
             }
 
-            // on cherche les stations qui sont sur plusieurs lignes
+            // cherche les stations qui sont sur plusieurs lignes
             foreach (string nomStation in stationsParNom.Keys)
             {
                 if (stationsParNom[nomStation].Count > 1)
                 {
-                    // on prend la premiere station de ce nom qu'on trouve
+                    // prend la premiere station de ce nom trouvee
                     foreach (Noeud<T> noeud in graphe.Noeuds.Values)
                     {
                         if (noeud.NomStation == nomStation)
                         {
                             stationsCorrespondance.Add(noeud);
-                            break;  // on sort de la boucle car on a trouve la station
+                            break;  // sort de la boucle car station trouvee 
                         }
                     }
                 }
@@ -57,30 +55,30 @@ namespace LivrableV3
         /// </summary>
         public List<Noeud<T>> Dijkstra(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
-            // on demarre le chrono pour voir combien de temps ca prend
+            // demarre le chrono pour voir le temps
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            // on trouve les stations ou on peut changer de ligne
+            // trouve les stations pour changer de ligne
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
-            // on cree des dictionnaires pour stocker les temps et les stations precedentes
+            // cree des dictionnaires pour stocker les temps et les stations precedentes
             Dictionary<Noeud<T>, double> temps = new Dictionary<Noeud<T>, double>();
             Dictionary<Noeud<T>, Noeud<T>> predecesseurs = new Dictionary<Noeud<T>, Noeud<T>>();
             List<Noeud<T>> nonVisites = new List<Noeud<T>>();
 
-            // on met un temps infini pour toutes les stations au debut
+            // met un temps infini pour toutes les stations au debut
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                temps[noeud] = double.MaxValue;  // on met un temps infini pour commencer
+                temps[noeud] = double.MaxValue; 
                 nonVisites.Add(noeud);
             }
-            temps[depart] = 0;  // le depart est a 0
+            temps[depart] = 0;  
 
-            // on cherche le chemin le plus court
+            // cherche le  plus court chemin 
             while (nonVisites.Count > 0)
             {
-                // on cherche la station non visitee avec le plus petit temps
+                // cherche la station non visitee avec le plus petit temps
                 Noeud<T> noeudActuel = null;
                 double tempsMin = double.MaxValue;
 
@@ -95,15 +93,15 @@ namespace LivrableV3
 
                 if (noeudActuel == null) break;
 
-                // si on est arrive a la station d'arrivee, on peut s'arreter
+                // si arrive a la station : stop
                 if (noeudActuel.NomStation == arrivee.NomStation) break;
 
                 nonVisites.Remove(noeudActuel);
 
-                // on met a jour les temps des stations voisines
+                // met a jour les temps des stations voisines
                 foreach (Lien<T> lien in graphe.Liens)
                 {
-                    // on regarde dans les deux sens car le metro va dans les deux sens
+                    //  regarde dans les deux sens 
                     if (lien.Noeud1 == noeudActuel && nonVisites.Contains(lien.Noeud2))
                     {
                         double nouveauTemps = temps[noeudActuel] + lien.Poids;
@@ -124,7 +122,7 @@ namespace LivrableV3
                     }
                 }
 
-                // si on est sur une station de correspondance, on peut changer de ligne
+                // si station de correspondance: changement de ligne possible
                 if (stationsCorrespondance.Exists(s => s.NomStation == noeudActuel.NomStation))
                 {
                     foreach (Noeud<T> noeud in graphe.Noeuds.Values)
@@ -142,11 +140,11 @@ namespace LivrableV3
                 }
             }
 
-            // on reconstruit le chemin a partir de l'arrivee
+            // reconstruit le chemin a partir de l'arrivee
             List<Noeud<T>> chemin = new List<Noeud<T>>();
             Noeud<T> noeudCourant = null;
 
-            // on cherche la station d'arrivee avec le plus petit temps
+            // cherche la station d'arrivee avec le plus petit temps
             double tempsMinArrivee = double.MaxValue;
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
@@ -159,10 +157,10 @@ namespace LivrableV3
 
             if (noeudCourant == null)
             {
-                return new List<Noeud<T>>(); // on retourne une liste vide si pas de chemin
+                return new List<Noeud<T>>(); 
             }
 
-            // on remonte le chemin jusqu'au depart
+            // remonte le chemin jusqu'au depart
             while (noeudCourant != null)
             {
                 chemin.Insert(0, noeudCourant);
@@ -176,13 +174,13 @@ namespace LivrableV3
                 }
             }
 
-            // on verifie que le chemin commence bien par la station de depart
+            // verifie que le chemin commence bien par la station de depart
             if (chemin.Count == 0 || chemin[0].NomStation != depart.NomStation)
             {
                 return new List<Noeud<T>>(); // on retourne une liste vide si le chemin est pas bon
             }
 
-            // on arrete le chrono et on affiche le temps
+            // stoppe le chrono et on affiche le temps
             timer.Stop();
             Console.WriteLine("Temps pour trouver le plus court chemin via Dijkstra : "+timer.ElapsedMilliseconds+" ms");
 
@@ -191,35 +189,34 @@ namespace LivrableV3
 
         /// <summary>
         /// cette methode sert a trouver le plus court chemin avec Bellman-Ford
-        /// elle fait pareil que Dijkstra mais elle peut gerer les poids negatifs
-        /// elle est plus lente mais plus sure
+        /// fait pareil que Dijkstra mais elle peut gerer les poids negatifs
         /// </summary>
         public List<Noeud<T>> BellmanFord(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
-            // on demarre le chrono
+            //  demarre le chrono
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            // on trouve les stations de correspondance
+            //  trouve les stations de correspondance
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
-            // on cree des dictionnaires pour les temps et les stations precedentes
+            //  cree des dictionnaires pour les temps et les stations precedentes
             Dictionary<Noeud<T>, double> temps = new Dictionary<Noeud<T>, double>();
             Dictionary<Noeud<T>, Noeud<T>> predecesseurs = new Dictionary<Noeud<T>, Noeud<T>>();
 
-            // on met un temps infini pour toutes les stations
+            // met un temps infini pour toutes les stations
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
-                temps[noeud] = double.MaxValue;  // on met un temps infini pour commencer
+                temps[noeud] = double.MaxValue;  
             }
-            temps[depart] = 0;  // le depart est a 0
+            temps[depart] = 0;  
 
-            // on fait n-1 iterations pour etre sur d'avoir le plus court chemin
+            // fait n-1 iterations pour etre sur d'avoir le plus court chemin
             for (int i = 0; i < graphe.Noeuds.Count - 1; i++)
             {
                 foreach (Lien<T> lien in graphe.Liens)
                 {
-                    // on regarde dans les deux sens
+                    //  regarde dans les deux sens
                     if (temps[lien.Noeud1] != double.MaxValue && 
                         temps[lien.Noeud1] + lien.Poids < temps[lien.Noeud2])
                     {
@@ -235,7 +232,7 @@ namespace LivrableV3
                     }
                 }
 
-                // on ajoute les changements de ligne aux stations de correspondance
+                //  ajoute les changements de ligne aux stations de correspondance
                 foreach (Noeud<T> station in stationsCorrespondance)
                 {
                     foreach (Noeud<T> noeud in graphe.Noeuds.Values)
@@ -253,11 +250,11 @@ namespace LivrableV3
                 }
             }
 
-            // on reconstruit le chemin
+            //  reconstruit le chemin
             List<Noeud<T>> chemin = new List<Noeud<T>>();
             Noeud<T> noeudCourant = null;
 
-            // on cherche la station d'arrivee avec le plus petit temps
+            //  cherche la station d'arrivee avec le plus petit temps
             double tempsMinArrivee = double.MaxValue;
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
@@ -270,10 +267,10 @@ namespace LivrableV3
 
             if (noeudCourant == null)
             {
-                return new List<Noeud<T>>(); // on retourne une liste vide si pas de chemin
+                return new List<Noeud<T>>(); 
             }
 
-            // on remonte le chemin jusqu'au depart
+            // remonte le chemin jusqu'au depart
             while (noeudCourant != null)
             {
                 chemin.Insert(0, noeudCourant);
@@ -287,13 +284,13 @@ namespace LivrableV3
                 }
             }
 
-            // on verifie que le chemin commence bien par la station de depart
+            // verifie ou le chemin commence
             if (chemin.Count == 0 || chemin[0].NomStation != depart.NomStation)
             {
-                return new List<Noeud<T>>(); // on retourne une liste vide si le chemin est pas bon
+                return new List<Noeud<T>>(); 
             }
 
-            // on arrete le chrono et on affiche le temps
+            // arrete le chrono et on affiche le temps
             timer.Stop();
             Console.WriteLine("Temps pour trouver le plus court chemin via Bellman-Ford : " +timer.ElapsedMilliseconds +" ms");
 
@@ -307,15 +304,15 @@ namespace LivrableV3
         /// </summary>
         public Dictionary<(Noeud<T>, Noeud<T>), double> FloydWarshall(Graphe<T> graphe)
         {
-            // on demarre le chrono
+           
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            // on cree une liste des stations pour acceder facilement aux indices
+           
             List<Noeud<T>> noeuds = new List<Noeud<T>>(graphe.Noeuds.Values);
             int n = noeuds.Count;
 
-            // on cree une matrice pour stocker les distances
+            // cree une matrice pour stocker les distances
             double[,] distances = new double[n, n];
             for (int i = 0; i < n; i++)
             {
@@ -323,25 +320,25 @@ namespace LivrableV3
                 {
                     if (i == j)
                     {
-                        distances[i, j] = 0;  // la distance a soi-meme est 0
+                        distances[i, j] = 0;  
                     }
                     else
                     {
-                        distances[i, j] = int.MaxValue;  // on met une distance infinie pour commencer
+                        distances[i, j] = int.MaxValue; 
                     }
                 }
             }
 
-            // on remplit la matrice avec les temps entre les stations
+            // remplit la matrice avec les temps entre les stations
             foreach (Lien<T> lien in graphe.Liens)
             {
                 int i = noeuds.IndexOf(lien.Noeud1);
                 int j = noeuds.IndexOf(lien.Noeud2);
                 distances[i, j] = lien.Poids;
-                distances[j, i] = lien.Poids; // le metro va dans les deux sens
+                distances[j, i] = lien.Poids; 
             }
 
-            // on applique l'algorithme de Floyd-Warshall
+            // applique l'algorithme de Floyd-Warshall
             for (int k = 0; k < n; k++)
             {
                 for (int i = 0; i < n; i++)
@@ -360,7 +357,7 @@ namespace LivrableV3
                 }
             }
 
-            // on convertit la matrice en dictionnaire pour plus facile a utiliser
+            // convertit la matrice en dictionnaire
             Dictionary<(Noeud<T>, Noeud<T>), double> resultat = new Dictionary<(Noeud<T>, Noeud<T>), double>();
             for (int i = 0; i < n; i++)
             {
@@ -373,7 +370,7 @@ namespace LivrableV3
                 }
             }
 
-            // on arrete le chrono et on affiche le temps
+            // arrete le chrono et affiche le temps
             timer.Stop();
             Console.WriteLine("Temps pour trouver le plus court chemin via Floyd-Warshall : "+timer.ElapsedMilliseconds+" ms");
 

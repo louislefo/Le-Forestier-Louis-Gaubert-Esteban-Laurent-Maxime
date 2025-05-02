@@ -5,9 +5,8 @@ namespace LivrableV3
 {
     /// <summary>
     /// cette classe gere les trajets dans le metro
-    /// elle permet de trouver le meilleur chemin entre deux stations
+    /// elle permet de trouver le meilleur chemin entre deux stations et le temps total
     /// elle utilise les algorithmes de plus court chemin comme dijkstra
-    /// elle calcule aussi les temps de trajet et les correspondances
     /// </summary>
     public class GestionnaireItineraire<T> where T : IComparable<T>
     {
@@ -16,22 +15,13 @@ namespace LivrableV3
         public double tempsTotal;
         public string detail;
 
-        /// <summary>
-        /// cree un nouveau gestionnaire de trajets
-        /// initialise le graphe du metro et l'algorithme de plus court chemin
-        /// le graphe doit contenir toutes les stations et leurs connexions
-        /// </summary>
         public GestionnaireItineraire(Graphe<T> graphe)
         {
             grapheMetro = graphe;
             plusCourtChemin = new PlusCourtChemin<T>();
         }
 
-        /// <summary>
-        /// affiche la liste de toutes les stations du metro
-        /// montre le numero, le nom et la ligne de chaque station
-        /// utile pour choisir une station de depart ou d'arrivee
-        /// </summary>
+
         public void AfficherListeStations()
         {
             Console.WriteLine("\nListe des stations disponibles :");
@@ -83,9 +73,8 @@ namespace LivrableV3
 
         /// <summary>
         /// affiche un trajet de facon detaillee
-        /// montre chaque station et les changements de ligne
-        /// indique les temps de trajet et de correspondance
-        /// calcule le temps total du trajet en minutes
+        /// montre la station et les changements de ligne
+        /// indique les temps de trajet + correspondance total
         /// </summary>
         public string AfficherItineraire(List<Noeud<T>> chemin)
         {
@@ -108,7 +97,7 @@ namespace LivrableV3
                 Noeud<T> station = chemin[i];
                 Noeud<T> stationPrecedente = chemin[i - 1];
 
-                // si on change de ligne
+                // si changement de ligne
                 if (station.NumeroLigne != ligneActuelle)
                 {
                     rep += "Correspondance a " + station.NomStation + " :\r\n";
@@ -118,7 +107,7 @@ namespace LivrableV3
                     ligneActuelle = station.NumeroLigne;
                 }
 
-                // on ajoute le temps de trajet entre les stations
+                // ajoute le temps de trajet entre les stations
                 foreach (Lien<T> lien in grapheMetro.Liens)
                 {
                     if ((lien.Noeud1 == stationPrecedente && lien.Noeud2 == station) ||

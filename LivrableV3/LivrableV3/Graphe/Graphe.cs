@@ -8,45 +8,30 @@ using System.Windows.Forms;
 namespace LivrableV3
 {
     /// <summary>
-    /// cette classe represente un graphe qui peut contenir n'importe quel type de donnees
+    /// cette classe represente un graphe
     /// elle stocke les stations et les connexions entre elles
     /// elle permet de faire des operations comme ajouter des connexions ou chercher des chemins
     /// elle est utilisee pour representer le metro de paris
     /// </summary>
     public class Graphe<T>
     {
-        // Champs privés pour stocker les données
+        
         private Dictionary<T, Noeud<T>> noeuds;
         private List<Lien<T>> liens;
         public string Nom;
 
-        /// <summary>
-        /// recupere ou modifie la liste des stations du metro
-        /// chaque station est stockee avec son numero comme cle
-        /// les stations contiennent les informations comme le nom et la position
-        /// </summary>
         public Dictionary<T, Noeud<T>> Noeuds
         {
             get { return noeuds; }
             set { noeuds = value; }
         }
 
-        /// <summary>
-        /// recupere ou modifie la liste des connexions entre les stations
-        /// chaque connexion represente un trajet possible entre deux stations
-        /// les connexions contiennent le temps de trajet entre les stations
-        /// </summary>
         public List<Lien<T>> Liens
         {
             get { return liens; }
             set { liens = value; }
         }
 
-        /// <summary>
-        /// cree un nouveau graphe vide pour le metro
-        /// initialise les listes pour stocker les stations et les connexions
-        /// le graphe est vide au debut et sera rempli avec les donnees du metro
-        /// </summary>
         public Graphe()
         {
             Noeuds = new Dictionary<T, Noeud<T>>();
@@ -57,7 +42,6 @@ namespace LivrableV3
         /// ajoute une connexion entre deux stations avec un temps de trajet
         /// cree les stations si elles n'existent pas encore
         /// ajoute la connexion dans les deux sens car on peut aller dans les deux sens
-        /// le temps de trajet est en minutes
         /// </summary>
         public void AjouterLien(T id1, T id2, double poids)
         {
@@ -77,11 +61,6 @@ namespace LivrableV3
             }
         }
 
-        /// <summary>
-        /// donne la premiere station du metro
-        /// utile pour commencer a chercher un chemin
-        /// retourne rien si le metro est vide
-        /// </summary>
         public Noeud<T> ObtenirPremierNoeud()
         {
             foreach (var noeud in Noeuds.Values)
@@ -93,9 +72,7 @@ namespace LivrableV3
 
         /// <summary>
         /// fait un parcours en largeur du metro a partir d'une station
-        /// visite toutes les stations accessibles en passant par les connexions
         /// affiche les stations dans l'ordre ou on les visite
-        /// utile pour voir toutes les stations qu'on peut atteindre
         /// </summary>
         public void ParcoursLargeur(Noeud<T> depart)
         {
@@ -137,8 +114,8 @@ namespace LivrableV3
 
         /// <summary>
         /// cherche une station dans le metro a partir de son nom
-        /// retourne le numero de la station trouvee ou -1 si pas trouvee
-        /// la recherche ne fait pas la difference entre majuscules et minuscules
+        /// retourne l'id de la station ou -1 si pas trouvee
+        /// ignore maj et min
         /// </summary>
         public int TrouverIdParNom(string nomRecherche)
         {
