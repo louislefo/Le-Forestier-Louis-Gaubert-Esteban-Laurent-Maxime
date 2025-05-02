@@ -8,7 +8,10 @@ using System.Drawing.Imaging;
 
 namespace LivrableV3
 {
-    /// affiche le graphe du metro sur une carte osm pas ouf
+    /// <summary>
+    /// cette classe affiche le graphe du metro sur une carte osm
+    /// convertit les coordonnees gps en pixels et dessine les stations + lignes
+    /// </summary>
     public class AfficherCarteOSM
     {
         private Bitmap imageCarte;
@@ -31,7 +34,9 @@ namespace LivrableV3
             this.nbLignesParStation = new Dictionary<string, int>();
         }
 
-        /// convertit lat lon en position sur la tuile
+        /// <summary>
+        /// cette methode convertit les coordonnees gps en position sur la tuile
+        /// </summary>
         private (double pixelX, double pixelY) ConvertirLatLonEnPixels(double lat, double lon, double minLat, double maxLat, double minLon, double maxLon)
         {
             double x = (lon - minLon) / (maxLon - minLon) * (largeur - 2 * marge) + marge;
@@ -39,7 +44,9 @@ namespace LivrableV3
             return (x, y);
         }
 
-        /// convertit lat lon en numero de tuile osm
+        /// <summary>
+        /// cette methode utilise la formule de mercator pour convertir les coordonnees gps en numero de tuile osm
+        /// </summary>
         private (int x, int y) LatLonEnTuile(double lat, double lon, int zoom)
         {
             int x = (int)((lon + 180.0) / 360.0 * (1 << zoom));
@@ -48,6 +55,10 @@ namespace LivrableV3
             return (x, y);
         }
 
+        /// <summary>
+        /// cette methode charge l'image de la carte depuis osm
+        /// elle telecharge les tuiles necessaires et les assemble
+        /// </summary>
         private void ChargerImageCarte(double minLat, double maxLat, double minLon, double maxLon)
         {
             try
@@ -103,6 +114,9 @@ namespace LivrableV3
             }
         }
 
+        /// <summary>
+        /// Dessine le graphe sur la carte et affiche les stations et les lignes avec leurs couleurs
+        /// </summary>
         public void DessinerGraphe(Graphe<int> graphe)
         {
             double minLon = double.MaxValue, maxLon = double.MinValue;

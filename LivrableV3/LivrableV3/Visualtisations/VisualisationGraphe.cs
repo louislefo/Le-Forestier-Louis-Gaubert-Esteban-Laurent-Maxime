@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace LivrableV3
 {
+    /// <summary>
+    /// cette classe affiche le graphe du metro
+    /// elle dessine les stations et les lignes avec leurs couleurs
+    /// </summary>
     public class VisualisationCarte
     {
         private Bitmap image;
@@ -35,7 +39,8 @@ namespace LivrableV3
         }
 
         /// <summary>
-        /// dessine le graphe du metro
+        /// cette methode dessine le graphe du metro
+        /// elle affiche les stations et les lignes avec leurs couleurs
         /// </summary>
         public void DessinerGraphe(Graphe<int> graphe)
         {
@@ -131,6 +136,10 @@ namespace LivrableV3
             }
         }
 
+        /// <summary>
+        /// cette methode sauvegarde l'image dans un fichier
+        /// elle supprime le fichier s'il existe deja
+        /// </summary>
         public void SauvegarderImage(string chemin)
         {
             if (File.Exists(chemin))
@@ -141,7 +150,9 @@ namespace LivrableV3
             image.Save(chemin, ImageFormat.Png); // Sauvegarde l'image
         }
 
-        /// retourne l'image du graphe
+        /// <summary>
+        /// cette methode retourne l'image du graphe
+        /// </summary>
         public Bitmap GetImage()
         {
             return image;

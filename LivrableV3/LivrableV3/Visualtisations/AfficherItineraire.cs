@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace LivrableV3
 {
+    /// <summary>
+    /// cette classe affiche l'itineraire sur le graphe 
+    /// </summary>
     public class VisualisationItineraire
     {
         private Bitmap image;
@@ -104,6 +107,7 @@ namespace LivrableV3
 
         /// <summary>
         /// dessine l'itineraire sur la carte
+        /// affiche le chemin en couleur et les stations importantes
         /// </summary>
         public void DessinerItineraire(Graphe<int> graphe, List<Noeud<int>> itineraire, string texteItineraire)
         {
@@ -224,6 +228,10 @@ namespace LivrableV3
             
         }
 
+        /// <summary>
+        /// cette methode sauvegarde l'image dans un fichier
+        /// elle supprime le fichier s'il existe deja
+        /// </summary>
         public void SauvegarderImage(string chemin)
         {
             if (File.Exists(chemin))
