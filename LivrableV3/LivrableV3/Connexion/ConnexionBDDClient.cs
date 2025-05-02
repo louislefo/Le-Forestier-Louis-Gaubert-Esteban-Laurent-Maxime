@@ -13,11 +13,6 @@ namespace LivrableV3
     {
         
         public MySqlConnection maConnexionClient;
-
-
-
-        //create user if not exists 'superbozo'@'localhost' identified by '123' ;
-        //grant all on loueur.* to 'superbozo'@'localhost';
         
         public ConnexionBDDClient(string nomClient, string motDePasse)
         {
