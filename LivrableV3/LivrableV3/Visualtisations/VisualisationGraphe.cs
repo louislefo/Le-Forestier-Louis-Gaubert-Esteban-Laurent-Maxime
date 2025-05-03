@@ -85,21 +85,50 @@ namespace LivrableV3
                 int x2 = (int)((noeud2.Longitude - minLong) * echelleLong) + marge;
                 int y2 = hauteur - ((int)((noeud2.Latitude - minLat) * echelleLat) + marge);
 
+                // regarde si le lien inverse existe
+                bool allerRetour = LienExiste(graphe, lien.Noeud2.Id, lien.Noeud1.Id);
+
+                // decalage si aller retour
+                int decal = 0;
+                if (allerRetour)
+                {
+                    decal = 7;
+                }
+
+                // calcule le vecteur perpendiculaire
+                double dx = x2 - x1;
+                double dy = y2 - y1;
+                double longueur = Math.Sqrt(dx * dx + dy * dy);
+                double px = 0;
+                double py = 0;
+                if (longueur != 0)
+                {
+                    px = -dy / longueur * decal;
+                    py = dx / longueur * decal;
+                }
+
+                int nx1 = x1 + (int)px;
+                int ny1 = y1 + (int)py;
+                int nx2 = x2 + (int)px;
+                int ny2 = y2 + (int)py;
+
                 try
                 {
                     Color couleurLigne = ColorTranslator.FromHtml(noeud1.CouleurLigne);
                     using (Pen pen = new Pen(couleurLigne, 2))
                     {
-                        graphics.DrawLine(pen, x1, y1, x2, y2);
+                        graphics.DrawLine(pen, nx1, ny1, nx2, ny2);
                     }
+                    DessinerFleche(nx1, ny1, nx2, ny2, couleurLigne);
                 }
                 catch
                 {
                     // si erreur de couleur utilise gris
                     using (Pen pen = new Pen(Color.Gray, 2))
                     {
-                        graphics.DrawLine(pen, x1, y1, x2, y2);
+                        graphics.DrawLine(pen, nx1, ny1, nx2, ny2);
                     }
+                    DessinerFleche(nx1, ny1, nx2, ny2, Color.Gray);
                 }
             }
 
@@ -133,6 +162,41 @@ namespace LivrableV3
                         graphics.DrawString(noeud.NomStation, font, brush, x + 10, y - 10);
                     }
                 }
+            }
+        }
+
+        private bool LienExiste(Graphe<int> graphe, int id1, int id2)
+        {
+            /// regarde si un lien existe dans l'autre sens
+            for (int i = 0; i < graphe.Liens.Count; i++)
+            {
+                if (graphe.Liens[i].Noeud1.Id == id1 && graphe.Liens[i].Noeud2.Id == id2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void DessinerFleche(int x1, int y1, int x2, int y2, Color couleur)
+        {
+            /// dessine une fleche pour voir le sens
+            double dx = x2 - x1;
+            double dy = y2 - y1;
+            double longueur = Math.Sqrt(dx * dx + dy * dy);
+            if (longueur == 0) return;
+            double ratio = 10.0 / longueur;
+            int xf = (int)(x2 - dx * ratio);
+            int yf = (int)(y2 - dy * ratio);
+            int taille = 7;
+            double angle = Math.Atan2(dy, dx);
+            Point[] fleche = new Point[3];
+            fleche[0] = new Point(x2, y2);
+            fleche[1] = new Point((int)(xf - taille * Math.Sin(angle - 0.5)), (int)(yf + taille * Math.Cos(angle - 0.5)));
+            fleche[2] = new Point((int)(xf - taille * Math.Sin(angle + 0.5)), (int)(yf + taille * Math.Cos(angle + 0.5)));
+            using (SolidBrush brush = new SolidBrush(couleur))
+            {
+                graphics.FillPolygon(brush, fleche);
             }
         }
 

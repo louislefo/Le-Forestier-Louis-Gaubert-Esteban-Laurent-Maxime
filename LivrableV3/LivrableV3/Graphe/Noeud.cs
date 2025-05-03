@@ -102,7 +102,7 @@ namespace LivrableV3
             if (!Voisins.Contains(voisin))
             {
                 Voisins.Add(voisin);
-                voisin.Voisins.Add(this);
+                //voisin.Voisins.Add(this);
             }
         }
     }

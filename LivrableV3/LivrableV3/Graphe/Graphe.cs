@@ -40,6 +40,7 @@ namespace LivrableV3
 
         /// <summary>
         /// ajoute une connexion entre deux stations avec un temps de trajet
+        /// c est orienté donc que dans un sens
         /// cree les stations si elles n'existent pas encore
         /// ajoute la connexion dans les deux sens car on peut aller dans les deux sens
         /// </summary>

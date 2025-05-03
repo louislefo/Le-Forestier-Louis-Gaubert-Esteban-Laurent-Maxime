@@ -9,6 +9,7 @@ namespace LivrableV3
     /// <summary>
     /// cette classe gère les connexions entre les stations
     /// elle stocke les deux stations et le temps de trajet
+    /// c est orienté de noeud1 vers noeud2
     /// </summary>
     public class Lien<T>
     {
