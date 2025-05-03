@@ -254,12 +254,12 @@ Station Id;Station;Precedent;Suivant;Temps entre 2 stations;Temps de Changement;
 253;Avenue Emile Zola;252;254;3;2;10
 254;Charles Michels;253;255;3;3;10
 255;Javel - Andre Citroen;254;256;3;2;10
-256;Eglise d'Auteuil;255;257;2;2;10
-257;Michel-Ange - Auteuil;256;258;1;4;10
-258;Porte d'Auteuil;0;259;2;2;10
+256;Eglise d'Auteuil;0;257;2;2;10
+257;Michel-Ange - Auteuil;0;258;1;4;10
+258;Porte d'Auteuil;0;0;2;2;10
 259;Michel-Ange - Molitor;0;260;3;1;10
 260;Chardon Lagache;0;261;1;2;10
-261;Mirabeau;0;0;3;4;10
+261;Mirabeau;0;255;3;4;10
 262;Chatelet;0;263;3;4;11
 263;Hotel de Ville;262;264;2;1;11
 264;Rambuteau;263;265;3;3;11
