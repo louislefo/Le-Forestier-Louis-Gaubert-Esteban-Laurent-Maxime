@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 
 namespace LivrableV3
 {
@@ -107,6 +108,8 @@ namespace LivrableV3
 
                 couleurActuelle++;
             }
+            
+
         }
 
         /// <summary>
