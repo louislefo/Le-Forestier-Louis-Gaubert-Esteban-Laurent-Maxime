@@ -162,7 +162,6 @@
     <Compile Include="Données\ImportJson.cs" />
     <Compile Include="Graphe\TestColorationClientsMetro.cs" />
     <Compile Include="Graphe\ColorationGraphe.cs" />
-    <Compile Include="Données\Modeles.cs" />
     <Compile Include="Requettes\Modulecuisinier.cs" />
     <Compile Include="Requettes\SqlCommander.cs" />
     <Compile Include="Visualtisations\VisualisationGraphe.cs" />

@@ -17,11 +17,12 @@ namespace LivrableV3
         {
             this.cheminFichierJson = @"../../Données/Donnee.json";
             this.connexion = connexionBase;
-            
+
+            ImporterTout();
             LectureJson(cheminFichierJson);
             AfficherPrettyJson(cheminFichierJson);
             EcritureFichierJson();
-            ImporterTout();
+            
         }
 
         public void ImporterTout()

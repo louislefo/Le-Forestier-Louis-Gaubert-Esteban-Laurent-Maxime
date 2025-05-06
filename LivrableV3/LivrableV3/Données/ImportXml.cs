@@ -69,6 +69,8 @@ namespace LivrableV3
         {
             this.cheminFichierXml = "../../Données/Données.Xml";
             this.connexion = connexionBase;
+            ExporterToutSqlEnXml();
+
         }
 
         public void ExporterToutSqlEnXml()

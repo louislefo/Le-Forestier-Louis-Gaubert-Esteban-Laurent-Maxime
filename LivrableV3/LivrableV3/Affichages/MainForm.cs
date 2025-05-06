@@ -14,6 +14,7 @@ namespace LivrableV3
         private ChargerFichiers chargeur;
 
         private ImportJson  import;
+        private ImportXml importXml;
         private string cheminFichierMetro = @"../../Données/MetroParisNoeuds.csv";
         private string cheminFichierArcs = @"../../Données/MetroParisArcs.csv";
 
@@ -38,7 +39,9 @@ namespace LivrableV3
                 chargeur = new ChargerFichiers();
                 ChargerDonneesMetro();
                 authentification = new Authentification(connexionBDD, grapheMetro);
-                import = new ImportJson(connexionBDD);
+                this.import = new ImportJson(connexionBDD);
+                this.importXml = new ImportXml(connexionBDD);
+
 
             }
             catch (Exception ex)
