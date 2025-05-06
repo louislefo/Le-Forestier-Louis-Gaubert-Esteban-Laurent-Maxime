@@ -17,7 +17,6 @@ namespace LivrableV3
             this.connexionBDDClient = connexionBDDClient;
         }
 
-
         public string VoirPlatsDisponibles()
         {
             try
@@ -58,7 +57,6 @@ namespace LivrableV3
                     Console.WriteLine("----------------------------------");
                 }
 
-                
                 reader.Close();
                 commande.Dispose();
                 return rep;
@@ -69,7 +67,6 @@ namespace LivrableV3
                 return null;
             }
         }
-
 
         public string VoirCommandesClient(string idClient)
         {
@@ -130,9 +127,6 @@ namespace LivrableV3
             }
         }
 
-
-
-
         public string VoirCuisiniersDisponibles()
         {
             try
@@ -157,7 +151,6 @@ namespace LivrableV3
                 {
                     string idCuisinier = reader["id_cuisinier"].ToString();
 
-                    // Pour éviter de répéter les infos si plusieurs plats/avis
                     if (idCuisinier != dernierId)
                     {
                         string nom = reader["nom"].ToString();
@@ -174,7 +167,6 @@ namespace LivrableV3
                     string prix = reader["prix_par_personne"].ToString();
                     rep += "  - Plat : " + nomPlat + " | Prix : " + prix + "€\r\n";
 
-                    // Affichage des avis (si dispo)
                     string note = reader["note"] != DBNull.Value ? reader["note"].ToString() : "—";
                     string commentaire = reader["commentaire"] != DBNull.Value ? reader["commentaire"].ToString() : "Aucun commentaire";
                     rep += "    > Avis : " + note + "/5 - " + commentaire + "\r\n";
@@ -193,7 +185,6 @@ namespace LivrableV3
             }
         }
 
-
         public string VoirHistoriqueClient(string idUtilisateur)
         {
             try
@@ -208,8 +199,6 @@ namespace LivrableV3
                  "WHERE cl.id_utilisateur = '" + idUtilisateur + "' " +
                  "AND c.statut = 'Livrée' " +
                  "ORDER BY c.date_commande DESC;";
-
-                
 
                 MySqlCommand commande = new MySqlCommand(requete, connexionBDDClient.maConnexionClient);
                 commande.CommandText = requete;
