@@ -57,8 +57,6 @@ namespace LivrableV3
             }
         }
 
-        
-
         /// trouve lid du plat avec son nom
         public string GetIdPlat(string plat)
         {
@@ -123,7 +121,6 @@ namespace LivrableV3
                 MessageBox.Show("Oups, une erreur est survenue : " + ex.Message);
                 return null;
             }
-
         }
 
         public string ConnaitreIdCuisinier(string platSelectionne)
@@ -154,6 +151,7 @@ namespace LivrableV3
                 return null;
             }
         }
+
         public string GetIdClientFromUtilisateur(string idUtilisateur)
         {
             try

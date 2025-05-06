@@ -20,6 +20,7 @@ namespace LivrableV3
             this.connexionBDD = connexionBDD;
             this.authentification = authentification;
         }
+
         public string GetIdCuisinierFromUtilisateur(string idUtilisateur)
         {
             try
@@ -46,7 +47,6 @@ namespace LivrableV3
                 return null;
             }
         }
-
 
         public string VoirMesPlats(string idCuisinier)
         {
@@ -221,6 +221,7 @@ namespace LivrableV3
                 return null;
             }
         }
+
         public string ModifierStatutCommande(string idcommande, string statut)
         {
             try
@@ -246,7 +247,6 @@ namespace LivrableV3
                 return null;
             }
         }
-
 
         public string Voirmesnotes(string idcuisinier)
         {
@@ -296,6 +296,7 @@ namespace LivrableV3
                 return null;
             }
         }
+
         public string ConnaitreStationClient(string idcommande)
         {
             try
@@ -325,6 +326,5 @@ namespace LivrableV3
                 return null;
             }
         }
-
     }
 }

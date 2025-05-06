@@ -1,20 +1,18 @@
-using System; 
-using System.Collections.Generic; 
-using System.IO; 
-using Newtonsoft.Json; // pour JsonTextReader et JsonTextWriter
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json; 
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Net.Cache;
 
 namespace LivrableV3
 {
-    /// classe pour importer les donnees json
     public class ImportJson
     {
         public string cheminFichierJson;
         public ConnexionBDD connexion;
 
-        /// constructeur de la classe
         public ImportJson(ConnexionBDD connexionBase)
         {
             this.cheminFichierJson = @"../../Données/Donnee.json";
@@ -25,7 +23,6 @@ namespace LivrableV3
             EcritureFichierJson();
         }
 
-        /// methode pour importer toutes les donnees
         public void ImporterTout()
         {
             /// je vais recuperer les donnees de la base et les mettre dans un json
@@ -298,12 +295,12 @@ namespace LivrableV3
             using (JsonTextReader lecteurJson = new JsonTextReader(lecteur))
             {
                 string reponse = "";
-                reponse+= "debut de AfficherPrettyJson\r\n";
+                reponse += "debut de AfficherPrettyJson\r\n";
                 Console.WriteLine("debut de AfficherPrettyJson");
                 reponse += "---------------------------\r\n";
                 Console.WriteLine("---------------------------");
-                
-                
+
+
                 while (lecteurJson.Read())
                 {
                     switch (lecteurJson.TokenType)
@@ -339,6 +336,7 @@ namespace LivrableV3
 
                 MessageBox.Show(reponse);
             }
+           
         }
 
         public void EcritureFichierJson()

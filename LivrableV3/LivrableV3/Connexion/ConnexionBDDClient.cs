@@ -8,13 +8,11 @@ using MySql.Data.MySqlClient;
 
 namespace LivrableV3
 {
-    
     /// <summary>
     /// cette classe gere la connexion a la BDD client
     /// </summary>
     public class ConnexionBDDClient
     {
-        
         public MySqlConnection maConnexionClient;
         
         public ConnexionBDDClient(string nomClient, string motDePasse)
@@ -32,7 +30,6 @@ namespace LivrableV3
             }
         }
 
-        
         /// <summary>
         /// cette methode sert a fermer la connexion du client
         /// elle affiche un message de confirmation ou d'erreur
@@ -49,9 +46,5 @@ namespace LivrableV3
                 MessageBox.Show("Erreur de fermeture de connexion : " + e.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-       
-
-
     }
 }

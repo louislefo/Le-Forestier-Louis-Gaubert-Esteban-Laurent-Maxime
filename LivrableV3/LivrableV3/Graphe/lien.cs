@@ -17,7 +17,6 @@ namespace LivrableV3
         private Noeud<T> noeud2;
         private double poids;
 
-
         public Noeud<T> Noeud1
         {
             get { return noeud1; }
@@ -30,13 +29,11 @@ namespace LivrableV3
             set { noeud2 = value; }
         }
 
-
         public double Poids
         {
             get { return poids; }
             set { poids = value; }
         }
-
 
         public Lien(Noeud<T> n1, Noeud<T> n2, double poids = 1.0)
         {

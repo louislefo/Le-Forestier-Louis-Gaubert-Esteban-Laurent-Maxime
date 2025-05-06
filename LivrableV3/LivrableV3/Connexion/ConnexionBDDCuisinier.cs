@@ -31,7 +31,6 @@ namespace LivrableV3
             catch (MySqlException e)
             {
                 MessageBox.Show("Erreur de connexion : " + e.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
             }
         }
 
@@ -44,11 +43,8 @@ namespace LivrableV3
             }
             catch (MySqlException e)
             {
-                
                 MessageBox.Show("Erreur de fermeture de connexion : " + e.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
-
     }
 }

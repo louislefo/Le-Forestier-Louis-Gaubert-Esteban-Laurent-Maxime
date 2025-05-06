@@ -86,9 +86,6 @@ namespace LivrableV3
             }
         }
 
-
-
-
         /// <summary>
         /// cette methode sert a ajouter un cuisinier a partir d'un utilisateur qui existe
         /// verifie si il existe et si il est pas deja cuisinier
@@ -341,10 +338,12 @@ namespace LivrableV3
                 MessageBox.Show("erreur lors de l'affichage du plat du jour : " + ex.Message);
                 return null;
             }
-
-
         }
 
+        /// <summary>
+        /// cette methode sert a lister tous les cuisiniers
+        /// elle fait une requete qui montre tous les cuisiniers
+        /// </summary>
         public List<string> ListeCuisiniers()
         {
             List<string> listeCuisiniers = new List<string>();

@@ -52,35 +52,35 @@ namespace LivrableV3
             {
                 switch (i)
                 {
-                    case 0: // droite
+                    case 0:
                         decalageX = 10;
                         decalageY = 0;
                         break;
-                    case 1: // gauche
+                    case 1:
                         decalageX = -10 - (int)(nomStation.Length * 4);
                         decalageY = 0;
                         break;
-                    case 2: // haut
+                    case 2:
                         decalageX = 0;
                         decalageY = -15;
                         break;
-                    case 3: // bas
+                    case 3:
                         decalageX = 0;
                         decalageY = 15;
                         break;
-                    case 4: // haut droite
+                    case 4:
                         decalageX = 10;
                         decalageY = -15;
                         break;
-                    case 5: // haut gauche
+                    case 5:
                         decalageX = -10 - (int)(nomStation.Length * 4);
                         decalageY = -15;
                         break;
-                    case 6: // bas droite
+                    case 6:
                         decalageX = 10;
                         decalageY = 15;
                         break;
-                    case 7: // bas gauche
+                    case 7:
                         decalageX = -10 - (int)(nomStation.Length * 4);
                         decalageY = 15;
                         break;
@@ -111,7 +111,6 @@ namespace LivrableV3
         /// </summary>
         public void DessinerItineraire(Graphe<int> graphe, List<Noeud<int>> itineraire, string texteItineraire)
         {
-            // Trouver les limites des coordonnées
             double minLong = double.MaxValue, maxLong = double.MinValue;
             double minLat = double.MaxValue, maxLat = double.MinValue;
 
@@ -123,11 +122,9 @@ namespace LivrableV3
                 maxLat = Math.Max(maxLat, noeud.Latitude);
             }
 
-            // Calculer les facteurs d'échelle
             double echelleLong = (largeur - 2 * marge) / (maxLong - minLong);
             double echelleLat = (hauteur - 2 * marge) / (maxLat - minLat);
 
-            // Dessiner tous les liens en gris clair
             foreach (Lien<int> lien in graphe.Liens)
             {
                 Noeud<int> noeud1 = graphe.Noeuds[lien.Noeud1.Id];
@@ -144,7 +141,6 @@ namespace LivrableV3
                 }
             }
 
-            // Dessiner l'itineraire avec les couleurs des lignes
             for (int i = 0; i < itineraire.Count - 1; i++)
             {
                 Noeud<int> noeud1 = itineraire[i];
@@ -173,7 +169,6 @@ namespace LivrableV3
                 }
             }
 
-            // Dessiner les noeuds
             foreach (Noeud<int> noeud in graphe.Noeuds.Values)
             {
                 int x = (int)((noeud.Longitude - minLong) * echelleLong) + marge;
@@ -181,7 +176,6 @@ namespace LivrableV3
 
                 positionsNoeuds[noeud.Id] = new Point(x, y);
 
-                // Dessiner le noeud en blanc avec un contour noir
                 using (SolidBrush brush = new SolidBrush(Color.White))
                 {
                     graphics.FillEllipse(brush, x - 4, y - 4, 8, 8);
@@ -192,7 +186,6 @@ namespace LivrableV3
                     graphics.DrawEllipse(pen, x - 4, y - 4, 8, 8);
                 }
 
-                // Calculer la position du texte pour les stations de l'itineraire
                 if (itineraire.Contains(noeud) && !nomsDejaAffiches.ContainsKey(noeud.NomStation))
                 {
                     Point positionTexte = CalculerPositionTexte(x, y, noeud.NomStation);
@@ -201,7 +194,6 @@ namespace LivrableV3
                 }
             }
 
-            // Dessiner les noms des stations de l'itineraire
             foreach (Noeud<int> noeud in itineraire)
             {
                 if (positionsTextes.ContainsKey(noeud.Id))
@@ -224,8 +216,6 @@ namespace LivrableV3
                     }
                 }
             }
-
-            
         }
 
         /// <summary>
@@ -239,7 +229,7 @@ namespace LivrableV3
                 File.Delete(chemin);
             }
 
-            image.Save(chemin, ImageFormat.Png); 
+            image.Save(chemin, ImageFormat.Png);
         }
     }
 }

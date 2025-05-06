@@ -24,7 +24,6 @@ namespace LivrableV3
             this.connexion = connexion;
         }
 
-
         private void btnRetour_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -33,22 +32,16 @@ namespace LivrableV3
 
         private void FormAffichierCarte_Load(object sender, EventArgs e)
         {
-
         }
 
         public void pictureBoxCarte_Click(object sender, EventArgs e)
         {
-            
         }
-
 
         private void btnsatelite_Click(object sender, EventArgs e)
         {
-
-
             if (File.Exists("satelite.png"))
             {
-                
                 using (var stream = new MemoryStream(File.ReadAllBytes("satelite.png")))
                 {
                     pictureBoxCarte.Image = Image.FromStream(stream);
@@ -57,7 +50,6 @@ namespace LivrableV3
             }
             else
             {
-                
                 AfficherCarteOSM visMetro2 = new AfficherCarteOSM(1200, 800);
                 visMetro2.DessinerGraphe(graphe);
                 visMetro2.SauvegarderImage("satelite.png");
@@ -66,12 +58,7 @@ namespace LivrableV3
                 {
                     pictureBoxCarte.Image = Image.FromStream(stream);
                 }
-
             }
-            
-
-            
-
         }
 
         private void btnbasic_Click(object sender, EventArgs e)

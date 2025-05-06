@@ -32,7 +32,6 @@ namespace LivrableV3
         {
             try
             {
-                // on verifie si le client existe
                 string requeteClient = "SELECT id_client FROM client WHERE id_client = '" + idClient + "'";
                 MySqlCommand commandeClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
                 commandeClient.CommandText = requeteClient;
@@ -47,7 +46,6 @@ namespace LivrableV3
                 lecteurClient.Close();
                 commandeClient.Dispose();
 
-                // on recupere le prix du plat
                 string requetePrix = "SELECT prix_par_personne FROM Plat_ WHERE id_plat = '" + idPlat + "'";
                 MySqlCommand commandePrix = new MySqlCommand(requetePrix, connexionBDD.maConnexion);
                 commandePrix.CommandText = requetePrix;
@@ -67,10 +65,8 @@ namespace LivrableV3
                 lecteurPrix.Close();
                 commandePrix.Dispose();
 
-                // on cree un id de commande
                 string idCommande = "CMD" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-                // on insere la commande avec les bons champs
                 string requeteCommande = "INSERT INTO Commande_ (id_commande, id_client, id_cuisinier, id_plat, date_commande, prix_total, statut) " +
                                         "VALUES ('" + idCommande + "', '" + idClient + "', '" + idCuisinier + "', '" + idPlat + "', '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', " + prixPlat.ToString().Replace(',', '.') + ", 'En attente')";
 
@@ -98,7 +94,6 @@ namespace LivrableV3
         {
             try
             {
-                // on vérifie si la commande existe
                 string requeteCommande = "SELECT id_commande FROM Commande_ WHERE id_commande = '" + idCommande + "'";
                 MySqlCommand commandeVerif = new MySqlCommand(requeteCommande, connexionBDD.maConnexion);
                 commandeVerif.CommandText = requeteCommande;
@@ -113,7 +108,6 @@ namespace LivrableV3
                 lecteurCommande.Close();
                 commandeVerif.Dispose();
 
-                // on récupère le prix du nouveau plat
                 string requetePrix = "SELECT prix_par_personne FROM Plat_ WHERE id_plat = '" + idPlat + "'";
                 MySqlCommand commandePrix = new MySqlCommand(requetePrix, connexionBDD.maConnexion);
                 commandePrix.CommandText = requetePrix;
@@ -133,7 +127,6 @@ namespace LivrableV3
                 lecteurPrix.Close();
                 commandePrix.Dispose();
 
-                // on modifie la commande
                 string requeteModif = "UPDATE Commande_ SET id_plat = '" + idPlat + "', date_commande = '" + dateCommande.ToString("yyyy-MM-dd HH:mm:ss") + "', prix_total = " + prixPlat.ToString().Replace(',', '.') + " WHERE id_commande = '" + idCommande + "'";
                 MySqlCommand commandeModif = new MySqlCommand(requeteModif, connexionBDD.maConnexion);
                 commandeModif.CommandText = requeteModif;
@@ -197,7 +190,6 @@ namespace LivrableV3
         {
             try
             {
-                // on vérifie si la commande existe
                 string requeteVerif = "SELECT id_commande FROM Commande_ WHERE id_commande = '" + idCommande + "'";
                 MySqlCommand commandeVerif = new MySqlCommand(requeteVerif, connexionBDD.maConnexion);
                 commandeVerif.CommandText = requeteVerif;
@@ -212,7 +204,6 @@ namespace LivrableV3
                 lecteurVerif.Close();
                 commandeVerif.Dispose();
 
-                // on récupère les stations du client et du cuisinier
                 string requete = "SELECT cu.StationMetro as station_cuisinier, c.StationMetro as station_client " +
                                "FROM Commande_ co " +
                                "JOIN client c ON co.id_client = c.id_client " +
@@ -241,11 +232,9 @@ namespace LivrableV3
                 lecteur.Close();
                 commande.Dispose();
 
-                // on cherche les ID des stations dans le graphe
                 string stationDepartId = "";
                 string stationArriveeId = "";
 
-                // on parcourt tous les noeuds pour trouver les stations
                 foreach (Noeud<int> noeud in grapheMetro.Noeuds.Values)
                 {
                     if (noeud.NomStation.Equals(stationDepartNom, StringComparison.OrdinalIgnoreCase))
@@ -257,14 +246,12 @@ namespace LivrableV3
                         stationArriveeId = noeud.Id.ToString();
                     }
 
-                    // si on a trouvé les deux stations, on peut s'arrêter
                     if (stationDepartId != "" && stationArriveeId != "")
                     {
                         break;
                     }
                 }
 
-                // on vérifie qu'on a bien trouvé les stations
                 if (stationDepartId == "")
                 {
                     Console.WriteLine("ATTENTION: Station de départ '" + stationDepartNom + "' non trouvée dans le graphe");
@@ -279,7 +266,6 @@ namespace LivrableV3
 
                 Console.WriteLine("ID stations: départ=" + stationDepartId + ", arrivée=" + stationArriveeId);
 
-                // on cherche et affiche l'itinéraire
                 if (stationDepartId != "" && stationArriveeId != "")
                 {
                     Console.WriteLine("\nRecherche de l'itinéraire de livraison...");
@@ -298,7 +284,6 @@ namespace LivrableV3
                         visItineraire.SauvegarderImage(nomFichier);
                         Console.WriteLine("Carte de l'itinéraire sauvegardée sous le nom " + nomFichier);
 
-                        // on ouvre l'image
                         Console.WriteLine("Ouverture de l'image...");
                         try
                         {
@@ -347,12 +332,6 @@ namespace LivrableV3
             }
             return listeCommandes;
         }
-
-
-
-
-        
-
 
     }
 }
