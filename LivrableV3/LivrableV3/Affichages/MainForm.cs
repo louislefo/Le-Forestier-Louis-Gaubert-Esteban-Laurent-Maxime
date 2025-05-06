@@ -38,7 +38,7 @@ namespace LivrableV3
                 chargeur = new ChargerFichiers();
                 ChargerDonneesMetro();
                 authentification = new Authentification(connexionBDD, grapheMetro);
-                //import = new ImportJson(connexionBDD);
+                import = new ImportJson(connexionBDD);
 
             }
             catch (Exception ex)

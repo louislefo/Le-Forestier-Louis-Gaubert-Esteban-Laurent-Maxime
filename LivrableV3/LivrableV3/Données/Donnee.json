@@ -1,51 +1,51 @@
 {
-  "utilisateurs": [
-    {
-      "id_utilisateur": "USR001",
-      "nom": "Dupont",
-      "prenom": "Jean",
-      "email": "jean.dupont@gmail.com",
-      "adresse": "12 rue du Faubourg, Paris",
-      "telephone": "0678451236",
-      "mot_de_passe": "MotDePasse123"
-    }
-  ],
-  "clients": [
-    {
-      "id_client": "CLI001",
-      "id_utilisateur": "USR001",
-      "StationMetro": "Châtelet",
-      "entreprise_nom": null,
-      "referent": null
-    }
-  ],
-  "cuisiniers": [
-    {
-      "id_cuisinier": "CUI001",
-      "id_utilisateur": "USR001",
-      "StationMetro": "Châtelet",
-      "zones_livraison": "1er, 2e, 3e, 4e arrondissement",
-      "note_moyenne": 4.7,
-      "nombre_livraisons": 42
-    }
-  ],
-  "commandes": [
-    {
-      "id_commande": "COM001",
-      "id_client": "CLI001",
-      "id_cuisinier": "CUI003",
-      "id_plat": "PLA003",
-      "date_commande": "2024-04-02 18:15:00",
-      "prix_total": 52.00,
-      "statut": "En préparation"
-    }
-  ],
-  "livraisons": [
-    {
-      "id_livraison": "LIV001",
-      "id_commande": "COM001",
-      "date_livraison": "2024-04-02 19:45:00",
-      "trajet": "Opéra -> Châtelet"
-    }
-  ]
-}
+   "utilisateurs": [
+     {
+       "id_utilisateur": "USR001",
+       "nom": "Dupont",
+       "prenom": "Jean",
+       "email": "jean.dupont@gmail.com",
+       "adresse": "12 rue du Faubourg, Paris",
+       "telephone": "0678451236",
+       "mot_de_passe": "MotDePasse123"
+     }
+   ],
+   "clients": [
+     {
+       "id_client": "CLI001",
+       "id_utilisateur": "USR001",
+       "StationMetro": "Châtelet",
+       "entreprise_nom": null,
+       "referent": null
+     }
+   ],
+   "cuisiniers": [
+     {
+       "id_cuisinier": "CUI001",
+       "id_utilisateur": "USR001",
+       "StationMetro": "Châtelet",
+       "zones_livraison": "1er, 2e, 3e, 4e arrondissement",
+       "note_moyenne": 4.7,
+       "nombre_livraisons": 42
+     }
+   ],
+   "commandes": [
+     {
+       "id_commande": "COM001",
+       "id_client": "CLI001",
+       "id_cuisinier": "CUI003",
+       "id_plat": "PLA003",
+       "date_commande": "2024-04-02 18:15:00",
+       "prix_total": 52.00,
+       "statut": "En préparation"
+     }
+   ],
+   "livraisons": [
+     {
+       "id_livraison": "LIV001",
+       "id_commande": "COM001",
+       "date_livraison": "2024-04-02 19:45:00",
+       "trajet": "Opéra -> Châtelet"
+     }
+   ]
+ }

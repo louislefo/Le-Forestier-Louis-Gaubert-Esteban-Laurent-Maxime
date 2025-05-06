@@ -980,7 +980,7 @@ namespace LivrableV3
             try
             {
                 // on fait une requete pour avoir les livraisons par cuisinier
-                string requete = "SELECT nom, prénom, nombre_livraisons FROM cuisinier c, utilisateur u" +
+                string requete = "SELECT u.nom, u.prénom, c.nombre_livraisons FROM cuisinier c, utilisateur u" +
                                "WHERE c.id_utilisateur = u.id_utilisateur";
 
                 MySqlCommand commande0 = new MySqlCommand(requete, connexionBDD.maConnexion);

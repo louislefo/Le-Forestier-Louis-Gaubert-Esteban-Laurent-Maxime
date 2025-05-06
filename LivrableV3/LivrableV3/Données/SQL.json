@@ -1,0 +1,506 @@
+{
+  "utilisateurs": [
+    {
+      "id_utilisateur": "USR001",
+      "nom": "lolote",
+      "prénom": "lolote",
+      "email": "lolote@gmail.com",
+      "adresse": "12 rue du Faubourg, Paris",
+      "telephone": "0678451236",
+      "mot_de_passe": "Lolote!2"
+    },
+    {
+      "id_utilisateur": "USR002",
+      "nom": "Moreau",
+      "prénom": "Alice",
+      "email": "alice.moreau@yahoo.fr",
+      "adresse": "35 avenue des Champs-Élysées, Paris",
+      "telephone": "0712345698",
+      "mot_de_passe": "Alice2024"
+    },
+    {
+      "id_utilisateur": "USR003",
+      "nom": "Lefebvre",
+      "prénom": "Thomas",
+      "email": "thomas.lefebvre@hotmail.com",
+      "adresse": "8 boulevard Haussmann, Paris",
+      "telephone": "0623457896",
+      "mot_de_passe": "Thomas123!"
+    },
+    {
+      "id_utilisateur": "USR004",
+      "nom": "Roux",
+      "prénom": "Camille",
+      "email": "camille.roux@gmail.com",
+      "adresse": "16 rue de la République, Paris",
+      "telephone": "0745698712",
+      "mot_de_passe": "CamRoux2024"
+    },
+    {
+      "id_utilisateur": "USR005",
+      "nom": "Lambert",
+      "prénom": "Julie",
+      "email": "julie.lambert@outlook.fr",
+      "adresse": "27 rue Saint-Honoré, Paris",
+      "telephone": "0698745632",
+      "mot_de_passe": "JulieL456"
+    },
+    {
+      "id_utilisateur": "USR006",
+      "nom": "Nardi",
+      "prénom": "Namouk",
+      "email": "julie.lambert@outlook.fr",
+      "adresse": "27 rue Saint-Honoré, Paris",
+      "telephone": "0698746632",
+      "mot_de_passe": "Motdepasee7845"
+    },
+    {
+      "id_utilisateur": "USR007",
+      "nom": "Nardou",
+      "prénom": "Namouka",
+      "email": "julia.lambert@outlook.fr",
+      "adresse": "27 rue Saint-Honoré, Paris",
+      "telephone": "0698746632",
+      "mot_de_passe": "Motdepasee7845"
+    },
+    {
+      "id_utilisateur": "USR008",
+      "nom": "Lousexe",
+      "prénom": "Louis",
+      "email": "Louis@gmail.com",
+      "adresse": "35 reode ",
+      "telephone": "0987654321",
+      "mot_de_passe": "Lolote!2"
+    }
+  ],
+  "clients": [
+    {
+      "id_client": "CLI001",
+      "id_utilisateur": "USR001",
+      "StationMetro": "Chatelet",
+      "entreprise_nom": "",
+      "referent": ""
+    },
+    {
+      "id_client": "CLI002",
+      "id_utilisateur": "USR002",
+      "StationMetro": "Franklin D. Roosevelt",
+      "entreprise_nom": "Marketing Plus",
+      "referent": "Sophie Durand"
+    },
+    {
+      "id_client": "CLI003",
+      "id_utilisateur": "USR003",
+      "StationMetro": "Opera",
+      "entreprise_nom": "Tech Innovations",
+      "referent": "Paul Martin"
+    },
+    {
+      "id_client": "CLI004",
+      "id_utilisateur": "USR004",
+      "StationMetro": "Bastille",
+      "entreprise_nom": "",
+      "referent": ""
+    },
+    {
+      "id_client": "CLI005",
+      "id_utilisateur": "USR005",
+      "StationMetro": "Concorde",
+      "entreprise_nom": "Design Studio",
+      "referent": "Marc Petit"
+    },
+    {
+      "id_client": "CLI006",
+      "id_utilisateur": "USR008",
+      "StationMetro": "buttes chaumont",
+      "entreprise_nom": "",
+      "referent": ""
+    }
+  ],
+  "cuisiniers": [
+    {
+      "id_cuisinier": "CUI001",
+      "id_utilisateur": "USR001",
+      "StationMetro": "Chatelet",
+      "zones_livraison": "1er, 2e, 3e, 4e arrondissement",
+      "note_moyenne": "4,7",
+      "nombre_livraisons": "42"
+    },
+    {
+      "id_cuisinier": "CUI002",
+      "id_utilisateur": "USR002",
+      "StationMetro": "Franklin D. Roosevelt",
+      "zones_livraison": "8e, 16e arrondissement",
+      "note_moyenne": "4,3",
+      "nombre_livraisons": "28"
+    },
+    {
+      "id_cuisinier": "CUI003",
+      "id_utilisateur": "USR003",
+      "StationMetro": "Opera",
+      "zones_livraison": "2e, 9e, 10e arrondissement",
+      "note_moyenne": "4,9",
+      "nombre_livraisons": "57"
+    },
+    {
+      "id_cuisinier": "CUI004",
+      "id_utilisateur": "USR004",
+      "StationMetro": "Bastille",
+      "zones_livraison": "4e, 11e, 12e arrondissement",
+      "note_moyenne": "4,1",
+      "nombre_livraisons": "31"
+    },
+    {
+      "id_cuisinier": "CUI005",
+      "id_utilisateur": "USR005",
+      "StationMetro": "Concorde",
+      "zones_livraison": "1er, 8e arrondissement",
+      "note_moyenne": "4,6",
+      "nombre_livraisons": "39"
+    },
+    {
+      "id_cuisinier": "CUI006",
+      "id_utilisateur": "USR007",
+      "StationMetro": "Concorde",
+      "zones_livraison": "1er, 8e arrondissement",
+      "note_moyenne": "4,6",
+      "nombre_livraisons": "39"
+    }
+  ],
+  "plats": [
+    {
+      "id_plat": "PLA001",
+      "id_cuisinier": "CUI001",
+      "nom": "Boeuf Bourguignon Maison",
+      "type": "plat",
+      "portions": "4 personnes",
+      "date_fabrication": "01/04/2024 00:00:00",
+      "date_peremption": "03/04/2024 00:00:00",
+      "prix_par_personne": "22,50",
+      "nationalite": "française",
+      "regime": "standard",
+      "photo": "boeuf_bourguignon.jpg"
+    },
+    {
+      "id_plat": "PLA002",
+      "id_cuisinier": "CUI002",
+      "nom": "Risotto Forestier",
+      "type": "plat",
+      "portions": "2 personnes",
+      "date_fabrication": "01/04/2024 00:00:00",
+      "date_peremption": "02/04/2024 00:00:00",
+      "prix_par_personne": "18,75",
+      "nationalite": "italienne",
+      "regime": "végétarien",
+      "photo": "risotto.jpg"
+    },
+    {
+      "id_plat": "PLA003",
+      "id_cuisinier": "CUI003",
+      "nom": "Paella Royale",
+      "type": "plat",
+      "portions": "6 personnes",
+      "date_fabrication": "01/04/2024 00:00:00",
+      "date_peremption": "03/04/2024 00:00:00",
+      "prix_par_personne": "26,00",
+      "nationalite": "espagnole",
+      "regime": "standard",
+      "photo": "paella.jpg"
+    },
+    {
+      "id_plat": "PLA004",
+      "id_cuisinier": "CUI004",
+      "nom": "Tarte Tatin Traditionnelle",
+      "type": "dessert",
+      "portions": "8 parts",
+      "date_fabrication": "01/04/2024 00:00:00",
+      "date_peremption": "04/04/2024 00:00:00",
+      "prix_par_personne": "15,25",
+      "nationalite": "française",
+      "regime": "végétarien",
+      "photo": "tarte_tatin.jpg"
+    },
+    {
+      "id_plat": "PLA005",
+      "id_cuisinier": "CUI005",
+      "nom": "Curry Vert au Poulet",
+      "type": "plat",
+      "portions": "3 personnes",
+      "date_fabrication": "01/04/2024 00:00:00",
+      "date_peremption": "02/04/2024 00:00:00",
+      "prix_par_personne": "20,50",
+      "nationalite": "thaïlandaise",
+      "regime": "standard",
+      "photo": "curry_vert.jpg"
+    }
+  ],
+  "commandes": [
+    {
+      "id_commande": "COM001",
+      "id_client": "CLI001",
+      "id_cuisinier": "CUI003",
+      "id_plat": "PLA003",
+      "date_commande": "02/04/2024 18:15:00",
+      "prix_total": "52,00",
+      "statut": "En préparation"
+    },
+    {
+      "id_commande": "COM002",
+      "id_client": "CLI002",
+      "id_cuisinier": "CUI005",
+      "id_plat": "PLA005",
+      "date_commande": "02/04/2024 19:30:00",
+      "prix_total": "41,00",
+      "statut": "Confirmée"
+    },
+    {
+      "id_commande": "COM003",
+      "id_client": "CLI003",
+      "id_cuisinier": "CUI001",
+      "id_plat": "PLA001",
+      "date_commande": "03/04/2024 12:45:00",
+      "prix_total": "45,00",
+      "statut": "Livrée"
+    },
+    {
+      "id_commande": "COM004",
+      "id_client": "CLI004",
+      "id_cuisinier": "CUI002",
+      "id_plat": "PLA002",
+      "date_commande": "03/04/2024 20:00:00",
+      "prix_total": "37,50",
+      "statut": "En attente"
+    },
+    {
+      "id_commande": "COM005",
+      "id_client": "CLI005",
+      "id_cuisinier": "CUI004",
+      "id_plat": "PLA004",
+      "date_commande": "04/04/2024 13:15:00",
+      "prix_total": "30,50",
+      "statut": "Annulée"
+    }
+  ],
+  "livraisons": [
+    {
+      "id_livraison": "LIV001",
+      "id_commande": "COM001",
+      "date_livraison": "02/04/2024 19:45:00",
+      "trajet": "Opéra -> Châtelet"
+    },
+    {
+      "id_livraison": "LIV002",
+      "id_commande": "COM002",
+      "date_livraison": "02/04/2024 20:20:00",
+      "trajet": "Concorde -> Franklin D. Roosevelt"
+    },
+    {
+      "id_livraison": "LIV003",
+      "id_commande": "COM003",
+      "date_livraison": "03/04/2024 13:30:00",
+      "trajet": "Châtelet -> Opéra"
+    },
+    {
+      "id_livraison": "LIV004",
+      "id_commande": "COM004",
+      "date_livraison": "",
+      "trajet": "Franklin D. Roosevelt -> Bastille"
+    },
+    {
+      "id_livraison": "LIV005",
+      "id_commande": "COM005",
+      "date_livraison": "",
+      "trajet": "Bastille -> Concorde"
+    }
+  ],
+  "transactions": [
+    {
+      "id_transaction": "TRA001",
+      "id_commande": "COM001",
+      "montant": "52,00",
+      "date_paiement": "02/04/2024 18:20:00",
+      "statut": "Payé"
+    },
+    {
+      "id_transaction": "TRA002",
+      "id_commande": "COM002",
+      "montant": "41,00",
+      "date_paiement": "02/04/2024 19:35:00",
+      "statut": "En attente"
+    },
+    {
+      "id_transaction": "TRA003",
+      "id_commande": "COM003",
+      "montant": "45,00",
+      "date_paiement": "03/04/2024 12:50:00",
+      "statut": "Payé"
+    },
+    {
+      "id_transaction": "TRA004",
+      "id_commande": "COM004",
+      "montant": "37,50",
+      "date_paiement": "",
+      "statut": "En attente"
+    },
+    {
+      "id_transaction": "TRA005",
+      "id_commande": "COM005",
+      "montant": "30,50",
+      "date_paiement": "04/04/2024 13:20:00",
+      "statut": "Remboursé"
+    }
+  ],
+  "avis": [
+    {
+      "id_avis": "AVI001",
+      "id_client": "CLI001",
+      "id_cuisinier": "CUI003",
+      "id_commande": "COM001",
+      "note": "4,5",
+      "commentaire": "Excellente paella, très parfumée et généreuse en fruits de mer",
+      "date_publication": "03/04/2024 00:00:00"
+    },
+    {
+      "id_avis": "AVI002",
+      "id_client": "CLI002",
+      "id_cuisinier": "CUI005",
+      "id_commande": "COM002",
+      "note": "4,2",
+      "commentaire": "Curry délicieux mais un peu trop épicé à mon goût",
+      "date_publication": "03/04/2024 00:00:00"
+    },
+    {
+      "id_avis": "AVI003",
+      "id_client": "CLI003",
+      "id_cuisinier": "CUI001",
+      "id_commande": "COM003",
+      "note": "4,8",
+      "commentaire": "Boeuf tendre et sauce savoureuse, parfait !",
+      "date_publication": "04/04/2024 00:00:00"
+    },
+    {
+      "id_avis": "AVI004",
+      "id_client": "CLI004",
+      "id_cuisinier": "CUI002",
+      "id_commande": "COM004",
+      "note": "3,9",
+      "commentaire": "Bon risotto mais il manquait un peu de crémeux",
+      "date_publication": "05/04/2024 00:00:00"
+    },
+    {
+      "id_avis": "AVI005",
+      "id_client": "CLI005",
+      "id_cuisinier": "CUI004",
+      "id_commande": "COM005",
+      "note": "",
+      "commentaire": "",
+      "date_publication": ""
+    }
+  ],
+  "recettes": [
+    {
+      "id_recette": "REC001",
+      "nom": "Boeuf Bourguignon",
+      "description": "plat mijoté à base de boeuf et de vin rouge",
+      "origine": "France"
+    },
+    {
+      "id_recette": "REC002",
+      "nom": "Risotto aux Champignons",
+      "description": "riz crémeux aux champignons et parmesan",
+      "origine": "Italie"
+    },
+    {
+      "id_recette": "REC003",
+      "nom": "Paella Valenciana",
+      "description": "riz safrané avec fruits de mer et poulet",
+      "origine": "Espagne"
+    },
+    {
+      "id_recette": "REC004",
+      "nom": "Tarte Tatin",
+      "description": "tarte aux pommes caramélisées",
+      "origine": "France"
+    },
+    {
+      "id_recette": "REC005",
+      "nom": "Curry Vert Thaï",
+      "description": "curry épicé à base de lait de coco",
+      "origine": "Thaïlande"
+    }
+  ],
+  "inspire": [
+    {
+      "id_plat": "PLA001",
+      "id_recette": "REC001"
+    },
+    {
+      "id_plat": "PLA002",
+      "id_recette": "REC002"
+    },
+    {
+      "id_plat": "PLA003",
+      "id_recette": "REC003"
+    },
+    {
+      "id_plat": "PLA004",
+      "id_recette": "REC004"
+    },
+    {
+      "id_plat": "PLA005",
+      "id_recette": "REC005"
+    }
+  ],
+  "ingredients": [
+    {
+      "id_ingredient": "ING001",
+      "id_plat": "PLA001",
+      "nom": "Boeuf"
+    },
+    {
+      "id_ingredient": "ING002",
+      "id_plat": "PLA001",
+      "nom": "Vin rouge de Bourgogne"
+    },
+    {
+      "id_ingredient": "ING003",
+      "id_plat": "PLA002",
+      "nom": "Riz arborio"
+    },
+    {
+      "id_ingredient": "ING004",
+      "id_plat": "PLA002",
+      "nom": "Champignons de Paris"
+    },
+    {
+      "id_ingredient": "ING005",
+      "id_plat": "PLA003",
+      "nom": "Riz bomba"
+    },
+    {
+      "id_ingredient": "ING006",
+      "id_plat": "PLA003",
+      "nom": "Fruits de mer"
+    },
+    {
+      "id_ingredient": "ING007",
+      "id_plat": "PLA004",
+      "nom": "Pommes Golden"
+    },
+    {
+      "id_ingredient": "ING008",
+      "id_plat": "PLA004",
+      "nom": "Pâte brisée"
+    },
+    {
+      "id_ingredient": "ING009",
+      "id_plat": "PLA005",
+      "nom": "Poulet"
+    },
+    {
+      "id_ingredient": "ING010",
+      "id_plat": "PLA005",
+      "nom": "Lait de coco"
+    }
+  ]
+}
