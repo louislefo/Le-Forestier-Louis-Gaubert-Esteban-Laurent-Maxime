@@ -34,7 +34,6 @@ namespace LivrableV3
         public ValidationRequette ValidationRequette;
         public Graphe<int> GrapheMetro;
 
-        
         public Authentification(ConnexionBDD connexionBDD, Graphe<int> GrapheMetro)
         {
             nomUtilisateur = "";
@@ -51,10 +50,9 @@ namespace LivrableV3
             this.connexionBDD = connexionBDD;
             this.GrapheMetro = GrapheMetro;
             ValidationRequette newrequette = new ValidationRequette(GrapheMetro);
-
         }
 
-         /// <summary>
+        /// <summary>
         /// cette methode sert a generer un id unique pour un utilisateur
         /// elle regarde le dernier id dans la base et ajoute 1
         /// si y a pas d'id elle commence a 1
@@ -63,7 +61,6 @@ namespace LivrableV3
         {
             try
             {
-                
                 string sql = "SELECT id_utilisateur FROM utilisateur WHERE id_utilisateur LIKE 'USR%' ORDER BY id_utilisateur DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
@@ -74,10 +71,8 @@ namespace LivrableV3
                 }
                 
                 string dernierId = result.ToString();
-                
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
-                
                 
                 return "USR" + numero.ToString("D3");
             }
@@ -96,7 +91,6 @@ namespace LivrableV3
         {
             try
             {
-               
                 string sql = "SELECT id_cuisinier FROM cuisinier WHERE id_cuisinier LIKE 'CUI%' ORDER BY id_cuisinier DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
@@ -107,10 +101,8 @@ namespace LivrableV3
                 }
                 
                 string dernierId = result.ToString();
-                
                 string numeroStr = dernierId.Substring(3);
                 int numero = int.Parse(numeroStr) + 1;
-                
                 
                 return "CUI" + numero.ToString("D3");
             }
@@ -129,7 +121,6 @@ namespace LivrableV3
         {
             try
             {
-                
                 string sql = "SELECT id_client FROM client WHERE id_client LIKE 'CLI%' ORDER BY id_client DESC LIMIT 1";
                 MySqlCommand cmd = new MySqlCommand(sql, connexionBDD.maConnexion);
                 object result = cmd.ExecuteScalar();
@@ -161,7 +152,6 @@ namespace LivrableV3
             Console.WriteLine("=== Connexion ===");
             
             email = ValidationRequette.DemanderEmail("entrez votre email : ");
-            
             motDePasse = ValidationRequette.DemanderMotDePasse("entrez votre mot de passe : ");
 
             try
@@ -250,8 +240,6 @@ namespace LivrableV3
             }
         }
 
-       
-
         /// <summary>
         /// cette methode permet a un utilisateur de s'inscrire
         /// elle cree un compte utilisateur et peut creer un compte cuisinier et/ou client dans la BDD
@@ -288,8 +276,6 @@ namespace LivrableV3
                 adresse = ValidationRequette.DemanderAdresse("entrez votre adresse : ");
                 motDePasse = ValidationRequette.DemanderMotDePasse("entrez votre mot de passe : ");
                 
-                
-                
                 idUtilisateur = GenererIdUtilisateur();
                 
                 string sqlUtilisateur = "INSERT INTO utilisateur (id_utilisateur, nom, prénom, email, adresse, telephone, mot_de_passe) VALUES ('" + 
@@ -311,9 +297,9 @@ namespace LivrableV3
                 
                 switch (choix)
                 {
-                    case 1: // cuisinier
+                    case 1:
                         Console.WriteLine("\n=== Création du compte cuisinier ===");
-                       this.stationMetroCuisinier = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
+                        this.stationMetroCuisinier = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
                         Console.WriteLine("Entrez les zones de livraison (séparées par des virgules) : ");
                         string zonesLivraison = Console.ReadLine();
                         
@@ -330,13 +316,11 @@ namespace LivrableV3
                         MySqlCommand cmdCuisinier = new MySqlCommand(requeteCuisinier, connexionBDD.maConnexion);
                         cmdCuisinier.ExecuteNonQuery();
                         
-                        
-                        try // creation du compte acces BDD cuisinier
+                        try
                         {
                             string CreateBDDCuisinier = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDCuisinier = new MySqlCommand(CreateBDDCuisinier, connexionBDD.maConnexion);
                             cmdCreateBDDCuisinier.ExecuteNonQuery();
-
 
                             string GrantBDDCuisinier = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
                             MySqlCommand cmdGrantBDDCuisinier = new MySqlCommand(GrantBDDCuisinier, connexionBDD.maConnexion);
@@ -354,10 +338,9 @@ namespace LivrableV3
                         estCuisinier = true;
 
                         Console.WriteLine("Compte cuisinier créé avec succès !");
-
                         break;
 
-                    case 2: // compte client 
+                    case 2:
                         Console.WriteLine("\n=== Création du compte client ===");
                         this.stationMetroClient = validation.DemanderStationMetro("Entrez la station metro du client : ");
                         int typeClient = ValidationRequette.DemanderTypeUtilisateur("Entrez le type de client (1: Particulier, 2: Entreprise) : ");
@@ -386,13 +369,11 @@ namespace LivrableV3
                         MySqlCommand cmdClient = new MySqlCommand(requeteClient, connexionBDD.maConnexion);
                         cmdClient.ExecuteNonQuery();
 
-
-                        try // creation du compte acces BDD client
+                        try
                         {
                             string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
                             cmdCreateBDDClient.ExecuteNonQuery();
-
 
                             string GrantBDDClient = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
                             MySqlCommand cmdGrantBDDClient = new MySqlCommand(GrantBDDClient, connexionBDD.maConnexion);
@@ -411,7 +392,7 @@ namespace LivrableV3
                         Console.WriteLine("Compte client créé avec succès !");
                         break;
                         
-                    case 3: // les deux comptes
+                    case 3:
                         Console.WriteLine("\n=== Création des comptes cuisinier et client ===");
                         
                         string stationMetroCuisinier2 = validation.DemanderStationMetro("Entrez la station metro du cuisinier : ");
@@ -446,7 +427,6 @@ namespace LivrableV3
                             entrepriseNom2 = ValidationRequette.DemanderNom("Entrez le nom de l'entreprise : ");
                             referent2 = ValidationRequette.DemanderNom("Entrez le nom du référent : ");
                             
-                            // verification des informations entreprise
                             if (string.IsNullOrWhiteSpace(entrepriseNom2) || string.IsNullOrWhiteSpace(referent2))
                             {
                                 Console.WriteLine("Les informations de l'entreprise ne peuvent pas être vides");
@@ -468,13 +448,11 @@ namespace LivrableV3
                         MySqlCommand cmdClient2 = new MySqlCommand(requeteClient2, connexionBDD.maConnexion);
                         cmdClient2.ExecuteNonQuery();
 
-
-                        try // creation du compte acces BDD cuisinier
+                        try
                         {
                             string CreateBDDCuisinier = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDCuisinier = new MySqlCommand(CreateBDDCuisinier, connexionBDD.maConnexion);
                             cmdCreateBDDCuisinier.ExecuteNonQuery();
-
 
                             string GrantBDDCuisinier = "GRANT SELECT, INSERT, UPDATE ON PSI_LoMaEs.*  TO '"+nomUtilisateur+"'@'localhost';";
                             MySqlCommand cmdGrantBDDCuisinier = new MySqlCommand(GrantBDDCuisinier, connexionBDD.maConnexion);
@@ -488,7 +466,7 @@ namespace LivrableV3
                             Console.WriteLine("erreur lors de la creation du compte acces BDD cuisinier : " + e.Message);
                         }
 
-                        try // creation du compte acces BDD client
+                        try
                         {
                             string CreateBDDClient = "CREATE USER IF NOT EXISTS '"+nomUtilisateur+"'@'localhost' IDENTIFIED BY '"+motDePasse+"';";
                             MySqlCommand cmdCreateBDDClient = new MySqlCommand(CreateBDDClient, connexionBDD.maConnexion);
@@ -506,14 +484,12 @@ namespace LivrableV3
                             Console.WriteLine("erreur lors de la creation du compte acces BDD client : " + e.Message);
                         }   
 
-                        
                         estClient = true;
                         estCuisinier = true;
                         
                         Console.WriteLine("Comptes cuisinier et client créés avec succès !");
                         break;
                 }
-                
                 
                 estConnecte = true;
                 return true;
