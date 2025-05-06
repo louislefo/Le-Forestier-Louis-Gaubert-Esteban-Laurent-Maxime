@@ -6,13 +6,11 @@ using MySql.Data.MySqlClient;
 
 namespace LivrableV3
 {
-    /// classe pour importer les donnees json
     public class ImportJson
     {
         public string cheminFichierJson;
         public ConnexionBDD connexion;
 
-        /// constructeur de la classe
         public ImportJson(ConnexionBDD connexionBase)
         {
             this.cheminFichierJson = @"../../Données/Donnee.json";
@@ -20,13 +18,11 @@ namespace LivrableV3
             ImporterTout();
         }
 
-        /// methode pour importer toutes les donnees
         public void ImporterTout()
         {
             string texteJson = File.ReadAllText(cheminFichierJson);
             DonneesImportees donnees = JsonSerializer.Deserialize<DonneesImportees>(texteJson);
 
-            // import des utilisateurs
             for (int i = 0; i < donnees.utilisateurs.Count; i++)
             {
                 Utilisateur utilisateur = donnees.utilisateurs[i];
@@ -40,7 +36,6 @@ namespace LivrableV3
                 commande.Dispose();
             }
 
-            // import des clients
             for (int i = 0; i < donnees.clients.Count; i++)
             {
                 Client client = donnees.clients[i];
@@ -56,7 +51,6 @@ namespace LivrableV3
                 commande.Dispose();
             }
 
-            // import des cuisiniers
             for (int i = 0; i < donnees.cuisiniers.Count; i++)
             {
                 Cuisinier cuisinier = donnees.cuisiniers[i];
@@ -69,7 +63,6 @@ namespace LivrableV3
                 commande.Dispose();
             }
 
-            // import des commandes
             for (int i = 0; i < donnees.commandes.Count; i++)
             {
                 Commande commande = donnees.commandes[i];
@@ -83,7 +76,6 @@ namespace LivrableV3
                 cmd.Dispose();
             }
 
-            // import des livraisons
             for (int i = 0; i < donnees.livraisons.Count; i++)
             {
                 Livraison livraison = donnees.livraisons[i];

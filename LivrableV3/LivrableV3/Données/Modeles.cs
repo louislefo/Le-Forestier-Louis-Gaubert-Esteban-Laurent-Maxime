@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace LivrableV3
 {
-    /// classe pour les donnees importees
     public class DonneesImportees
     {
         public List<Utilisateur> utilisateurs;
@@ -13,7 +12,6 @@ namespace LivrableV3
         public List<Livraison> livraisons;
     }
 
-    /// classe pour les utilisateurs
     public class Utilisateur
     {
         public string id_utilisateur;
@@ -25,7 +23,6 @@ namespace LivrableV3
         public string mot_de_passe;
     }
 
-    /// classe pour les clients
     public class Client
     {
         public string id_client;
@@ -35,7 +32,6 @@ namespace LivrableV3
         public string referent;
     }
 
-    /// classe pour les cuisiniers
     public class Cuisinier
     {
         public string id_cuisinier;
@@ -46,7 +42,6 @@ namespace LivrableV3
         public int nombre_livraisons;
     }
 
-    /// classe pour les commandes
     public class Commande
     {
         public string id_commande;
@@ -58,7 +53,6 @@ namespace LivrableV3
         public string statut;
     }
 
-    /// classe pour les livraisons
     public class Livraison
     {
         public string id_livraison;
@@ -66,4 +60,4 @@ namespace LivrableV3
         public string date_livraison;
         public string trajet;
     }
-} 
+}

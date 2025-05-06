@@ -28,7 +28,6 @@ namespace LivrableV3
                 donnees = (BaseDeDonnees)serializer.Deserialize(fs);
             }
 
-            // Conversion des données XML vers le format commun
             DonneesImportees donneesImportees = new DonneesImportees
             {
                 utilisateurs = new List<Utilisateur>(donnees.utilisateurs.utilisateur),
@@ -38,7 +37,6 @@ namespace LivrableV3
                 livraisons = new List<Livraison>(donnees.livraisons.livraison)
             };
 
-            // Import des utilisateurs
             for (int i = 0; i < donneesImportees.utilisateurs.Count; i++)
             {
                 Utilisateur utilisateur = donneesImportees.utilisateurs[i];
@@ -51,7 +49,6 @@ namespace LivrableV3
                 commande.Dispose();
             }
 
-            // Import des clients
             for (int i = 0; i < donneesImportees.clients.Count; i++)
             {
                 Client client = donneesImportees.clients[i];
@@ -66,7 +63,6 @@ namespace LivrableV3
                 commande.Dispose();
             }
 
-            // Import des cuisiniers
             for (int i = 0; i < donneesImportees.cuisiniers.Count; i++)
             {
                 Cuisinier cuisinier = donneesImportees.cuisiniers[i];
@@ -78,7 +74,6 @@ namespace LivrableV3
                 commande.Dispose();
             }
 
-            // Import des commandes
             for (int i = 0; i < donneesImportees.commandes.Count; i++)
             {
                 Commande commande = donneesImportees.commandes[i];
@@ -91,7 +86,6 @@ namespace LivrableV3
                 cmd.Dispose();
             }
 
-            // Import des livraisons
             for (int i = 0; i < donneesImportees.livraisons.Count; i++)
             {
                 Livraison livraison = donneesImportees.livraisons[i];
@@ -105,7 +99,6 @@ namespace LivrableV3
         }
     }
 
-    // Classes pour la désérialisation XML
     [XmlRoot("baseDeDonnees")]
     public class BaseDeDonnees
     {
