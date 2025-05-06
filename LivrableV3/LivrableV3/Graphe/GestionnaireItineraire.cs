@@ -21,7 +21,6 @@ namespace LivrableV3
             plusCourtChemin = new PlusCourtChemin<T>();
         }
 
-
         public void AfficherListeStations()
         {
             Console.WriteLine("\nListe des stations disponibles :");
@@ -39,11 +38,9 @@ namespace LivrableV3
         /// </summary>
         public List<Noeud<T>> RechercherItineraire(string idDepart, string idArrivee)
         {
-            // convertit les IDs en type T
             T depart = (T)Convert.ChangeType(idDepart, typeof(T));
             T arrivee = (T)Convert.ChangeType(idArrivee, typeof(T));
 
-            // verifie que les stations existent
             if (!grapheMetro.Noeuds.ContainsKey(depart) || !grapheMetro.Noeuds.ContainsKey(arrivee))
             {
                 Console.WriteLine("Une des stations n'existe pas !");
@@ -55,12 +52,10 @@ namespace LivrableV3
 
             Console.WriteLine("\nRecherche du plus court chemin entre " + stationDepart.NomStation + " et " + stationArrivee.NomStation);
 
-            // calcule le plus court chemin avec Dijkstra
             List<Noeud<T>> chemin = plusCourtChemin.Dijkstra(grapheMetro, stationDepart, stationArrivee);
             List<Noeud<T>> chemin1 = plusCourtChemin.BellmanFord(grapheMetro, stationDepart, stationArrivee);
             Dictionary<(Noeud<T>, Noeud<T>), double> chemin2 = plusCourtChemin.FloydWarshall(grapheMetro);
 
-            // affiche le resultat
             if (chemin.Count == 0)
             {
                 Console.WriteLine("Aucun chemin trouvé entre ces stations.");
@@ -97,7 +92,6 @@ namespace LivrableV3
                 Noeud<T> station = chemin[i];
                 Noeud<T> stationPrecedente = chemin[i - 1];
 
-                // si changement de ligne
                 if (station.NumeroLigne != ligneActuelle)
                 {
                     rep += "Correspondance a " + station.NomStation + " :\r\n";
@@ -107,7 +101,6 @@ namespace LivrableV3
                     ligneActuelle = station.NumeroLigne;
                 }
 
-                // ajoute le temps de trajet entre les stations
                 foreach (Lien<T> lien in grapheMetro.Liens)
                 {
                     if ((lien.Noeud1 == stationPrecedente && lien.Noeud2 == station) ||

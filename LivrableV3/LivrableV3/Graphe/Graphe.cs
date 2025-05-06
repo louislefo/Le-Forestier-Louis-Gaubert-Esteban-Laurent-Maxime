@@ -15,7 +15,6 @@ namespace LivrableV3
     /// </summary>
     public class Graphe<T>
     {
-        
         private Dictionary<T, Noeud<T>> noeuds;
         private List<Lien<T>> liens;
         public string Nom;
@@ -120,13 +119,9 @@ namespace LivrableV3
         /// </summary>
         public int TrouverIdParNom(string nomRecherche)
         {
-            // on met -1 si on trouve pas
             int idTrouve = -1;
-
-            // on met le nom en minuscule pour comparer
             string nomEnMinuscule = nomRecherche.ToLower();
 
-            // on cherche dans tous les noeuds
             foreach (var noeud in Noeuds.Values)
             {
                 if (noeud.NomStation.ToLower() == nomEnMinuscule)

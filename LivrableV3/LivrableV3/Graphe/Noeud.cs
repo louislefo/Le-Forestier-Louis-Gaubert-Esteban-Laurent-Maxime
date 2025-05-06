@@ -12,7 +12,6 @@ namespace LivrableV3
     /// </summary>
     public class Noeud<T>
     {
-
         private T id;
         private List<Noeud<T>> voisins;
         private string nomStation;
@@ -28,7 +27,6 @@ namespace LivrableV3
             get { return id; }
             set { id = value; }
         }
-
 
         public List<Noeud<T>> Voisins
         {
@@ -48,7 +46,6 @@ namespace LivrableV3
             set { longitude = value; }
         }
 
-
         public double Latitude
         {
             get { return latitude; }
@@ -60,7 +57,6 @@ namespace LivrableV3
             get { return numeroLigne; }
             set { numeroLigne = value; }
         }
-
 
         public string CouleurLigne
         {
@@ -102,7 +98,6 @@ namespace LivrableV3
             if (!Voisins.Contains(voisin))
             {
                 Voisins.Add(voisin);
-                //voisin.Voisins.Add(this);
             }
         }
     }

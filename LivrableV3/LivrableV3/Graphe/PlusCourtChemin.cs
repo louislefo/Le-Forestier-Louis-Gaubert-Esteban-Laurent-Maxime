@@ -18,7 +18,6 @@ namespace LivrableV3
             List<Noeud<T>> stationsCorrespondance = new List<Noeud<T>>();
             Dictionary<string, List<string>> stationsParNom = new Dictionary<string, List<string>>();
 
-            // met toutes les stations dans un dictionnaire par nom
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
                 if (!stationsParNom.ContainsKey(noeud.NomStation))
@@ -28,18 +27,16 @@ namespace LivrableV3
                 stationsParNom[noeud.NomStation].Add(noeud.NumeroLigne);
             }
 
-            // cherche les stations qui sont sur plusieurs lignes
             foreach (string nomStation in stationsParNom.Keys)
             {
                 if (stationsParNom[nomStation].Count > 1)
                 {
-                    // prend la premiere station de ce nom trouvee
                     foreach (Noeud<T> noeud in graphe.Noeuds.Values)
                     {
                         if (noeud.NomStation == nomStation)
                         {
                             stationsCorrespondance.Add(noeud);
-                            break;  // sort de la boucle car station trouvee 
+                            break;
                         }
                     }
                 }
@@ -55,19 +52,15 @@ namespace LivrableV3
         /// </summary>
         public List<Noeud<T>> Dijkstra(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
-            // demarre le chrono pour voir le temps
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            // trouve les stations pour changer de ligne
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
-            // cree des dictionnaires pour stocker les temps et les stations precedentes
             Dictionary<Noeud<T>, double> temps = new Dictionary<Noeud<T>, double>();
             Dictionary<Noeud<T>, Noeud<T>> predecesseurs = new Dictionary<Noeud<T>, Noeud<T>>();
             List<Noeud<T>> nonVisites = new List<Noeud<T>>();
 
-            // met un temps infini pour toutes les stations au debut
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
                 temps[noeud] = double.MaxValue; 
@@ -75,10 +68,8 @@ namespace LivrableV3
             }
             temps[depart] = 0;  
 
-            // cherche le  plus court chemin 
             while (nonVisites.Count > 0)
             {
-                // cherche la station non visitee avec le plus petit temps
                 Noeud<T> noeudActuel = null;
                 double tempsMin = double.MaxValue;
 
@@ -93,15 +84,12 @@ namespace LivrableV3
 
                 if (noeudActuel == null) break;
 
-                // si arrive a la station : stop
                 if (noeudActuel.NomStation == arrivee.NomStation) break;
 
                 nonVisites.Remove(noeudActuel);
 
-                // met a jour les temps des stations voisines
                 foreach (Lien<T> lien in graphe.Liens)
                 {
-                    //  regarde dans les deux sens 
                     if (lien.Noeud1 == noeudActuel && nonVisites.Contains(lien.Noeud2))
                     {
                         double nouveauTemps = temps[noeudActuel] + lien.Poids;
@@ -122,7 +110,6 @@ namespace LivrableV3
                     }
                 }
 
-                // si station de correspondance: changement de ligne possible
                 if (stationsCorrespondance.Exists(s => s.NomStation == noeudActuel.NomStation))
                 {
                     foreach (Noeud<T> noeud in graphe.Noeuds.Values)
@@ -140,11 +127,9 @@ namespace LivrableV3
                 }
             }
 
-            // reconstruit le chemin a partir de l'arrivee
             List<Noeud<T>> chemin = new List<Noeud<T>>();
             Noeud<T> noeudCourant = null;
 
-            // cherche la station d'arrivee avec le plus petit temps
             double tempsMinArrivee = double.MaxValue;
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
@@ -160,7 +145,6 @@ namespace LivrableV3
                 return new List<Noeud<T>>(); 
             }
 
-            // remonte le chemin jusqu'au depart
             while (noeudCourant != null)
             {
                 chemin.Insert(0, noeudCourant);
@@ -174,13 +158,11 @@ namespace LivrableV3
                 }
             }
 
-            // verifie que le chemin commence bien par la station de depart
             if (chemin.Count == 0 || chemin[0].NomStation != depart.NomStation)
             {
-                return new List<Noeud<T>>(); // on retourne une liste vide si le chemin est pas bon
+                return new List<Noeud<T>>();
             }
 
-            // stoppe le chrono et on affiche le temps
             timer.Stop();
             Console.WriteLine("Temps pour trouver le plus court chemin via Dijkstra : "+timer.ElapsedMilliseconds+" ms");
 
@@ -193,30 +175,24 @@ namespace LivrableV3
         /// </summary>
         public List<Noeud<T>> BellmanFord(Graphe<T> graphe, Noeud<T> depart, Noeud<T> arrivee)
         {
-            //  demarre le chrono
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            //  trouve les stations de correspondance
             List<Noeud<T>> stationsCorrespondance = TrouverStationsCorrespondance(graphe);
 
-            //  cree des dictionnaires pour les temps et les stations precedentes
             Dictionary<Noeud<T>, double> temps = new Dictionary<Noeud<T>, double>();
             Dictionary<Noeud<T>, Noeud<T>> predecesseurs = new Dictionary<Noeud<T>, Noeud<T>>();
 
-            // met un temps infini pour toutes les stations
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
                 temps[noeud] = double.MaxValue;  
             }
             temps[depart] = 0;  
 
-            // fait n-1 iterations pour etre sur d'avoir le plus court chemin
             for (int i = 0; i < graphe.Noeuds.Count - 1; i++)
             {
                 foreach (Lien<T> lien in graphe.Liens)
                 {
-                    //  regarde dans les deux sens
                     if (temps[lien.Noeud1] != double.MaxValue && 
                         temps[lien.Noeud1] + lien.Poids < temps[lien.Noeud2])
                     {
@@ -232,7 +208,6 @@ namespace LivrableV3
                     }
                 }
 
-                //  ajoute les changements de ligne aux stations de correspondance
                 foreach (Noeud<T> station in stationsCorrespondance)
                 {
                     foreach (Noeud<T> noeud in graphe.Noeuds.Values)
@@ -250,11 +225,9 @@ namespace LivrableV3
                 }
             }
 
-            //  reconstruit le chemin
             List<Noeud<T>> chemin = new List<Noeud<T>>();
             Noeud<T> noeudCourant = null;
 
-            //  cherche la station d'arrivee avec le plus petit temps
             double tempsMinArrivee = double.MaxValue;
             foreach (Noeud<T> noeud in graphe.Noeuds.Values)
             {
@@ -267,10 +240,9 @@ namespace LivrableV3
 
             if (noeudCourant == null)
             {
-                return new List<Noeud<T>>(); 
+                return new List<Noeud<T>>();
             }
 
-            // remonte le chemin jusqu'au depart
             while (noeudCourant != null)
             {
                 chemin.Insert(0, noeudCourant);
@@ -284,15 +256,13 @@ namespace LivrableV3
                 }
             }
 
-            // verifie ou le chemin commence
             if (chemin.Count == 0 || chemin[0].NomStation != depart.NomStation)
             {
-                return new List<Noeud<T>>(); 
+                return new List<Noeud<T>>();
             }
 
-            // arrete le chrono et on affiche le temps
             timer.Stop();
-            Console.WriteLine("Temps pour trouver le plus court chemin via Bellman-Ford : " +timer.ElapsedMilliseconds +" ms");
+            Console.WriteLine("Temps pour trouver le plus court chemin via Bellman-Ford : "+timer.ElapsedMilliseconds+" ms");
 
             return chemin;
         }
