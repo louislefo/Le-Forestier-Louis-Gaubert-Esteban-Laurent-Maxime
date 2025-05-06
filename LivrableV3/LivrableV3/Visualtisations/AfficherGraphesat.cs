@@ -63,8 +63,8 @@ namespace LivrableV3
         {
             try
             {
-                int zoom = 13;  // zoom plus petit pour voir plus large
-                (int x1, int y1) = LatLonEnTuile(maxLat, minLon, zoom);  // inverser maxLat et minLat
+                int zoom = 13;
+                (int x1, int y1) = LatLonEnTuile(maxLat, minLon, zoom);
                 (int x2, int y2) = LatLonEnTuile(minLat, maxLon, zoom);
 
                 int nbTuilesX = x2 - x1 + 1;
@@ -212,7 +212,6 @@ namespace LivrableV3
             imageCarte.Save(chemin, ImageFormat.Png);
         }
 
-        /// retourne l'image du graphe
         public Bitmap GetImage()
         {
             return imageCarte;
