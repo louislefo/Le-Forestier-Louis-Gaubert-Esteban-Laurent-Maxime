@@ -12,11 +12,7 @@ namespace LivrableV3
     /// elle a plein de methodes pour verifier les noms, adresses, emails etc
     /// c'est utile pour pas avoir de donnees fausses dans la base
     /// </summary>
-    public class ValidationRequette // agit comme une grande bibliothèque de fonction que l'on peut utiliser pour la connexion et l'incription des utilisateur
-                                    // toutes les fonctions ne sont pas forcéménet utilisées mais la plupart permettent de bien remplir la base de données et 
-                                    // éviter les coquilles
-                                    // cela permet aussi de guider l'utilisateur lors de sa connexion ou de son incription
-                                    // En temps que root les fonctions sont aussi utilisées pour vérifier que le root ajoute de bonnes donnnées dans la BDD
+    public class ValidationRequette 
     {
         public Graphe<int> GrapheMetro;
         public Dictionary<int, Noeud<int>> noeuds;
@@ -33,21 +29,18 @@ namespace LivrableV3
         /// </summary>
         public string DemanderNom(string nom)
         {
-            // on verifie si le nom est vide
             if (string.IsNullOrEmpty(nom))
             {
                 MessageBox.Show("le nom ne peut pas etre vide");
                 return "";
             }
 
-            // on verifie que le nom est assez long
             if (nom.Length < 2)
             {
                 MessageBox.Show("le nom doit contenir au moins 2 caracteres");
                 return "";
             }
 
-            // on verifie que le nom a que des lettres et des espaces
             for (int i = 0; i < nom.Length; i++)
             {
                 if (!char.IsLetter(nom[i]) && nom[i] != ' ' && nom[i] != '-')
@@ -66,21 +59,18 @@ namespace LivrableV3
         /// </summary>
         public string DemanderPrenom(string prenom)
         {
-            // on verifie si le prenom est vide
             if (string.IsNullOrEmpty(prenom))
             {
                 MessageBox.Show("le prenom ne peut pas etre vide");
                 return "";
             }
 
-            // on verifie que le prenom est assez long
             if (prenom.Length < 2)
             {
                 MessageBox.Show("le prenom doit contenir au moins 2 caracteres");
                 return "";
             }
 
-            // on verifie que le prenom a que des lettres et des espaces
             for (int i = 0; i < prenom.Length; i++)
             {
                 if (!char.IsLetter(prenom[i]) && prenom[i] != ' ' && prenom[i] != '-')
@@ -99,7 +89,6 @@ namespace LivrableV3
         /// </summary>
         public string DemanderAdresse(string adresse)
         {
-            // on verifie si l'adresse est vide
             if (string.IsNullOrEmpty(adresse))
             {
                 MessageBox.Show("l'adresse ne peut pas etre vide");
@@ -112,7 +101,6 @@ namespace LivrableV3
                 return "";
             }
 
-            // on verifie que l'adresse commence par un numero
             if (!char.IsDigit(adresse[0]))
             {
                 MessageBox.Show("l'adresse doit commencer par un numero");
@@ -164,11 +152,9 @@ namespace LivrableV3
                     return "";
                 }
 
-                // on met en minuscule pour comparer
                 station = station.ToLower();
                 station.Trim();
 
-                // on verifie si la station existe dans le metro
                 bool stationExiste = false;
                 for (int i = 0; i < noeuds.Count; i++)
                 {
@@ -206,14 +192,12 @@ namespace LivrableV3
                 return false;
             }
 
-            // on verifie qu'il y a un @
             if (!email.Contains("@"))
             {
                 MessageBox.Show("l'email doit contenir un @");
                 return false;
             }
 
-            // on separe l'email en deux parties
             string[] parties = email.Split('@');
             if (parties.Length != 2)
             {
@@ -221,14 +205,12 @@ namespace LivrableV3
                 return false;
             }
 
-            // on verifie la partie avant le @
             if (parties[0].Length < 1)
             {
                 MessageBox.Show("la partie locale de l'email ne peut pas etre vide");
                 return false;
             }
 
-            // on verifie la partie apres le @
             if (!parties[1].Contains("."))
             {
                 MessageBox.Show("l'email doit contenir un point");
@@ -256,25 +238,19 @@ namespace LivrableV3
                 MessageBox.Show("le numero de telephone ne peut pas etre vide");
                 return false;
             }
-
-            // on enleve les espaces
             telephone = telephone.Replace(" ", "");
-
-            // on verifie la longueur
             if (telephone.Length != 10 && telephone.Length != 11)
             {
                 MessageBox.Show("le numero doit avoir 10 chiffres");
                 return false;
             }
 
-            // on verifie que ca commence par 0 ou +33
             if (telephone[0] != '0' && !telephone.StartsWith("+33"))
             {
                 MessageBox.Show("le numero doit commencer par 0 ou +33");
                 return false;
             }
 
-            // on verifie que c'est que des chiffres (sauf le +)
             for (int i = 0; i < telephone.Length; i++)
             {
                 if (telephone[i] != '+' && !char.IsDigit(telephone[i]))

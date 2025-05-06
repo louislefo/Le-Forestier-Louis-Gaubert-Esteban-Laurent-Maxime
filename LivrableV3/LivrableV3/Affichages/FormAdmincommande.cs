@@ -125,7 +125,7 @@ namespace LivrableV3
                 MessageBox.Show("oups ya une erreur : " + ex.Message);
             }
         }
-        /// recupere le prix dun plat
+
         public double ConnaitrePrix(string plat)
         {
             try
@@ -161,7 +161,6 @@ namespace LivrableV3
 
 
 
-        /// trouve lid du plat avec son nom
         public string GetIdPlat(string plat)
         {
             try
@@ -309,7 +308,6 @@ namespace LivrableV3
         }
 
 
-        /// trouve la station du cuisinier qui fait le plat
         public string ConnaitreStationCuisinier(string platSelectionne)
         {
             try
@@ -414,7 +412,6 @@ namespace LivrableV3
         private void btnmodifier_Click(object sender, EventArgs e)
         {
 
-            // on recupere les infos de la commande
             string idCommande = comboBoxcommande.SelectedItem.ToString();
             string idClient = comboBoxclient.SelectedItem.ToString();
             string idCuisinier = ConnaitreIdCuisinier(comboBoxchoixplat.SelectedItem.ToString());
@@ -453,7 +450,6 @@ namespace LivrableV3
 
         private void btnajouter_Click(object sender, EventArgs e)
         {
-            // on recupere les infos de la commande
             string idCommande = "CMD" + DateTime.Now.ToString("yyyyMMddHHmmss");
             string idClient = comboBoxclient.SelectedItem.ToString();
             string idCuisinier = ConnaitreIdCuisinier(comboBoxchoixplat.SelectedItem.ToString());
