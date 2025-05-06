@@ -97,6 +97,125 @@ namespace LivrableV3
                 commande.Dispose();
             }
         }
+
+        public void ExporterToutSqlEnXml()
+        {
+            /// je vais recuperer les donnees de la base et les mettre dans un xml
+            List<Utilisateur> listeUtilisateurs = new List<Utilisateur>();
+            List<Client> listeClients = new List<Client>();
+            List<Cuisinier> listeCuisiniers = new List<Cuisinier>();
+            List<Commande> listeCommandes = new List<Commande>();
+            List<Livraison> listeLivraisons = new List<Livraison>();
+
+            // utilisateur
+            string requete = "SELECT * FROM utilisateur;";
+            MySqlCommand commande = new MySqlCommand(requete, connexion.maConnexion);
+            commande.CommandText = requete;
+            MySqlDataReader reader = commande.ExecuteReader();
+            while (reader.Read())
+            {
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur.id_utilisateur = reader["id_utilisateur"].ToString();
+                utilisateur.nom = reader["nom"].ToString();
+                utilisateur.prenom = reader["prénom"].ToString();
+                utilisateur.email = reader["email"].ToString();
+                utilisateur.adresse = reader["adresse"].ToString();
+                utilisateur.telephone = reader["telephone"].ToString();
+                utilisateur.mot_de_passe = reader["mot_de_passe"].ToString();
+                listeUtilisateurs.Add(utilisateur);
+            }
+            reader.Close();
+            commande.Dispose();
+
+            // client
+            requete = "SELECT * FROM client;";
+            commande = new MySqlCommand(requete, connexion.maConnexion);
+            commande.CommandText = requete;
+            reader = commande.ExecuteReader();
+            while (reader.Read())
+            {
+                Client client = new Client();
+                client.id_client = reader["id_client"].ToString();
+                client.id_utilisateur = reader["id_utilisateur"].ToString();
+                client.StationMetro = reader["StationMetro"].ToString();
+                client.entreprise_nom = reader["entreprise_nom"].ToString();
+                client.referent = reader["referent"].ToString();
+                listeClients.Add(client);
+            }
+            reader.Close();
+            commande.Dispose();
+
+            // cuisinier
+            requete = "SELECT * FROM cuisinier;";
+            commande = new MySqlCommand(requete, connexion.maConnexion);
+            commande.CommandText = requete;
+            reader = commande.ExecuteReader();
+            while (reader.Read())
+            {
+                Cuisinier cuisinier = new Cuisinier();
+                cuisinier.id_cuisinier = reader["id_cuisinier"].ToString();
+                cuisinier.id_utilisateur = reader["id_utilisateur"].ToString();
+                cuisinier.StationMetro = reader["StationMetro"].ToString();
+                cuisinier.zones_livraison = reader["zones_livraison"].ToString();
+                cuisinier.note_moyenne = Convert.ToDouble(reader["note_moyenne"].ToString());
+                cuisinier.nombre_livraisons = Convert.ToInt32(reader["nombre_livraisons"].ToString());
+                listeCuisiniers.Add(cuisinier);
+            }
+            reader.Close();
+            commande.Dispose();
+
+            // commande
+            requete = "SELECT * FROM Commande_;";
+            commande = new MySqlCommand(requete, connexion.maConnexion);
+            commande.CommandText = requete;
+            reader = commande.ExecuteReader();
+            while (reader.Read())
+            {
+                Commande commandeObj = new Commande();
+                commandeObj.id_commande = reader["id_commande"].ToString();
+                commandeObj.id_client = reader["id_client"].ToString();
+                commandeObj.id_cuisinier = reader["id_cuisinier"].ToString();
+                commandeObj.id_plat = reader["id_plat"].ToString();
+                commandeObj.date_commande = reader["date_commande"].ToString();
+                commandeObj.prix_total = Convert.ToDouble(reader["prix_total"].ToString());
+                commandeObj.statut = reader["statut"].ToString();
+                listeCommandes.Add(commandeObj);
+            }
+            reader.Close();
+            commande.Dispose();
+
+            // livraison
+            requete = "SELECT * FROM Livraison;";
+            commande = new MySqlCommand(requete, connexion.maConnexion);
+            commande.CommandText = requete;
+            reader = commande.ExecuteReader();
+            while (reader.Read())
+            {
+                Livraison livraison = new Livraison();
+                livraison.id_livraison = reader["id_livraison"].ToString();
+                livraison.id_commande = reader["id_commande"].ToString();
+                livraison.date_livraison = reader["date_livraison"].ToString();
+                livraison.trajet = reader["trajet"].ToString();
+                listeLivraisons.Add(livraison);
+            }
+            reader.Close();
+            commande.Dispose();
+
+            // creation de l'objet final
+            DonneesImportees donnees = new DonneesImportees();
+            donnees.utilisateurs = listeUtilisateurs;
+            donnees.clients = listeClients;
+            donnees.cuisiniers = listeCuisiniers;
+            donnees.commandes = listeCommandes;
+            donnees.livraisons = listeLivraisons;
+
+            XmlSerializer serializer = new XmlSerializer(typeof(DonneesImportees));
+            using (FileStream fs = new FileStream("../../Données/SQL.xml", FileMode.Create))
+            {
+                serializer.Serialize(fs, donnees);
+            }
+            Console.WriteLine("export sql.xml ok");
+        }
     }
 
     [XmlRoot("baseDeDonnees")]
