@@ -283,6 +283,7 @@
     <None Include="Données\MetroParisArcs.csv" />
     <None Include="Données\MetroParisNoeuds.csv" />
     <None Include="Données\SQL.json" />
+    <Content Include="Données\SQL.xml" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\Debug\LivrableV3.csproj.AssemblyReference.cache" />

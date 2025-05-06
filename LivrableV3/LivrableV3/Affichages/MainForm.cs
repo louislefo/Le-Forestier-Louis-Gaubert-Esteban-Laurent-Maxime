@@ -39,8 +39,9 @@ namespace LivrableV3
                 chargeur = new ChargerFichiers();
                 ChargerDonneesMetro();
                 authentification = new Authentification(connexionBDD, grapheMetro);
-                this.import = new ImportJson(connexionBDD);
                 this.importXml = new ImportXml(connexionBDD);
+                this.import = new ImportJson(connexionBDD);
+                
 
 
             }

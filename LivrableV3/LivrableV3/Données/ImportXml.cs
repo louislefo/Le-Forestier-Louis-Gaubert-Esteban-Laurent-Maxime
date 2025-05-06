@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using MySql.Data.MySqlClient;
 
@@ -211,8 +212,10 @@ namespace LivrableV3
             XmlSerializer serializer = new XmlSerializer(typeof(BaseDeDonnees));
             using (FileStream fs = new FileStream("../../Données/SQL.xml", FileMode.Create))
             {
+              
                 serializer.Serialize(fs, donnees);
             }
+            MessageBox.Show("export sql.xml ok");
             Console.WriteLine("export sql.xml ok");
         }
     }

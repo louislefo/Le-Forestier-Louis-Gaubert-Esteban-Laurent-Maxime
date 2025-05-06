@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<BaseDeDonnees xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Utilisateurs>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>lolote</Nom>
+      <Prenom>lolote</Prenom>
+      <Email>lolote@gmail.com</Email>
+      <MotDePasse>Lolote!2</MotDePasse>
+      <Role />
+    </Utilisateur>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>Moreau</Nom>
+      <Prenom>Alice</Prenom>
+      <Email>alice.moreau@yahoo.fr</Email>
+      <MotDePasse>Alice2024</MotDePasse>
+      <Role />
+    </Utilisateur>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>Lefebvre</Nom>
+      <Prenom>Thomas</Prenom>
+      <Email>thomas.lefebvre@hotmail.com</Email>
+      <MotDePasse>Thomas123!</MotDePasse>
+      <Role />
+    </Utilisateur>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>Roux</Nom>
+      <Prenom>Camille</Prenom>
+      <Email>camille.roux@gmail.com</Email>
+      <MotDePasse>CamRoux2024</MotDePasse>
+      <Role />
+    </Utilisateur>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>Lambert</Nom>
+      <Prenom>Julie</Prenom>
+      <Email>julie.lambert@outlook.fr</Email>
+      <MotDePasse>JulieL456</MotDePasse>
+      <Role />
+    </Utilisateur>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>Nardi</Nom>
+      <Prenom>Namouk</Prenom>
+      <Email>julie.lambert@outlook.fr</Email>
+      <MotDePasse>Motdepasee7845</MotDePasse>
+      <Role />
+    </Utilisateur>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>Nardou</Nom>
+      <Prenom>Namouka</Prenom>
+      <Email>julia.lambert@outlook.fr</Email>
+      <MotDePasse>Motdepasee7845</MotDePasse>
+      <Role />
+    </Utilisateur>
+    <Utilisateur>
+      <Id>0</Id>
+      <Nom>Lousexe</Nom>
+      <Prenom>Louis</Prenom>
+      <Email>Louis@gmail.com</Email>
+      <MotDePasse>Lolote!2</MotDePasse>
+      <Role />
+    </Utilisateur>
+  </Utilisateurs>
+  <Stations />
+  <Clients>
+    <Client>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Client>
+    <Client>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Client>
+    <Client>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Client>
+    <Client>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Client>
+    <Client>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Client>
+    <Client>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Client>
+  </Clients>
+  <Cuisiniers>
+    <Cuisinier>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Cuisinier>
+    <Cuisinier>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Cuisinier>
+    <Cuisinier>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Cuisinier>
+    <Cuisinier>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Cuisinier>
+    <Cuisinier>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Cuisinier>
+    <Cuisinier>
+      <Id>0</Id>
+      <Nom />
+      <Prenom />
+      <Email />
+      <MotDePasse />
+      <Role />
+      <StationId>0</StationId>
+    </Cuisinier>
+  </Cuisiniers>
+  <Plats>
+    <Plat>
+      <Id>0</Id>
+      <Nom>Boeuf Bourguignon Maison</Nom>
+      <Prix>22.5</Prix>
+    </Plat>
+    <Plat>
+      <Id>0</Id>
+      <Nom>Risotto Forestier</Nom>
+      <Prix>18.75</Prix>
+    </Plat>
+    <Plat>
+      <Id>0</Id>
+      <Nom>Paella Royale</Nom>
+      <Prix>26</Prix>
+    </Plat>
+    <Plat>
+      <Id>0</Id>
+      <Nom>Tarte Tatin Traditionnelle</Nom>
+      <Prix>15.25</Prix>
+    </Plat>
+    <Plat>
+      <Id>0</Id>
+      <Nom>Curry Vert au Poulet</Nom>
+      <Prix>20.5</Prix>
+    </Plat>
+  </Plats>
+  <Commandes>
+    <Commande>
+      <Id>0</Id>
+      <ClientId>0</ClientId>
+      <PlatId>0</PlatId>
+      <Quantite>1</Quantite>
+      <Statut>En préparation</Statut>
+    </Commande>
+    <Commande>
+      <Id>0</Id>
+      <ClientId>0</ClientId>
+      <PlatId>0</PlatId>
+      <Quantite>1</Quantite>
+      <Statut>Confirmée</Statut>
+    </Commande>
+    <Commande>
+      <Id>0</Id>
+      <ClientId>0</ClientId>
+      <PlatId>0</PlatId>
+      <Quantite>1</Quantite>
+      <Statut>Livrée</Statut>
+    </Commande>
+    <Commande>
+      <Id>0</Id>
+      <ClientId>0</ClientId>
+      <PlatId>0</PlatId>
+      <Quantite>1</Quantite>
+      <Statut>En attente</Statut>
+    </Commande>
+    <Commande>
+      <Id>0</Id>
+      <ClientId>0</ClientId>
+      <PlatId>0</PlatId>
+      <Quantite>1</Quantite>
+      <Statut>Annulée</Statut>
+    </Commande>
+  </Commandes>
+</BaseDeDonnees>
